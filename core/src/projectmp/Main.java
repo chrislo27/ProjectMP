@@ -838,16 +838,6 @@ public class Main extends Game implements Consumer {
 		batch.draw(filltex, x, y, width, height);
 	}
 
-	public static String getSpecialChar(String type) {
-		if (type.equals("power") || type.equals("electricity")) {
-			return Character.toString((char) 221);
-		} else if (type.equals("zacharie")) {
-			return Character.toString((char) 189);
-		}
-
-		return type;
-	}
-
 	/**
 	 * Directions to use
 	 * 
@@ -880,43 +870,6 @@ public class Main extends Game implements Consumer {
 		// now we need to reset glActiveTexture to zero!!!! since sprite batch
 		// does not do this for us
 		Gdx.gl.glActiveTexture(GL20.GL_TEXTURE0);
-	}
-
-	private static final char specialDelimiter = '`';
-
-	/**
-	 * call sparingly
-	 * 
-	 * @param data
-	 * @return
-	 */
-	public static String convertStringToSpecial(String data) {
-		boolean found = false;
-		String ret = data.toString();
-		StringBuilder copy = new StringBuilder();
-		char[] arr = data.toCharArray();
-		for (int i = 0; i < arr.length; i++) {
-			char c = arr[i];
-			if (found) { // inside
-				if (c == specialDelimiter) {
-					ret = ret.replace(
-							Character.toString(specialDelimiter) + copy
-									+ Character.toString(specialDelimiter),
-							getSpecialChar(copy.toString()));
-					found = false;
-					copy = new StringBuilder();
-				} else {
-					copy.append(c);
-				}
-			} else {
-				if (c == specialDelimiter) {
-					found = true;
-				}
-			}
-
-		}
-
-		return ret;
 	}
 
 	/**
