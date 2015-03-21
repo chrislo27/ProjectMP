@@ -81,18 +81,18 @@ public strictfp class MainMenuScreen extends Updateable {
 		main.font.setScale(1);
 
 		main.drawInverse(Main.version, Settings.DEFAULT_WIDTH - 5, 20);
-		if (Main.serverVersion == null) {
+		if (Main.githubVersion == null) {
 			main.drawInverse(Translator.getMsg("menu.checkingversion"),
 					Settings.DEFAULT_WIDTH - 5, 35);
 		} else {
-			if(Main.serverVersion.equals(Main.version)){
+			if(Main.githubVersion.equals(Main.version)){
 				main.font.setColor(0, 1, 0, 1);
 				main.drawInverse(Translator.getMsg("menu.uptodate"), Settings.DEFAULT_WIDTH - 5,
 						35);
 				main.font.setColor(1, 1, 1, 1);
 			}else{
 				main.font.setColor(1, 0, 0, 1);
-				main.drawInverse(Translator.getMsg("menu.newversion") + Main.serverVersion,
+				main.drawInverse(Translator.getMsg("menu.newversion") + Main.githubVersion,
 						Settings.DEFAULT_WIDTH - 5, 35);
 				main.font.setColor(1, 1, 1, 1);
 			}

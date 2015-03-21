@@ -52,7 +52,7 @@ public class VersionGetter {
 					+ (System.currentTimeMillis() - start) + " ms");
 
 			
-			Main.serverVersion = file.toString();
+			Main.githubVersion = file.toString();
 			
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

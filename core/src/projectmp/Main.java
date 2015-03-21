@@ -101,7 +101,7 @@ public class Main extends Game implements Consumer {
 	Matrix4 normalProjection;
 
 	public static final String version = "v0.1.0-alpha";
-	public static String serverVersion = null;
+	public static String githubVersion = null;
 
 	public AssetManager manager;
 
@@ -465,7 +465,7 @@ public class Main extends Game implements Consumer {
 				.getUsedMemory();
 		font.setColor(Color.WHITE);
 		font.draw(batch, "version: " + Main.version
-				+ (serverVersion.equals("") ? "" : "; server: " + Main.serverVersion), 5,
+				+ (githubVersion.equals("") ? "" : "; github: " + Main.githubVersion), 5,
 				Main.convertY(30 + offset));
 		font.draw(batch, "Memory: "
 				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
