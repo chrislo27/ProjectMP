@@ -3,7 +3,7 @@ package projectmp.desktop;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import projectmp.util.Logger;
+import projectmp.common.util.Logger;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

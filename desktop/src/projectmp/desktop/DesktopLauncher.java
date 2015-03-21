@@ -1,8 +1,8 @@
 package projectmp.desktop;
 
-import projectmp.Main;
-import projectmp.Settings;
-import projectmp.util.Logger;
+import projectmp.common.Main;
+import projectmp.common.Settings;
+import projectmp.common.util.Logger;
 
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
