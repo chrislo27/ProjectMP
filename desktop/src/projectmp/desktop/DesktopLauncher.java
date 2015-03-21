@@ -1,8 +1,8 @@
 package projectmp.desktop;
 
-import stray.Main;
-import stray.Settings;
-import stray.util.Logger;
+import projectmp.Main;
+import projectmp.Settings;
+import projectmp.util.Logger;
 
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
