@@ -3,13 +3,10 @@ package projectmp.common.util;
 import java.util.concurrent.TimeUnit;
 
 import projectmp.common.Main;
-import projectmp.common.Settings;
-import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.MathUtils;
 
 public class Utils {
 
@@ -27,12 +24,12 @@ public class Utils {
 		return false;
 	}
 
-	public static float getSoundPan(float xpos, float camerax) {
-		return MathUtils
-				.clamp(((xpos - (Math.round((camerax + (Settings.DEFAULT_WIDTH / 2))
-						/ World.tilesizex))) / (((Settings.DEFAULT_WIDTH / 2f) - World.tilesizex) / World.tilesizex)),
-						-1f, 1f);
-	}
+//	public static float getSoundPan(float xpos, float camerax) {
+//		return MathUtils
+//				.clamp(((xpos - (Math.round((camerax + (Settings.DEFAULT_WIDTH / 2))
+//						/ World.tilesizex))) / (((Settings.DEFAULT_WIDTH / 2f) - World.tilesizex) / World.tilesizex)),
+//						-1f, 1f);
+//	}
 
 	public static void drawRotatedCentered(Batch batch, Texture tex, float x, float y, float width,
 			float height, float rotation, boolean clockwise) {
