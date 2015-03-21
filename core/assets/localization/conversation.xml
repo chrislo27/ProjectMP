@@ -1,0 +1,51 @@
+<!-- this controls all the conversations and cutscenes if you're looking 
+	for the actual text said in conversations, look to default(_LANG).properties -->
+<conversations>
+
+	<conversation id="dev">
+		<speech speaker="" text="conv.dev0" cutscene="stunning" />
+		<speech speaker="" text="conv.dev1" cutscene="stunning2" />
+		<speech speaker="" text="conv.dev2" cutscene="stunning" />
+		<speech speaker="" text="conv.dev3" cutscene="stunning2" />
+		<speech speaker="" text="conv.dev4" cutscene="stunning" />
+	</conversation>
+	
+	<conversation id="newgame">
+        <speech speaker="child" text="conv.newgame0" voice="child0" />
+        <speech speaker="child" text="conv.newgame1" voice="child1" />
+        <speech speaker="child" text="conv.newgame2" voice="child2" />
+    </conversation>
+
+	<conversation id="mapwip">
+		<speech speaker="sign" text="conv.mapwip"  />
+	</conversation>
+	
+	<conversation id="secretexit">
+        <speech speaker="sign" text="conv.secretexit"  />
+    </conversation>
+    
+	<conversation id="missing">
+        <speech speaker="" text="conv.missingsign"  />
+    </conversation>
+
+	<conversation id="controls">
+		<speech speaker="" text="conv.controls0" cutscene="controls0" />
+		<speech speaker="" text="conv.controls1" cutscene="controls1" />
+		<speech speaker="" text="conv.controls2" cutscene="controls2" />
+	</conversation>
+	
+	<conversation id="beginning">
+        <speech speaker="" text="conv.beginning0" cutscene="" />
+        <speech speaker="" text="conv.beginning1" cutscene="" />
+        <speech speaker="" text="conv.beginning2" cutscene="" />
+        <speech speaker="" text="conv.empty" cutscene="scientistface" />
+        <speech speaker="scientist" text="conv.beginning4" cutscene="scientistface" />
+        <speech speaker="scientist" text="conv.beginning5" cutscene="scientistface" />
+        <speech speaker="scientist" text="conv.beginning6" cutscene="scientistface" />
+        <speech speaker="scientist" text="conv.beginning7" cutscene="scientistface" />
+        <speech speaker="scientist" text="conv.beginning8" cutscene="scientistface" />
+        <speech speaker="scientist" text="conv.beginning9" cutscene="scientistface" />
+    </conversation>
+
+
+</conversations>
