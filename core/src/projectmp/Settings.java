@@ -7,8 +7,8 @@ public class Settings {
 
 	private static Settings instance;
 
-	public static final int DEFAULT_WIDTH = 1280;
-	public static final int DEFAULT_HEIGHT = 720;
+	public static final int DEFAULT_WIDTH = 1920;
+	public static final int DEFAULT_HEIGHT = 1080;
 
 	public static boolean showFPS = true;
 	public static boolean debug = false;
