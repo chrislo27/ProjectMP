@@ -20,6 +20,7 @@ public class DesktopLauncher {
 		config.backgroundFPS = Main.MAX_FPS;
 		config.resizable = false;
 		config.vSyncEnabled = true;
+		config.fullscreen = true;
 		
 		config.addIcon("images/icon/icon32.png", FileType.Internal);
 		config.addIcon("images/icon/icon16.png", FileType.Internal);
