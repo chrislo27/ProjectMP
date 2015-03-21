@@ -23,11 +23,6 @@ public strictfp class MainMenuScreen extends Updateable {
 
 			@Override
 			public boolean onLeftClick() {
-				Main.CUTSCENE.prepare(Conversations.instance().convs.get("dev"), new FadeIn(),
-						new FadeOut(), Main.NEWGAME);
-				main.transition(new FadeIn(Color.BLACK, 0.5f), null, Main.CUTSCENE);
-				
-				Runtime.getRuntime().gc();
 				return true;
 			}
 		});
@@ -36,14 +31,6 @@ public strictfp class MainMenuScreen extends Updateable {
 
 			@Override
 			public boolean onLeftClick() {
-				if (hasSave) {
-					while (Main.LEVELSELECT.moveNext())
-						;
-					//main.transition(new FadeIn(Color.BLACK, 0.5f), new FadeOut(Color.BLACK, 0.5f), Main.LEVELSELECT);
-					main.transition(new GearTransition(1), null, Main.LEVELSELECT);
-					
-					Runtime.getRuntime().gc();
-				}
 				return true;
 			}
 

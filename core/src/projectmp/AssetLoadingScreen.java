@@ -1,21 +1,8 @@
 package projectmp;
 
-import java.util.Iterator;
-import java.util.Map;
-
-import projectmp.blocks.Block;
-import projectmp.blocks.Blocks;
 import projectmp.util.AssetLogger;
-import projectmp.util.ScreenshotFactory;
-import projectmp.util.Utils;
-import projectmp.world.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Logger;
 
 public class AssetLoadingScreen extends MiscLoadingScreen {
@@ -45,14 +32,6 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				for (String s : main.manager.getAssetNames()) {
 					// System.out.println(s);
 				}
-
-				Iterator it = Blocks.instance().getAllBlocks();
-				while (it.hasNext()) {
-					Block block = (Block) ((Map.Entry) it.next()).getValue();
-					block.postLoad(main);
-				}
-
-				Main.GAME.world = new World(main);
 				Main.logger.info("Finished loading all managed assets, took "
 						+ (System.currentTimeMillis() - startms) + " ms");
 

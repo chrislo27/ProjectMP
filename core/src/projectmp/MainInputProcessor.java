@@ -71,15 +71,6 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-		if (main.getScreen() == Main.LEVELEDITOR) {
-			if (Gdx.input.isKeyPressed(Keys.SHIFT_LEFT) || Gdx.input.isKeyPressed(Keys.SHIFT_RIGHT)) {
-				Main.LEVELEDITOR.defaultmeta += amount;
-			} else {
-				Main.LEVELEDITOR.blocksel += amount;
-				if (Main.LEVELEDITOR.blocksel < 0) Main.LEVELEDITOR.blocksel = Main.LEVELEDITOR.blocks.size - 1;
-				if (Main.LEVELEDITOR.blocksel >= Main.LEVELEDITOR.blocks.size) Main.LEVELEDITOR.blocksel = 0;
-			}
-		}
 
 		return false;
 	}

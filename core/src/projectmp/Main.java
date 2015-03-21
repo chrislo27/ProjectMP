@@ -22,13 +22,13 @@ import projectmp.achievements.Appearance;
 import projectmp.achievements.CompletedAchievements;
 import projectmp.animation.Animation;
 import projectmp.animation.LoopingAnimation;
-import projectmp.blocks.Blocks;
 import projectmp.conversation.Conversation;
 import projectmp.conversation.Conversations;
 import projectmp.transition.Transition;
 import projectmp.transition.TransitionScreen;
 import projectmp.util.AssetMap;
 import projectmp.util.CaptureStream;
+import projectmp.util.CaptureStream.Consumer;
 import projectmp.util.Difficulty;
 import projectmp.util.GameException;
 import projectmp.util.Logger;
@@ -37,7 +37,6 @@ import projectmp.util.MemoryUtils;
 import projectmp.util.ScreenshotFactory;
 import projectmp.util.Splashes;
 import projectmp.util.Utils;
-import projectmp.util.CaptureStream.Consumer;
 import projectmp.util.render.Gears;
 import projectmp.util.render.Shaders;
 import projectmp.util.version.VersionGetter;
@@ -107,18 +106,10 @@ public class Main extends Game implements Consumer {
 
 	public static AssetLoadingScreen ASSETLOADING = null;
 	public static MainMenuScreen MAINMENU = null;
-	public static HelpScreen HELP = null;
-	public static GameScreen GAME = null;
 	public static TransitionScreen TRANSITION = null;
 	public static CutsceneScreen CUTSCENE = null;
 	public static MiscLoadingScreen MISCLOADING = null;
-	public static LevelSelectScreen LEVELSELECT = null;
-	public static LevelEditor LEVELEDITOR = null;
-	public static TestLevel TESTLEVEL = null;
-	public static NewGameScreen NEWGAME = null;
-	public static BackstoryScreen BACKSTORY = null;
 	public static SettingsScreen SETTINGS = null;
-	public static ResultsScreen RESULTS = null;
 
 	public static Texture filltex;
 
@@ -266,18 +257,10 @@ public class Main extends Game implements Consumer {
 	public void prepareStates() {
 		ASSETLOADING = new AssetLoadingScreen(this);
 		MAINMENU = new MainMenuScreen(this);
-		HELP = new HelpScreen(this);
-		GAME = new GameScreen(this);
 		TRANSITION = new TransitionScreen(this);
 		CUTSCENE = new CutsceneScreen(this);
 		MISCLOADING = new MiscLoadingScreen(this);
-		LEVELSELECT = new LevelSelectScreen(this);
-		LEVELEDITOR = new LevelEditor(this);
-		TESTLEVEL = new TestLevel(this);
-		NEWGAME = new NewGameScreen(this);
-		BACKSTORY = new BackstoryScreen(this);
 		SETTINGS = new SettingsScreen(this);
-		RESULTS = new ResultsScreen(this);
 	}
 
 	@Override
@@ -288,7 +271,6 @@ public class Main extends Game implements Consumer {
 		manager.dispose();
 		font.dispose();
 		arial.dispose();
-		Blocks.instance().dispose();
 		maskshader.dispose();
 		blueprintshader.dispose();
 		toonshader.dispose();
@@ -316,17 +298,10 @@ public class Main extends Game implements Consumer {
 		// dispose screens
 		ASSETLOADING.dispose();
 		MAINMENU.dispose();
-		HELP.dispose();
-		GAME.dispose();
 		TRANSITION.dispose();
 		CUTSCENE.dispose();
 		MISCLOADING.dispose();
-		LEVELSELECT.dispose();
-		LEVELEDITOR.dispose();
-		TESTLEVEL.dispose();
-		BACKSTORY.dispose();
 		SETTINGS.dispose();
-		RESULTS.dispose();
 	}
 
 	private void preRender() {
@@ -504,9 +479,6 @@ public class Main extends Game implements Consumer {
 				} else if (Gdx.input.isKeyJustPressed(Keys.Q)) {
 					throw new GameException(
 							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
-				} else if (Gdx.input.isKeyJustPressed(Keys.L) && getScreen() != Main.ASSETLOADING) {
-					LEVELEDITOR.resetWorld();
-					setScreen(LEVELEDITOR);
 				} else if (Gdx.input.isKeyJustPressed(Keys.A)) {
 					toShow.add(new Appearance(Achievements.instance().achievements.get(Achievements
 							.instance().achievementId.get("test"))));
@@ -542,9 +514,6 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("blockmissingtexture", "images/blocks/missing/missing.png"),
 				Texture.class);
 		manager.load(AssetMap.add("missingtexture", "images/missing.png"), Texture.class);
-
-		// blocks
-		Blocks.instance().addBlockTextures(this);
 
 		// ui
 		manager.load(AssetMap.add("spacekraken", "images/ui/misc.png"), Texture.class);
@@ -886,7 +855,6 @@ public class Main extends Game implements Consumer {
 	public void drawInverse(String s, float x, float y) {
 		font.draw(batch, s, x - font.getBounds(s).width, y);
 	}
-
 	public void drawCentered(String s, float x, float y) {
 		font.draw(batch, s, x - (font.getBounds(s).width / 2), y);
 	}
