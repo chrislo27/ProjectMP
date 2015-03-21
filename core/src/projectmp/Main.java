@@ -148,7 +148,7 @@ public class Main extends Game implements Consumer {
 	 */
 	public Preferences progress;
 
-	public static final int TICKS = 30;
+	public static final int TICKS = 20;
 	public static final int MAX_FPS = 60;
 	private int[] lastFPS = new int[5];
 	private float deltaUntilTick = 0;
