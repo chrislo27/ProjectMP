@@ -45,17 +45,13 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import common.achievements.Achievement;
-import common.achievements.Achievements;
-import common.achievements.Appearance;
-import common.achievements.CompletedAchievements;
 import common.conversation.Conversation;
 import common.conversation.Conversations;
 import common.util.AssetMap;
 import common.util.CaptureStream;
+import common.util.CaptureStream.Consumer;
 import common.util.Difficulty;
 import common.util.GameException;
 import common.util.Logger;
@@ -64,7 +60,6 @@ import common.util.MemoryUtils;
 import common.util.ScreenshotFactory;
 import common.util.Splashes;
 import common.util.Utils;
-import common.util.CaptureStream.Consumer;
 import common.util.render.Gears;
 import common.util.render.Shaders;
 import common.util.version.VersionGetter;
@@ -93,9 +88,6 @@ public class Main extends Game implements Consumer {
 
 	private static Color rainbow = new Color();
 	private static Color inverseRainbow = new Color();
-
-	CompletedAchievements achievements = new CompletedAchievements();
-	Array<Appearance> toShow = new Array<Appearance>();
 
 	Matrix4 normalProjection;
 
@@ -244,8 +236,6 @@ public class Main extends Game implements Consumer {
 
 		this.setScreen(ASSETLOADING);
 
-		achievements.load("achievement", getPref("achievements"));
-
 		Gdx.app.postRunnable(new Thread("Stray-version checker") {
 
 			public void run() {
@@ -384,8 +374,6 @@ public class Main extends Game implements Consumer {
 			font.setMarkupEnabled(true);
 		}
 
-		renderAchievements();
-
 		if (currentConvo != null) {
 			batch.setColor(0, 0, 0, 0.5f);
 			fillRect(0, 0, Gdx.graphics.getWidth(), 128);
@@ -479,9 +467,6 @@ public class Main extends Game implements Consumer {
 				} else if (Gdx.input.isKeyJustPressed(Keys.Q)) {
 					throw new GameException(
 							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
-				} else if (Gdx.input.isKeyJustPressed(Keys.A)) {
-					toShow.add(new Appearance(Achievements.instance().achievements.get(Achievements
-							.instance().achievementId.get("test"))));
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
 				}
@@ -491,21 +476,11 @@ public class Main extends Game implements Consumer {
 	}
 
 	public void tickUpdate() {
-		if (!(toShow.size == 0)) {
-			if (toShow.first().time == Appearance.startingTime) {
-				manager.get(AssetMap.get("questcomplete"), Sound.class).play(0.5f);
-			}
-			if (toShow.first().time > 0) {
-				toShow.first().time--;
-			} else if (toShow.first().time <= 0 && toShow.first().y <= 0) {
-				toShow.removeIndex(0);
-			}
-		}
+		
 	}
 
 	private void loadAssets() {
 		AssetMap.instance(); // load asset map namer thing
-		Achievements.instance();
 		Translator.instance();
 		Conversations.instance();
 		addColors();
@@ -710,16 +685,6 @@ public class Main extends Game implements Consumer {
 		return (Translator.getMsg("gamename") + " " + Main.version);
 	}
 
-	public void awardAchievement(String id) {
-		Achievement a = Achievements.instance().achievements
-				.get(Achievements.instance().achievementId.get(id));
-		if (achievements.getAll().get(a) == false) {
-			toShow.add(new Appearance(a));
-			achievements.complete(a);
-			achievements.save("achievement", getPref("achievements"));
-		}
-	}
-
 	@Override
 	public void resize(int x, int y) {
 		viewport.update(x, y, false);
@@ -872,40 +837,6 @@ public class Main extends Game implements Consumer {
 		}
 		drawCentered(text, x, y);
 		font.setScale(1);
-	}
-
-	public void renderAchievements() {
-		// achievement -- 0 is fully up, 64 is fully down
-
-		if (!(toShow.size == 0)) {
-			Appearance ap = toShow.first();
-			if (ap.time > 0) {
-				if (ap.y < 64) {
-					ap.y += 192 * Gdx.graphics.getDeltaTime();
-					if (ap.y > 64) ap.y = 64;
-				}
-			} else { // retract
-				if (ap.y > 0) {
-					ap.y -= 192 * Gdx.graphics.getDeltaTime();
-					if (ap.y < 0) ap.y = 0;
-				}
-			}
-			if (ap.a.special) {
-				batch.setColor(Main.getRainbow(-1));
-			}
-			batch.draw(manager.get(AssetMap.get("achievementui"), Texture.class),
-					Gdx.graphics.getWidth() - 256, Main.convertY(ap.y));
-			font.setColor(Main.getRainbow());
-			drawCentered(Translator.getMsg("achievementget"), Gdx.graphics.getWidth() - 128,
-					Main.convertY(ap.y - 60));
-			font.setColor(Color.WHITE);
-			font.setScale(0.75f);
-			font.drawWrapped(batch, Translator.getMsg("achievement." + ap.a.data + ".name") + " - "
-					+ Translator.getMsg("achievement." + ap.a.data + ".desc"),
-					Gdx.graphics.getWidth() - 250, Main.convertY(ap.y - 45), 246);
-			font.setScale(1f);
-			batch.setColor(Color.WHITE);
-		}
 	}
 
 	private int totalavgFPS = 0;
