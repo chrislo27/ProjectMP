@@ -1,4 +1,4 @@
-package projectmp.server.packet;
+package projectmp.common.packet;
 
 
 public interface Packet {
