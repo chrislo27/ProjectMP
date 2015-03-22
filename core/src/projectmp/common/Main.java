@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import projectmp.client.ClientListener;
 import projectmp.client.animation.Animation;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.client.transition.Transition;
@@ -24,6 +25,7 @@ import projectmp.common.conversation.Conversation;
 import projectmp.common.conversation.Conversations;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
+import projectmp.common.util.CaptureStream.Consumer;
 import projectmp.common.util.Difficulty;
 import projectmp.common.util.GameException;
 import projectmp.common.util.Logger;
@@ -32,10 +34,10 @@ import projectmp.common.util.MemoryUtils;
 import projectmp.common.util.ScreenshotFactory;
 import projectmp.common.util.Splashes;
 import projectmp.common.util.Utils;
-import projectmp.common.util.CaptureStream.Consumer;
 import projectmp.common.util.render.Gears;
 import projectmp.common.util.render.Shaders;
 import projectmp.common.util.version.VersionGetter;
+import projectmp.server.ServerListener;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -63,6 +65,8 @@ import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.esotericsoftware.kryonet.Client;
+import com.esotericsoftware.kryonet.Server;
 
 /**
  * 
@@ -126,6 +130,9 @@ public class Main extends Game implements Consumer {
 	private JTextArea consoletext;
 	private JScrollPane conscrollPane;
 
+	public Client client;
+	public Server server;
+	
 	/**
 	 * used for storing progress, level data etc
 	 */
@@ -193,6 +200,15 @@ public class Main extends Game implements Consumer {
 				true);
 		buffer2 = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
 				true);
+		
+		client = new Client();
+		client.addListener(new ClientListener());
+		ClassRegistration.registerClasses(client.getKryo());
+		client.start();
+		server = new Server();
+		ClassRegistration.registerClasses(server.getKryo());
+		server.addListener(new ServerListener());
+		server.start();
 
 		maskshader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKE);
 		maskshader.begin();
