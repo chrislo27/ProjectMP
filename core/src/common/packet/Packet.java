@@ -7,6 +7,6 @@ public interface Packet {
 	
 	public void actionServer(Connection connection);
 	
-	public void actionClient(Connection connectio);
+	public void actionClient(Connection connection);
 	
 }
