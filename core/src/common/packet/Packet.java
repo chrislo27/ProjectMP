@@ -3,6 +3,8 @@ package common.packet;
 
 public interface Packet {
 	
-	public void action();
+	public void actionServer();
+	
+	public void actionClient();
 	
 }
