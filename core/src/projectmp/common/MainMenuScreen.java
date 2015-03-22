@@ -1,13 +1,8 @@
 package projectmp.common;
 
-import projectmp.client.transition.FadeIn;
-import projectmp.client.transition.FadeOut;
-import projectmp.client.transition.GearTransition;
 import projectmp.client.ui.BackButton;
 import projectmp.client.ui.Button;
 import projectmp.client.ui.SettingsButton;
-import projectmp.common.conversation.Conversations;
-import projectmp.common.util.version.VersionGetter;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

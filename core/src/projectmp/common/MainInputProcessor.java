@@ -15,19 +15,6 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyDown(int keycode) {
-		if (main.getConv() != null) {
-			if (keycode == Keys.SPACE || keycode == Keys.ENTER) {
-				if (main.getConv().next()) {
-					main.setConv(null);
-				} else {
-					main.getConv().talk(main, 1 / 3f);
-				}
-				if (main.getScreen() instanceof CutsceneScreen) {
-					((CutsceneScreen) main.getScreen()).onConvNext();
-				}
-				return true;
-			}
-		}
 		return false;
 	}
 

@@ -21,8 +21,6 @@ import projectmp.client.animation.Animation;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.client.transition.Transition;
 import projectmp.client.transition.TransitionScreen;
-import projectmp.common.conversation.Conversation;
-import projectmp.common.conversation.Conversations;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
 import projectmp.common.util.CaptureStream.Consumer;
@@ -103,13 +101,10 @@ public class Main extends Game implements Consumer {
 	public static AssetLoadingScreen ASSETLOADING = null;
 	public static MainMenuScreen MAINMENU = null;
 	public static TransitionScreen TRANSITION = null;
-	public static CutsceneScreen CUTSCENE = null;
 	public static MiscLoadingScreen MISCLOADING = null;
 	public static SettingsScreen SETTINGS = null;
 
 	public static Texture filltex;
-
-	private Conversation currentConvo = null;
 
 	public ShaderProgram maskshader;
 	public ShaderProgram blueprintshader;
@@ -264,7 +259,6 @@ public class Main extends Game implements Consumer {
 		ASSETLOADING = new AssetLoadingScreen(this);
 		MAINMENU = new MainMenuScreen(this);
 		TRANSITION = new TransitionScreen(this);
-		CUTSCENE = new CutsceneScreen(this);
 		MISCLOADING = new MiscLoadingScreen(this);
 		SETTINGS = new SettingsScreen(this);
 	}
@@ -305,7 +299,6 @@ public class Main extends Game implements Consumer {
 		ASSETLOADING.dispose();
 		MAINMENU.dispose();
 		TRANSITION.dispose();
-		CUTSCENE.dispose();
 		MISCLOADING.dispose();
 		SETTINGS.dispose();
 	}
@@ -388,26 +381,6 @@ public class Main extends Game implements Consumer {
 							+ (font.getBounds("FPS: " + Gdx.graphics.getFramesPerSecond()).width),
 					Settings.DEFAULT_HEIGHT - 5);
 			font.setMarkupEnabled(true);
-		}
-
-		if (currentConvo != null) {
-			batch.setColor(0, 0, 0, 0.5f);
-			fillRect(0, 0, Gdx.graphics.getWidth(), 128);
-			batch.setColor(Color.LIGHT_GRAY);
-			int width = 3;
-			fillRect(0, 0, width, 128);
-			fillRect(0, 126, Gdx.graphics.getWidth(), width);
-			fillRect(0, 0, Gdx.graphics.getWidth(), width);
-			fillRect(Gdx.graphics.getWidth() - width, 0, width, 128);
-
-			font.setColor(Color.WHITE);
-			if (currentConvo.getCurrent().speaker != null) font.draw(batch,
-					Translator.getMsg("conv.name." + currentConvo.getCurrent().speaker) + ": ", 10,
-					120);
-			font.drawWrapped(batch, Translator.getMsg(currentConvo.getCurrent().text), 10, 100,
-					Gdx.graphics.getWidth() - 20);
-			drawInverse(Translator.getMsg("conversation.next"), Gdx.graphics.getWidth() - 8, 20);
-			batch.setColor(Color.WHITE);
 		}
 
 		if (this.getScreen() != null) {
@@ -498,7 +471,6 @@ public class Main extends Game implements Consumer {
 	private void loadAssets() {
 		AssetMap.instance(); // load asset map namer thing
 		Translator.instance();
-		Conversations.instance();
 		addColors();
 
 		// missing
@@ -565,15 +537,6 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("particleflame2", "images/particle/expflame2.png"), Texture.class);
 		manager.load(AssetMap.add("particleflame3", "images/particle/expflame3.png"), Texture.class);
 		manager.load(AssetMap.add("teleporterring", "images/particle/teleporterring.png"), Texture.class);
-
-		// cutscene
-		manager.load("images/cutscene/stunning.png", Texture.class);
-		manager.load("images/cutscene/stunning2.png", Texture.class);
-		manager.load("images/cutscene/controls0.png", Texture.class);
-		manager.load("images/cutscene/controls1.png", Texture.class);
-		manager.load("images/cutscene/controls2.png", Texture.class);
-		manager.load("images/cutscene/rep.png", Texture.class);
-		manager.load("images/cutscene/scientistface.png", Texture.class);
 
 		// effects
 		manager.load(AssetMap.add("effecticonblindness", "images/ui/effect/icon/blindness.png"),
@@ -716,10 +679,6 @@ public class Main extends Game implements Consumer {
 		System.setOut(printstrm);
 	}
 
-	public Conversation getConv() {
-		return currentConvo;
-	}
-
 	public void resetConsole() {
 		consolewindow = new JFrame();
 		consolewindow.setTitle("Console for " + Translator.getMsg("gamename") + " " + Main.version);
@@ -739,16 +698,6 @@ public class Main extends Game implements Consumer {
 	public void appendText(final String text) {
 		consoletext.append(text);
 		consoletext.setCaretPosition(consoletext.getText().length());
-	}
-
-	public void setConv(Conversation c) {
-		if (currentConvo != null) {
-			currentConvo.reset();
-		}
-		currentConvo = c;
-		if (currentConvo != null) {
-			currentConvo.talk(this, 1 / 3f);
-		}
 	}
 
 	public void transition(Transition from, Transition to, Screen next) {
