@@ -3,10 +3,11 @@ package projectmp.desktop;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import projectmp.common.util.Logger;
+
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import common.util.Logger;
 
 public class GameLwjglApp extends LwjglApplication {
 

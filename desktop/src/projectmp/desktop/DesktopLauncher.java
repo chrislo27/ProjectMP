@@ -1,10 +1,11 @@
 package projectmp.desktop;
 
+import projectmp.common.Main;
+import projectmp.common.Settings;
+import projectmp.common.util.Logger;
+
 import com.badlogic.gdx.Files.FileType;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import common.Main;
-import common.Settings;
-import common.util.Logger;
 
 public class DesktopLauncher {
 
