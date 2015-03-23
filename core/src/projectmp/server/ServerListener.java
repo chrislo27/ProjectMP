@@ -5,23 +5,30 @@ import projectmp.common.packet.Packet;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
-
-public class ServerListener extends Listener{
+public class ServerListener extends Listener {
 
 	@Override
-	public void connected(Connection connection){
-		
+	public void connected(Connection connection) {
+
 	}
-	
+
 	@Override
-	public void received(Connection connection, Object obj){
-		if(obj instanceof Packet){
-			((Packet) obj).actionServer(connection);
+	public void disconnected(Connection connection) {
+
+	}
+
+	@Override
+	/**
+	 * Hands off to another method depending on object type. Also a bit cleaner for code in case a certain packet class type must
+	 * be handled externally
+	 */
+	public void received(Connection connection, Object obj) {
+		if (obj instanceof Packet) {
+			handlePackets(connection, obj);
 		}
 	}
-	
-	@Override
-	public void disconnected(Connection connection){
-		
+
+	private void handlePackets(Connection connection, Object obj) {
+		((Packet) obj).actionClient(connection);
 	}
 }
