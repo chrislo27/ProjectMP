@@ -88,12 +88,6 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 	}
 
 	@Override
-	public void resize(int width, int height) {
-		main.camera.setToOrtho(false, width, height);
-		main.batch.setProjectionMatrix(main.camera.combined);
-	}
-
-	@Override
 	public void show() {
 		startms = System.currentTimeMillis();
 	}
