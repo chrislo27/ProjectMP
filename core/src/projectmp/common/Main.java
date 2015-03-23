@@ -91,8 +91,6 @@ public class Main extends Game implements Consumer {
 	private static Color rainbow = new Color();
 	private static Color inverseRainbow = new Color();
 
-	Matrix4 normalProjection;
-
 	public static final String version = "v0.1.0-alpha";
 	public static String githubVersion = null;
 
@@ -164,7 +162,7 @@ public class Main extends Game implements Consumer {
 
 		ShaderProgram.pedantic = false;
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.setToOrtho(false, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		viewport = new StretchViewport(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, camera);
 		batch = new SpriteBatch();
 		batch.enableBlending();
@@ -179,9 +177,6 @@ public class Main extends Game implements Consumer {
 
 		arial = new BitmapFont();
 		arial.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-
-		normalProjection = new Matrix4().setToOrtho2D(0, 0, Gdx.graphics.getWidth(),
-				Gdx.graphics.getHeight());
 
 		Pixmap pix = new Pixmap(1, 1, Format.RGBA8888);
 		pix.setColor(Color.WHITE);
@@ -247,7 +242,7 @@ public class Main extends Game implements Consumer {
 
 		this.setScreen(ASSETLOADING);
 
-		Gdx.app.postRunnable(new Thread("Stray-version checker") {
+		Gdx.app.postRunnable(new Thread("version checker") {
 
 			public void run() {
 				VersionGetter.instance().getVersionFromServer();
@@ -310,7 +305,7 @@ public class Main extends Game implements Consumer {
 		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 
 		camera.update();
-		batch.setProjectionMatrix(camera.combined);
+		batch.setProjectionMatrix(camera.projection);
 		gears.update(1);
 	}
 
