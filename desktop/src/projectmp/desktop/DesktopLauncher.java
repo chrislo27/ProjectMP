@@ -18,7 +18,7 @@ public class DesktopLauncher {
 		config.height = Settings.DEFAULT_HEIGHT;
 		config.foregroundFPS = Main.MAX_FPS;
 		config.backgroundFPS = Main.MAX_FPS;
-		config.resizable = false;
+		config.resizable = true;
 		config.vSyncEnabled = true;
 		config.fullscreen = false;
 		
