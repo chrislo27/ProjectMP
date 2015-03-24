@@ -59,10 +59,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 
@@ -73,7 +70,7 @@ import com.esotericsoftware.kryonet.Server;
  */
 public class Main extends Game implements Consumer {
 
-	public OrthographicCamera camera;
+	public static OrthographicCamera camera;
 
 	public SpriteBatch batch;
 	public SpriteBatch maskRenderer;
@@ -625,27 +622,14 @@ public class Main extends Game implements Consumer {
 		Colors.put("KEY", new Color(0, 204 / 255f, 0, 1)); // green
 	}
 
-	private static Vector2 unprojector = new Vector2(0, 0);
+	private static Vector3 unprojector = new Vector3(0, 0, 0);
 
 	public static int getInputX() {
-		return (int) ((Gdx.input.getX()) * getScaleFactorX());
-		// return ((int) (viewport.unproject(unprojector.set(Gdx.input.getX(),
-		// Gdx.input.getY())).x));
+		return (int) (camera.unproject(unprojector.set(Gdx.input.getX(), Gdx.input.getY(), 0)).x);
 	}
 
 	public static int getInputY() {
-		return (int) (Gdx.input.getY() * getScaleFactorY());
-		// return viewport.getScreenHeight()
-		// - ((int) (viewport.unproject(unprojector.set(Gdx.input.getX(),
-		// Gdx.input.getY())).y));
-	}
-
-	public static float getScaleFactorX() {
-		return (Gdx.graphics.getWidth() / Settings.DEFAULT_WIDTH);
-	}
-
-	public static float getScaleFactorY() {
-		return ((Gdx.graphics.getHeight() * 1f) / Settings.DEFAULT_HEIGHT);
+		return (int) (camera.unproject(unprojector.set(Gdx.input.getX(), Gdx.input.getY(), 0)).y);
 	}
 
 	public Texture getCurrentShine() {
