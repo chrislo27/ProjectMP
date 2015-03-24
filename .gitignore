@@ -62,4 +62,6 @@ build/
 ## OS Specific
 .DS_Store
 
-/crash/
+crash/
+desktop/crash
+core/crash
