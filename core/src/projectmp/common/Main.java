@@ -74,7 +74,6 @@ import com.esotericsoftware.kryonet.Server;
 public class Main extends Game implements Consumer {
 
 	public OrthographicCamera camera;
-	public static Viewport viewport;
 
 	public SpriteBatch batch;
 	public SpriteBatch maskRenderer;
@@ -163,7 +162,6 @@ public class Main extends Game implements Consumer {
 		ShaderProgram.pedantic = false;
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
-		viewport = new StretchViewport(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, camera);
 		batch = new SpriteBatch();
 		batch.enableBlending();
 		maskRenderer = new SpriteBatch();
@@ -305,7 +303,7 @@ public class Main extends Game implements Consumer {
 		Gdx.gl.glClear(GL20.GL_DEPTH_BUFFER_BIT);
 
 		camera.update();
-		batch.setProjectionMatrix(camera.projection);
+		batch.setProjectionMatrix(camera.combined);
 		gears.update(1);
 	}
 
@@ -643,8 +641,7 @@ public class Main extends Game implements Consumer {
 	}
 
 	public static float getScaleFactorX() {
-		return (((Gdx.graphics.getWidth() - viewport.getLeftGutterWidth() - viewport
-				.getRightGutterWidth()) * 1f) / Settings.DEFAULT_WIDTH);
+		return (Gdx.graphics.getWidth() / Settings.DEFAULT_WIDTH);
 	}
 
 	public static float getScaleFactorY() {
@@ -661,9 +658,8 @@ public class Main extends Game implements Consumer {
 
 	@Override
 	public void resize(int x, int y) {
-		viewport.update(x, y, false);
-		viewport.apply();
-		camera.setToOrtho(false, x, y);
+//		viewport.update(x, y, false);
+//		camera.setToOrtho(false, x, y);
 	}
 
 	public void redirectSysOut() {
