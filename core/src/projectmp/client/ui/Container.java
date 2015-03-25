@@ -1,6 +1,7 @@
 package projectmp.client.ui;
 
 import projectmp.common.Main;
+import projectmp.common.Settings;
 import projectmp.common.util.AssetMap;
 
 import com.badlogic.gdx.Gdx;
@@ -38,12 +39,12 @@ public class Container {
 
 	protected static boolean mouseIn(GuiElement e) {
 		if (!e.visible()) return false;
-		if (Gdx.input.getX() >= e.getX() * Main.getScaleFactorX()
-				&& Gdx.input.getX() <= (e.getX() * Main.getScaleFactorX())
-						+ (e.getWidth() * Main.getScaleFactorX())) {
-			if (Gdx.graphics.getHeight() - Gdx.input.getY() >= e.getY() * Main.getScaleFactorY()
-					&& Gdx.graphics.getHeight() - Gdx.input.getY() <= (e.getY() * Main.getScaleFactorY())
-							+ (e.getHeight() * Main.getScaleFactorY())) {
+		if (Main.getInputX() >= e.getX()
+				&& Main.getInputX() <= (e.getX())
+						+ (e.getWidth())) {
+			if (Settings.DEFAULT_HEIGHT - Main.getInputY() >= e.getY()
+					&& Settings.DEFAULT_HEIGHT - Main.getInputY() <= (e.getY())
+							+ (e.getHeight())) {
 				return true;
 			}
 		}
