@@ -629,7 +629,7 @@ public class Main extends Game implements Consumer {
 	}
 
 	public static int getInputY() {
-		return (int) (camera.unproject(unprojector.set(Gdx.input.getX(), Gdx.input.getY(), 0)).y);
+		return (int) ((camera.unproject(unprojector.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0)).y));
 	}
 
 	public Texture getCurrentShine() {
