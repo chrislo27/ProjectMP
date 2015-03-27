@@ -2,6 +2,8 @@ package projectmp.common.block;
 
 import java.util.HashMap;
 
+import projectmp.common.block.Block.BlockFaces;
+
 public class Blocks {
 
 	private static Blocks instance;
@@ -22,6 +24,7 @@ public class Blocks {
 
 	private void loadResources() {
 		put(defaultBlock, new Block());
+		put("stone", new Block().solidify(BlockFaces.ALL));
 	}
 
 	private void put(String key, Block value) {

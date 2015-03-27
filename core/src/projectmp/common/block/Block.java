@@ -2,7 +2,18 @@ package projectmp.common.block;
 
 public class Block {
 
-	public static class BlockFace {
+	int collision = BlockFaces.NONE;
+	
+	public Block(){
+		
+	}
+	
+	public Block solidify(int faces){
+		collision = faces;
+		return this;
+	}
+	
+	public static class BlockFaces {
 
 		public static final int NONE = 0x0;
 		public static final int ALL = 0xF;
