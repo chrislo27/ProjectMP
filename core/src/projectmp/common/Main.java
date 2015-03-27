@@ -2,6 +2,7 @@ package projectmp.common;
 
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -208,6 +209,12 @@ public class Main extends Game implements Consumer {
 		server.start();
 		serverLogic = new ServerLogic(this);
 		server.addListener(new ServerListener(serverLogic));
+		try {
+			server.bind(Settings.DEFAULT_PORT);
+			Main.logger.info("Bound to port " + Settings.DEFAULT_PORT + " successfully");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		maskshader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKE);
 		maskshader.begin();
