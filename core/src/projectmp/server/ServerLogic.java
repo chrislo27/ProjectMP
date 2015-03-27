@@ -14,4 +14,8 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 	}
+	
+	public void tickUpdate(){
+		
+	}
 }
