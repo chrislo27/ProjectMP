@@ -1,9 +1,12 @@
-package projectmp.common;
+package projectmp.client;
 
 import projectmp.client.ui.BackButton;
 import projectmp.client.ui.BooleanButton;
 import projectmp.client.ui.LanguageButton;
 import projectmp.client.ui.Slider;
+import projectmp.common.Main;
+import projectmp.common.Settings;
+import projectmp.common.Translator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;

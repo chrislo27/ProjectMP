@@ -1,7 +1,7 @@
 package projectmp.client.transition;
 
+import projectmp.client.Updateable;
 import projectmp.common.Main;
-import projectmp.common.Updateable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;

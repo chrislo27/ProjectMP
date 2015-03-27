@@ -16,7 +16,13 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import projectmp.client.AssetLoadingScreen;
 import projectmp.client.ClientListener;
+import projectmp.client.MainInputProcessor;
+import projectmp.client.MainMenuScreen;
+import projectmp.client.MiscLoadingScreen;
+import projectmp.client.SettingsScreen;
+import projectmp.client.Updateable;
 import projectmp.client.animation.Animation;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.client.transition.Transition;
@@ -461,7 +467,7 @@ public class Main extends Game implements Consumer {
 	}
 
 	public void tickUpdate() {
-		
+		serverLogic.tickUpdate();
 	}
 
 	private void loadAssets() {

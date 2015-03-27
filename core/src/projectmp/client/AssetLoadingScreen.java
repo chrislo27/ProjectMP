@@ -1,5 +1,7 @@
-package projectmp.common;
+package projectmp.client;
 
+import projectmp.common.Main;
+import projectmp.common.Settings;
 import projectmp.common.util.AssetLogger;
 
 import com.badlogic.gdx.Gdx;

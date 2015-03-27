@@ -1,6 +1,7 @@
-package projectmp.common;
+package projectmp.client;
 
 import projectmp.client.ui.Container;
+import projectmp.common.Main;
 
 import com.badlogic.gdx.Screen;
 

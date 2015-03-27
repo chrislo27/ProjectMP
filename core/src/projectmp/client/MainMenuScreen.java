@@ -1,8 +1,11 @@
-package projectmp.common;
+package projectmp.client;
 
 import projectmp.client.ui.BackButton;
 import projectmp.client.ui.Button;
 import projectmp.client.ui.SettingsButton;
+import projectmp.common.Main;
+import projectmp.common.Settings;
+import projectmp.common.Translator;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
