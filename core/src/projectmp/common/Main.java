@@ -89,6 +89,8 @@ public class Main extends Game implements Consumer {
 
 	public static final String version = "v0.1.0-alpha";
 	public static String githubVersion = null;
+	
+	public static String username = "Player";
 
 	public AssetManager manager;
 
