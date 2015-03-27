@@ -20,6 +20,7 @@ import projectmp.client.AssetLoadingScreen;
 import projectmp.client.ClientListener;
 import projectmp.client.MainInputProcessor;
 import projectmp.client.MainMenuScreen;
+import projectmp.client.MessageScreen;
 import projectmp.client.MiscLoadingScreen;
 import projectmp.client.SettingsScreen;
 import projectmp.client.Updateable;
@@ -106,6 +107,7 @@ public class Main extends Game implements Consumer {
 	public static TransitionScreen TRANSITION = null;
 	public static MiscLoadingScreen MISCLOADING = null;
 	public static SettingsScreen SETTINGS = null;
+	public static MessageScreen MESSAGE = null;
 
 	public static Texture filltex;
 
@@ -263,6 +265,7 @@ public class Main extends Game implements Consumer {
 		TRANSITION = new TransitionScreen(this);
 		MISCLOADING = new MiscLoadingScreen(this);
 		SETTINGS = new SettingsScreen(this);
+		MESSAGE = new MessageScreen(this);
 	}
 
 	@Override
@@ -303,6 +306,7 @@ public class Main extends Game implements Consumer {
 		TRANSITION.dispose();
 		MISCLOADING.dispose();
 		SETTINGS.dispose();
+		MESSAGE.dispose();
 	}
 
 	private void preRender() {
@@ -460,6 +464,9 @@ public class Main extends Game implements Consumer {
 							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
+				} else if (Gdx.input.isKeyJustPressed(Keys.M)) {
+					MESSAGE.setMessage("Error: Success");
+					setScreen(MESSAGE);
 				}
 
 			}
