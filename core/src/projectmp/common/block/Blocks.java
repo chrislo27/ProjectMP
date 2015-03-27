@@ -1,8 +1,9 @@
 package projectmp.common.block;
 
+import java.util.HashMap;
 
 public class Blocks {
-	
+
 	private static Blocks instance;
 
 	private Blocks() {
@@ -16,8 +17,32 @@ public class Blocks {
 		return instance;
 	}
 
-	private void loadResources() {
+	private HashMap<String, Block> blocks = new HashMap<String, Block>();
+	private HashMap<Block, String> reverse = new HashMap<Block, String>();
 
+	private void loadResources() {
+		put(defaultBlock, new Block());
 	}
-	
+
+	private void put(String key, Block value) {
+		blocks.put(key, value);
+		reverse.put(value, key);
+	}
+
+	public Block getBlock(String key) {
+		if (key == null) return defaultBlock();
+		return blocks.get(key);
+	}
+
+	public String getKey(Block block) {
+		if (block == null) return defaultBlock;
+		return reverse.get(block);
+	}
+
+	public static Block defaultBlock() {
+		return instance().getBlock(defaultBlock);
+	}
+
+	public static final String defaultBlock = "empty";
+
 }
