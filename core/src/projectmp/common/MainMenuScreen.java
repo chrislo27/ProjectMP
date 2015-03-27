@@ -14,7 +14,7 @@ public strictfp class MainMenuScreen extends Updateable {
 		super(m);
 
 		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, 64, 160, 32,
-				"menu.new") {
+				"localhost connection") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -79,6 +79,7 @@ public strictfp class MainMenuScreen extends Updateable {
 				main.font.setColor(1, 1, 1, 1);
 			}
 		}
+		main.drawInverse(Translator.getMsg("menu.player") + Main.username, Settings.DEFAULT_WIDTH - 5, 50);
 		container.render(main);
 		main.font.setColor(Color.WHITE);
 		main.batch.setColor(1, 1, 1, 1);
