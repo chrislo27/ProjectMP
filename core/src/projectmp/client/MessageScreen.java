@@ -20,6 +20,7 @@ public class MessageScreen extends Updateable {
 
 			@Override
 			public boolean onLeftClick() {
+				main.setScreen(Main.MAINMENU);
 				return true;
 			}
 
