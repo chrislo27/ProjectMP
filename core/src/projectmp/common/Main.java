@@ -36,6 +36,7 @@ import projectmp.common.util.render.Gears;
 import projectmp.common.util.render.Shaders;
 import projectmp.common.util.version.VersionGetter;
 import projectmp.server.ServerListener;
+import projectmp.server.ServerLogic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -123,6 +124,7 @@ public class Main extends Game implements Consumer {
 
 	public Client client;
 	public Server server;
+	public ServerLogic serverLogic;
 	
 	/**
 	 * used for storing progress, level data etc
@@ -192,10 +194,12 @@ public class Main extends Game implements Consumer {
 		client.addListener(new ClientListener());
 		ClassRegistration.registerClasses(client.getKryo());
 		client.start();
+		
 		server = new Server();
 		ClassRegistration.registerClasses(server.getKryo());
-		server.addListener(new ServerListener());
 		server.start();
+		serverLogic = new ServerLogic(this);
+		server.addListener(new ServerListener(serverLogic));
 
 		maskshader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKE);
 		maskshader.begin();

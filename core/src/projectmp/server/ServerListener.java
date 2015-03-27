@@ -6,6 +6,12 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 public class ServerListener extends Listener {
+	
+	ServerLogic logic;
+	
+	public ServerListener(ServerLogic s){
+		logic = s;
+	}
 
 	@Override
 	public void connected(Connection connection) {
@@ -29,6 +35,6 @@ public class ServerListener extends Listener {
 	}
 
 	private void handlePackets(Connection connection, Object obj) {
-		((Packet) obj).actionClient(connection);
+		((Packet) obj).actionServer(connection, logic);
 	}
 }

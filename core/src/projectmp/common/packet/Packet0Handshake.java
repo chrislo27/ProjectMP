@@ -1,6 +1,7 @@
 package projectmp.common.packet;
 
 import projectmp.common.Main;
+import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -27,7 +28,7 @@ public class Packet0Handshake implements Packet{
 	}
 	
 	@Override
-	public void actionServer(Connection connection) {
+	public void actionServer(Connection connection, ServerLogic logic) {
 		Packet0Handshake returner = new Packet0Handshake();
 		returner.state = ACCEPTED;
 		
