@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 
 import projectmp.client.AssetLoadingScreen;
 import projectmp.client.ClientListener;
+import projectmp.client.ConnectingScreen;
 import projectmp.client.ErrorScreen;
 import projectmp.client.GameScreen;
 import projectmp.client.MainInputProcessor;
@@ -113,6 +114,7 @@ public class Main extends Game implements Consumer {
 	public static MessageScreen MESSAGE = null;
 	public static GameScreen GAME = null;
 	public static ErrorScreen ERRORMSG = null;
+	public static ConnectingScreen CONNECTING = null;
 
 	public static Texture filltex;
 
@@ -204,7 +206,7 @@ public class Main extends Game implements Consumer {
 				true);
 		
 		client = new Client();
-		client.addListener(new ClientListener());
+		client.addListener(new ClientListener(this));
 		ClassRegistration.registerClasses(client.getKryo());
 		client.start();
 		
@@ -279,6 +281,7 @@ public class Main extends Game implements Consumer {
 		MESSAGE = new MessageScreen(this);
 		GAME = new GameScreen(this);
 		ERRORMSG = new ErrorScreen(this);
+		CONNECTING = new ConnectingScreen(this);
 	}
 
 	@Override
@@ -322,6 +325,7 @@ public class Main extends Game implements Consumer {
 		MESSAGE.dispose();
 		GAME.dispose();
 		ERRORMSG.dispose();
+		CONNECTING.dispose();
 	}
 
 	private void preRender() {

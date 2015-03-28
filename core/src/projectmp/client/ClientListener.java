@@ -1,5 +1,6 @@
 package projectmp.client;
 
+import projectmp.common.Main;
 import projectmp.common.packet.Packet;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -8,6 +9,12 @@ import com.esotericsoftware.kryonet.Listener;
 
 public class ClientListener extends Listener{
 
+	Main main;
+	
+	public ClientListener(Main m){
+		main = m;
+	}
+	
 	@Override
 	public void connected(Connection connection){
 		
@@ -30,7 +37,7 @@ public class ClientListener extends Listener{
 	}
 	
 	private void handlePackets(Connection connection, Object obj){
-		((Packet) obj).actionClient(connection);
+		((Packet) obj).actionClient(connection, main);
 	}
 	
 }
