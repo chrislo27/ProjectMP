@@ -4,7 +4,11 @@ import projectmp.client.ui.Button;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 
-
+/**
+ * Same as MessageScreen except it has a button to return to the main menu
+ * 
+ *
+ */
 public class ErrorScreen extends MessageScreen{
 
 	public ErrorScreen(Main m) {
