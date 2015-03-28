@@ -19,10 +19,10 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 		
-		world = new World(main, 16, 8);
+		world = new World(main, 16, 16);
 	}
 	
 	public void tickUpdate(){
-		
+		world.tickUpdate();
 	}
 }
