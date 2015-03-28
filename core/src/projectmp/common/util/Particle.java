@@ -1,11 +1,12 @@
 package projectmp.common.util;
 
 import projectmp.common.Main;
+import projectmp.common.block.Block.BlockFaces;
+import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Pool.Poolable;
 
 public class Particle implements Poolable {
@@ -148,58 +149,57 @@ public class Particle implements Poolable {
 	}
 
 	public void render(World world, Main main) {
-//		if (prelife <= 0) {
-//			update(Gdx.graphics.getDeltaTime());
-//
-//			if (texture != null) {
-//				if (texture.startsWith("_")) {
-//					main.font.setColor(tintr, tintg, tintb,
-//							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
-//					main.drawCentered(texture.substring(1), x * World.tilesizex
-//							- world.camera.camerax,
-//							Main.convertY(y * World.tilesizey - world.camera.cameray));
-//					main.font.setColor(Color.WHITE);
-//				} else {
-//					Texture t;
-//					if (texture.startsWith("real-")) {
-//						t = main.manager.get(texture.substring(5), Texture.class);
-//					} else {
-//						t = main.manager.get(AssetMap.get(texture), Texture.class);
-//					}
-//
-//					main.batch.setColor(tintr, tintg, tintb,
-//							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
-//
-//					Utils.drawRotatedCentered(
-//							main.batch,
-//							t,
-//							x * World.tilesizex - world.camera.camerax,
-//							Main.convertY(y * World.tilesizey - world.camera.cameray),
-//							t.getWidth() * getModifiedScale(),
-//							t.getHeight() * getModifiedScale(),
-//							((rotspeed > 0 ? (MathHelper.getNumberFromTime(rotspeed) * 360) : 0) + initialRotation) % 360,
-//							clockwise);
-//
-//					main.batch.setColor(Color.WHITE);
-//				}
-//			}
-//
-//		}
-//
-//		if (prelife > 0) {
-//			prelife -= Gdx.graphics.getDeltaTime();
-//		} else if (prelife <= 0) {
-//			lifetime -= Gdx.graphics.getDeltaTime();
-//		}
-//
-//		if (destroyOnBlock) {
-//			if ((world.getBlock((int) x, (int) y).isSolid(world, (int) x, (int) y) != BlockFaces.NONE)) if (MathHelper
-//					.intersects((int) x, (int) y, 1, 1, x - (4 * World.tilepartx), y
-//							- (4 * World.tileparty), 8 * World.tilepartx, 8 * World.tileparty)) {
-//				lifetime = -1;
-//				prelife = -1;
-//			}
-//		}
+		if (prelife <= 0) {
+			update(Gdx.graphics.getDeltaTime());
+
+			if (texture != null) {
+				if (texture.startsWith("_")) {
+					main.font.setColor(tintr, tintg, tintb,
+							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
+					main.drawCentered(texture.substring(1), x * World.tilesizex,
+							Main.convertY(y * World.tilesizey));
+					main.font.setColor(Color.WHITE);
+				} else {
+					Texture t;
+					if (texture.startsWith("real-")) {
+						t = main.manager.get(texture.substring(5), Texture.class);
+					} else {
+						t = main.manager.get(AssetMap.get(texture), Texture.class);
+					}
+
+					main.batch.setColor(tintr, tintg, tintb,
+							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
+
+					Utils.drawRotatedCentered(
+							main.batch,
+							t,
+							x * World.tilesizex,
+							Main.convertY(y * World.tilesizey),
+							t.getWidth() * getModifiedScale(),
+							t.getHeight() * getModifiedScale(),
+							((rotspeed > 0 ? (MathHelper.getNumberFromTime(rotspeed) * 360) : 0) + initialRotation) % 360,
+							clockwise);
+
+					main.batch.setColor(Color.WHITE);
+				}
+			}
+
+		}
+
+		if (prelife > 0) {
+			prelife -= Gdx.graphics.getDeltaTime();
+		} else if (prelife <= 0) {
+			lifetime -= Gdx.graphics.getDeltaTime();
+		}
+
+		if (destroyOnBlock) {
+			if ((world.getBlock((int) x, (int) y).isSolid(world, (int) x, (int) y) != BlockFaces.NONE)) if (MathHelper
+					.intersects((int) x, (int) y, 1, 1, x - (4 * World.tilepartx), y
+							- (4 * World.tileparty), 8 * World.tilepartx, 8 * World.tileparty)) {
+				lifetime = -1;
+				prelife = -1;
+			}
+		}
 
 	}
 
