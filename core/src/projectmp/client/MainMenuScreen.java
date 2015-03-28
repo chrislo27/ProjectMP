@@ -1,5 +1,7 @@
 package projectmp.client;
 
+import java.io.IOException;
+
 import projectmp.client.ui.BackButton;
 import projectmp.client.ui.Button;
 import projectmp.client.ui.SettingsButton;
@@ -21,6 +23,8 @@ public strictfp class MainMenuScreen extends Updateable {
 
 			@Override
 			public boolean onLeftClick() {
+				main.setScreen(Main.CONNECTING);
+				Main.CONNECTING.connectTo("localhost", Settings.DEFAULT_PORT);
 				return true;
 			}
 		});
