@@ -38,13 +38,17 @@ public class Packet0Handshake implements Packet {
 			reject("Max player limit reached (limit: " + logic.maxplayers + ")", returner);
 		}
 
+		connection.sendTCP(returner);
+		
 		if (returner.state == REJECTED) {
-			Main.logger.info("Kicked " + connection.toString() + " ("
+			Main.logger.info("Kicking " + connection.toString() + " ("
 					+ connection.getRemoteAddressTCP().toString() + ") for: "
 					+ returner.rejectReason);
+			connection.close();
+			return;
+		}else if(returner.state == ACCEPTED){
+			// send the entire world, and entities
 		}
-
-		connection.sendTCP(returner);
 	}
 
 	@Override
