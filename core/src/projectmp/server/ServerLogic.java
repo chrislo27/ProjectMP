@@ -13,6 +13,8 @@ public class ServerLogic {
 	
 	World world = null;
 	
+	int maxplayers = 1;
+	
 	public ServerLogic(Main m){
 		main = m;
 		server = main.server;
