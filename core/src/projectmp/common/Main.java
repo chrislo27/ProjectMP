@@ -210,7 +210,7 @@ public class Main extends Game implements Consumer {
 		serverLogic = new ServerLogic(this);
 		server.addListener(new ServerListener(serverLogic));
 		try {
-			server.bind(Settings.DEFAULT_PORT);
+			server.bind(Settings.DEFAULT_PORT, Settings.DEFAULT_PORT);
 			Main.logger.info("Bound to port " + Settings.DEFAULT_PORT + " successfully");
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -258,12 +258,12 @@ public class Main extends Game implements Consumer {
 
 		this.setScreen(ASSETLOADING);
 
-		Gdx.app.postRunnable(new Thread("version checker") {
+		new Thread("version checker") {
 
 			public void run() {
 				VersionGetter.instance().getVersionFromServer();
 			}
-		});
+		}.start();;
 	}
 
 	public void prepareStates() {
@@ -430,7 +430,7 @@ public class Main extends Game implements Consumer {
 				.getUsedMemory();
 		font.setColor(Color.WHITE);
 		font.draw(batch, "version: " + Main.version
-				+ (githubVersion.equals("") ? "" : "; github: " + Main.githubVersion), 5,
+				+ (githubVersion == null ? "" : "; github: " + Main.githubVersion), 5,
 				Main.convertY(30 + offset));
 		font.draw(batch, "Memory: "
 				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
@@ -472,8 +472,14 @@ public class Main extends Game implements Consumer {
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
 				} else if (Gdx.input.isKeyJustPressed(Keys.M)) {
-					MESSAGE.setMessage("Error: Success");
+					MESSAGE.setMessage("Error: Successes");
 					setScreen(MESSAGE);
+					try {
+						client.connect(5000, "localhost", Settings.DEFAULT_PORT, Settings.DEFAULT_PORT);
+						Main.logger.info("Successfully connected to localhost on " + Settings.DEFAULT_PORT);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 
 			}
