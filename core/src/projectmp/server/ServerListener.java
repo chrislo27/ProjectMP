@@ -16,12 +16,12 @@ public class ServerListener extends Listener {
 
 	@Override
 	public void connected(Connection connection) {
-		Main.logger.info(connection.getRemoteAddressTCP().toString() + " connected");
+		Main.logger.info(connection.toString() + " (" + connection.getRemoteAddressTCP().toString() + ") connected");
 	}
 
 	@Override
 	public void disconnected(Connection connection) {
-		Main.logger.info(connection.getRemoteAddressTCP().toString() + " disconnected");
+		Main.logger.info(connection.toString() + " disconnected");
 	}
 
 	@Override
