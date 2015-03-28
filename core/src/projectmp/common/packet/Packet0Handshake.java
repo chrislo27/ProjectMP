@@ -14,17 +14,17 @@ public class Packet0Handshake implements Packet{
 	public static final int REJECTED = 3;
 	
 	int state = REQUEST;
-	String version = "";
-	String username = null;
+	public String version = "";
+	public String username = null;
 	String rejectReason = "unknown reason";
 	
 	public Packet0Handshake(){
-		version = Main.version + "";
-		username = Main.username + "";
+		
 	}
 	
 	private void reject(String reason, Packet0Handshake returner){
 		returner.state = REJECTED;
+		returner.rejectReason = reason;
 	}
 	
 	@Override
@@ -39,7 +39,7 @@ public class Packet0Handshake implements Packet{
 		}else if(logic.server.getConnections().length > logic.maxplayers){
 			reject("Max player limit reached (limit: " + logic.maxplayers + ")", returner);
 		}
-		
+		Main.logger.debug("server return handshake: " + returner.rejectReason);
 		connection.sendTCP(returner);
 	}
 
