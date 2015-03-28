@@ -8,12 +8,12 @@ import com.esotericsoftware.kryonet.Server;
 
 public class ServerLogic {
 
-	Main main;
-	Server server;
+	public Main main;
+	public Server server;
 	
-	World world = null;
+	public World world = null;
 	
-	int maxplayers = 1;
+	public int maxplayers = 1;
 	
 	public ServerLogic(Main m){
 		main = m;

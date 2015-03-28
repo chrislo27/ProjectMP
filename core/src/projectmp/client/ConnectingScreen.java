@@ -23,8 +23,6 @@ public class ConnectingScreen extends MessageScreen{
 			
 			Packet0Handshake handshake = new Packet0Handshake();
 			main.client.sendTCP(handshake);
-			
-			main.setScreen(Main.GAME);
 		} catch (IOException e) {
 			e.printStackTrace();
 			setMessage("");

@@ -11,20 +11,20 @@ public class Packet0Handshake implements Packet{
 	
 	public static final int ACCEPTED = 1;
 	public static final int REQUEST = 2;
-	public static final int REJECTED_OUT_OF_DATE = 3;
-	public static final int REJECTED_DUPLICATE_NAME = 4;
-	public static final int REJECTED_BANNED = 5;
-	public static final int REJECTED_MAX_PLAYERS = 6;
-	public static final int REJECTED_INVALID_PACKET = 7;
-	public static final int REJECTED_BAD_USERNAME = 8;
+	public static final int REJECTED = 3;
 	
 	int state = REQUEST;
 	String version = "";
 	String username = null;
+	String rejectReason = "unknown reason";
 	
 	public Packet0Handshake(){
 		version = Main.version + "";
 		username = Main.username + "";
+	}
+	
+	private void reject(String reason, Packet0Handshake returner){
+		returner.state = REJECTED;
 	}
 	
 	@Override
@@ -33,9 +33,11 @@ public class Packet0Handshake implements Packet{
 		returner.state = ACCEPTED;
 		
 		if(!version.equalsIgnoreCase(Main.version)){
-			returner.state = REJECTED_OUT_OF_DATE;
+			reject("Incompatible versions (server is " + Main.version + ")", returner);
 		}else if(username == null || username.equals("")){
-			returner.state = REJECTED_BAD_USERNAME;
+			reject("Invalid username", returner);
+		}else if(logic.server.getConnections().length > logic.maxplayers){
+			reject("Max player limit reached (limit: " + logic.maxplayers + ")", returner);
 		}
 		
 		connection.sendTCP(returner);
@@ -44,9 +46,11 @@ public class Packet0Handshake implements Packet{
 	@Override
 	public void actionClient(Connection connection, Main main) {
 		if(state == ACCEPTED){
-			
-		}else if(state >= REJECTED_OUT_OF_DATE){
-			
+			main.setScreen(Main.GAME);
+		}else if(state == REJECTED){
+			Main.ERRORMSG.setMessage("Failed to connect:\n" + rejectReason);
+			main.setScreen(Main.ERRORMSG);
+			connection.close();
 		}
 	}
 
