@@ -42,7 +42,7 @@ public class Packet0Handshake implements Packet{
 	}
 
 	@Override
-	public void actionClient(Connection connection) {
+	public void actionClient(Connection connection, Main main) {
 		if(state == ACCEPTED){
 			
 		}else if(state >= REJECTED_OUT_OF_DATE){
