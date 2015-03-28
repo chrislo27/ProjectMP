@@ -19,6 +19,8 @@ import javax.swing.JTextArea;
 
 import projectmp.client.AssetLoadingScreen;
 import projectmp.client.ClientListener;
+import projectmp.client.ErrorScreen;
+import projectmp.client.GameScreen;
 import projectmp.client.MainInputProcessor;
 import projectmp.client.MainMenuScreen;
 import projectmp.client.MessageScreen;
@@ -109,6 +111,8 @@ public class Main extends Game implements Consumer {
 	public static MiscLoadingScreen MISCLOADING = null;
 	public static SettingsScreen SETTINGS = null;
 	public static MessageScreen MESSAGE = null;
+	public static GameScreen GAME = null;
+	public static ErrorScreen ERRORMSG = null;
 
 	public static Texture filltex;
 
@@ -263,7 +267,7 @@ public class Main extends Game implements Consumer {
 			public void run() {
 				VersionGetter.instance().getVersionFromServer();
 			}
-		}.start();;
+		}.start();
 	}
 
 	public void prepareStates() {
@@ -273,6 +277,8 @@ public class Main extends Game implements Consumer {
 		MISCLOADING = new MiscLoadingScreen(this);
 		SETTINGS = new SettingsScreen(this);
 		MESSAGE = new MessageScreen(this);
+		GAME = new GameScreen(this);
+		ERRORMSG = new ErrorScreen(this);
 	}
 
 	@Override
@@ -314,6 +320,8 @@ public class Main extends Game implements Consumer {
 		MISCLOADING.dispose();
 		SETTINGS.dispose();
 		MESSAGE.dispose();
+		GAME.dispose();
+		ERRORMSG.dispose();
 	}
 
 	private void preRender() {
@@ -472,14 +480,7 @@ public class Main extends Game implements Consumer {
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
 				} else if (Gdx.input.isKeyJustPressed(Keys.M)) {
-					MESSAGE.setMessage("Error: Successes");
-					setScreen(MESSAGE);
-					try {
-						client.connect(5000, "localhost", Settings.DEFAULT_PORT, Settings.DEFAULT_PORT);
-						Main.logger.info("Successfully connected to localhost on " + Settings.DEFAULT_PORT);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					MESSAGE.setMessage("Error: Success");
 				}
 
 			}
