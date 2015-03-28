@@ -55,6 +55,10 @@ public class World {
 		particles = new Array<Particle>();
 	}
 	
+	public void tickUpdate(){
+		
+	}
+	
 	public Block getBlock(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Blocks.defaultBlock();
 		if (blocks[x][y] == null) return Blocks.defaultBlock();
