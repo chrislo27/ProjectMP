@@ -14,7 +14,7 @@ public class GameScreen extends Updateable{
 	public GameScreen(Main m) {
 		super(m);
 		
-		renderer = new WorldRenderer(main);
+		renderer = new WorldRenderer(main, world);
 	}
 
 	World world;
