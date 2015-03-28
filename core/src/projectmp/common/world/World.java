@@ -46,9 +46,8 @@ public class World {
 		for (int j = 0; j < sizex; j++) {
 			for (int k = 0; k < sizey; k++) {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
-				if (j == 0 || j + 1 == sizex) blocks[j][k] = Blocks.instance().getBlock("wall");
-				if (k == 0 || k + 1 == sizey) blocks[j][k] = Blocks.instance().getBlock("wall");
 				meta[j][k] = 0;
+				if(k >= sizey - 5) blocks[j][k] = Blocks.instance().getBlock("stone");
 			}
 		}
 
@@ -67,9 +66,9 @@ public class World {
 		return meta[x][y];
 	}
 
-	public void setBlock(Block r, int x, int y) {
+	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		blocks[x][y] = r;
+		blocks[x][y] = b;
 	}
 
 	public void setMeta(int m, int x, int y) {
