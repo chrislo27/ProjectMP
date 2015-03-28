@@ -1,5 +1,6 @@
 package projectmp.server;
 
+import projectmp.common.Main;
 import projectmp.common.packet.Packet;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -15,12 +16,12 @@ public class ServerListener extends Listener {
 
 	@Override
 	public void connected(Connection connection) {
-
+		Main.logger.info(connection.getRemoteAddressTCP().toString() + " connected");
 	}
 
 	@Override
 	public void disconnected(Connection connection) {
-
+		Main.logger.info(connection.getRemoteAddressTCP().toString() + " disconnected");
 	}
 
 	@Override
