@@ -26,4 +26,12 @@ public class WorldRenderer {
 		batch.setProjectionMatrix(camera.combined);
 	}
 	
+	public void renderWorld(){
+		
+	}
+	
+	public void renderHUD(){
+		
+	}
+	
 }

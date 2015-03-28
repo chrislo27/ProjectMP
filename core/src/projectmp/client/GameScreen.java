@@ -24,9 +24,9 @@ public class GameScreen extends Updateable{
 	@Override
 	public void render(float delta) {
 		renderer.updateCameraAndSetMatrices();
-		
+		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
-		
+		renderer.renderHUD();
 	}
 
 	@Override
