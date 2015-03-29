@@ -15,6 +15,8 @@ public class EntitySquare extends Entity {
 	@Override
 	public void prepare() {
 		this.gravityCoefficient = 0;
+		this.hasBlockCollision = false;
+		this.hasEntityCollision = false;
 	}
 
 	@Override
