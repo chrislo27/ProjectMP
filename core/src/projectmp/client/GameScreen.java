@@ -21,14 +21,13 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void render(float delta) {
-		renderer.updateCameraAndSetMatrices();
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
 
 		main.batch.begin();
-		main.font.draw(main.batch, "x, y: " + renderer.camera.position.x + ", "
-				+ renderer.camera.position.y, 5, Main.convertY(100));
+		main.font.draw(main.batch, "x, y: " + renderer.camera.camerax + ", "
+				+ renderer.camera.cameray, 5, Main.convertY(100));
 		main.batch.end();
 	}
 
@@ -42,29 +41,25 @@ public class GameScreen extends Updateable {
 		}
 
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			renderer.camera.translate(-8, 0, 0);
+			renderer.camera.translate(-8, 0);
 		}
 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			renderer.camera.translate(8, 0, 0);
+			renderer.camera.translate(8, 0);
 		}
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			renderer.camera.translate(0, 8, 0);
+			renderer.camera.translate(0, -8);
 		}
 		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-			renderer.camera.translate(0, -8, 0);
+			renderer.camera.translate(0, 8);
 		}
 
-		renderer.camera.position.x = MathUtils.clamp(renderer.camera.position.x,
-				renderer.camera.viewportWidth / 2, world.sizex * World.tilesizex
-						- (renderer.camera.viewportWidth / 2));
-		renderer.camera.position.y = MathUtils.clamp(renderer.camera.position.y,
-				-world.sizey * World.tilesizey
-						+ (renderer.camera.viewportHeight * 1.5f), renderer.camera.viewportHeight / 2);
+		renderer.camera.clamp();
 	}
 
 	public void newWorld(World world) {
 		this.world = world;
 		renderer.world = world;
+		renderer.camera.setWorld(world);
 	}
 
 	@Override
