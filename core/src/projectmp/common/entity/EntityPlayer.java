@@ -1,5 +1,6 @@
 package projectmp.common.entity;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.world.World;
 
 
@@ -14,7 +15,7 @@ public class EntityPlayer extends Entity{
 	}
 
 	@Override
-	public void render() {
+	public void render(WorldRenderer renderer) {
 	}
 
 }

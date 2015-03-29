@@ -1,5 +1,6 @@
 package projectmp.common.entity;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.block.BlockEmpty;
@@ -62,7 +63,7 @@ public abstract class Entity {
 	 */
 	public abstract void prepare();
 	
-	public abstract void render();
+	public abstract void render(WorldRenderer renderer);
 	
 	/**
 	 * called every render update BEFORE rendering on client only
