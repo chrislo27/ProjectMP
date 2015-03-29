@@ -2,8 +2,11 @@ package projectmp.server;
 
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
+import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet3Entities;
+import projectmp.common.packet.Packet4PositionUpdate;
 import projectmp.common.world.World;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -23,11 +26,19 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 		
-		world = new World(main, 32, 32);
+		world = new World(main, 16, 16);
+		for(int i = 0; i < 4; i++) world.entities.add(new EntitySquare(world, 0, 0));
 	}
 	
 	public void tickUpdate(){
 		world.tickUpdate();
+		
+		Packet4PositionUpdate pos = new Packet4PositionUpdate();
+		for(Entity e : world.entities){
+			pos.entityid = e.uuid;
+			pos.x = e.x;
+			pos.y = e.y;
+		}
 	}
 	
 	public void sendEntireWorldAndEntities(Connection connection){
@@ -48,7 +59,10 @@ public class ServerLogic {
 		
 		if(world.entities.size > 0){
 			Packet3Entities packet = new Packet3Entities();
-			packet.entities = world.entities;
+			packet.entities = new Entity[world.entities.size];
+			for(int i = 0; i < packet.entities.length; i++){
+				packet.entities[i] = world.entities.get(i);
+			}
 			
 			connection.sendTCP(packet);
 		}
