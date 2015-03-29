@@ -7,6 +7,9 @@ import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
+
 public abstract class Entity {
 
 	public transient World world;
@@ -14,10 +17,14 @@ public abstract class Entity {
 	public float y = 0;
 	public float visualx = x;
 	public float visualy = y;
+	public float lastx = x;
+	public float lasty = y;
 	public float sizex = 1;
 	public float sizey = 1;
 	public float velox = 0;
 	public float veloy = 0;
+	
+	public long uuid = MathUtils.random(Long.MIN_VALUE, Long.MAX_VALUE);
 	
 	/**
 	 * collides with blocks
@@ -45,6 +52,8 @@ public abstract class Entity {
 		y = posy;
 		visualx = x;
 		visualy = y;
+		lastx = x;
+		lasty = y;
 		prepare();
 	}
 	
@@ -59,7 +68,15 @@ public abstract class Entity {
 	 * called every render update BEFORE rendering on client only
 	 */
 	public void clientRenderUpdate() {
-
+		visualx = (lastx - x) * (Gdx.graphics.getDeltaTime() * (Main.MAX_FPS / Main.TICKS));
+		visualy = (lasty - y) * (Gdx.graphics.getDeltaTime() * (Main.MAX_FPS / Main.TICKS));
+	}
+	
+	public void positionUpdate(float newx, float newy){
+		lastx = x;
+		lasty = y;
+		x = newx;
+		y = newy;
 	}
 	
 	/**
