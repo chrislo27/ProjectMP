@@ -3,6 +3,7 @@ package projectmp.server;
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.packet.Packet1Chunk;
+import projectmp.common.packet.Packet3Entities;
 import projectmp.common.world.World;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -45,6 +46,11 @@ public class ServerLogic {
 			}
 		}
 		
-		
+		if(world.entities.size > 0){
+			Packet3Entities packet = new Packet3Entities();
+			packet.entities = world.entities;
+			
+			connection.sendTCP(packet);
+		}
 	}
 }
