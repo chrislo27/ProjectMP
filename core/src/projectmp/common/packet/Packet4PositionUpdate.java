@@ -8,8 +8,8 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet4PositionUpdate implements Packet {
 
-	long entityid;
-	float x, y;
+	public long entityid;
+	public float x, y;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
