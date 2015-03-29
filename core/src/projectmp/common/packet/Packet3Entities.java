@@ -10,7 +10,7 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet3Entities implements Packet {
 
-	public Array<Entity> entities;
+	public Entity[] entities;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -18,7 +18,10 @@ public class Packet3Entities implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
-		Main.GAME.world.entities = entities;
+		Main.GAME.world.entities = new Array(entities);
+		for(Entity e : Main.GAME.world.entities){
+			e.world = Main.GAME.world;
+		}
 	}
 
 }
