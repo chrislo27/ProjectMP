@@ -1,5 +1,6 @@
 package projectmp.common.block;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.entity.Entity;
 import projectmp.common.world.World;
 
@@ -8,6 +9,14 @@ public class Block {
 	int collision = BlockFaces.NONE;
 	
 	public Block(){
+		
+	}
+	
+	public void tickUpdate(World world, int x, int y){
+		
+	}
+	
+	public void render(WorldRenderer world, int x, int y){
 		
 	}
 	
