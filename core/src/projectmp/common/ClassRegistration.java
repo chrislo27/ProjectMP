@@ -18,7 +18,6 @@ import com.esotericsoftware.kryo.Kryo;
 public class ClassRegistration {
 
 	public static void registerClasses(Kryo kryo){
-		kryo.register(Array.class);
 		kryo.register(String[][].class);
 		kryo.register(int[][].class);
 		kryo.register(String[].class);
