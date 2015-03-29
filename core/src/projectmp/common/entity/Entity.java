@@ -43,6 +43,8 @@ public abstract class Entity {
 		world = w;
 		x = posx;
 		y = posy;
+		visualx = x;
+		visualy = y;
 		prepare();
 	}
 	
@@ -54,9 +56,9 @@ public abstract class Entity {
 	public abstract void render();
 	
 	/**
-	 * called every render update BEFORE rendering
+	 * called every render update BEFORE rendering on client only
 	 */
-	public void renderUpdate() {
+	public void clientRenderUpdate() {
 
 	}
 	
