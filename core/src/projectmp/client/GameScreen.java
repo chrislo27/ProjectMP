@@ -1,6 +1,7 @@
 package projectmp.client;
 
 import projectmp.common.Main;
+import projectmp.common.entity.Entity;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -54,6 +55,10 @@ public class GameScreen extends Updateable {
 		}
 
 		renderer.camera.clamp();
+		
+		for(Entity e : world.entities){
+			e.clientRenderUpdate();
+		}
 	}
 
 	public void newWorld(World world) {
