@@ -49,6 +49,7 @@ public class World {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
 				meta[j][k] = 0;
 				if(MathUtils.randomBoolean(0.75f)) blocks[j][k] = Blocks.instance().getBlock("stone");
+				if(k == 0 || j == 0) blocks[j][k] = Blocks.defaultBlock();
 			}
 		}
 
