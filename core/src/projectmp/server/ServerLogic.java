@@ -22,7 +22,7 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 		
-		world = new World(main, 16, 16);
+		world = new World(main, 32, 32);
 	}
 	
 	public void tickUpdate(){
@@ -30,8 +30,8 @@ public class ServerLogic {
 	}
 	
 	public void sendEntireWorldAndEntities(Connection connection){
-		for(int x = 0; x <= (world.sizex / 16); x++){
-			for(int y = 0; y <= (world.sizey / 16); y++){
+		for(int x = 0; x < Math.max(1, world.sizex / 16); x++){
+			for(int y = 0; y < Math.max(1, world.sizey / 16); y++){
 				Packet1Chunk chunk = new Packet1Chunk();
 				chunk.originx = x * 16;
 				chunk.originy = y * 16;
