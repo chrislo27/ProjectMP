@@ -105,15 +105,11 @@ public class SmoothCamera {
 	}
 
 	public void clamp() {
-		if (camerax < 0) camerax = 0;
-		if (cameray < 0) cameray = 0;
-
-		if (camerax + (Settings.DEFAULT_WIDTH) > world.sizex * World.tilesizex) {
-			camerax = world.sizex * World.tilesizex - Settings.DEFAULT_WIDTH;
-		}
-		if (cameray + (Gdx.graphics.getHeight()) > world.sizey * World.tilesizey) {
-			cameray = world.sizey * World.tilesizey - Gdx.graphics.getHeight();
-		}
+		camerax = MathUtils.clamp(camerax, 0, world.sizex * World.tilesizex - Settings.DEFAULT_WIDTH);
+		cameray = MathUtils.clamp(cameray, 0, world.sizey * World.tilesizey - Settings.DEFAULT_HEIGHT);
+		
+		wantedx = MathUtils.clamp(wantedx, 0, world.sizex * World.tilesizex - Settings.DEFAULT_WIDTH);
+		wantedy = MathUtils.clamp(wantedy, 0, world.sizey * World.tilesizey - Settings.DEFAULT_HEIGHT);
 	}
 	
 	public void translate(float x, float y){
