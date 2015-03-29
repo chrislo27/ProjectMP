@@ -47,7 +47,7 @@ public class World {
 			for (int k = 0; k < sizey; k++) {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
 				meta[j][k] = 0;
-				if(k >= sizey - 5) blocks[j][k] = Blocks.instance().getBlock("stone");
+				if(k % 2 == 1) blocks[j][k] = Blocks.instance().getBlock("stone");
 			}
 		}
 
