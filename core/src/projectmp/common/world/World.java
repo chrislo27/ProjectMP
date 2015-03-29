@@ -7,6 +7,7 @@ import projectmp.common.entity.Entity;
 import projectmp.common.util.Particle;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
 
@@ -47,7 +48,7 @@ public class World {
 			for (int k = 0; k < sizey; k++) {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
 				meta[j][k] = 0;
-				if(k % 2 == 1) blocks[j][k] = Blocks.instance().getBlock("stone");
+				if(MathUtils.randomBoolean(0.75f)) blocks[j][k] = Blocks.instance().getBlock("stone");
 			}
 		}
 
