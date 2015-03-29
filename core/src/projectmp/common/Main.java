@@ -719,18 +719,18 @@ public class Main extends Game implements Consumer {
 	}
 
 	public static Color getRainbow() {
-		return getRainbow(1, 1);
+		return getRainbow(System.currentTimeMillis(), 1, 1);
 	}
 
 	public static Color getRainbow(float s) {
-		return getRainbow(s, 1);
+		return getRainbow(System.currentTimeMillis(), s, 1);
 	}
 
-	public static Color getRainbow(float s, float saturation) {
+	public static Color getRainbow(long ms, float s, float saturation) {
 		return rainbow.set(
 				Utils.HSBtoRGBA8888(
 						(s < 0 ? 1.0f : 0)
-								- MathHelper.getNumberFromTime(System.currentTimeMillis(),
+								- MathHelper.getNumberFromTime(ms,
 										Math.abs(s)), saturation, 0.75f)).clamp();
 	}
 
