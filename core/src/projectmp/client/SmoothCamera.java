@@ -26,6 +26,10 @@ public class SmoothCamera {
 	private boolean shakeFades = false;
 
 	public SmoothCamera(World w) {
+		setWorld(w);
+	}
+	
+	public void setWorld(World w){
 		world = w;
 	}
 
