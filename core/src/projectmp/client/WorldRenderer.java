@@ -1,12 +1,9 @@
 package projectmp.client;
 
 import projectmp.common.Main;
-import projectmp.common.Settings;
 import projectmp.common.world.World;
 
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
 
 public class WorldRenderer {
 
