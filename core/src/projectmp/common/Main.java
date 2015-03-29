@@ -483,6 +483,9 @@ public class Main extends Game implements Consumer {
 							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
+				} else if(Gdx.input.isKeyJustPressed(Keys.M)){
+					ERRORMSG.setMessage("Error: Success");
+					setScreen(ERRORMSG);
 				}
 
 			}
