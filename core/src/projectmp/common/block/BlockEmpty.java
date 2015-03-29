@@ -20,5 +20,6 @@ public class BlockEmpty extends Block {
 		world.main.fillRect(x * World.tilesizex - world.camera.camerax,
 				Main.convertY(y * World.tilesizey - world.camera.cameray), World.tilesizex,
 				World.tilesizey);
+		world.batch.setColor(1, 1, 1, 1);
 	}
 }
