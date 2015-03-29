@@ -14,6 +14,7 @@ public class EntitySquare extends Entity {
 
 	@Override
 	public void prepare() {
+		this.gravityCoefficient = 0;
 	}
 
 	@Override
@@ -22,6 +23,13 @@ public class EntitySquare extends Entity {
 		world.main.fillRect(visualx * World.tilesizex - renderer.camera.camerax,
 				Main.convertY(visualy * World.tilesizey - renderer.camera.cameray), 32, 32);
 		world.batch.setColor(1, 1, 1, 1);
+	}
+	
+	@Override
+	public void tickUpdate(){
+		super.tickUpdate();
+		x = MathUtils.random(0f, world.sizex);
+		y = MathUtils.random(0f, world.sizey);
 	}
 
 }
