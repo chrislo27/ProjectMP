@@ -2,6 +2,7 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.entity.Entity;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -36,6 +37,10 @@ public class WorldRenderer {
 			for(int y = posty; y >= prey; y--){
 				world.getBlock(x, y).render(this, x, y);
 			}
+		}
+		
+		for(Entity e : world.entities){
+			e.render(this);
 		}
 		batch.end();
 	}
