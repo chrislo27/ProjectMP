@@ -10,10 +10,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class WorldRenderer {
 	
-	Main main;
-	SpriteBatch batch;
-	OrthographicCamera camera;
-	World world;
+	public Main main;
+	public SpriteBatch batch;
+	public OrthographicCamera camera;
+	public World world;
 	
 	public WorldRenderer(Main m, World w){
 		main = m;
@@ -30,7 +30,11 @@ public class WorldRenderer {
 	}
 	
 	public void renderWorld(){
-		
+		for(int x = 0; x < world.sizex; x++){
+			for(int y = 0; y < world.sizey; y++){
+				world.getBlock(x, y).render(this, x, y);
+			}
+		}
 	}
 	
 	public void renderHUD(){
