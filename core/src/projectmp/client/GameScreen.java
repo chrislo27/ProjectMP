@@ -17,9 +17,9 @@ public class GameScreen extends Updateable{
 		renderer = new WorldRenderer(main, world);
 	}
 
-	World world;
+	public World world;
 	
-	WorldRenderer renderer;
+	public WorldRenderer renderer;
 	
 	@Override
 	public void render(float delta) {
@@ -37,6 +37,11 @@ public class GameScreen extends Updateable{
 			Main.ERRORMSG.setMessage("Disconnected from server: client closed connection");
 			main.setScreen(Main.ERRORMSG);
 		}
+	}
+	
+	public void newWorld(World world){
+		this.world = world;
+		renderer.world = world;
 	}
 
 	@Override
