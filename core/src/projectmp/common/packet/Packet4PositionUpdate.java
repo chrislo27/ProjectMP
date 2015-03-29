@@ -8,12 +8,20 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet4PositionUpdate implements Packet {
 
+	long entityid;
+	float x, y;
+	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
 	}
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		for(int i = 0; i < Main.GAME.world.entities.size; i++){
+			if(Main.GAME.world.entities.get(i).uuid == entityid){
+				Main.GAME.world.entities.get(i).positionUpdate(x, y);
+			}
+		}
 	}
 
 }
