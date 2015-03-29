@@ -6,7 +6,7 @@ import projectmp.server.ServerLogic;
 import com.esotericsoftware.kryonet.Connection;
 
 
-public class Packet4PlayerUpdate implements Packet {
+public class Packet4PositionUpdate implements Packet {
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
