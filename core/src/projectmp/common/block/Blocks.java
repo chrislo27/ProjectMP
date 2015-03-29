@@ -23,7 +23,7 @@ public class Blocks {
 	private HashMap<Block, String> reverse = new HashMap<Block, String>();
 
 	private void loadResources() {
-		put(defaultBlock, new Block());
+		put(defaultBlock, new BlockEmpty());
 		put("stone", new Block().solidify(BlockFaces.ALL));
 	}
 
