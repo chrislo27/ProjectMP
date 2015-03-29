@@ -1,6 +1,7 @@
 package projectmp.common.packet;
 
 import projectmp.common.Main;
+import projectmp.common.world.World;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -15,6 +16,7 @@ public class Packet0Handshake implements Packet {
 	public String version = "";
 	public String username = null;
 	String rejectReason = "unknown reason";
+	int worldsizex, worldsizey;
 
 	public Packet0Handshake() {
 
@@ -29,6 +31,8 @@ public class Packet0Handshake implements Packet {
 	public void actionServer(Connection connection, ServerLogic logic) {
 		Packet0Handshake returner = new Packet0Handshake();
 		returner.state = ACCEPTED;
+		returner.worldsizex = logic.world.sizex;
+		returner.worldsizey = logic.world.sizey;
 
 		if (!version.equalsIgnoreCase(Main.version)) {
 			reject("Incompatible versions (server is " + Main.version + ")", returner);
@@ -48,12 +52,14 @@ public class Packet0Handshake implements Packet {
 			return;
 		}else if(returner.state == ACCEPTED){
 			// send the entire world, and entities
+			logic.sendEntireWorldAndEntities(connection);
 		}
 	}
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
 		if (state == ACCEPTED) {
+			Main.GAME.newWorld(new World(main, worldsizex, worldsizey));
 			main.setScreen(Main.GAME);
 		} else if (state == REJECTED) {
 			Main.ERRORMSG.setMessage("Failed to connect:\n" + rejectReason);
