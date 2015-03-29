@@ -25,8 +25,8 @@ public class World {
 	
 	public int sizex;
 	public int sizey;
-	public Block[][] blocks;
-	public int[][] meta;
+	Block[][] blocks;
+	int[][] meta;
 	
 	public Array<Particle> particles;
 	public Array<Entity> entities;
