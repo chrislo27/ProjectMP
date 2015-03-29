@@ -5,7 +5,7 @@ import projectmp.common.packet.Packet0Handshake;
 import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet2BlockUpdate;
 import projectmp.common.packet.Packet3Entities;
-import projectmp.common.packet.Packet4PlayerUpdate;
+import projectmp.common.packet.Packet4PositionUpdate;
 import projectmp.common.packet.Packet5;
 
 import com.badlogic.gdx.utils.Array;
@@ -29,7 +29,7 @@ public class ClassRegistration {
 		kryo.register(Packet1Chunk.class);
 		kryo.register(Packet2BlockUpdate.class);
 		kryo.register(Packet3Entities.class);
-		kryo.register(Packet4PlayerUpdate.class);
+		kryo.register(Packet4PositionUpdate.class);
 		kryo.register(Packet5.class);
 	}
 	
