@@ -1,6 +1,7 @@
 package projectmp.common.block;
 
 import projectmp.client.WorldRenderer;
+import projectmp.common.Main;
 import projectmp.common.world.World;
 
 
@@ -15,7 +16,7 @@ public class BlockEmpty extends Block{
 	
 	@Override
 	public void render(WorldRenderer world, int x, int y){
-		world.batch.setColor(1, 1, 1, 1);
-		world.main.fillRect(x * World.tilesizex, y * World.tilesizey, World.tilesizex, World.tilesizey);
+		world.batch.setColor(Main.getRainbow(System.currentTimeMillis() - (x * 50) - (y * 50), 1f, 0.25f));
+		world.main.fillRect(x * World.tilesizex, Main.convertY(y * World.tilesizey) - World.tilesizey, World.tilesizex, World.tilesizey);
 	}
 }
