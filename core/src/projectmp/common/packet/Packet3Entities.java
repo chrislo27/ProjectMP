@@ -18,6 +18,7 @@ public class Packet3Entities implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		Main.GAME.world.entities = entities;
 	}
 
 }
