@@ -25,9 +25,10 @@ public class GameScreen extends Updateable {
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
-		
+
 		main.batch.begin();
-		main.font.draw(main.batch, "x, y: " + renderer.camera.position.x + ", " + renderer.camera.position.y, 5, Main.convertY(100));
+		main.font.draw(main.batch, "x, y: " + renderer.camera.position.x + ", "
+				+ renderer.camera.position.y, 5, Main.convertY(100));
 		main.batch.end();
 	}
 
@@ -57,8 +58,8 @@ public class GameScreen extends Updateable {
 				renderer.camera.viewportWidth / 2, world.sizex * World.tilesizex
 						- (renderer.camera.viewportWidth / 2));
 		renderer.camera.position.y = MathUtils.clamp(renderer.camera.position.y,
-				renderer.camera.viewportHeight / 2, world.sizey * World.tilesizey
-						- (renderer.camera.viewportHeight / 2) + World.tilesizey);
+				-world.sizey * World.tilesizey
+						+ (renderer.camera.viewportHeight * 1.5f), renderer.camera.viewportHeight / 2);
 	}
 
 	public void newWorld(World world) {
