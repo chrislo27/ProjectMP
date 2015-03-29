@@ -30,15 +30,18 @@ public class WorldRenderer {
 	}
 	
 	public void renderWorld(){
+		batch.begin();
 		for(int x = 0; x < world.sizex; x++){
 			for(int y = 0; y < world.sizey; y++){
 				world.getBlock(x, y).render(this, x, y);
 			}
 		}
+		batch.end();
 	}
 	
 	public void renderHUD(){
-		
+		batch.begin();
+		batch.end();
 	}
 	
 	protected void changeWorld(World w){
