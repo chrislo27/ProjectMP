@@ -60,7 +60,9 @@ public class World {
 	}
 	
 	public void tickUpdate(){
-		
+		for(Entity e : entities){
+			e.tickUpdate();
+		}
 	}
 	
 	public Block getBlock(int x, int y) {
