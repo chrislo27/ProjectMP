@@ -73,8 +73,6 @@ public abstract class Entity {
 		timeSinceLastUpdate += Gdx.graphics.getDeltaTime();
 		visualx += ((x - lastx) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
 		visualy += ((y - lasty) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
-		
-		//Main.logger.debug("real x: " + x + ", visual x: " + visualx);
 	}
 	
 	public void positionUpdate(float newx, float newy){
