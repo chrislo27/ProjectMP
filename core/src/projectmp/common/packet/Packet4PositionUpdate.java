@@ -17,9 +17,12 @@ public class Packet4PositionUpdate implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		if(Main.GAME.world == null) return;
 		for(int i = 0; i < Main.GAME.world.entities.size; i++){
 			if(Main.GAME.world.entities.get(i).uuid == entityid){
 				Main.GAME.world.entities.get(i).positionUpdate(x, y);
+				//Main.logger.debug("found " + entityid + " at pos " + x + ", " + y);
+				break;
 			}
 		}
 	}
