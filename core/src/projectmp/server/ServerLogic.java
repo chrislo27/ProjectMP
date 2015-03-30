@@ -28,7 +28,7 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 
-		world = new World(main, 16, 16);
+		world = new World(main, 16, 16, true);
 		for(int i = 0; i < 1; i++) world.entities.add(new EntitySquare(world, 1, 1));
 	}
 

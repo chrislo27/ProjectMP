@@ -29,14 +29,17 @@ public class World {
 	Block[][] blocks;
 	int[][] meta;
 	
+	public boolean isServer = false;
+	
 	public Array<Particle> particles;
 	public Array<Entity> entities;
 	
-	public World(Main main, int x, int y) {
+	public World(Main main, int x, int y, boolean server) {
 		this.main = main;
 		batch = main.batch;
 		sizex = x;
 		sizey = y;
+		isServer = server;
 		prepare();
 	}
 
