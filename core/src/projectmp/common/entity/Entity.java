@@ -18,6 +18,7 @@ public abstract class Entity {
 	public float y = 0;
 	public float visualx = x;
 	public float visualy = y;
+	private transient float timeSinceLastUpdate = 0;
 	public float lastx = x;
 	public float lasty = y;
 	public float sizex = 1;
@@ -69,8 +70,11 @@ public abstract class Entity {
 	 * called every render update BEFORE rendering on client only
 	 */
 	public void clientRenderUpdate() {
-		visualx = (lastx - x) * (Gdx.graphics.getDeltaTime() * (Main.MAX_FPS / Main.TICKS));
-		visualy = (lasty - y) * (Gdx.graphics.getDeltaTime() * (Main.MAX_FPS / Main.TICKS));
+		timeSinceLastUpdate += Gdx.graphics.getDeltaTime();
+		visualx += ((x - lastx) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
+		visualy += ((y - lasty) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
+		
+		//Main.logger.debug("real x: " + x + ", visual x: " + visualx);
 	}
 	
 	public void positionUpdate(float newx, float newy){
@@ -78,6 +82,9 @@ public abstract class Entity {
 		lasty = y;
 		x = newx;
 		y = newy;
+		visualx = lastx;
+		visualy = lasty;
+		timeSinceLastUpdate = 0;
 	}
 	
 	/**
