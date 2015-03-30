@@ -26,9 +26,9 @@ public class EntitySquare extends Entity {
 		world.batch.draw(world.main.manager.get(AssetMap.get("money"), Texture.class), x
 				* World.tilesizex - renderer.camera.camerax,
 				Main.convertY(y * World.tilesizey - renderer.camera.cameray) - 32);
-		world.batch.draw(world.main.manager.get(AssetMap.get("particlestar"), Texture.class), visualx
+		world.batch.draw(world.main.manager.get(AssetMap.get("particlestar"), Texture.class), visualX
 				* World.tilesizex - renderer.camera.camerax,
-				Main.convertY(visualy * World.tilesizey - renderer.camera.cameray) - 32);
+				Main.convertY(visualY * World.tilesizey - renderer.camera.cameray) - 32);
 	}
 
 	@Override

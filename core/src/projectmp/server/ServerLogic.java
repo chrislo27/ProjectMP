@@ -39,6 +39,7 @@ public class ServerLogic {
 
 		if (server.getConnections().length > 0) {
 			for (Entity e : world.entities) {
+				if(e.lastTickX == e.x && e.lastTickY == e.y) continue;
 				positionUpdate.entityid = e.uuid;
 				positionUpdate.x = e.x;
 				positionUpdate.y = e.y;

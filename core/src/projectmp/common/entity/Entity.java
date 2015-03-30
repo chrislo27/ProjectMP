@@ -16,11 +16,13 @@ public abstract class Entity {
 	public transient World world;
 	public float x = 0;
 	public float y = 0;
-	public float visualx = x;
-	public float visualy = y;
+	public float visualX = x;
+	public float visualY = y;
 	private transient float timeSinceLastUpdate = 0;
-	public float lastx = x;
-	public float lasty = y;
+	public float lastPacketX = x;
+	public float lastPacketY = y;
+	public float lastTickX = x;
+	public float lastTickY = y;
 	public float sizex = 1;
 	public float sizey = 1;
 	public float velox = 0;
@@ -52,10 +54,10 @@ public abstract class Entity {
 		world = w;
 		x = posx;
 		y = posy;
-		visualx = x;
-		visualy = y;
-		lastx = x;
-		lasty = y;
+		visualX = x;
+		visualY = y;
+		lastPacketX = x;
+		lastPacketY = y;
 		prepare();
 	}
 	
@@ -71,17 +73,17 @@ public abstract class Entity {
 	 */
 	public void clientRenderUpdate() {
 		timeSinceLastUpdate += Gdx.graphics.getDeltaTime();
-		visualx += ((x - lastx) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
-		visualy += ((y - lasty) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
+		visualX += ((x - lastPacketX) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
+		visualY += ((y - lastPacketY) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
 	}
 	
 	public void positionUpdate(float newx, float newy){
-		lastx = x;
-		lasty = y;
+		lastPacketX = x;
+		lastPacketY = y;
 		x = newx;
 		y = newy;
-		visualx = lastx;
-		visualy = lasty;
+		visualX = lastPacketX;
+		visualY = lastPacketY;
 		timeSinceLastUpdate = 0;
 	}
 	
@@ -89,7 +91,9 @@ public abstract class Entity {
 	 * called every tick, before rendering
 	 */
 	public void tickUpdate() {
-
+		lastTickX = x;
+		lastTickY = y;
+		
 		float drag = world.drag * getLowestDrag() * dragCoefficient;
 		if (velox > 0) {
 			velox -= drag / Main.TICKS;
