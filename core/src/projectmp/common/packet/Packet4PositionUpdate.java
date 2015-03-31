@@ -1,6 +1,7 @@
 package projectmp.common.packet;
 
 import projectmp.common.Main;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -22,6 +23,11 @@ public class Packet4PositionUpdate implements Packet {
 		for(int i = 0; i < Main.GAME.world.entities.size; i++){
 			for(int key = 0; key < entityid.length; key++){
 				if(Main.GAME.world.entities.get(i).uuid == entityid[key]){
+					if(Main.GAME.world.entities.get(i) instanceof EntityPlayer){
+						if(((EntityPlayer) Main.GAME.world.entities.get(i)).username.equals(Main.username)){
+							continue;
+						}
+					}
 					Main.GAME.world.entities.get(i).positionUpdate(x[key], y[key]);
 					
 					break;
