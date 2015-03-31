@@ -50,6 +50,9 @@ public abstract class Entity {
 	public float gravityCoefficient = 1;
 	public float bounceCoefficient = 0;
 	
+	public float accspeed = 1.5f; // acceleration blocks/sec
+	public float maxspeed = 1.5f; // speed cap blocks/sec
+	
 	public Entity(World w, float posx, float posy) {
 		world = w;
 		x = posx;
@@ -559,5 +562,53 @@ public abstract class Entity {
 		}
 
 		return null;
+	}
+	
+	public void accelerate(float x, float y, boolean limitSpeed) {
+		if (x > 0) {
+			velox += (x + (world.drag * Gdx.graphics.getDeltaTime()))
+					* Math.max(World.tilepartx, Math.abs(getHighestDrag()));
+			if (limitSpeed) if (velox > maxspeed) velox = maxspeed;
+		} else if (x < 0) {
+			velox += (x - (world.drag * Gdx.graphics.getDeltaTime()))
+					* Math.max(World.tilepartx, Math.abs(getHighestDrag()));
+			if (limitSpeed) if (velox < -maxspeed) velox = -maxspeed;
+		}
+		if (y > 0) {
+			veloy += y + (world.drag * Gdx.graphics.getDeltaTime());
+			// if (dragcalc) if (veloy > maxspeed) veloy = maxspeed;
+		} else if (y < 0) {
+			veloy += y - (world.drag * Gdx.graphics.getDeltaTime());
+			// if (dragcalc) if (veloy < -maxspeed) veloy = -maxspeed;
+		}
+
+	}
+
+	public void accelerate(float x, float y) {
+		accelerate(x, y, false);
+	}
+
+	public void moveUp() {
+		if (getBlockCollidingUp() == null && veloy > -maxspeed) {
+			accelerate(0, -accspeed * Gdx.graphics.getDeltaTime(), true);
+		}
+	}
+
+	public void moveDown() {
+		if (getBlockCollidingDown() == null && veloy < maxspeed) {
+			accelerate(0, accspeed * Gdx.graphics.getDeltaTime(), true);
+		}
+	}
+
+	public void moveLeft() {
+		if (getBlockCollidingLeft() == null && velox > -maxspeed) {
+			accelerate(-accspeed * Gdx.graphics.getDeltaTime(), 0, true);
+		}
+	}
+
+	public void moveRight() {
+		if (getBlockCollidingRight() == null && velox < maxspeed) {
+			accelerate(accspeed * Gdx.graphics.getDeltaTime(), 0, true);
+		}
 	}
 }
