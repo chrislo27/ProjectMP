@@ -17,6 +17,7 @@ public class Packet6InitPlayer implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		thePlayer.world = Main.GAME.world;
 		Main.GAME.player = thePlayer;
 	}
 

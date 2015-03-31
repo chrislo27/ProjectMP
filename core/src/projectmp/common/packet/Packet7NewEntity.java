@@ -17,6 +17,7 @@ public class Packet7NewEntity implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		e.world = Main.GAME.world;
 		Main.GAME.world.entities.add(e);
 	}
 
