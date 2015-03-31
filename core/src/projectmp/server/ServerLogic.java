@@ -119,6 +119,10 @@ public class ServerLogic {
 		
 		if(p != null){
 			world.entities.removeValue(p, false);
+			
+			for(Connection c : server.getConnections()){
+				sendEntities(c);
+			}
 		}
 	}
 	
