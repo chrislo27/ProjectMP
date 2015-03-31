@@ -51,6 +51,8 @@ public class Packet0Handshake implements Packet {
 			connection.close();
 			return;
 		}else if(returner.state == ACCEPTED){
+			// name the connection the player's name
+			connection.setName(username);
 			// send the entire world, and entities
 			logic.sendEntireWorldAndEntities(connection);
 		}
