@@ -1,6 +1,7 @@
 package projectmp.common.packet;
 
 import projectmp.common.Main;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
 import projectmp.server.ServerLogic;
 
@@ -53,9 +54,21 @@ public class Packet0Handshake implements Packet {
 		}else if(returner.state == ACCEPTED){
 			// name the connection the player's name
 			connection.setName(username);
+			
+			// create the new player entity
+			EntityPlayer newPlayer = new EntityPlayer(logic.world, 0, 0);
+			newPlayer.username = username;
+			logic.world.entities.add(newPlayer);
+			
 			// send the entire world, and entities
 			logic.sendEntireWorld(connection);
 			logic.sendEntities(connection);
+			
+			// tell the new client about their new player entity
+			Packet6InitPlayer init = new Packet6InitPlayer();
+			init.thePlayer = newPlayer;
+			
+			connection.sendTCP(init);
 		}
 	}
 
