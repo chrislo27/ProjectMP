@@ -8,7 +8,7 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet8RemoveEntity implements Packet {
 
-	long uuid;
+	public long uuid;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {

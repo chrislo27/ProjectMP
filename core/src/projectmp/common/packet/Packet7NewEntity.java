@@ -9,7 +9,7 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet7NewEntity implements Packet {
 
-	Entity e;
+	public Entity e;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
