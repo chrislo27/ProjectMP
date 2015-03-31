@@ -69,6 +69,11 @@ public class Packet0Handshake implements Packet {
 			init.thePlayer = newPlayer;
 			
 			connection.sendTCP(init);
+			
+			// tell everyone else about the new player
+			Packet7NewEntity everyone = new Packet7NewEntity();
+			everyone.e = newPlayer;
+			logic.server.sendToAllExceptTCP(connection.getID(), everyone);
 		}
 	}
 

@@ -23,7 +23,7 @@ public class ServerLogic {
 
 	public World world = null;
 
-	public int maxplayers = 1;
+	public int maxplayers = 2;
 
 	private Packet4PositionUpdate positionUpdate = new Packet4PositionUpdate();
 	private Packet8RemoveEntity removeEntity = new Packet8RemoveEntity();
