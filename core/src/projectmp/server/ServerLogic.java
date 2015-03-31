@@ -49,7 +49,6 @@ public class ServerLogic {
 			int iter = 0;
 			for (Entity e : world.entities) {
 				if (e.lastTickX == e.x && e.lastTickY == e.y) continue;
-				if(e instanceof EntityPlayer) continue;
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;
