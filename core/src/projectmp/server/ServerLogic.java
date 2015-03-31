@@ -21,7 +21,7 @@ public class ServerLogic {
 	public World world = null;
 
 	public int maxplayers = 1;
-	
+
 	private Packet4PositionUpdate positionUpdate = new Packet4PositionUpdate();
 
 	public ServerLogic(Main m) {
@@ -29,7 +29,8 @@ public class ServerLogic {
 		server = main.server;
 
 		world = new World(main, 16, 16, true);
-		for(int i = 0; i < 1; i++) world.entities.add(new EntitySquare(world, 1, 1));
+		for (int i = 0; i < 1; i++)
+			world.entities.add(new EntitySquare(world, 1, 1));
 	}
 
 	public void tickUpdate() {
@@ -39,7 +40,7 @@ public class ServerLogic {
 
 		if (server.getConnections().length > 0) {
 			for (Entity e : world.entities) {
-				if(e.lastTickX == e.x && e.lastTickY == e.y) continue;
+				if (e.lastTickX == e.x && e.lastTickY == e.y) continue;
 				positionUpdate.entityid = e.uuid;
 				positionUpdate.x = e.x;
 				positionUpdate.y = e.y;
@@ -74,5 +75,13 @@ public class ServerLogic {
 
 			connection.sendTCP(packet);
 		}
+	}
+
+	public int getConnectionIDByName(String name) {
+		for (int i = 0; i < server.getConnections().length; i++) {
+			if (server.getConnections()[i].toString().equals(name)) return server.getConnections()[i]
+					.getID();
+		}
+		return -1;
 	}
 }
