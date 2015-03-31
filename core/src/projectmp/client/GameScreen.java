@@ -3,6 +3,7 @@ package projectmp.client;
 import projectmp.common.Main;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.packet.Packet5PlayerPosUpdate;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -20,6 +21,8 @@ public class GameScreen extends Updateable {
 	public WorldRenderer renderer;
 	
 	public EntityPlayer player;
+	
+	private Packet5PlayerPosUpdate playerUpdate = new Packet5PlayerPosUpdate();
 
 	@Override
 	public void render(float delta) {
@@ -35,25 +38,14 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void renderUpdate() {
+		playerInput();
+		
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			main.client.close();
 			player = null;
 			Main.logger.info("Connection closed");
 			Main.ERRORMSG.setMessage("Disconnected from server: client closed connection");
 			main.setScreen(Main.ERRORMSG);
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			renderer.camera.translate(-8, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			renderer.camera.translate(8, 0);
-		}
-		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			renderer.camera.translate(0, -8);
-		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-			renderer.camera.translate(0, 8);
 		}
 
 		renderer.camera.clamp();
@@ -75,7 +67,29 @@ public class GameScreen extends Updateable {
 		if(player != null){
 			if(main.client.isConnected()){
 				player.tickUpdate();
+				playerUpdate.username = Main.username;
+				playerUpdate.x = player.x;
+				playerUpdate.y = player.y;
+				
+				main.client.sendUDP(playerUpdate);
 			}
+		}
+	}
+	
+	private void playerInput(){
+		if(player == null || !main.client.isConnected()) return;
+		
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			player.moveLeft();
+		}
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			player.moveRight();
+		}
+		if (Gdx.input.isKeyPressed(Keys.UP)) {
+			player.moveUp();
+		}
+		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+			player.moveDown();
 		}
 	}
 
