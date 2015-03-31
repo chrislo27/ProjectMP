@@ -22,6 +22,7 @@ public class ServerListener extends Listener {
 	@Override
 	public void disconnected(Connection connection) {
 		Main.logger.info(connection.toString() + " disconnected");
+		logic.removePlayer(connection.getID());
 	}
 
 	@Override

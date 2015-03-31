@@ -112,4 +112,12 @@ public class ServerLogic {
 		return positionUpdate;
 	}
 	
+	protected void removePlayer(int connectionID){
+		EntityPlayer p = getPlayerByName(getConnectionNameByID(connectionID));
+		
+		if(p != null){
+			world.entities.removeValue(p, false);
+		}
+	}
+	
 }
