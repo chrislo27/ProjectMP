@@ -9,7 +9,7 @@ import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet2BlockUpdate;
 import projectmp.common.packet.Packet3Entities;
 import projectmp.common.packet.Packet4PositionUpdate;
-import projectmp.common.packet.Packet5;
+import projectmp.common.packet.Packet5PlayerPosUpdate;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryo.Kryo;
@@ -34,7 +34,7 @@ public class ClassRegistration {
 		kryo.register(Packet2BlockUpdate.class);
 		kryo.register(Packet3Entities.class);
 		kryo.register(Packet4PositionUpdate.class);
-		kryo.register(Packet5.class);
+		kryo.register(Packet5PlayerPosUpdate.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){
