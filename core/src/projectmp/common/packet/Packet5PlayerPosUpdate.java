@@ -9,8 +9,8 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet5PlayerPosUpdate implements Packet {
 
-	String username;
-	float x, y;
+	public String username;
+	public float x, y;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
