@@ -18,13 +18,15 @@ public class EntityPlayer extends Entity{
 
 	@Override
 	public void prepare() {
+		this.maxspeed = 5f;
+		this.accspeed = maxspeed * 5f;
 	}
 
 	@Override
 	public void render(WorldRenderer renderer) {
-		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), visualX
+		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), x
 				* World.tilesizex - renderer.camera.camerax,
-				Main.convertY(visualY * World.tilesizey - renderer.camera.cameray) - 32);
+				Main.convertY(y * World.tilesizey - renderer.camera.cameray) - 32);
 	}
 
 }
