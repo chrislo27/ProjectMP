@@ -26,6 +26,8 @@ public class ClassRegistration {
 		kryo.register(int[][].class);
 		kryo.register(String[].class);
 		kryo.register(int[].class);
+		kryo.register(long[].class);
+		kryo.register(float[].class);
 		registerPackets(kryo);
 		registerEntities(kryo);
 	}
