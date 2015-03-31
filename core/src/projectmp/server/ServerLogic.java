@@ -8,6 +8,8 @@ import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet3Entities;
 import projectmp.common.packet.Packet4PositionUpdate;
+import projectmp.common.packet.Packet7NewEntity;
+import projectmp.common.packet.Packet8RemoveEntity;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -24,6 +26,8 @@ public class ServerLogic {
 	public int maxplayers = 1;
 
 	private Packet4PositionUpdate positionUpdate = new Packet4PositionUpdate();
+	private Packet8RemoveEntity removeEntity = new Packet8RemoveEntity();
+	private Packet7NewEntity newEntity = new Packet7NewEntity();
 
 	public ServerLogic(Main m) {
 		main = m;
@@ -118,11 +122,10 @@ public class ServerLogic {
 		EntityPlayer p = getPlayerByName(getConnectionNameByID(connectionID));
 		
 		if(p != null){
-			world.entities.removeValue(p, false);
+			removeEntity.uuid = p.uuid;
+			server.sendToAllExceptTCP(connectionID, removeEntity);
 			
-			for(Connection c : server.getConnections()){
-				sendEntities(c);
-			}
+			world.entities.removeValue(p, false);
 		}
 	}
 	
