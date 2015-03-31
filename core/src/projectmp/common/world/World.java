@@ -52,9 +52,7 @@ public class World {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
 				meta[j][k] = 0;
 				
-				blocks[j][k] = Blocks.instance().getBlock("stone");
-				if(j == 0 || j == sizex - 1) blocks[j][k] = Blocks.defaultBlock();
-				if(k == 0 || k == sizey - 1) blocks[j][k] = Blocks.defaultBlock();
+				if(k > 5) blocks[j][k] = Blocks.instance().getBlock("stone");
 			}
 		}
 
