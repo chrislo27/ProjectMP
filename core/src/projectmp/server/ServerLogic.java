@@ -51,7 +51,7 @@ public class ServerLogic {
 		}
 	}
 
-	public void sendEntireWorldAndEntities(Connection connection) {
+	public void sendEntireWorld(Connection connection) {
 		for (int x = 0; x < Math.max(1, world.sizex / 16); x++) {
 			for (int y = 0; y < Math.max(1, world.sizey / 16); y++) {
 				Packet1Chunk chunk = new Packet1Chunk();
@@ -67,7 +67,9 @@ public class ServerLogic {
 				connection.sendTCP(chunk);
 			}
 		}
-
+	}
+	
+	public void sendEntities(Connection connection){
 		if (world.entities.size > 0) {
 			Packet3Entities packet = new Packet3Entities();
 			packet.entities = new Entity[world.entities.size];

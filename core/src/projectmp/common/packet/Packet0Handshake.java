@@ -54,7 +54,8 @@ public class Packet0Handshake implements Packet {
 			// name the connection the player's name
 			connection.setName(username);
 			// send the entire world, and entities
-			logic.sendEntireWorldAndEntities(connection);
+			logic.sendEntireWorld(connection);
+			logic.sendEntities(connection);
 		}
 	}
 
