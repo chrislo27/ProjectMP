@@ -3,6 +3,7 @@ package projectmp.server;
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet3Entities;
@@ -41,6 +42,7 @@ public class ServerLogic {
 		if (server.getConnections().length > 0) {
 			for (Entity e : world.entities) {
 				if (e.lastTickX == e.x && e.lastTickY == e.y) continue;
+				if(e instanceof EntityPlayer) continue;
 				positionUpdate.entityid = e.uuid;
 				positionUpdate.x = e.x;
 				positionUpdate.y = e.y;
@@ -84,4 +86,30 @@ public class ServerLogic {
 		}
 		return -1;
 	}
+
+	public String getConnectionNameByID(int id) {
+		for (int i = 0; i < server.getConnections().length; i++) {
+			if (server.getConnections()[i].getID() == id) return server.getConnections()[i]
+					.toString();
+		}
+		return null;
+	}
+
+	public EntityPlayer getPlayerByName(String name) {
+		for (int i = 0; i < world.entities.size; i++) {
+			Entity e = world.entities.get(i);
+			if (e instanceof EntityPlayer) {
+				if (((EntityPlayer) e).username.equals(name)) {
+					return (EntityPlayer) e;
+				}
+			}
+		}
+
+		return null;
+	}
+	
+	public Packet4PositionUpdate getSharedPosUpdatePacket(){
+		return positionUpdate;
+	}
+	
 }
