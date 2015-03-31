@@ -11,8 +11,8 @@ import projectmp.common.packet.Packet3Entities;
 import projectmp.common.packet.Packet4PositionUpdate;
 import projectmp.common.packet.Packet5PlayerPosUpdate;
 import projectmp.common.packet.Packet6InitPlayer;
-import projectmp.common.packet.Packet7;
-import projectmp.common.packet.Packet8;
+import projectmp.common.packet.Packet7NewEntity;
+import projectmp.common.packet.Packet8RemoveEntity;
 import projectmp.common.packet.Packet9;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -39,8 +39,8 @@ public class ClassRegistration {
 		kryo.register(Packet4PositionUpdate.class);
 		kryo.register(Packet5PlayerPosUpdate.class);
 		kryo.register(Packet6InitPlayer.class);
-		kryo.register(Packet7.class);
-		kryo.register(Packet8.class);
+		kryo.register(Packet7NewEntity.class);
+		kryo.register(Packet8RemoveEntity.class);
 		kryo.register(Packet9.class);
 	}
 	
