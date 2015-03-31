@@ -34,14 +34,10 @@ public class ServerLogic {
 		server = main.server;
 
 		world = new World(main, 16, 16, true);
-		for (int i = 0; i < 1; i++)
-			world.entities.add(new EntitySquare(world, 1, 1));
 	}
 
 	public void tickUpdate() {
 		world.tickUpdate();
-		world.entities.get(0).x = (Gdx.input.getX() / 64f);
-		world.entities.get(0).y = (Gdx.input.getY() / 64f);
 
 		if (server.getConnections().length > 0) {
 			for (Entity e : world.entities) {
