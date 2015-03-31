@@ -3,6 +3,7 @@ package projectmp.client;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -40,8 +41,10 @@ public class WorldRenderer {
 		}
 		
 		for(Entity e : world.entities){
+			if(e instanceof EntityPlayer) continue;
 			e.render(this);
 		}
+		if(Main.GAME.player != null) Main.GAME.player.render(this);
 		batch.end();
 	}
 
