@@ -2,11 +2,11 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.MathUtils;
 
 public class GameScreen extends Updateable {
 
@@ -17,8 +17,9 @@ public class GameScreen extends Updateable {
 	}
 
 	public World world;
-
 	public WorldRenderer renderer;
+	
+	public EntityPlayer player;
 
 	@Override
 	public void render(float delta) {
@@ -36,6 +37,7 @@ public class GameScreen extends Updateable {
 	public void renderUpdate() {
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			main.client.close();
+			player = null;
 			Main.logger.info("Connection closed");
 			Main.ERRORMSG.setMessage("Disconnected from server: client closed connection");
 			main.setScreen(Main.ERRORMSG);
@@ -65,10 +67,16 @@ public class GameScreen extends Updateable {
 		this.world = world;
 		renderer.world = world;
 		renderer.camera.setWorld(world);
+		
 	}
 
 	@Override
 	public void tickUpdate() {
+		if(player != null){
+			if(main.client.isConnected()){
+				player.tickUpdate();
+			}
+		}
 	}
 
 	@Override
