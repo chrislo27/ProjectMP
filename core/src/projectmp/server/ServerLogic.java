@@ -46,8 +46,9 @@ public class ServerLogic {
 				positionUpdate.entityid = e.uuid;
 				positionUpdate.x = e.x;
 				positionUpdate.y = e.y;
+
+				server.sendToAllUDP(positionUpdate);
 			}
-			server.sendToAllUDP(positionUpdate);
 		}
 	}
 
