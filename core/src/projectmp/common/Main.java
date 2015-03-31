@@ -71,6 +71,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
@@ -102,7 +103,7 @@ public class Main extends Game implements Consumer {
 	public static final String version = "v0.1.0-alpha";
 	public static String githubVersion = null;
 	
-	public static String username = "Player";
+	public static String username = "Player" + MathUtils.random(9001);
 
 	public AssetManager manager;
 
