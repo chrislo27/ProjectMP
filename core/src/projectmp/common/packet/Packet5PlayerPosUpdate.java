@@ -23,9 +23,9 @@ public class Packet5PlayerPosUpdate implements Packet {
 		p.y = y;
 		
 		Packet4PositionUpdate shared = logic.getSharedPosUpdatePacket();
-		shared.entityid = p.uuid;
-		shared.x = p.x;
-		shared.y = p.y;
+		shared.entityid[0] = p.uuid;
+		shared.x[0] = p.x;
+		shared.y[0] = p.y;
 		
 		logic.server.sendToAllExceptUDP(connection.getID(), shared);
 	}

@@ -39,16 +39,25 @@ public class ServerLogic {
 	public void tickUpdate() {
 		world.tickUpdate();
 
-		if (server.getConnections().length > 0) {
+		if (server.getConnections().length > 0 && world.entities.size > 0) {
+			if(positionUpdate.entityid.length < world.entities.size){
+				positionUpdate.entityid = new long[world.entities.size];
+				positionUpdate.x = new float[world.entities.size];
+				positionUpdate.y = new float[world.entities.size];
+			}
+			
+			int iter = 0;
 			for (Entity e : world.entities) {
 				if (e.lastTickX == e.x && e.lastTickY == e.y) continue;
 				if(e instanceof EntityPlayer) continue;
-				positionUpdate.entityid = e.uuid;
-				positionUpdate.x = e.x;
-				positionUpdate.y = e.y;
+				positionUpdate.entityid[iter] = e.uuid;
+				positionUpdate.x[iter] = e.x;
+				positionUpdate.y[iter] = e.y;
 
-				server.sendToAllUDP(positionUpdate);
+				iter++;
 			}
+			
+			server.sendToAllUDP(positionUpdate);
 		}
 	}
 

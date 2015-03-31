@@ -8,8 +8,9 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class Packet4PositionUpdate implements Packet {
 
-	public long entityid;
-	public float x, y;
+	public long[] entityid = new long[1];
+	public float[] x = new float[1];
+	public float[] y = new float[1];
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -19,10 +20,12 @@ public class Packet4PositionUpdate implements Packet {
 	public void actionClient(Connection connection, Main main) {
 		if(Main.GAME.world == null) return;
 		for(int i = 0; i < Main.GAME.world.entities.size; i++){
-			if(Main.GAME.world.entities.get(i).uuid == entityid){
-				Main.GAME.world.entities.get(i).positionUpdate(x, y);
-				//Main.logger.debug("found " + entityid + " at pos " + x + ", " + y);
-				break;
+			for(int key = 0; key < entityid.length; key++){
+				if(Main.GAME.world.entities.get(i).uuid == entityid[key]){
+					Main.GAME.world.entities.get(i).positionUpdate(x[key], y[key]);
+					
+					break;
+				}
 			}
 		}
 	}
