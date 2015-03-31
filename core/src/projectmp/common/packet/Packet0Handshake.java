@@ -74,6 +74,8 @@ public class Packet0Handshake implements Packet {
 			Packet7NewEntity everyone = new Packet7NewEntity();
 			everyone.e = newPlayer;
 			logic.server.sendToAllExceptTCP(connection.getID(), everyone);
+			
+			Main.logger.info("Finished handshake for " + username + " (" + connection.getRemoteAddressTCP().toString() + ")");
 		}
 	}
 

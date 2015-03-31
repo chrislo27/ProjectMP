@@ -31,8 +31,8 @@ public class GameScreen extends Updateable {
 		renderer.renderHUD();
 
 		main.batch.begin();
-		main.font.draw(main.batch, "x, y: " + renderer.camera.camerax + ", "
-				+ renderer.camera.cameray, 5, Main.convertY(100));
+		main.font.draw(main.batch, "x, y: " + player.x + ", "
+				+ player.y, 5, Main.convertY(100));
 		main.batch.end();
 	}
 

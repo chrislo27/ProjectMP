@@ -32,6 +32,11 @@ public class Packet5PlayerPosUpdate implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		if(username.equals(Main.username)){
+			if(Main.GAME.player != null){
+				Main.GAME.player.positionUpdate(x, y);
+			}
+		}
 	}
 
 }

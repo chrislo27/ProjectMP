@@ -4,15 +4,14 @@ import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet3Entities;
 import projectmp.common.packet.Packet4PositionUpdate;
+import projectmp.common.packet.Packet5PlayerPosUpdate;
 import projectmp.common.packet.Packet7NewEntity;
 import projectmp.common.packet.Packet8RemoveEntity;
 import projectmp.common.world.World;
 
-import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 
@@ -26,6 +25,7 @@ public class ServerLogic {
 	public int maxplayers = 2;
 
 	private Packet4PositionUpdate positionUpdate = new Packet4PositionUpdate();
+	private Packet5PlayerPosUpdate updatePlayer = new Packet5PlayerPosUpdate();
 	private Packet8RemoveEntity removeEntity = new Packet8RemoveEntity();
 	private Packet7NewEntity newEntity = new Packet7NewEntity();
 
@@ -49,6 +49,17 @@ public class ServerLogic {
 			int iter = 0;
 			for (Entity e : world.entities) {
 				if (e.lastTickX == e.x && e.lastTickY == e.y) continue;
+				if(e instanceof EntityPlayer){
+					updatePlayer.username = ((EntityPlayer) e).username;
+					updatePlayer.x = e.x;
+					updatePlayer.y = e.y;
+					
+					int connid = getConnectionIDByName(((EntityPlayer) e).username);
+					if(connid != -1){
+						server.sendToAllExceptUDP(connid, updatePlayer);
+					}
+					continue;
+				}
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;

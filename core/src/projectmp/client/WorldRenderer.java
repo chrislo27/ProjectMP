@@ -41,8 +41,12 @@ public class WorldRenderer {
 		}
 		
 		for(Entity e : world.entities){
+			if(e instanceof EntityPlayer){
+				if(((EntityPlayer) e).username.equals(Main.username)) continue;
+			}
 			e.render(this);
 		}
+		if(Main.GAME.player != null) Main.GAME.player.render(this);
 		batch.end();
 	}
 
