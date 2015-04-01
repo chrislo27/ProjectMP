@@ -16,6 +16,8 @@ public class GameScreen extends Updateable {
 
 		renderer = new WorldRenderer(main, world);
 	}
+	
+	public static long latency = System.currentTimeMillis();
 
 	public World world;
 	public WorldRenderer renderer;
