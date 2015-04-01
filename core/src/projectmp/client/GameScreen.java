@@ -16,8 +16,6 @@ public class GameScreen extends Updateable {
 
 		renderer = new WorldRenderer(main, world);
 	}
-	
-	public static long latency = System.currentTimeMillis();
 
 	public World world;
 	public WorldRenderer renderer;
@@ -31,11 +29,6 @@ public class GameScreen extends Updateable {
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
-
-		main.batch.begin();
-		main.font.draw(main.batch, "x, y: " + player.x + ", "
-				+ player.y, 5, Main.convertY(100));
-		main.batch.end();
 	}
 
 	@Override
@@ -97,6 +90,7 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void renderDebug(int starting) {
+		main.font.draw(main.batch, "latency (ms): " + ClientListener.latency, 5, Main.convertY(starting));
 	}
 
 	@Override
