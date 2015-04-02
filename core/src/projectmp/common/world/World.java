@@ -10,6 +10,7 @@ import projectmp.common.util.Particle;
 import projectmp.common.util.QuadTree;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
@@ -69,7 +70,8 @@ public class World {
 	
 	public void tickUpdate(){
 		if(isServer){
-			for(Entity e : entities){
+			for(int i = 0; i < entities.size; i++){
+				Entity e = entities.get(i);
 				e.tickUpdate();
 			}
 		}else{
@@ -86,6 +88,16 @@ public class World {
 		quadlist.clear();
 		quadtree.retrieve(quadlist, e);
 		return quadlist;
+	}
+	
+	public long getUniqueUUID(){
+		long id = MathUtils.random(Long.MIN_VALUE, Long.MAX_VALUE);
+		for(int i = 0; i < entities.size; i++){
+			if(entities.get(i).uuid == id){
+				return getUniqueUUID();
+			}
+		}
+		return id;
 	}
 	
 	public Block getBlock(int x, int y) {

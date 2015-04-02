@@ -61,6 +61,7 @@ public abstract class Entity implements Sizeable{
 		visualY = y;
 		lastPacketX = x;
 		lastPacketY = y;
+		if(world != null) uuid = world.getUniqueUUID();
 		prepare();
 	}
 	
