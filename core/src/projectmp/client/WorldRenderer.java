@@ -40,7 +40,8 @@ public class WorldRenderer {
 			}
 		}
 		
-		for(Entity e : world.entities){
+		for(int i = 0; i < world.entities.size; i++){
+			Entity e = world.entities.get(i);
 			if(e instanceof EntityPlayer){
 				if(((EntityPlayer) e).username.equals(Main.username)) continue;
 			}
