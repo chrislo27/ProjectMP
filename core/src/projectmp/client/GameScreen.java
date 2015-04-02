@@ -20,15 +20,35 @@ public class GameScreen extends Updateable {
 	public World world;
 	public WorldRenderer renderer;
 	
-	public EntityPlayer player;
-	
 	private Packet5PlayerPosUpdate playerUpdate = new Packet5PlayerPosUpdate();
+	
+	private int playerIndex = -1;
 
 	@Override
 	public void render(float delta) {
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
+	}
+	
+	public EntityPlayer getPlayer(){
+		if(world == null) return null;
+		if(world.entities.size == 0) return null;
+		if(playerIndex >= world.entities.size || playerIndex == -1) updatePlayerIndex();
+		
+		return (EntityPlayer) world.entities.get(playerIndex);
+	}
+	
+	private void updatePlayerIndex(){
+		playerIndex = -1;
+		for(int i = 0; i < world.entities.size; i++){
+			if(world.entities.get(i) instanceof EntityPlayer){
+				if(((EntityPlayer) world.entities.get(i)).username.equals(Main.username)){
+					playerIndex = i;
+					return;
+				}
+			}
+		}
 	}
 
 	@Override
@@ -37,7 +57,6 @@ public class GameScreen extends Updateable {
 		
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			main.client.close();
-			player = null;
 			Main.logger.info("Connection closed");
 			Main.ERRORMSG.setMessage("Disconnected from server: client closed connection");
 			main.setScreen(Main.ERRORMSG);
@@ -59,12 +78,12 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void tickUpdate() {
-		if(player != null){
+		if(getPlayer() != null){
 			if(main.client.isConnected()){
-				player.tickUpdate();
+				getPlayer().tickUpdate();
 				playerUpdate.username = Main.username;
-				playerUpdate.x = player.x;
-				playerUpdate.y = player.y;
+				playerUpdate.x = getPlayer().x;
+				playerUpdate.y = getPlayer().y;
 				
 				main.client.sendUDP(playerUpdate);
 			}
@@ -72,25 +91,26 @@ public class GameScreen extends Updateable {
 	}
 	
 	private void playerInput(){
-		if(player == null || !main.client.isConnected()) return;
+		if(getPlayer() == null || !main.client.isConnected()) return;
 		
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			player.moveLeft();
+			getPlayer().moveLeft();
 		}
 		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			player.moveRight();
+			getPlayer().moveRight();
 		}
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			player.moveUp();
+			getPlayer().moveUp();
 		}
 		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-			player.moveDown();
+			getPlayer().moveDown();
 		}
 	}
 
 	@Override
 	public void renderDebug(int starting) {
-		main.font.draw(main.batch, "latency (ms): " + ClientListener.latency, 5, Main.convertY(starting));
+		main.font.draw(main.batch, "latency INCORRECT (ms): " + ClientListener.latency, 5, Main.convertY(starting));
+		if(world != null) main.font.draw(main.batch, "entities: " + world.entities.size, 5, Main.convertY(starting + 15));
 	}
 
 	@Override

@@ -60,15 +60,9 @@ public class Packet0Handshake implements Packet {
 			newPlayer.username = username;
 			logic.world.entities.add(newPlayer);
 			
-			// send the entire world, and entities
+			// send the entire world, and entities (includes player)
 			logic.sendEntireWorld(connection);
 			logic.sendEntities(connection);
-			
-			// tell the new client about their new player entity
-			Packet6InitPlayer init = new Packet6InitPlayer();
-			init.thePlayer = newPlayer;
-			
-			connection.sendTCP(init);
 			
 			// tell everyone else about the new player
 			Packet7NewEntity everyone = new Packet7NewEntity();

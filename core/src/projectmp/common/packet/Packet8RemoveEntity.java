@@ -19,6 +19,7 @@ public class Packet8RemoveEntity implements Packet {
 		for(int i = 0; i < Main.GAME.world.entities.size; i++){
 			if(Main.GAME.world.entities.get(i).uuid == uuid){
 				Main.GAME.world.entities.removeIndex(i);
+				Main.logger.debug("removed entity " + uuid);
 				return;
 			}
 		}

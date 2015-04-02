@@ -10,7 +10,6 @@ import projectmp.common.packet.Packet2BlockUpdate;
 import projectmp.common.packet.Packet3Entities;
 import projectmp.common.packet.Packet4PositionUpdate;
 import projectmp.common.packet.Packet5PlayerPosUpdate;
-import projectmp.common.packet.Packet6InitPlayer;
 import projectmp.common.packet.Packet7NewEntity;
 import projectmp.common.packet.Packet8RemoveEntity;
 import projectmp.common.packet.Packet9;
@@ -40,7 +39,6 @@ public class ClassRegistration {
 		kryo.register(Packet3Entities.class);
 		kryo.register(Packet4PositionUpdate.class);
 		kryo.register(Packet5PlayerPosUpdate.class);
-		kryo.register(Packet6InitPlayer.class);
 		kryo.register(Packet7NewEntity.class);
 		kryo.register(Packet8RemoveEntity.class);
 		kryo.register(Packet9.class);

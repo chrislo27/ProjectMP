@@ -46,7 +46,7 @@ public class WorldRenderer {
 			}
 			e.render(this);
 		}
-		if(Main.GAME.player != null) Main.GAME.player.render(this);
+		if(Main.GAME.getPlayer() != null) Main.GAME.getPlayer().render(this);
 		batch.end();
 	}
 

@@ -139,7 +139,7 @@ public class ServerLogic {
 		
 		if(p != null){
 			removeEntity.uuid = p.uuid;
-			server.sendToAllExceptTCP(connectionID, removeEntity);
+			server.sendToAllTCP(removeEntity);
 			
 			world.entities.removeValue(p, false);
 		}

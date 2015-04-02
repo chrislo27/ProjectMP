@@ -18,7 +18,6 @@ public abstract class Entity {
 	public float y = 0;
 	public float visualX = x;
 	public float visualY = y;
-	private transient float timeSinceLastUpdate = 0;
 	public float lastPacketX = x;
 	public float lastPacketY = y;
 	public float lastTickX = x;
@@ -75,9 +74,8 @@ public abstract class Entity {
 	 * called every render update BEFORE rendering on client only
 	 */
 	public void clientRenderUpdate() {
-		timeSinceLastUpdate += Gdx.graphics.getDeltaTime();
-		visualX += ((x - lastPacketX) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
-		visualY += ((y - lastPacketY) / timeSinceLastUpdate * Gdx.graphics.getDeltaTime());
+		visualX += ((x - visualX) / 5);
+		visualY += ((y - visualY) / 5);
 	}
 	
 	public void positionUpdate(float newx, float newy){
@@ -87,7 +85,6 @@ public abstract class Entity {
 		y = newy;
 		visualX = lastPacketX;
 		visualY = lastPacketY;
-		timeSinceLastUpdate = 0;
 	}
 	
 	/**
