@@ -91,7 +91,7 @@ public class World {
 	}
 	
 	public long getUniqueUUID(){
-		long id = MathUtils.random(Long.MIN_VALUE, Long.MAX_VALUE);
+		long id = MathUtils.random(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1);
 		for(int i = 0; i < entities.size; i++){
 			if(entities.get(i).uuid == id){
 				return getUniqueUUID();
