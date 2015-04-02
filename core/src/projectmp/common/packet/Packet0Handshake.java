@@ -44,32 +44,34 @@ public class Packet0Handshake implements Packet {
 		}
 
 		connection.sendTCP(returner);
-		
+
 		if (returner.state == REJECTED) {
 			Main.logger.info("Kicking " + connection.toString() + " ("
 					+ connection.getRemoteAddressTCP().toString() + ") for: "
 					+ returner.rejectReason);
 			connection.close();
 			return;
-		}else if(returner.state == ACCEPTED){
+		} else if (returner.state == ACCEPTED) {
 			// name the connection the player's name
 			connection.setName(username);
-			
+
 			// create the new player entity
 			EntityPlayer newPlayer = new EntityPlayer(logic.world, 0, 0);
 			newPlayer.username = username;
 			logic.world.entities.add(newPlayer);
-			
+
 			// send the entire world, and entities (includes player)
 			logic.sendEntireWorld(connection);
 			logic.sendEntities(connection);
-			
+
 			// tell everyone else about the new player
 			Packet7NewEntity everyone = new Packet7NewEntity();
 			everyone.e = newPlayer;
 			logic.server.sendToAllExceptTCP(connection.getID(), everyone);
-			
-			Main.logger.info("Finished handshake for " + username + " (" + connection.getRemoteAddressTCP().toString() + ")");
+
+			Main.logger.info("Finished handshake for " + username + " ("
+					+ connection.getRemoteAddressTCP().toString() + ", conn. name is "
+					+ connection.toString() + ")");
 		}
 	}
 
