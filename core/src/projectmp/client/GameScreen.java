@@ -73,7 +73,7 @@ public class GameScreen extends Updateable {
 		this.world = world;
 		renderer.world = world;
 		renderer.camera.setWorld(world);
-		
+		this.world.isServer = false;
 	}
 
 	@Override

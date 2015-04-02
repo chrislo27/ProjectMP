@@ -32,7 +32,7 @@ public class World {
 	Block[][] blocks;
 	int[][] meta;
 	
-	public boolean isServer = false;
+	public transient boolean isServer = false;
 	
 	public Array<Particle> particles;
 	public Array<Entity> entities;
