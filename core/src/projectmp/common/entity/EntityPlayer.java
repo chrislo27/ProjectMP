@@ -20,6 +20,9 @@ public class EntityPlayer extends Entity{
 	public void prepare() {
 		this.maxspeed = 5f;
 		this.accspeed = maxspeed * 5f;
+		this.sizex = 0.5f;
+		this.sizey = 0.5f;
+		this.hasEntityCollision = true;
 	}
 
 	@Override
@@ -27,11 +30,11 @@ public class EntityPlayer extends Entity{
 		if(username.equals(Main.username)){
 			world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), x
 					* World.tilesizex - renderer.camera.camerax,
-					Main.convertY(y * World.tilesizey - renderer.camera.cameray) - 32);
+					Main.convertY(y * World.tilesizey - renderer.camera.cameray) + 32);
 		}else{
 			world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), visualX
 					* World.tilesizex - renderer.camera.camerax,
-					Main.convertY(visualY * World.tilesizey - renderer.camera.cameray) - 32);
+					Main.convertY(visualY * World.tilesizey - renderer.camera.cameray) + 32);
 		}
 	}
 
