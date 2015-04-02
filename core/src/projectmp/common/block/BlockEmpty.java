@@ -16,7 +16,7 @@ public class BlockEmpty extends Block {
 	@Override
 	public void render(WorldRenderer world, int x, int y) {
 		world.batch.setColor(Main.getRainbow(System.currentTimeMillis() - (x * 50) - (y * 50), 1f,
-				0.25f));
+				0.5f));
 		world.main.fillRect(x * World.tilesizex - world.camera.camerax,
 				Main.convertY(y * World.tilesizey - world.camera.cameray), World.tilesizex,
 				World.tilesizey);
