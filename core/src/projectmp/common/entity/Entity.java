@@ -6,12 +6,13 @@ import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.block.BlockEmpty;
 import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
+import projectmp.common.util.Sizeable;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 
-public abstract class Entity {
+public abstract class Entity implements Sizeable{
 
 	public transient World world;
 	public float x = 0;
@@ -608,4 +609,25 @@ public abstract class Entity {
 			accelerate(accspeed * Gdx.graphics.getDeltaTime(), 0, true);
 		}
 	}
+
+	@Override
+	public float getX() {
+		return x;
+	}
+
+	@Override
+	public float getY() {
+		return y;
+	}
+
+	@Override
+	public float getWidth() {
+		return sizex;
+	}
+
+	@Override
+	public float getHeight() {
+		return sizey;
+	}
+
 }
