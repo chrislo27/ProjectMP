@@ -42,8 +42,8 @@ public class WorldRenderer {
 		
 		for(int i = 0; i < world.entities.size; i++){
 			Entity e = world.entities.get(i);
-			if(e instanceof EntityPlayer){
-				if(((EntityPlayer) e).username.equals(Main.username)) continue;
+			if(e == Main.GAME.getPlayer()){
+				continue;
 			}
 			e.render(this);
 		}
