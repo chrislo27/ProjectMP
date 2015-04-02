@@ -134,12 +134,13 @@ public class ServerLogic {
 		return positionUpdate;
 	}
 	
-	protected void removePlayer(int connectionID){
-		EntityPlayer p = getPlayerByName(getConnectionNameByID(connectionID));
+	protected void removePlayer(String name){
+		EntityPlayer p = getPlayerByName(name);
 		
 		if(p != null){
 			removeEntity.uuid = p.uuid;
 			server.sendToAllTCP(removeEntity);
+			Main.logger.debug("Removed player " + p.username + " on server");
 			
 			world.entities.removeValue(p, false);
 		}
