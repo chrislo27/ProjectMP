@@ -333,8 +333,7 @@ public abstract class Entity implements Sizeable{
 	}
 
 	public Entity getEntityCollidingUp() {
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (Entity e : world.getQuadArea(this)) {
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (x * World.tilesizex + sizex * World.tilesizex)) > ((int) (e.x * World.tilesizex))
 						&& ((int) (x * World.tilesizex)) < ((int) (e.x * World.tilesizex + e.sizex
@@ -351,8 +350,7 @@ public abstract class Entity implements Sizeable{
 	}
 
 	public Entity getEntityCollidingDown() {
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (Entity e : world.getQuadArea(this)) {
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (x * World.tilesizex + sizex * World.tilesizex)) > ((int) (e.x * World.tilesizex))
 						&& ((int) (x * World.tilesizex)) < ((int) (e.x * World.tilesizex + e.sizex
@@ -369,9 +367,7 @@ public abstract class Entity implements Sizeable{
 	}
 
 	public Entity getEntityCollidingLeft() {
-
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (Entity e : world.getQuadArea(this)) {
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (y * World.tilesizey + sizey * World.tilesizey)) > ((int) (e.y * World.tilesizey))
 						&& ((int) (y * World.tilesizey)) < ((int) (e.y * World.tilesizey + e.sizey
@@ -388,9 +384,7 @@ public abstract class Entity implements Sizeable{
 	}
 
 	public Entity getEntityCollidingRight() {
-
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (Entity e : world.getQuadArea(this)) {
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (y * World.tilesizey + sizey * World.tilesizey)) > ((int) (e.y * World.tilesizey))
 						&& ((int) (y * World.tilesizey)) < ((int) (e.y * World.tilesizey + e.sizey
@@ -551,7 +545,7 @@ public abstract class Entity implements Sizeable{
 
 	public Entity entityColliding() {
 		if (!hasEntityCollision) return null;
-		for (Entity e : world.entities) {
+		for (Entity e : world.getQuadArea(this)) {
 			if (intersectingOther(e)) {
 				if (!e.hasEntityCollision) continue;
 				if (e == this) continue;

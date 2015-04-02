@@ -1,13 +1,16 @@
 package projectmp.common.world;
 
+import java.util.ArrayList;
+
 import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.util.Particle;
+import projectmp.common.util.QuadTree;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 
@@ -34,6 +37,9 @@ public class World {
 	public Array<Particle> particles;
 	public Array<Entity> entities;
 	
+	public QuadTree quadtree;
+	private ArrayList<Entity> quadlist = new ArrayList<Entity>();
+	
 	public World(Main main, int x, int y, boolean server) {
 		this.main = main;
 		batch = main.batch;
@@ -58,12 +64,28 @@ public class World {
 
 		entities = new Array<Entity>(32);
 		particles = new Array<Particle>();
+		quadtree = new QuadTree(1, new Rectangle(0f, 0f, sizex, sizey));
 	}
 	
 	public void tickUpdate(){
-		for(Entity e : entities){
-			e.tickUpdate();
+		if(isServer){
+			for(Entity e : entities){
+				e.tickUpdate();
+			}
+		}else{
+			
 		}
+		
+		quadtree.clear();
+		for(int i = 0; i < entities.size; i++){
+			quadtree.insert(entities.get(i));
+		}
+	}
+	
+	public ArrayList<Entity> getQuadArea(Entity e){
+		quadlist.clear();
+		quadtree.retrieve(quadlist, e);
+		return quadlist;
 	}
 	
 	public Block getBlock(int x, int y) {
