@@ -22,8 +22,8 @@ public class ConnectingScreen extends MessageScreen{
 			setMessage("Connected to server; sending handshake");
 			
 			Packet0Handshake handshake = new Packet0Handshake();
-			handshake.username = Main.username;
-			handshake.version = Main.version;
+			handshake.username = Main.username + "";
+			handshake.version = Main.version + "";
 			main.client.sendTCP(handshake);
 		} catch (IOException e) {
 			e.printStackTrace();
