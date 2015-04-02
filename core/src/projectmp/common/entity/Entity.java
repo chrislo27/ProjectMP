@@ -77,6 +77,9 @@ public abstract class Entity implements Sizeable{
 	public void clientRenderUpdate() {
 		visualX += ((x - visualX) / 5);
 		visualY += ((y - visualY) / 5);
+		
+		if(Math.abs(x - visualX) <= World.tilepartx) visualX = x;
+		if(Math.abs(y - visualY) <= World.tileparty) visualY = y;
 	}
 	
 	public void positionUpdate(float newx, float newy){
