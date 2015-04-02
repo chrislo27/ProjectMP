@@ -88,6 +88,7 @@ public class GameScreen extends Updateable {
 				main.client.sendUDP(playerUpdate);
 			}
 		}
+		world.tickUpdate();
 	}
 	
 	private void playerInput(){
