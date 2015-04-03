@@ -24,7 +24,9 @@ public class Blocks {
 
 	private void loadResources() {
 		put(defaultBlock, new BlockEmpty());
-		put("stone", new Block().solidify(BlockFaces.ALL));
+		put("stone", new BlockStone().solidify(BlockFaces.ALL));
+		put("dirt", new BlockDirt().solidify(BlockFaces.ALL));
+		put("grass", new BlockGrass().solidify(BlockFaces.ALL));
 	}
 
 	private void put(String key, Block value) {
