@@ -3,7 +3,7 @@ package projectmp.client;
 import projectmp.common.Main;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.packet.Packet5PlayerPosUpdate;
+import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -20,7 +20,7 @@ public class GameScreen extends Updateable {
 	public World world;
 	public WorldRenderer renderer;
 	
-	private Packet5PlayerPosUpdate playerUpdate = new Packet5PlayerPosUpdate();
+	private PacketPlayerPosUpdate playerUpdate = new PacketPlayerPosUpdate();
 	
 	private int playerIndex = -1;
 

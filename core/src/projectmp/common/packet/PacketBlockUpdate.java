@@ -1,16 +1,18 @@
 package projectmp.common.packet;
 
 import projectmp.common.Main;
-import projectmp.common.entity.Entity;
+import projectmp.common.block.Blocks;
 import projectmp.server.ServerLogic;
 
-import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 
 
-public class Packet3Entities implements Packet {
+public class PacketBlockUpdate implements Packet {
 
-	public Entity[] entities;
+	String block;
+	int meta;
+	
+	int x, y = 0;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -18,10 +20,8 @@ public class Packet3Entities implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
-		Main.GAME.world.entities = new Array(entities);
-		for(Entity e : Main.GAME.world.entities){
-			e.world = Main.GAME.world;
-		}
+		Main.GAME.world.setBlock(Blocks.instance().getBlock(block), x, y);
+		Main.GAME.world.setMeta(meta, x, y);
 	}
 
 }

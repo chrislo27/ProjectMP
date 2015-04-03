@@ -7,7 +7,7 @@ import projectmp.server.ServerLogic;
 import com.esotericsoftware.kryonet.Connection;
 
 
-public class Packet5PlayerPosUpdate implements Packet {
+public class PacketPlayerPosUpdate implements Packet {
 
 	public String username;
 	public float x, y;
@@ -22,7 +22,7 @@ public class Packet5PlayerPosUpdate implements Packet {
 		p.x = x;
 		p.y = y;
 		
-		Packet4PositionUpdate shared = logic.getSharedPosUpdatePacket();
+		PacketPositionUpdate shared = logic.getSharedPosUpdatePacket();
 		shared.entityid[0] = p.uuid;
 		shared.x[0] = p.x;
 		shared.y[0] = p.y;

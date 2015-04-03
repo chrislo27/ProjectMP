@@ -4,13 +4,13 @@ import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.packet.Packet1Chunk;
-import projectmp.common.packet.Packet3Entities;
-import projectmp.common.packet.Packet4PositionUpdate;
-import projectmp.common.packet.Packet5PlayerPosUpdate;
-import projectmp.common.packet.Packet7NewEntity;
-import projectmp.common.packet.Packet8RemoveEntity;
-import projectmp.common.packet.Packet9BeginChunkTransfer;
+import projectmp.common.packet.PacketSendChunk;
+import projectmp.common.packet.PacketEntities;
+import projectmp.common.packet.PacketPositionUpdate;
+import projectmp.common.packet.PacketPlayerPosUpdate;
+import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketRemoveEntity;
+import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.world.World;
 import projectmp.server.networking.ChunkQueueSender;
 
@@ -27,10 +27,10 @@ public class ServerLogic {
 
 	public int maxplayers = 2;
 
-	private Packet4PositionUpdate positionUpdate = new Packet4PositionUpdate();
-	private Packet5PlayerPosUpdate updatePlayer = new Packet5PlayerPosUpdate();
-	private Packet8RemoveEntity removeEntity = new Packet8RemoveEntity();
-	private Packet7NewEntity newEntity = new Packet7NewEntity();
+	private PacketPositionUpdate positionUpdate = new PacketPositionUpdate();
+	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();
+	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
+	private PacketNewEntity newEntity = new PacketNewEntity();
 
 	public ServerLogic(Main m) {
 		main = m;
@@ -75,13 +75,13 @@ public class ServerLogic {
 	}
 
 	public void sendEntireWorld(Connection connection) {
-		Array<Packet1Chunk> queue = new Array<Packet1Chunk>(Math.max(1, world.sizex / 16) + Math.max(1, world.sizey / 16));
+		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16) + Math.max(1, world.sizey / 16));
 		
-		connection.sendTCP(new Packet9BeginChunkTransfer());
+		connection.sendTCP(new PacketBeginChunkTransfer());
 		
 		for (int x = 0; x < Math.max(1, world.sizex / 16); x++) {
 			for (int y = 0; y < Math.max(1, world.sizey / 16); y++) {
-				Packet1Chunk chunk = new Packet1Chunk();
+				PacketSendChunk chunk = new PacketSendChunk();
 				chunk.originx = x * 16;
 				chunk.originy = y * 16;
 				for (int cx = 0; cx < (16) && (cx + x * 16) < world.sizex; cx++) {
@@ -101,7 +101,7 @@ public class ServerLogic {
 	
 	public void sendEntities(Connection connection){
 		if (world.entities.size > 0) {
-			Packet3Entities packet = new Packet3Entities();
+			PacketEntities packet = new PacketEntities();
 			packet.entities = new Entity[world.entities.size];
 			for (int i = 0; i < packet.entities.length; i++) {
 				packet.entities[i] = world.entities.get(i);
@@ -140,7 +140,7 @@ public class ServerLogic {
 		return null;
 	}
 	
-	public Packet4PositionUpdate getSharedPosUpdatePacket(){
+	public PacketPositionUpdate getSharedPosUpdatePacket(){
 		return positionUpdate;
 	}
 	

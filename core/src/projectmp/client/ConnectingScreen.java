@@ -3,7 +3,7 @@ package projectmp.client;
 import java.io.IOException;
 
 import projectmp.common.Main;
-import projectmp.common.packet.Packet0Handshake;
+import projectmp.common.packet.PacketHandshake;
 
 
 public class ConnectingScreen extends MessageScreen{
@@ -24,7 +24,7 @@ public class ConnectingScreen extends MessageScreen{
 			Main.logger.info("Successfully connected to " + host + ":" + port);
 			setMessage("Connected to server; sending handshake");
 			
-			Packet0Handshake handshake = new Packet0Handshake();
+			PacketHandshake handshake = new PacketHandshake();
 			handshake.username = Main.username + "";
 			handshake.version = Main.version + "";
 			main.client.sendTCP(handshake);

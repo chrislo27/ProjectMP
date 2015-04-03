@@ -1,8 +1,8 @@
 package projectmp.server.networking;
 
 import projectmp.common.Main;
-import projectmp.common.packet.Packet10EndChunkTransfer;
-import projectmp.common.packet.Packet1Chunk;
+import projectmp.common.packet.PacketEndChunkTransfer;
+import projectmp.common.packet.PacketSendChunk;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
@@ -11,11 +11,11 @@ import com.esotericsoftware.kryonet.util.TcpIdleSender;
 
 public class ChunkQueueSender extends TcpIdleSender {
 
-	Array<Packet1Chunk> chunks;
+	Array<PacketSendChunk> chunks;
 	Connection connection;
 	private boolean finalChunkSent = false;
 	
-	public ChunkQueueSender(Array<Packet1Chunk> list, Connection c){
+	public ChunkQueueSender(Array<PacketSendChunk> list, Connection c){
 		chunks = list;
 		connection = c;
 	}
@@ -26,7 +26,7 @@ public class ChunkQueueSender extends TcpIdleSender {
 		if(chunks.size <= 0){
 			if(!finalChunkSent){
 				finalChunkSent = true;
-				return new Packet10EndChunkTransfer();
+				return new PacketEndChunkTransfer();
 			}else{
 				return null;
 			}

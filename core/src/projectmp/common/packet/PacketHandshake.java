@@ -7,7 +7,7 @@ import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
-public class Packet0Handshake implements Packet {
+public class PacketHandshake implements Packet {
 
 	public static final int ACCEPTED = 1;
 	public static final int REQUEST = 2;
@@ -19,18 +19,18 @@ public class Packet0Handshake implements Packet {
 	String rejectReason = "unknown reason";
 	int worldsizex, worldsizey;
 
-	public Packet0Handshake() {
+	public PacketHandshake() {
 
 	}
 
-	private void reject(String reason, Packet0Handshake returner) {
+	private void reject(String reason, PacketHandshake returner) {
 		returner.state = REJECTED;
 		returner.rejectReason = reason;
 	}
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
-		Packet0Handshake returner = new Packet0Handshake();
+		PacketHandshake returner = new PacketHandshake();
 		returner.state = ACCEPTED;
 		returner.worldsizex = logic.world.sizex;
 		returner.worldsizey = logic.world.sizey;
@@ -65,7 +65,7 @@ public class Packet0Handshake implements Packet {
 			logic.sendEntities(connection);
 
 			// tell everyone else about the new player
-			Packet7NewEntity everyone = new Packet7NewEntity();
+			PacketNewEntity everyone = new PacketNewEntity();
 			everyone.e = newPlayer;
 			logic.server.sendToAllExceptTCP(connection.getID(), everyone);
 

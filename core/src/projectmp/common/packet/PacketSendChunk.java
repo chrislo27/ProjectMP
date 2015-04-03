@@ -7,7 +7,7 @@ import projectmp.server.ServerLogic;
 import com.esotericsoftware.kryonet.Connection;
 
 
-public class Packet1Chunk implements Packet{
+public class PacketSendChunk implements Packet{
 
 	public String[][] blocks = new String[16][16];
 	public int[][] meta = new int[16][16];

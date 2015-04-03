@@ -8,7 +8,7 @@ import projectmp.server.ServerLogic;
 import com.esotericsoftware.kryonet.Connection;
 
 
-public class Packet4PositionUpdate implements Packet {
+public class PacketPositionUpdate implements Packet {
 
 	public long[] entityid = new long[1];
 	public float[] x = new float[1];

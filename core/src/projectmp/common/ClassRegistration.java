@@ -4,17 +4,16 @@ import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet;
-import projectmp.common.packet.Packet0Handshake;
-import projectmp.common.packet.Packet10EndChunkTransfer;
-import projectmp.common.packet.Packet1Chunk;
-import projectmp.common.packet.Packet2BlockUpdate;
-import projectmp.common.packet.Packet3Entities;
-import projectmp.common.packet.Packet4PositionUpdate;
-import projectmp.common.packet.Packet5PlayerPosUpdate;
-import projectmp.common.packet.Packet7NewEntity;
-import projectmp.common.packet.Packet8RemoveEntity;
-import projectmp.common.packet.Packet6;
-import projectmp.common.packet.Packet9BeginChunkTransfer;
+import projectmp.common.packet.PacketEntities;
+import projectmp.common.packet.PacketPositionUpdate;
+import projectmp.common.packet.PacketPlayerPosUpdate;
+import projectmp.common.packet.PacketBeginChunkTransfer;
+import projectmp.common.packet.PacketBlockUpdate;
+import projectmp.common.packet.PacketEndChunkTransfer;
+import projectmp.common.packet.PacketHandshake;
+import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketRemoveEntity;
+import projectmp.common.packet.PacketSendChunk;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -35,17 +34,16 @@ public class ClassRegistration {
 	
 	private static void registerPackets(Kryo kryo){
 		kryo.register(Packet.class);
-		kryo.register(Packet0Handshake.class);
-		kryo.register(Packet1Chunk.class);
-		kryo.register(Packet2BlockUpdate.class);
-		kryo.register(Packet3Entities.class);
-		kryo.register(Packet4PositionUpdate.class);
-		kryo.register(Packet5PlayerPosUpdate.class);
-		kryo.register(Packet6.class);
-		kryo.register(Packet7NewEntity.class);
-		kryo.register(Packet8RemoveEntity.class);
-		kryo.register(Packet9BeginChunkTransfer.class);
-		kryo.register(Packet10EndChunkTransfer.class);
+		kryo.register(PacketHandshake.class);
+		kryo.register(PacketSendChunk.class);
+		kryo.register(PacketBlockUpdate.class);
+		kryo.register(PacketEntities.class);
+		kryo.register(PacketPositionUpdate.class);
+		kryo.register(PacketPlayerPosUpdate.class);
+		kryo.register(PacketNewEntity.class);
+		kryo.register(PacketRemoveEntity.class);
+		kryo.register(PacketBeginChunkTransfer.class);
+		kryo.register(PacketEndChunkTransfer.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){
