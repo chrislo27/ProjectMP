@@ -23,8 +23,8 @@ public class PacketSendChunk implements Packet{
 	public void actionClient(Connection connection, Main main) {
 		for(int x = 0; x < 16; x++){
 			for(int y = 0; y < 16; y++){
-				Main.GAME.world.setBlock(Blocks.instance().getBlock(blocks[x][y]), x, y);
-				Main.GAME.world.setMeta(meta[x][y], x, y);
+				Main.GAME.world.setBlock(Blocks.instance().getBlock(blocks[x][y]), originx + x, originy + y);
+				Main.GAME.world.setMeta(meta[x][y], originx + x, originy + y);
 			}
 		}
 		
