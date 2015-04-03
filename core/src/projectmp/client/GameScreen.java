@@ -55,17 +55,18 @@ public class GameScreen extends Updateable {
 	public void renderUpdate() {
 		playerInput();
 		
+		if(getPlayer() != null) renderer.camera.centerOn(getPlayer().x, getPlayer().y);
+		renderer.camera.clamp();
+		
+		for(Entity e : world.entities){
+			e.clientRenderUpdate();
+		}
+		
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			main.client.close();
 			Main.logger.info("Connection closed");
 			Main.ERRORMSG.setMessage("Disconnected from server: client closed connection");
 			main.setScreen(Main.ERRORMSG);
-		}
-
-		renderer.camera.clamp();
-		
-		for(Entity e : world.entities){
-			e.clientRenderUpdate();
 		}
 	}
 

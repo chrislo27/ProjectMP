@@ -79,7 +79,7 @@ public class Packet0Handshake implements Packet {
 	public void actionClient(Connection connection, Main main) {
 		if (state == ACCEPTED) {
 			Main.GAME.newWorld(new World(main, worldsizex, worldsizey, false));
-			Main.CONNECTING.setMessage("Handshake completed");
+			Main.CONNECTING.setMessage("Receiving world data: ");
 		} else if (state == REJECTED) {
 			Main.ERRORMSG.setMessage("Failed to connect:\n" + rejectReason);
 			main.setScreen(Main.ERRORMSG);

@@ -10,8 +10,11 @@ import projectmp.common.packet.Packet4PositionUpdate;
 import projectmp.common.packet.Packet5PlayerPosUpdate;
 import projectmp.common.packet.Packet7NewEntity;
 import projectmp.common.packet.Packet8RemoveEntity;
+import projectmp.common.packet.Packet9BeginChunkTransfer;
 import projectmp.common.world.World;
+import projectmp.server.networking.ChunkQueueSender;
 
+import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
 
@@ -33,7 +36,7 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 
-		world = new World(main, 16, 16, true);
+		world = new World(main, 128, 64, true);
 	}
 
 	public void tickUpdate() {
@@ -72,6 +75,10 @@ public class ServerLogic {
 	}
 
 	public void sendEntireWorld(Connection connection) {
+		Array<Packet1Chunk> queue = new Array<Packet1Chunk>(Math.max(1, world.sizex / 16) + Math.max(1, world.sizey / 16));
+		
+		connection.sendTCP(new Packet9BeginChunkTransfer());
+		
 		for (int x = 0; x < Math.max(1, world.sizex / 16); x++) {
 			for (int y = 0; y < Math.max(1, world.sizey / 16); y++) {
 				Packet1Chunk chunk = new Packet1Chunk();
@@ -84,9 +91,12 @@ public class ServerLogic {
 						chunk.meta[cx][cy] = world.getMeta((cx + x * 16), (cy + y * 16));
 					}
 				}
-				connection.sendTCP(chunk);
+
+				queue.add(chunk);
 			}
 		}
+		
+		connection.addListener(new ChunkQueueSender(queue, connection));
 	}
 	
 	public void sendEntities(Connection connection){
