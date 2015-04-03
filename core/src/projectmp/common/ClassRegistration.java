@@ -5,6 +5,7 @@ import projectmp.common.entity.EntityPlayer;
 import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.Packet0Handshake;
+import projectmp.common.packet.Packet10EndChunkTransfer;
 import projectmp.common.packet.Packet1Chunk;
 import projectmp.common.packet.Packet2BlockUpdate;
 import projectmp.common.packet.Packet3Entities;
@@ -13,6 +14,7 @@ import projectmp.common.packet.Packet5PlayerPosUpdate;
 import projectmp.common.packet.Packet7NewEntity;
 import projectmp.common.packet.Packet8RemoveEntity;
 import projectmp.common.packet.Packet6;
+import projectmp.common.packet.Packet9BeginChunkTransfer;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -42,6 +44,8 @@ public class ClassRegistration {
 		kryo.register(Packet6.class);
 		kryo.register(Packet7NewEntity.class);
 		kryo.register(Packet8RemoveEntity.class);
+		kryo.register(Packet9BeginChunkTransfer.class);
+		kryo.register(Packet10EndChunkTransfer.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){
