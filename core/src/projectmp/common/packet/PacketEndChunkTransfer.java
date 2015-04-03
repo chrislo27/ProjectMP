@@ -14,6 +14,7 @@ public class PacketEndChunkTransfer implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		Main.logger.info("Finished receiving chunk data from the server");
 		main.setScreen(Main.GAME);
 	}
 
