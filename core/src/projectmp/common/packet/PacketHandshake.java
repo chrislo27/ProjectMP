@@ -18,6 +18,7 @@ public class PacketHandshake implements Packet {
 	public String username = null;
 	String rejectReason = "unknown reason";
 	int worldsizex, worldsizey;
+	long seed;
 
 	public PacketHandshake() {
 
@@ -34,6 +35,7 @@ public class PacketHandshake implements Packet {
 		returner.state = ACCEPTED;
 		returner.worldsizex = logic.world.sizex;
 		returner.worldsizey = logic.world.sizey;
+		returner.seed = logic.world.seed;
 
 		if (!version.equalsIgnoreCase(Main.version)) {
 			reject("Incompatible versions (server is " + Main.version + ")", returner);
@@ -78,7 +80,7 @@ public class PacketHandshake implements Packet {
 	@Override
 	public void actionClient(Connection connection, Main main) {
 		if (state == ACCEPTED) {
-			Main.GAME.newWorld(new World(main, worldsizex, worldsizey, false));
+			Main.GAME.newWorld(new World(main, worldsizex, worldsizey, false, seed));
 			Main.CONNECTING.setMessage("Receiving world data: ");
 		} else if (state == REJECTED) {
 			Main.ERRORMSG.setMessage("Failed to connect:\n" + rejectReason);
