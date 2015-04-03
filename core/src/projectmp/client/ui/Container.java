@@ -37,14 +37,20 @@ public class Container {
 		return false;
 	}
 
+	public boolean onKeyTyped(char c) {
+		for (GuiElement e : elements) {
+			if (!e.visible()) continue;
+			if (e.onKeyTyped(c)) return true;
+		}
+
+		return false;
+	}
+
 	protected static boolean mouseIn(GuiElement e) {
 		if (!e.visible()) return false;
-		if (Main.getInputX() >= e.getX()
-				&& Main.getInputX() <= (e.getX())
-						+ (e.getWidth())) {
+		if (Main.getInputX() >= e.getX() && Main.getInputX() <= (e.getX()) + (e.getWidth())) {
 			if (Settings.DEFAULT_HEIGHT - Main.getInputY() >= e.getY()
-					&& Settings.DEFAULT_HEIGHT - Main.getInputY() <= (e.getY())
-							+ (e.getHeight())) {
+					&& Settings.DEFAULT_HEIGHT - Main.getInputY() <= (e.getY()) + (e.getHeight())) {
 				return true;
 			}
 		}

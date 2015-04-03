@@ -513,6 +513,7 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("guilanguage", "images/ui/button/language.png"), Texture.class);
 		manager.load(AssetMap.add("guisettings", "images/ui/button/settings.png"), Texture.class);
 		manager.load(AssetMap.add("guibg", "images/ui/button/bg.png"), Texture.class);
+		manager.load(AssetMap.add("guibgtext", "images/ui/button/bg-textfield.png"), Texture.class);
 		manager.load(AssetMap.add("guislider", "images/ui/button/slider.png"), Texture.class);
 		manager.load(AssetMap.add("guisliderarrow", "images/ui/button/sliderarrow.png"),
 				Texture.class);

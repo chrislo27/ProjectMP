@@ -8,12 +8,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Button implements GuiElement {
+public class Button extends GuiElement {
 
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
 	public String text;
 
 	/**
@@ -60,26 +56,6 @@ public class Button implements GuiElement {
 		main.drawCentered(text, x + (width / 2),
 				y + (height / 2) + (main.font.getBounds(text).height / 2));
 		main.font.setScale(1f);
-	}
-
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
-	}
-
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
 	}
 
 	@Override

@@ -27,6 +27,10 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean keyTyped(char character) {
+		if (main.getScreen() != null) {
+			if (((Updateable) main.getScreen()).container.onKeyTyped(character)) return true;
+		}
+
 		return false;
 	}
 

@@ -8,12 +8,8 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Slider implements GuiElement {
+public class Slider extends GuiElement {
 
-	protected int x;
-	protected int y;
-	protected int width;
-	protected int height;
 	public float slider = 0;
 
 	private boolean grabbed = false;
@@ -60,26 +56,6 @@ public class Slider implements GuiElement {
 	@Override
 	public boolean visible() {
 		return true;
-	}
-
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
-	}
-
-	@Override
-	public int getWidth() {
-		return width;
-	}
-
-	@Override
-	public int getHeight() {
-		return height;
 	}
 
 	@Override
