@@ -27,6 +27,8 @@ public class PacketSendChunk implements Packet{
 				Main.GAME.world.setMeta(meta[x][y], x, y);
 			}
 		}
+		
+		Main.WORLDGETTING.addPercent();
 	}
 
 }

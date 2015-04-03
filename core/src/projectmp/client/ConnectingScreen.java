@@ -11,11 +11,8 @@ public class ConnectingScreen extends MessageScreen{
 	public ConnectingScreen(Main m) {
 		super(m);
 	}
-
-	public float percentReceived = 0f;
 	
 	public void connectTo(String host, int port){
-		percentReceived = 0;
 		setMessage("Closing client (if still connected)");
 		main.client.close();
 		setMessage("Attempting to connect to " + host + ":" + port);

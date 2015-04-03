@@ -28,6 +28,7 @@ import projectmp.client.MessageScreen;
 import projectmp.client.MiscLoadingScreen;
 import projectmp.client.SettingsScreen;
 import projectmp.client.Updateable;
+import projectmp.client.WorldGettingScreen;
 import projectmp.client.animation.Animation;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.client.transition.Transition;
@@ -116,6 +117,7 @@ public class Main extends Game implements Consumer {
 	public static GameScreen GAME = null;
 	public static ErrorScreen ERRORMSG = null;
 	public static ConnectingScreen CONNECTING = null;
+	public static WorldGettingScreen WORLDGETTING = null;
 
 	public static Texture filltex;
 
@@ -283,6 +285,7 @@ public class Main extends Game implements Consumer {
 		GAME = new GameScreen(this);
 		ERRORMSG = new ErrorScreen(this);
 		CONNECTING = new ConnectingScreen(this);
+		WORLDGETTING = new WorldGettingScreen(this);
 	}
 
 	@Override
@@ -327,6 +330,7 @@ public class Main extends Game implements Consumer {
 		GAME.dispose();
 		ERRORMSG.dispose();
 		CONNECTING.dispose();
+		WORLDGETTING.dispose();
 	}
 
 	private void preRender() {

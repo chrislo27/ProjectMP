@@ -77,8 +77,6 @@ public class ServerLogic {
 	public void sendEntireWorld(Connection connection) {
 		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16) + Math.max(1, world.sizey / 16));
 		
-		connection.sendTCP(new PacketBeginChunkTransfer());
-		
 		for (int x = 0; x < Math.max(1, world.sizex / 16); x++) {
 			for (int y = 0; y < Math.max(1, world.sizey / 16); y++) {
 				PacketSendChunk chunk = new PacketSendChunk();
@@ -95,6 +93,8 @@ public class ServerLogic {
 				queue.add(chunk);
 			}
 		}
+		
+		connection.sendTCP(new PacketBeginChunkTransfer(1.0f / queue.size));
 		
 		connection.addListener(new ChunkQueueSender(queue, connection));
 	}

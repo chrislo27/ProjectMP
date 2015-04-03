@@ -14,6 +14,7 @@ public class PacketEndChunkTransfer implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
+		main.setScreen(Main.GAME);
 	}
 
 }
