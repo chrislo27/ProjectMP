@@ -19,9 +19,9 @@ public class GameScreen extends Updateable {
 
 	public World world;
 	public WorldRenderer renderer;
-	
+
 	private PacketPlayerPosUpdate playerUpdate = new PacketPlayerPosUpdate();
-	
+
 	private int playerIndex = -1;
 
 	@Override
@@ -30,20 +30,20 @@ public class GameScreen extends Updateable {
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
 	}
-	
-	public EntityPlayer getPlayer(){
-		if(world == null) return null;
-		if(world.entities.size == 0) return null;
-		if(playerIndex >= world.entities.size || playerIndex == -1) updatePlayerIndex();
-		
+
+	public EntityPlayer getPlayer() {
+		if (world == null) return null;
+		if (world.entities.size == 0) return null;
+		if (playerIndex >= world.entities.size || playerIndex == -1) updatePlayerIndex();
+
 		return (EntityPlayer) world.entities.get(playerIndex);
 	}
-	
-	private void updatePlayerIndex(){
+
+	private void updatePlayerIndex() {
 		playerIndex = -1;
-		for(int i = 0; i < world.entities.size; i++){
-			if(world.entities.get(i) instanceof EntityPlayer){
-				if(((EntityPlayer) world.entities.get(i)).username.equals(Main.username)){
+		for (int i = 0; i < world.entities.size; i++) {
+			if (world.entities.get(i) instanceof EntityPlayer) {
+				if (((EntityPlayer) world.entities.get(i)).username.equals(Main.username)) {
 					playerIndex = i;
 					return;
 				}
@@ -54,14 +54,11 @@ public class GameScreen extends Updateable {
 	@Override
 	public void renderUpdate() {
 		playerInput();
-		
-		if(getPlayer() != null) renderer.camera.centerOn(getPlayer().x, getPlayer().y);
-		renderer.camera.clamp();
-		
-		for(Entity e : world.entities){
+
+		for (Entity e : world.entities) {
 			e.clientRenderUpdate();
 		}
-		
+
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			main.client.close();
 			Main.logger.info("Connection closed");
@@ -79,22 +76,27 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void tickUpdate() {
-		if(getPlayer() != null){
-			if(main.client.isConnected()){
+		if (getPlayer() != null) {
+			if (main.client.isConnected()) {
 				getPlayer().tickUpdate();
 				playerUpdate.username = Main.username;
 				playerUpdate.x = getPlayer().x;
 				playerUpdate.y = getPlayer().y;
-				
+
 				main.client.sendUDP(playerUpdate);
 			}
+			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
+					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);
+
+			renderer.camera.clamp();
+			renderer.camera.update();
 		}
 		world.tickUpdate();
 	}
-	
-	private void playerInput(){
-		if(getPlayer() == null || !main.client.isConnected()) return;
-		
+
+	private void playerInput() {
+		if (getPlayer() == null || !main.client.isConnected()) return;
+
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			getPlayer().moveLeft();
 		}
@@ -111,8 +113,10 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void renderDebug(int starting) {
-		main.font.draw(main.batch, "latency INCORRECT (ms): " + ClientListener.latency, 5, Main.convertY(starting));
-		if(world != null) main.font.draw(main.batch, "entities: " + world.entities.size, 5, Main.convertY(starting + 15));
+		main.font.draw(main.batch, "latency INCORRECT (ms): " + ClientListener.latency, 5,
+				Main.convertY(starting));
+		if (world != null) main.font.draw(main.batch, "entities: " + world.entities.size, 5,
+				Main.convertY(starting + 15));
 	}
 
 	@Override
