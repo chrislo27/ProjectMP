@@ -21,7 +21,7 @@ public class WorldGettingScreen extends MessageScreen{
 	
 	@Override
 	public String getRenderMessage(){
-		return getMessage() + String.format("%.1f", percentReceived) + "%";
+		return getMessage() + String.format("%.1f", percentReceived * 100f) + "%";
 	}
 
 }
