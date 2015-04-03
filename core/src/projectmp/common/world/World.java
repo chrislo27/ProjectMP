@@ -8,6 +8,7 @@ import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.util.Particle;
 import projectmp.common.util.QuadTree;
+import projectmp.common.util.SimplexNoise;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
@@ -17,8 +18,8 @@ import com.badlogic.gdx.utils.Array;
 
 public class World {
 
-	public static final int tilesizex = 64;
-	public static final int tilesizey = 64;
+	public static final int tilesizex = 32;
+	public static final int tilesizey = 32;
 	public static final float tilepartx = 1.0f / tilesizex;
 	public static final float tileparty = 1.0f / tilesizey;
 	
@@ -41,12 +42,16 @@ public class World {
 	public QuadTree quadtree;
 	private ArrayList<Entity> quadlist = new ArrayList<Entity>();
 	
-	public World(Main main, int x, int y, boolean server) {
+	public SimplexNoise noiseGen;
+	public long seed = System.currentTimeMillis();
+	
+	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;
 		batch = main.batch;
 		sizex = x;
 		sizey = y;
 		isServer = server;
+		this.seed = seed;
 		prepare();
 	}
 
@@ -58,14 +63,14 @@ public class World {
 			for (int k = 0; k < sizey; k++) {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
 				meta[j][k] = 0;
-				
-				if(k > 5) blocks[j][k] = Blocks.instance().getBlock("stone");
 			}
 		}
 
 		entities = new Array<Entity>(32);
 		particles = new Array<Particle>();
 		quadtree = new QuadTree(1, new Rectangle(0f, 0f, sizex, sizey));
+		
+		noiseGen = new SimplexNoise(seed);
 	}
 	
 	public void tickUpdate(){
@@ -98,6 +103,48 @@ public class World {
 			}
 		}
 		return id;
+	}
+	
+	public void generate(){
+		float hillCoeff = 8f;
+		
+		for(int x = 0; x < sizex; x++){
+			for(int y = Math.round(hillCoeff * 2); y < sizey; y++){
+				setBlock(Blocks.instance().getBlock("stone"), x, y);
+			}
+		}
+		
+		for(int i = 0; i < sizex; i++){
+			double noise = noiseGen.eval(i * 0.15f, -1 * 0.15f);
+			int actualHeight = (int) Math.round(noise * hillCoeff);
+			
+			for(int y = actualHeight + (sizey / 4); y >= actualHeight + 10; y--){
+				setBlock(Blocks.instance().getBlock("dirt"), i, y);
+			}
+			
+			setBlock(Blocks.instance().getBlock("grass"), i, actualHeight + 10);
+		}
+		
+		float caveStart = 0.4f;
+		for(int x = 0; x < sizex; x++){
+			for(int y = Math.round(hillCoeff * 2); y < sizey; y++){
+				float noise = (float) noiseGen.eval(x * 0.1f, y * 0.1f);
+				noise = (noise + 1) / 2f;
+				if(noise >= caveStart){
+					setBlock(Blocks.instance().getBlock("empty"), x, y);
+				}
+			}
+		}
+		for(int x = 0; x < sizex; x++){
+			for(int y = 0; y < Math.round(hillCoeff * 2); y++){
+				float noise = (float) noiseGen.eval(x * 0.2f, y * 0.2f);
+				noise = (noise + 1) / 2f;
+				if(noise >= caveStart * 1.2f){
+					setBlock(Blocks.instance().getBlock("empty"), x, y);
+				}
+			}
+		}
+		
 	}
 	
 	public Block getBlock(int x, int y) {

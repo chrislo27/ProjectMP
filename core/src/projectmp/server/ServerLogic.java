@@ -4,16 +4,20 @@ import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.packet.PacketSendChunk;
-import projectmp.common.packet.PacketEntities;
-import projectmp.common.packet.PacketPositionUpdate;
-import projectmp.common.packet.PacketPlayerPosUpdate;
-import projectmp.common.packet.PacketNewEntity;
-import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketBeginChunkTransfer;
+import projectmp.common.packet.PacketEntities;
+import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketPlayerPosUpdate;
+import projectmp.common.packet.PacketPositionUpdate;
+import projectmp.common.packet.PacketRemoveEntity;
+import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.World;
 import projectmp.server.networking.ChunkQueueSender;
 
+import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
@@ -36,7 +40,29 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 
-		world = new World(main, 128, 64, true);
+		world = new World(main, 128, 128, true, System.nanoTime());
+		new Thread(){
+			
+			@Override
+			public void run(){
+				long ms = System.currentTimeMillis();
+				Main.logger.debug("beginning generation");
+				world.generate();
+				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms) + " ms");
+			}
+			
+		}.start();
+		Pixmap pix = new Pixmap(world.sizex, world.sizey, Format.RGBA8888);
+		for(int x = 0; x < world.sizex; x++){
+			for(int y = 0; y < world.sizey; y++){
+				float noise = (float) world.noiseGen.eval(x * 0.1f, y * 0.1f);
+				float range = ((noise + 1) / 2f);
+				pix.setColor(1 * range, 1 * range, 1 * range, 1);
+				pix.drawPixel(x, y);
+			}
+		}
+		PixmapIO.writePNG(new FileHandle("noisemaps/noisemap.png"), pix);
+		pix.dispose();
 	}
 
 	public void tickUpdate() {
