@@ -11,7 +11,7 @@ import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
-import projectmp.common.world.World;
+import projectmp.common.world.ServerWorld;
 import projectmp.server.networking.ChunkQueueSender;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -27,7 +27,7 @@ public class ServerLogic {
 	public Main main;
 	public Server server;
 
-	public World world = null;
+	public ServerWorld world = null;
 
 	public int maxplayers = 2;
 
@@ -40,14 +40,16 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 
-		world = new World(main, 128, 128, true, System.nanoTime());
+		world = new ServerWorld(main, 1028, 512, true, System.nanoTime(), this);
 		new Thread(){
 			
 			@Override
 			public void run(){
 				long ms = System.currentTimeMillis();
 				Main.logger.debug("beginning generation");
+				world.setSendingUpdates(false);
 				world.generate();
+				world.setSendingUpdates(true);
 				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms) + " ms");
 			}
 			
