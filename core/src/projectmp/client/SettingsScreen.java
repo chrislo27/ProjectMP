@@ -150,6 +150,7 @@ public class SettingsScreen extends Updateable {
 
 	@Override
 	public void show() {
+		usernameBox.text = Main.username;
 	}
 
 	@Override
