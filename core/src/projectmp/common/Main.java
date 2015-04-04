@@ -491,6 +491,8 @@ public class Main extends Game implements Consumer {
 				} else if (Gdx.input.isKeyJustPressed(Keys.M)) {
 					ERRORMSG.setMessage("Error: Success");
 					setScreen(ERRORMSG);
+				} else if (Gdx.input.isKeyJustPressed(Keys.N)){
+					Main.username = Main.getRandomUsername();
 				}
 
 			}
