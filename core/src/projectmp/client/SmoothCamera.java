@@ -96,7 +96,7 @@ public class SmoothCamera {
 
 	public void forceCenterOn(float x, float y) {
 		wantedx = x - (Settings.DEFAULT_WIDTH / 2f);
-		wantedy = y - (Gdx.graphics.getHeight() / 2f);
+		wantedy = y - (Settings.DEFAULT_HEIGHT / 2f);
 		camerax = wantedx;
 		cameray = wantedy;
 		velox = 0;
