@@ -10,16 +10,13 @@ public class ClientListener extends Listener {
 
 	Main main;
 
-	public static long latency = 0;
-	private static long timeSinceLastPacket = 0;
-
 	public ClientListener(Main m) {
 		main = m;
 	}
 
 	@Override
 	public void connected(Connection connection) {
-
+		main.client.updateReturnTripTime();
 	}
 
 	@Override
@@ -28,17 +25,11 @@ public class ClientListener extends Listener {
 	}
 
 	@Override
-	/**
-	 * Hands off to another method depending on object type. Also a bit cleaner for code in case a certain packet class type must
-	 * be handled externally
-	 */
 	public void received(Connection connection, Object obj) {
 		if (!(obj instanceof Packet)) return;
 		
+		main.client.updateReturnTripTime();
 		((Packet) obj).actionClient(connection, main);
-		
-		latency = System.currentTimeMillis() - timeSinceLastPacket;
-		timeSinceLastPacket = System.currentTimeMillis();
 	}
 
 }

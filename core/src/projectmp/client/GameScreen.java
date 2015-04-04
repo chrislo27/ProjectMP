@@ -124,7 +124,7 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void renderDebug(int starting) {
-		main.font.draw(main.batch, "latency INCORRECT (ms): " + ClientListener.latency, 5,
+		main.font.draw(main.batch, "latency: " + main.client.getReturnTripTime() + " ms", 5,
 				Main.convertY(starting));
 		if (world != null) main.font.draw(main.batch, "entities: " + world.entities.size, 5,
 				Main.convertY(starting + 15));
