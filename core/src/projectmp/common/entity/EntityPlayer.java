@@ -32,7 +32,7 @@ public class EntityPlayer extends Entity {
 			if(Main.GAME.getPlayer() != this){
 				world.main.font.setColor(1, 1, 1, 1);
 				world.main.drawCentered(username, renderer.convertWorldX(visualX + (sizex / 2)),
-						renderer.convertWorldY(visualY) + 25);
+						renderer.convertWorldY(visualY - sizey) + 20);
 			}
 		}
 	}
