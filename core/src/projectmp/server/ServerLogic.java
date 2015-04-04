@@ -79,7 +79,7 @@ public class ServerLogic {
 			
 			int iter = 0;
 			for (Entity e : world.entities) {
-				if (e.lastTickX == e.x && e.lastTickY == e.y) continue;
+				if (!e.hasMovedLastTick()) continue;
 				if(e instanceof EntityPlayer){
 					updatePlayer.username = ((EntityPlayer) e).username;
 					updatePlayer.x = e.x;

@@ -79,11 +79,14 @@ public class GameScreen extends Updateable {
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
 				getPlayer().tickUpdate();
-				playerUpdate.username = Main.username;
-				playerUpdate.x = getPlayer().x;
-				playerUpdate.y = getPlayer().y;
+				
+				if (getPlayer().hasMovedLastTick()) {
+					playerUpdate.username = Main.username;
+					playerUpdate.x = getPlayer().x;
+					playerUpdate.y = getPlayer().y;
 
-				main.client.sendUDP(playerUpdate);
+					main.client.sendUDP(playerUpdate);
+				}
 			}
 			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
 					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);

@@ -92,6 +92,12 @@ public abstract class Entity implements Sizeable{
 		visualY = lastPacketY;
 	}
 	
+	public boolean hasMovedLastTick(){
+		if(lastTickX == x && lastTickY == y) return false;
+		
+		return true;
+	}
+	
 	/**
 	 * called every tick, before rendering
 	 */
