@@ -104,7 +104,7 @@ public class TextBox extends Button {
 		if(Character.isSurrogate(key)) return false;
 		
 		if ((allowLetters && Character.isLetter(key)) || (allowDigits && Character.isDigit(key))
-				|| (allowSpaces && Character.isWhitespace(key)) || allowSpecial) {
+				|| (allowSpaces && Character.isWhitespace(key)) || allowSpecial || key == '.' || key == ',') {
 			text += key;
 		}
 		return true;
