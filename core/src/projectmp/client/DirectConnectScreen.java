@@ -55,10 +55,13 @@ public class DirectConnectScreen extends Updateable {
 		main.batch.begin();
 		main.drawInverse(Translator.getMsg("menu.player") + Main.username,
 				Settings.DEFAULT_WIDTH - 5, 20);
+		
+		main.drawInverse(Translator.getMsg("menu.connecting.ip"),
+				(Settings.DEFAULT_WIDTH / 2) - 85, 256 + 23);
+		main.drawInverse(Translator.getMsg("menu.connecting.port", Settings.DEFAULT_PORT),
+				(Settings.DEFAULT_WIDTH / 2) - 85, 192 + 23);
+		
 		container.render(main);
-		main.font.setColor(Color.WHITE);
-		main.batch.setColor(1, 1, 1, 1);
-
 		main.batch.end();
 	}
 
