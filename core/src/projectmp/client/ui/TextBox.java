@@ -47,9 +47,9 @@ public class TextBox extends Button {
 				setFocus(false);
 			}
 		}
-		if (Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+		if ((Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) && clicked) {
 			setFocus(false);
-		} else if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE)) {
+		} else if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE) && clicked) {
 			if (text.length() > 0) {
 				text = text.substring(0, text.length() - 1);
 			}
