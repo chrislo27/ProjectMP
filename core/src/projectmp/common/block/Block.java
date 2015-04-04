@@ -16,7 +16,7 @@ public class Block {
 		
 	}
 	
-	public void render(WorldRenderer world, int x, int y){
+	public void render(WorldRenderer renderer, int x, int y){
 		
 	}
 	
