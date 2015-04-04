@@ -16,8 +16,8 @@ public strictfp class MainMenuScreen extends Updateable {
 	public MainMenuScreen(Main m) {
 		super(m);
 
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, 64, 160, 32,
-				"localhost connection") {
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, 128, 160, 32,
+				"menu.singleplayer") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -26,11 +26,12 @@ public strictfp class MainMenuScreen extends Updateable {
 				return true;
 			}
 		});
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, 128, 160, 32,
-				"menu.continue") {
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, 64, 160, 32,
+				"menu.multiplayer") {
 
 			@Override
 			public boolean onLeftClick() {
+				main.setScreen(Main.DIRECTCONNECT);
 				return true;
 			}
 

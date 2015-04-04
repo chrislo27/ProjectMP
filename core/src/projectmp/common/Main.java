@@ -20,6 +20,7 @@ import javax.swing.JTextArea;
 import projectmp.client.AssetLoadingScreen;
 import projectmp.client.ClientListener;
 import projectmp.client.ConnectingScreen;
+import projectmp.client.DirectConnectScreen;
 import projectmp.client.ErrorScreen;
 import projectmp.client.GameScreen;
 import projectmp.client.MainInputProcessor;
@@ -118,6 +119,7 @@ public class Main extends Game implements Consumer {
 	public static ErrorScreen ERRORMSG = null;
 	public static ConnectingScreen CONNECTING = null;
 	public static WorldGettingScreen WORLDGETTING = null;
+	public static DirectConnectScreen DIRECTCONNECT = null;
 
 	public static Texture filltex;
 
@@ -286,6 +288,7 @@ public class Main extends Game implements Consumer {
 		ERRORMSG = new ErrorScreen(this);
 		CONNECTING = new ConnectingScreen(this);
 		WORLDGETTING = new WorldGettingScreen(this);
+		DIRECTCONNECT = new DirectConnectScreen(this);
 	}
 
 	@Override
@@ -331,6 +334,7 @@ public class Main extends Game implements Consumer {
 		ERRORMSG.dispose();
 		CONNECTING.dispose();
 		WORLDGETTING.dispose();
+		DIRECTCONNECT.dispose();
 	}
 
 	private void preRender() {
