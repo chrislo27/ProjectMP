@@ -26,6 +26,8 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void render(float delta) {
+		centerCameraOnPlayer();
+		
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
@@ -88,13 +90,19 @@ public class GameScreen extends Updateable {
 					main.client.sendUDP(playerUpdate);
 				}
 			}
+			
+		}
+		world.tickUpdate();
+	}
+	
+	public void centerCameraOnPlayer(){
+		if(getPlayer() != null){
 			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
 					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);
 
 			renderer.camera.clamp();
 			renderer.camera.update();
 		}
-		world.tickUpdate();
 	}
 
 	private void playerInput() {
