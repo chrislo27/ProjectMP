@@ -26,9 +26,15 @@ public class EntityPlayer extends Entity {
 
 	@Override
 	public void render(WorldRenderer renderer) {
-		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), visualX
-				* World.tilesizex - renderer.camera.camerax,
-				Main.convertY(visualY * World.tilesizey - renderer.camera.cameray));
+		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), renderer.convertWorldX(visualX),
+				renderer.convertWorldY(visualY));
+		if(!world.isServer){
+			if(Main.GAME.getPlayer() != this){
+				world.main.font.setColor(1, 1, 1, 1);
+				world.main.drawCentered(username, renderer.convertWorldX(visualX + (sizex / 2)),
+						renderer.convertWorldY(visualY) + 25);
+			}
+		}
 	}
 
 }
