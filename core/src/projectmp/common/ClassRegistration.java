@@ -2,16 +2,15 @@ package projectmp.common;
 
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.entity.EntitySquare;
 import projectmp.common.packet.Packet;
-import projectmp.common.packet.PacketEntities;
-import projectmp.common.packet.PacketPositionUpdate;
-import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketBlockUpdate;
 import projectmp.common.packet.PacketEndChunkTransfer;
+import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketHandshake;
 import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketPlayerPosUpdate;
+import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 
@@ -49,7 +48,6 @@ public class ClassRegistration {
 	private static void registerEntities(Kryo kryo){
 		kryo.register(Entity.class);
 		kryo.register(EntityPlayer.class);
-		kryo.register(EntitySquare.class);
 	}
 	
 }
