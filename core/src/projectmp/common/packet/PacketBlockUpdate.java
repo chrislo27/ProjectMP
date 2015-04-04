@@ -9,10 +9,11 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class PacketBlockUpdate implements Packet {
 
-	String block;
-	int meta;
+	public String block;
+	public int meta;
 	
-	int x, y = 0;
+	public int x = 0;
+	public int y = 0;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
