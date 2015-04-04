@@ -59,5 +59,13 @@ public class WorldRenderer {
 	protected void changeWorld(World w) {
 		world = w;
 	}
+	
+	public float convertWorldX(float worldX){
+		return worldX * World.tilesizex - camera.camerax;
+	}
+	
+	public float convertWorldY(float worldY){
+		return Main.convertY(worldY * World.tilesizey - camera.cameray);
+	}
 
 }
