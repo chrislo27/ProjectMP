@@ -4,6 +4,7 @@ import projectmp.client.ui.BackButton;
 import projectmp.client.ui.BooleanButton;
 import projectmp.client.ui.LanguageButton;
 import projectmp.client.ui.Slider;
+import projectmp.client.ui.TextBox;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.Translator;
@@ -22,8 +23,8 @@ public class SettingsScreen extends Updateable {
 
 	private void addGuiElements() {
 		container.elements.clear();
-		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37, Gdx.graphics
-				.getHeight() - 37) {
+		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37,
+				Gdx.graphics.getHeight() - 37) {
 
 			@Override
 			public boolean onLeftClick() {
@@ -41,8 +42,7 @@ public class SettingsScreen extends Updateable {
 			public boolean onLeftClick() {
 				super.onLeftClick();
 				Settings.showFPS = !Settings.showFPS;
-				Settings.getPreferences()
-						.putBoolean("showFPS", Settings.showFPS).flush();
+				Settings.getPreferences().putBoolean("showFPS", Settings.showFPS).flush();
 				return true;
 			}
 		}.setState(Settings.showFPS));
@@ -57,6 +57,7 @@ public class SettingsScreen extends Updateable {
 				return true;
 			}
 		}.setState(Settings.showVignette));
+		container.elements.add(usernameBox);
 
 	}
 
@@ -64,9 +65,14 @@ public class SettingsScreen extends Updateable {
 			Gdx.graphics.getHeight() - 192, 160, 32);
 	private Slider sound = new Slider((Settings.DEFAULT_WIDTH / 2) - 80,
 			Gdx.graphics.getHeight() - 240, 160, 32);
+
+	private TextBox usernameBox = new TextBox((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
+			.getHeight() - 144, 160, 32, "" + Main.username).setAllowDigits(true)
+			.setAllowLetters(true).setAllowSpaces(true).setAllowSpecial(false)
+			.setPasswordMode(false);
 	
-	private BooleanButton debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
-			.getHeight() - 332, 160, 32, "menu.settings.debugmode") {
+	private BooleanButton debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
+			Gdx.graphics.getHeight() - 332, 160, 32, "menu.settings.debugmode") {
 
 		@Override
 		public boolean onLeftClick() {
@@ -105,6 +111,8 @@ public class SettingsScreen extends Updateable {
 				Translator.getMsg("menu.settings.soundvol", (int) (sound.slider * 100)),
 				(Settings.DEFAULT_WIDTH / 2) + 80 + (main.font.getSpaceWidth()),
 				Gdx.graphics.getHeight() - 240 + 20);
+		main.drawInverse(Translator.getMsg("menu.settings.username", (int) (sound.slider * 100)),
+				(Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics.getHeight() - 144 + 23);
 
 		main.batch.end();
 	}
@@ -117,12 +125,14 @@ public class SettingsScreen extends Updateable {
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			exitScreen();
 		}
-		
+
 		debug.setState(Settings.debug);
 	}
 
 	private void exitScreen() {
 		main.setScreen(Main.MAINMENU);
+		Main.username = usernameBox.text;
+		Settings.getPreferences().putString("username", Main.username);
 		Settings.instance().save();
 	}
 

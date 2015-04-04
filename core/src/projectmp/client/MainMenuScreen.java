@@ -34,11 +34,6 @@ public strictfp class MainMenuScreen extends Updateable {
 				main.setScreen(Main.DIRECTCONNECT);
 				return true;
 			}
-
-			@Override
-			public boolean visible() {
-				return hasSave;
-			}
 		});
 		container.elements.add(new SettingsButton(5, 5));
 		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37, Gdx.graphics
@@ -52,8 +47,6 @@ public strictfp class MainMenuScreen extends Updateable {
 			}
 		}.useExitTexture());
 	}
-
-	boolean hasSave = false;
 
 	@Override
 	public void render(float delta) {
@@ -104,7 +97,7 @@ public strictfp class MainMenuScreen extends Updateable {
 
 	@Override
 	public void show() {
-		hasSave = main.getPref("settings").getBoolean("saveExists", false);
+		
 	}
 
 	@Override

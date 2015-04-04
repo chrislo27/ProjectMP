@@ -104,8 +104,8 @@ public class Main extends Game implements Consumer {
 
 	public static final String version = "v0.1.0-alpha";
 	public static String githubVersion = null;
-	
-	public static String username = "Player" + MathUtils.random(9001);
+
+	public static String username = getRandomUsername();
 
 	public AssetManager manager;
 
@@ -145,11 +145,6 @@ public class Main extends Game implements Consumer {
 	public Client client;
 	public Server server;
 	public ServerLogic serverLogic;
-	
-	/**
-	 * used for storing progress, level data etc
-	 */
-	public Preferences progress;
 
 	public static final int TICKS = 20;
 	public static final int MAX_FPS = 60;
@@ -172,7 +167,7 @@ public class Main extends Game implements Consumer {
 	@Override
 	public void create() {
 		defaultShader = SpriteBatch.createDefaultShader();
-		progress = getPref("progress");
+		username = Settings.getPreferences().getString("username", getRandomUsername());
 		Gdx.graphics.setTitle(getTitle() + " - " + Splashes.getRandomSplash());
 		redirectSysOut();
 
@@ -209,12 +204,12 @@ public class Main extends Game implements Consumer {
 				true);
 		buffer2 = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
 				true);
-		
+
 		client = new Client();
 		client.addListener(new ClientListener(this));
 		ClassRegistration.registerClasses(client.getKryo());
 		client.start();
-		
+
 		server = new Server();
 		ClassRegistration.registerClasses(server.getKryo());
 		server.start();
@@ -275,6 +270,7 @@ public class Main extends Game implements Consumer {
 				VersionGetter.instance().getVersionFromServer();
 			}
 		}.start();
+
 	}
 
 	public void prepareStates() {
@@ -492,7 +488,7 @@ public class Main extends Game implements Consumer {
 							"This is a forced crash caused by pressing ALT+Q while in debug mode.");
 				} else if (Gdx.input.isKeyJustPressed(Keys.G)) {
 					gears.reset();
-				} else if(Gdx.input.isKeyJustPressed(Keys.M)){
+				} else if (Gdx.input.isKeyJustPressed(Keys.M)) {
 					ERRORMSG.setMessage("Error: Success");
 					setScreen(ERRORMSG);
 				}
@@ -544,10 +540,13 @@ public class Main extends Game implements Consumer {
 				Texture.class);
 		manager.load(AssetMap.add("exityes", "images/ui/exitsign/exityes.png"), Texture.class);
 		manager.load(AssetMap.add("exitno", "images/ui/exitsign/exitno.png"), Texture.class);
-		manager.load(AssetMap.add("objective-failed", "images/ui/objective/failed.png"), Texture.class);
-		manager.load(AssetMap.add("objective-complete", "images/ui/objective/complete.png"), Texture.class);
-		manager.load(AssetMap.add("objective-incomplete", "images/ui/objective/incomplete.png"), Texture.class);
-		
+		manager.load(AssetMap.add("objective-failed", "images/ui/objective/failed.png"),
+				Texture.class);
+		manager.load(AssetMap.add("objective-complete", "images/ui/objective/complete.png"),
+				Texture.class);
+		manager.load(AssetMap.add("objective-incomplete", "images/ui/objective/incomplete.png"),
+				Texture.class);
+
 		// particle
 		manager.load(AssetMap.add("money", "images/particle/money.png"), Texture.class);
 		manager.load(AssetMap.add("checkpoint", "images/particle/checkpoint.png"), Texture.class);
@@ -574,7 +573,8 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("particleflame1", "images/particle/expflame1.png"), Texture.class);
 		manager.load(AssetMap.add("particleflame2", "images/particle/expflame2.png"), Texture.class);
 		manager.load(AssetMap.add("particleflame3", "images/particle/expflame3.png"), Texture.class);
-		manager.load(AssetMap.add("teleporterring", "images/particle/teleporterring.png"), Texture.class);
+		manager.load(AssetMap.add("teleporterring", "images/particle/teleporterring.png"),
+				Texture.class);
 
 		// effects
 		manager.load(AssetMap.add("effecticonblindness", "images/ui/effect/icon/blindness.png"),
@@ -599,7 +599,8 @@ public class Main extends Game implements Consumer {
 				Texture.class);
 		manager.load(AssetMap.add("levelselectdot", "images/levelselect/levelselectdot.png"),
 				Texture.class);
-		manager.load(AssetMap.add("levelselectdotgears", "images/levelselect/levelselectdotgears.png"),
+		manager.load(
+				AssetMap.add("levelselectdotgears", "images/levelselect/levelselectdotgears.png"),
 				Texture.class);
 		manager.load(AssetMap.add("levelselected", "images/levelselect/levelselected.png"),
 				Texture.class);
@@ -611,7 +612,6 @@ public class Main extends Game implements Consumer {
 		// level backgrounds
 		manager.load(AssetMap.add("levelbgcity", "images/levelbg/city.png"), Texture.class);
 		manager.load(AssetMap.add("levelbgcircuit", "images/levelbg/circuit.png"), Texture.class);
-		
 
 		// sfx
 		manager.load(AssetMap.add("questcomplete", "sounds/questcomplete.ogg"), Sound.class);
@@ -619,7 +619,7 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("voidambient", "sounds/ambient/void.ogg"), Sound.class);
 
 		// music
-		
+
 	}
 
 	private void loadUnmanagedAssets() {
@@ -670,6 +670,10 @@ public class Main extends Game implements Consumer {
 		Colors.put("KEY", new Color(0, 204 / 255f, 0, 1)); // green
 	}
 
+	public static String getRandomUsername() {
+		return "Player" + MathUtils.random(9999);
+	}
+
 	private static Vector3 unprojector = new Vector3(0, 0, 0);
 
 	public static int getInputX() {
@@ -677,7 +681,8 @@ public class Main extends Game implements Consumer {
 	}
 
 	public static int getInputY() {
-		return (int) ((camera.unproject(unprojector.set(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), 0)).y));
+		return (int) ((camera.unproject(unprojector.set(Gdx.input.getX(), Gdx.graphics.getHeight()
+				- Gdx.input.getY(), 0)).y));
 	}
 
 	public Texture getCurrentShine() {
@@ -690,8 +695,8 @@ public class Main extends Game implements Consumer {
 
 	@Override
 	public void resize(int x, int y) {
-//		viewport.update(x, y, false);
-//		camera.setToOrtho(false, x, y);
+		// viewport.update(x, y, false);
+		// camera.setToOrtho(false, x, y);
 	}
 
 	public void redirectSysOut() {
@@ -739,9 +744,8 @@ public class Main extends Game implements Consumer {
 	public static Color getRainbow(long ms, float s, float saturation) {
 		return rainbow.set(
 				Utils.HSBtoRGBA8888(
-						(s < 0 ? 1.0f : 0)
-								- MathHelper.getNumberFromTime(ms,
-										Math.abs(s)), saturation, 0.75f)).clamp();
+						(s < 0 ? 1.0f : 0) - MathHelper.getNumberFromTime(ms, Math.abs(s)),
+						saturation, 0.75f)).clamp();
 	}
 
 	public InputMultiplexer getDefaultInput() {
@@ -808,6 +812,7 @@ public class Main extends Game implements Consumer {
 	public void drawInverse(String s, float x, float y) {
 		font.draw(batch, s, x - font.getBounds(s).width, y);
 	}
+
 	public void drawCentered(String s, float x, float y) {
 		font.draw(batch, s, x - (font.getBounds(s).width / 2), y);
 	}
@@ -841,20 +846,14 @@ public class Main extends Game implements Consumer {
 
 	public int getMostMemory = MemoryUtils.getUsedMemory();
 
-	public int getDifficulty() {
-		return progress.getInteger("difficulty", Difficulty.NORMAL_ID);
-	}
-
 	/**
-	 * basically appends "stray-" to the beginning of your preference
-	 * 
-	 * Preferences used: settings, achievements, progress
+	 * basically appends "projectmp-" to the beginning of your preference
 	 * 
 	 * @param ref
 	 * @return preferences
 	 */
 	public static Preferences getPref(String ref) {
-		return Gdx.app.getPreferences("stray-" + ref);
+		return Gdx.app.getPreferences("projectmp-" + ref);
 	}
 
 	public void setClearColor(int r, int g, int b) {
