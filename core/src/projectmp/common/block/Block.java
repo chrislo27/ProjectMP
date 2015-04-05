@@ -24,7 +24,7 @@ public class Block {
 		return this;
 	}
 	
-	public LoopingAnimation newSingleFrameAnimation(String path){
+	public static LoopingAnimation newSingleFrameAnimation(String path){
 		return new LoopingAnimation(1, 1, path, false);
 	}
 	

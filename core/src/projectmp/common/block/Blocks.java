@@ -29,7 +29,7 @@ public class Blocks {
 		put(defaultBlock, new BlockEmpty());
 		put("stone", new BlockStone().solidify(BlockFaces.ALL));
 		put("dirt", new BlockDirt().solidify(BlockFaces.ALL));
-		put("grass", new BlockGrass().solidify(BlockFaces.ALL));
+		put("grass", new BlockGrass().solidify(BlockFaces.ALL).setAnimation(Block.newSingleFrameAnimation("images/blocks/grass.png")));
 	}
 
 	private void put(String key, Block value) {

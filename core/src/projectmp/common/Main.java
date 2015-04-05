@@ -509,8 +509,6 @@ public class Main extends Game implements Consumer {
 		addColors();
 
 		// missing
-		manager.load(AssetMap.add("blockmissingtexture", "images/blocks/missing/missing.png"),
-				Texture.class);
 		manager.load(AssetMap.add("missingtexture", "images/missing.png"), Texture.class);
 
 		// ui
@@ -631,27 +629,12 @@ public class Main extends Game implements Consumer {
 		// unmanaged textures
 		textures.put("gear", new Texture("images/gear.png"));
 		gears = new Gears(this);
-		textures.put("switch", new Texture("images/blocks/switch/switch.png"));
-		textures.put("switch_bg", new Texture("images/blocks/switch/switch_bg.png"));
-		textures.put("timer", new Texture("images/blocks/timer/timer.png"));
-		textures.put("timer_colour", new Texture("images/blocks/timer/timer_colour.png"));
-		textures.put("toggle", new Texture("images/blocks/toggle/toggle.png"));
-		textures.put("toggle_warning", new Texture("images/blocks/toggle/toggle_warning.png"));
 
 		// animations
 		animations.put("shine",
 				new LoopingAnimation(0.1f, 20, "images/item/shine/shine.png", false));
-		animations.put("portal", new LoopingAnimation(0.05f, 32, "images/blocks/portal/portal.png",
-				true).setRegionTile(64, 64));
-		animations.put("fire", new LoopingAnimation(0.05f, 30, "images/blocks/fire/fire.png", true)
-				.setRegionTile(128, 128).setVertical(false));
 		animations.put("fire-hud", new LoopingAnimation(0.05f, 8, "images/ui/fire-hudnomiddle.png",
 				true).setRegionTile(864, 468).setVertical(false));
-		animations.put("jumppad", new LoopingAnimation(0.25f, 4,
-				"images/blocks/jumppad/jumppad.png", true).setRegionTile(64, 64));
-		animations.put("accelerationpad", new LoopingAnimation(0.5f, 2,
-				"images/blocks/accpad/accelerationpad.png", true).setRegionTile(64, 64)
-				.setVertical(false));
 
 		// load animations
 		Iterator it = animations.entrySet().iterator();
