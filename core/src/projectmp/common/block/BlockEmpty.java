@@ -13,6 +13,9 @@ public class BlockEmpty extends Block {
 		return DRAG;
 	}
 
+	/**
+	 * overrode so nothing is rendered
+	 */
 	@Override
 	public void render(WorldRenderer world, int x, int y) {
 

@@ -2,6 +2,8 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.block.Block;
+import projectmp.common.block.Blocks;
 import projectmp.common.util.AssetLogger;
 
 import com.badlogic.gdx.Gdx;
@@ -34,6 +36,11 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				for (String s : main.manager.getAssetNames()) {
 					// System.out.println(s);
 				}
+				
+				for(Block b : Blocks.instance().getBlockList()){
+					b.getAnimation().load();
+				}
+				
 				Main.logger.info("Finished loading all managed assets, took "
 						+ (System.currentTimeMillis() - startms) + " ms");
 

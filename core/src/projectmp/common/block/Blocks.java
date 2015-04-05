@@ -4,6 +4,8 @@ import java.util.HashMap;
 
 import projectmp.common.block.Block.BlockFaces;
 
+import com.badlogic.gdx.utils.Array;
+
 public class Blocks {
 
 	private static Blocks instance;
@@ -21,6 +23,7 @@ public class Blocks {
 
 	private HashMap<String, Block> blocks = new HashMap<String, Block>();
 	private HashMap<Block, String> reverse = new HashMap<Block, String>();
+	private Array<Block> allBlocks = new Array<Block>();
 
 	private void loadResources() {
 		put(defaultBlock, new BlockEmpty());
@@ -32,6 +35,7 @@ public class Blocks {
 	private void put(String key, Block value) {
 		blocks.put(key, value);
 		reverse.put(value, key);
+		allBlocks.add(value);
 	}
 
 	public Block getBlock(String key) {
@@ -42,6 +46,10 @@ public class Blocks {
 	public String getKey(Block block) {
 		if (block == null) return defaultBlock;
 		return reverse.get(block);
+	}
+	
+	public Array<Block> getBlockList(){
+		return allBlocks;
 	}
 
 	public static Block defaultBlock() {

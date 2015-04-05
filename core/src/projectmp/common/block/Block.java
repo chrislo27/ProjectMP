@@ -1,15 +1,31 @@
 package projectmp.common.block;
 
 import projectmp.client.WorldRenderer;
+import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.entity.Entity;
 import projectmp.common.world.World;
 
 public class Block {
 
 	int collision = BlockFaces.NONE;
+	LoopingAnimation animation = null;
 	
 	public Block(){
 		
+	}
+	
+	public LoopingAnimation getAnimation(){
+		return animation;
+	}
+	
+	public Block setAnimation(LoopingAnimation a){
+		animation = a;
+		
+		return this;
+	}
+	
+	public LoopingAnimation newSingleFrameAnimation(String path){
+		return new LoopingAnimation(1, 1, path, false);
 	}
 	
 	public void tickUpdate(World world, int x, int y){
@@ -17,7 +33,9 @@ public class Block {
 	}
 	
 	public void render(WorldRenderer renderer, int x, int y){
-		
+		if(animation != null){
+			renderer.batch.draw(animation.getCurrentFrame(), renderer.convertWorldX(x), renderer.convertWorldY(y));
+		}
 	}
 	
 	public Block solidify(int faces){
