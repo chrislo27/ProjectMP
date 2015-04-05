@@ -8,6 +8,7 @@ import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,7 +25,8 @@ public class WorldRenderer implements Disposable {
 	public World world;
 
 	FrameBuffer worldBuffer;
-	FrameBuffer lightBuffer;
+	
+	private Color lightingRenderColor = new Color();
 
 	public WorldRenderer(Main m, World w) {
 		main = m;
@@ -35,8 +37,6 @@ public class WorldRenderer implements Disposable {
 
 		worldBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, true);
-		lightBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
-				Settings.DEFAULT_HEIGHT, true);
 	}
 
 	public void renderWorld() {
@@ -46,7 +46,7 @@ public class WorldRenderer implements Disposable {
 		worldBuffer.begin();
 		batch.begin();
 
-		batch.setColor(1, 0, 0, 1);
+		batch.setColor(0.4f, 0.4f, 0.6f, 1);
 		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 
@@ -70,22 +70,23 @@ public class WorldRenderer implements Disposable {
 			e.render(this);
 		}
 		if (Main.GAME.getPlayer() != null) Main.GAME.getPlayer().render(this);
+		
+		for (int x = prex; x < postx; x++) {
+			for (int y = posty; y >= prey; y--) {
+				batch.setColor(0, 0, 0, 1.0f - (world.lightingEngine.getBrightness(x, y) / 255f));
+				main.fillRect(convertWorldX(x), convertWorldY(y), World.tilesizex, World.tilesizey);
+			}
+		}
+		batch.setColor(1, 1, 1, 1);
+		
 		batch.end();
 		worldBuffer.end();
 		// end world to buffer
-
-		// light to buffer
-		lightBuffer.begin();
-		batch.begin();
-		batch.end();
-		lightBuffer.end();
-		// end light to buffer
 
 		// draw everything
 		batch.begin();
 		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-
 		batch.end();
 	}
 
@@ -109,7 +110,6 @@ public class WorldRenderer implements Disposable {
 	@Override
 	public void dispose() {
 		worldBuffer.dispose();
-		lightBuffer.dispose();
 	}
 
 }

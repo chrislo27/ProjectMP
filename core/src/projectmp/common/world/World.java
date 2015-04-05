@@ -2,6 +2,7 @@ package projectmp.common.world;
 
 import java.util.ArrayList;
 
+import projectmp.client.lighting.LightingEngine;
 import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
@@ -12,8 +13,8 @@ import projectmp.common.util.SimplexNoise;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
@@ -37,6 +38,8 @@ public class World {
 	public int sizey;
 	Block[][] blocks;
 	int[][] meta;
+	
+	public transient LightingEngine lightingEngine;
 	
 	public transient boolean isServer = false;
 	
@@ -62,6 +65,7 @@ public class World {
 	public void prepare() {
 		blocks = new Block[sizex][sizey];
 		meta = new int[sizex][sizey];
+		lightingEngine = new LightingEngine(this);
 
 		for (int j = 0; j < sizex; j++) {
 			for (int k = 0; k < sizey; k++) {
@@ -108,7 +112,7 @@ public class World {
 		}
 		return id;
 	}
-	
+
 	public void generate(){
 		float hillCoeff = 8f;
 		float terrainLimit = hillCoeff + (sizey / 8);
@@ -131,7 +135,7 @@ public class World {
 			}
 			
 			// long cave under surface to cover up noise's abrupt end
-			for(int y = caveStart - Math.round(4 * noise) - 6; y < caveStart + Math.round(3 * noise) + 5; y++){
+			for(int y = caveStart - Math.round(4 * noise) - 6; y < caveStart + Math.round(3 * noise) + 3; y++){
 				setBlock(Blocks.instance().getBlock("empty"), i, y);
 			}
 		}
@@ -145,7 +149,7 @@ public class World {
 		 */
 		
 		float caveStartThreshold = 0.56f;
-		float caveEndThreshold = 0.8f;
+		float caveEndThreshold = 0.825f;
 		for(int x = 0; x < sizex; x++){
 			for(int y = caveStart; y < sizey; y++){
 				float noise = (float) noiseGen.eval(x * 0.1f, y * 0.1f);
