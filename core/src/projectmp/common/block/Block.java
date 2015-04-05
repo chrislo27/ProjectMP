@@ -1,5 +1,7 @@
 package projectmp.common.block;
 
+import com.badlogic.gdx.graphics.Color;
+
 import projectmp.client.WorldRenderer;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.entity.Entity;
@@ -30,6 +32,10 @@ public class Block {
 	
 	public void tickUpdate(World world, int x, int y){
 		
+	}
+	
+	public byte lightSubtraction(World world, int x, int y){
+		return 12;
 	}
 	
 	public void render(WorldRenderer renderer, int x, int y){

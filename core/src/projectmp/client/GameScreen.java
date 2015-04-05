@@ -1,6 +1,7 @@
 package projectmp.client;
 
 import projectmp.common.Main;
+import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.packet.PacketPlayerPosUpdate;
@@ -8,6 +9,8 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 
 public class GameScreen extends Updateable {
 
@@ -119,6 +122,19 @@ public class GameScreen extends Updateable {
 		}
 		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 			getPlayer().moveDown();
+		}
+		
+		if(Gdx.input.isKeyJustPressed(Keys.L)){
+			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 1), 0f, world.sizex);
+			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 1), 0f, world.sizey);
+			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 2
+					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
+			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 2
+					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
+			
+			world.lightingEngine.resetLighting(prex, prey, postx, posty);
+			world.lightingEngine.setBrightness((byte) 64, (int) getPlayer().x, (int) getPlayer().y);
+			world.lightingEngine.updateLighting(prex, prey, postx, posty);
 		}
 	}
 
