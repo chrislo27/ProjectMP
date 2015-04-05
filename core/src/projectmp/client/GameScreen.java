@@ -152,7 +152,7 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void dispose() {
-
+		renderer.dispose();
 	}
 
 }

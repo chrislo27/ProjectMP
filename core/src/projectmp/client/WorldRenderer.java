@@ -8,8 +8,9 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Disposable;
 
-public class WorldRenderer {
+public class WorldRenderer implements Disposable{
 
 	public Main main;
 	public SpriteBatch batch;
@@ -66,6 +67,10 @@ public class WorldRenderer {
 	
 	public float convertWorldY(float worldY){
 		return Main.convertY(worldY * World.tilesizey - camera.cameray);
+	}
+
+	@Override
+	public void dispose() {
 	}
 
 }
