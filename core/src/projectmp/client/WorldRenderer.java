@@ -81,15 +81,18 @@ public class WorldRenderer implements Disposable {
 		batch.setColor(1, 1, 1, 1);
 
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-
-		batch.setColor(0, 0, 1, 1f);
-		batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080/2 - 128, 720/2 - 128, 256, 256);
-		batch.setColor(1, 0, 0, 1f);
-		batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080/2, 720/2 - 128, 256, 256);
-		batch.setColor(0, 1, 0, 1f);
-		batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080/2, 720/2 - 300, 256, 256);
-		batch.setColor(1, 1, 1, 1);
-
+		{
+			batch.setColor(0, 0, 1, 1f);
+			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class),
+					1080 / 2 - 128, 720 / 2 - 128, 256, 256);
+			batch.setColor(1, 0, 0, 1f);
+			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2,
+					720 / 2 - 128, 256, 256);
+			batch.setColor(0, 1, 0, 1f);
+			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2,
+					720 / 2 - 300, 256, 256);
+			batch.setColor(1, 1, 1, 1);
+		}
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		batch.end();
@@ -100,10 +103,12 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+
 		batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		batch.draw(lightBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
 		batch.end();
 	}
 
