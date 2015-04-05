@@ -46,11 +46,16 @@ public abstract class Animation implements Disposable {
 				}
 			}
 		} else {
-			String suffix = path.substring(path.lastIndexOf('.'));
-			String withoutSuffix = path.substring(0, path.lastIndexOf('.'));
-			for (int i = 0; i < frames.length; i++) {
-				Texture t = new Texture(withoutSuffix + i + suffix);
-				frames[i] = new TextureRegion(t);
+			if(framecount == 1){
+				Texture t = new Texture(path);
+				frames[0] = new TextureRegion(t);
+			}else{
+				String suffix = path.substring(path.lastIndexOf('.'));
+				String withoutSuffix = path.substring(0, path.lastIndexOf('.'));
+				for (int i = 0; i < frames.length; i++) {
+					Texture t = new Texture(withoutSuffix + i + suffix);
+					frames[i] = new TextureRegion(t);
+				}
 			}
 		}
 	}
