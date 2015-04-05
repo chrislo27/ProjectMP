@@ -2,6 +2,7 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.entity.Entity;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
@@ -45,7 +46,7 @@ public class WorldRenderer implements Disposable {
 		worldBuffer.begin();
 		batch.begin();
 
-		batch.setColor(0, 0, 0, 1);
+		batch.setColor(1, 0, 0, 1);
 		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 
@@ -76,26 +77,6 @@ public class WorldRenderer implements Disposable {
 		// light to buffer
 		lightBuffer.begin();
 		batch.begin();
-
-		batch.setColor(0, 0, 0, 1);
-		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
-		batch.setColor(1, 1, 1, 1);
-
-		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-		{
-			batch.setColor(0, 0, 1, 1f);
-			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class),
-					1080 / 2 - 128, 720 / 2 - 192, 256, 256);
-			batch.setColor(1, 0, 0, 1f);
-			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2 - 64,
-					720 / 2 - 192, 256, 256);
-			batch.setColor(0, 1, 0, 1f);
-			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2 - 100,
-					720 / 2 - 256, 256, 256);
-			batch.setColor(1, 1, 1, 1);
-		}
-		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
 		batch.end();
 		lightBuffer.end();
 		// end light to buffer
@@ -104,11 +85,6 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-
-		batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
-		batch.draw(lightBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
-				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		batch.end();
 	}
