@@ -3,10 +3,13 @@ package projectmp.client;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
-import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 
@@ -16,6 +19,8 @@ public class WorldRenderer implements Disposable{
 	public SpriteBatch batch;
 	public SmoothCamera camera;
 	public World world;
+	
+	FrameBuffer worldBuffer;
 
 	public WorldRenderer(Main m, World w) {
 		main = m;
@@ -23,11 +28,21 @@ public class WorldRenderer implements Disposable{
 		world = w;
 
 		camera = new SmoothCamera(world);
+		
+		worldBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
+				true);
+		
 	}
 
 	public void renderWorld() {
 		camera.update();
+		
+		worldBuffer.begin();
 		batch.begin();
+		
+		batch.setColor(0, 0, 0, 1);
+		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		batch.setColor(1, 1, 1, 1);
 		
 		int prex = (int) MathUtils.clamp(((camera.camerax / World.tilesizex) - 1), 0f, world.sizex);
 		int prey = (int) MathUtils.clamp(((camera.cameray / World.tilesizey) - 1), 0f, world.sizey);
@@ -50,6 +65,11 @@ public class WorldRenderer implements Disposable{
 		}
 		if(Main.GAME.getPlayer() != null) Main.GAME.getPlayer().render(this);
 		batch.end();
+		worldBuffer.end();
+		
+		batch.begin();
+		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		batch.end();
 	}
 
 	public void renderHUD() {
@@ -71,6 +91,7 @@ public class WorldRenderer implements Disposable{
 
 	@Override
 	public void dispose() {
+		worldBuffer.dispose();
 	}
 
 }
