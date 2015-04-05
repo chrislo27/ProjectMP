@@ -6,6 +6,7 @@ import projectmp.common.entity.Entity;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -84,13 +85,13 @@ public class WorldRenderer implements Disposable {
 		{
 			batch.setColor(0, 0, 1, 1f);
 			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class),
-					1080 / 2 - 128, 720 / 2 - 128, 256, 256);
+					1080 / 2 - 128, 720 / 2 - 192, 256, 256);
 			batch.setColor(1, 0, 0, 1f);
-			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2,
-					720 / 2 - 128, 256, 256);
+			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2 - 64,
+					720 / 2 - 192, 256, 256);
 			batch.setColor(0, 1, 0, 1f);
-			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2,
-					720 / 2 - 300, 256, 256);
+			batch.draw(main.manager.get(AssetMap.get("featheredcircle"), Texture.class), 1080 / 2 - 100,
+					720 / 2 - 256, 256, 256);
 			batch.setColor(1, 1, 1, 1);
 		}
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -104,7 +105,7 @@ public class WorldRenderer implements Disposable {
 		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 
-		batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ONE_MINUS_SRC_ALPHA);
+		batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
 		batch.draw(lightBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
