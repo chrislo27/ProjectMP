@@ -93,9 +93,6 @@ public class Main extends Game implements Consumer {
 
 	public ShapeRenderer shapes;
 
-	public FrameBuffer buffer;
-	public FrameBuffer buffer2;
-
 	public BitmapFont font;
 	public BitmapFont arial;
 
@@ -200,11 +197,6 @@ public class Main extends Game implements Consumer {
 
 		shapes = new ShapeRenderer();
 
-		buffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
-				true);
-		buffer2 = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
-				true);
-
 		client = new Client();
 		client.addListener(new ClientListener(this));
 		ClassRegistration.registerClasses(client.getKryo());
@@ -305,9 +297,6 @@ public class Main extends Game implements Consumer {
 		invertshader.dispose();
 		swizzleshader.dispose();
 		shapes.dispose();
-
-		buffer.dispose();
-		buffer2.dispose();
 
 		Iterator it = animations.entrySet().iterator();
 		while (it.hasNext()) {
