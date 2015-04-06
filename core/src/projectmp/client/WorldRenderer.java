@@ -25,8 +25,9 @@ public class WorldRenderer implements Disposable {
 	public World world;
 
 	FrameBuffer worldBuffer;
-
-	private Color lightingRenderColor = new Color();
+	
+	private int ticksTillLightingUpdate = 0;
+	private final int secondsPerLightingUpdate = Math.round(Main.TICKS * 1);
 
 	public WorldRenderer(Main m, World w) {
 		main = m;
@@ -87,6 +88,16 @@ public class WorldRenderer implements Disposable {
 	public void renderHUD() {
 		batch.begin();
 		batch.end();
+	}
+	
+	public void tickUpdate(){
+		if(ticksTillLightingUpdate <= 0){
+			ticksTillLightingUpdate = secondsPerLightingUpdate;
+			
+			world.lightingEngine.resetLighting(getCullStartX(16), getCullStartY(8), getCullEndX(16), getCullEndY(8));
+			// TODO update light sources
+			world.lightingEngine.updateLighting(getCullStartX(16), getCullStartY(8), getCullEndX(16), getCullEndY(8));
+		}
 	}
 
 	protected void changeWorld(World w) {

@@ -125,7 +125,7 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-
+		
 		copyToTemp();
 
 		for (int x = originx; x < width; x++) {

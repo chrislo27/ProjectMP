@@ -81,6 +81,8 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void tickUpdate() {
+		renderer.tickUpdate();
+		
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
 				getPlayer().tickUpdate();
