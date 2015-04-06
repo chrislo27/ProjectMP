@@ -23,6 +23,10 @@ public class Utils {
 
 		return false;
 	}
+	
+	public static int getUnsignedByte(byte b){
+		return (b & 0xFF);
+	}
 
 //	public static float getSoundPan(float xpos, float camerax) {
 //		return MathUtils
