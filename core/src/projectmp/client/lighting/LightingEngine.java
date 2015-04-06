@@ -31,6 +31,8 @@ public class LightingEngine {
 	private Color ambient = new Color(0, 0, 0, 1);
 	private Color tempColor = new Color();
 	private Color tempColor2 = new Color();
+	
+	private int lastUpdateNano = 0;
 
 	public LightingEngine(World world) {
 		this.world = world;
@@ -126,6 +128,8 @@ public class LightingEngine {
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
 		
+		long nano = System.nanoTime();
+		
 		copyToTemp();
 
 		for (int x = originx; x < width; x++) {
@@ -135,6 +139,8 @@ public class LightingEngine {
 				}
 			}
 		}
+		
+		lastUpdateNano = (int) (System.nanoTime() - nano);
 	}
 
 	private void copyToTemp() {
@@ -216,6 +222,10 @@ public class LightingEngine {
 	private int getTempLightColor(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(1, 1, 1);
 		return tempLightColor[x][y];
+	}
+	
+	public int getLastUpdateLength(){
+		return lastUpdateNano;
 	}
 
 }

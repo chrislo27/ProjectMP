@@ -30,7 +30,7 @@ public class GameScreen extends Updateable {
 	@Override
 	public void render(float delta) {
 		centerCameraOnPlayer();
-		
+
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
@@ -82,11 +82,11 @@ public class GameScreen extends Updateable {
 	@Override
 	public void tickUpdate() {
 		renderer.tickUpdate();
-		
+
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
 				getPlayer().tickUpdate();
-				
+
 				if (getPlayer().hasMovedLastTick()) {
 					playerUpdate.username = Main.username;
 					playerUpdate.x = getPlayer().x;
@@ -95,13 +95,13 @@ public class GameScreen extends Updateable {
 					main.client.sendUDP(playerUpdate);
 				}
 			}
-			
+
 		}
 		world.tickUpdate();
 	}
-	
-	public void centerCameraOnPlayer(){
-		if(getPlayer() != null){
+
+	public void centerCameraOnPlayer() {
+		if (getPlayer() != null) {
 			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
 					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);
 
@@ -125,22 +125,27 @@ public class GameScreen extends Updateable {
 		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 			getPlayer().moveDown();
 		}
-		
-		if(Gdx.input.isKeyJustPressed(Keys.L)){
-			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 10), 0f, world.sizex);
-			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 10), 0f, world.sizey);
+
+		if (Gdx.input.isKeyJustPressed(Keys.L)) {
+			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 10),
+					0f, world.sizex);
+			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 10),
+					0f, world.sizey);
 			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 20
 					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
 			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 20
 					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
-			
+
 			world.lightingEngine.resetLighting(prex, prey, postx, posty);
-			
-			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0), (int) (getPlayer().x) - 6, (int) getPlayer().y);
-			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0), (int) (getPlayer().x), (int) getPlayer().y);
-			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 0, 1), (int) (getPlayer().x) + 6, (int) getPlayer().y);
-//			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 1, 1), (int) (getPlayer().x), (int) getPlayer().y);
-			
+
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0),
+					(int) (getPlayer().x) - 6, (int) getPlayer().y);
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0),
+					(int) (getPlayer().x), (int) getPlayer().y);
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 0, 1),
+					(int) (getPlayer().x) + 6, (int) getPlayer().y);
+			// world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 1, 1), (int) (getPlayer().x), (int) getPlayer().y);
+
 			world.lightingEngine.updateLighting(prex, prey, postx, posty);
 		}
 	}
@@ -149,8 +154,13 @@ public class GameScreen extends Updateable {
 	public void renderDebug(int starting) {
 		main.font.draw(main.batch, "latency: " + main.client.getReturnTripTime() + " ms", 5,
 				Main.convertY(starting));
-		if (world != null) main.font.draw(main.batch, "entities: " + world.entities.size, 5,
-				Main.convertY(starting + 15));
+		if (world != null) {
+			main.font.draw(main.batch, "entities: " + world.entities.size, 5,
+					Main.convertY(starting + 15));
+			main.font.draw(main.batch,
+					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms", 5,
+					Main.convertY(starting + 30));
+		}
 	}
 
 	@Override
