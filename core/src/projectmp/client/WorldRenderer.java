@@ -91,7 +91,7 @@ public class WorldRenderer implements Disposable {
 	}
 	
 	public void tickUpdate(){
-		if(ticksTillLightingUpdate <= 0){
+		if(--ticksTillLightingUpdate <= 0){
 			ticksTillLightingUpdate = secondsPerLightingUpdate;
 			
 			world.lightingEngine.resetLighting(getCullStartX(16), getCullStartY(8), getCullEndX(16), getCullEndY(8));
