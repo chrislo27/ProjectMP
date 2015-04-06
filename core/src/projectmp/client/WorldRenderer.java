@@ -25,7 +25,7 @@ public class WorldRenderer implements Disposable {
 	public World world;
 
 	FrameBuffer worldBuffer;
-	
+
 	private Color lightingRenderColor = new Color();
 
 	public WorldRenderer(Main m, World w) {
@@ -50,12 +50,10 @@ public class WorldRenderer implements Disposable {
 		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 
-		int prex = (int) MathUtils.clamp(((camera.camerax / World.tilesizex) - 1), 0f, world.sizex);
-		int prey = (int) MathUtils.clamp(((camera.cameray / World.tilesizey) - 1), 0f, world.sizey);
-		int postx = (int) MathUtils.clamp((camera.camerax / World.tilesizex) + 2
-				+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
-		int posty = (int) MathUtils.clamp((camera.cameray / World.tilesizey) + 2
-				+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
+		int prex = getCullStartX(0);
+		int prey = getCullStartY(0);
+		int postx = getCullEndX(0);
+		int posty = getCullEndY(0);
 		for (int x = prex; x < postx; x++) {
 			for (int y = posty; y >= prey; y--) {
 				world.getBlock(x, y).render(this, x, y);
@@ -70,16 +68,10 @@ public class WorldRenderer implements Disposable {
 			e.render(this);
 		}
 		if (Main.GAME.getPlayer() != null) Main.GAME.getPlayer().render(this);
-		
-		for (int x = prex; x < postx; x++) {
-			for (int y = posty; y >= prey; y--) {
-				batch.setColor(0, 0, 0, 1.0f - (world.lightingEngine.getBrightness(x, y) / 255f));
-				main.fillRect(convertWorldX(x), convertWorldY(y), World.tilesizex, World.tilesizey);
-			}
-		}
+
 		batch.setColor(1, 1, 1, 1);
-		
 		batch.end();
+
 		worldBuffer.end();
 		// end world to buffer
 
@@ -88,6 +80,8 @@ public class WorldRenderer implements Disposable {
 		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.end();
+
+		world.lightingEngine.render(this, batch);
 	}
 
 	public void renderHUD() {
@@ -105,6 +99,26 @@ public class WorldRenderer implements Disposable {
 
 	public float convertWorldY(float worldY) {
 		return Main.convertY(worldY * World.tilesizey - camera.cameray);
+	}
+
+	public int getCullStartX(int extra) {
+		return (int) MathUtils.clamp(((camera.camerax / World.tilesizex) - 1 - extra), 0f,
+				world.sizex);
+	}
+
+	public int getCullStartY(int extra) {
+		return (int) MathUtils.clamp(((camera.cameray / World.tilesizey) - 1 - extra), 0f,
+				world.sizey);
+	}
+
+	public int getCullEndX(int extra) {
+		return (int) MathUtils.clamp((camera.camerax / World.tilesizex) + 2 + extra
+				+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
+	}
+
+	public int getCullEndY(int extra) {
+		return (int) MathUtils.clamp((camera.cameray / World.tilesizey) + 2 + extra
+				+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
 	}
 
 	@Override

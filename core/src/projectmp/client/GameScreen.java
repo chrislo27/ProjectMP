@@ -125,15 +125,20 @@ public class GameScreen extends Updateable {
 		}
 		
 		if(Gdx.input.isKeyJustPressed(Keys.L)){
-			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 1), 0f, world.sizex);
-			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 1), 0f, world.sizey);
-			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 2
+			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 10), 0f, world.sizex);
+			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 10), 0f, world.sizey);
+			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 20
 					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
-			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 2
+			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 20
 					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
 			
 			world.lightingEngine.resetLighting(prex, prey, postx, posty);
-			world.lightingEngine.setBrightness((byte) 64, (int) getPlayer().x, (int) getPlayer().y);
+			
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0), (int) (getPlayer().x) - 6, (int) getPlayer().y);
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0), (int) (getPlayer().x), (int) getPlayer().y);
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 0, 1), (int) (getPlayer().x) + 6, (int) getPlayer().y);
+//			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 1, 1), (int) (getPlayer().x), (int) getPlayer().y);
+			
 			world.lightingEngine.updateLighting(prex, prey, postx, posty);
 		}
 	}
