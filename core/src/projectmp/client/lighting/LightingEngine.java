@@ -2,6 +2,7 @@ package projectmp.client.lighting;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
+import projectmp.common.Settings;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
@@ -34,6 +35,8 @@ public class LightingEngine {
 	private Color tempColor2 = new Color();
 	
 	private int lastUpdateNano = 0;
+	
+	private boolean isUpdateScheduled = false;
 
 	public LightingEngine(World world) {
 		this.world = world;
@@ -59,6 +62,23 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
+		if(isUpdateScheduled){
+			isUpdateScheduled = false;
+			
+			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 12),
+					0f, world.sizex);
+			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 12),
+					0f, world.sizey);
+			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 16
+					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
+			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 16
+					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
+			
+			resetLighting(prex, prey, postx, posty);
+			// TODO set sources (preferably from stored list)
+			updateLighting(prex, prey, postx, posty);
+		}
+		
 		ShapeRenderer shapes = main.shapes;
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -235,6 +255,14 @@ public class LightingEngine {
 	
 	public int getLastUpdateLength(){
 		return lastUpdateNano;
+	}
+	
+	public void scheduleLightingUpdate(){
+		isUpdateScheduled = true;
+	}
+	
+	public boolean isLightingUpdateScheduled(){
+		return isUpdateScheduled;
 	}
 
 }
