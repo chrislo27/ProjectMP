@@ -95,7 +95,7 @@ public class WorldRenderer implements Disposable {
 			ticksTillLightingUpdate = secondsPerLightingUpdate;
 			
 			world.lightingEngine.resetLighting(getCullStartX(16), getCullStartY(8), getCullEndX(16), getCullEndY(8));
-			// TODO update light sources
+			// TODO update light sources that exist
 			world.lightingEngine.updateLighting(getCullStartX(16), getCullStartY(8), getCullEndX(16), getCullEndY(8));
 		}
 	}
