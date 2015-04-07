@@ -2,6 +2,7 @@ package projectmp.client.lighting;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
+import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
@@ -117,6 +118,14 @@ public class LightingEngine {
 			for (int y = originy; y < height; y++) {
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(1, 1, 1), x, y);
+			}
+			
+			int y = 0;
+			while(!((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)){
+				// TODO set brightness and colour based on time of day
+				setLightSource((byte) 127, Color.rgb888(1, 1, 1), x, y);
+				
+				y++;
 			}
 		}
 
