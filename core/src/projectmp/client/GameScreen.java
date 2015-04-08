@@ -146,7 +146,7 @@ public class GameScreen extends Updateable {
 					(int) (getPlayer().x) + 6, (int) getPlayer().y);
 			// world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 1, 1), (int) (getPlayer().x), (int) getPlayer().y);
 
-			world.lightingEngine.updateLighting(prex, prey, postx, posty);
+			world.lightingEngine.floodFillLighting(prex, prey, postx, posty);
 		}
 	}
 
@@ -169,6 +169,9 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void show() {
+		if(world != null){
+			world.lightingEngine.scheduleLightingUpdate();
+		}
 	}
 
 	@Override

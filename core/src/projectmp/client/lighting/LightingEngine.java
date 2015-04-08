@@ -1,5 +1,8 @@
 package projectmp.client.lighting;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
@@ -35,11 +38,13 @@ public class LightingEngine {
 	private Color ambient = new Color(0, 0, 0, 1);
 	private Color tempColor = new Color();
 	private Color tempColor2 = new Color();
-	
+
 	private int lastUpdateLengthNano = 0;
-	
+
 	private boolean isUpdateScheduled = false;
-	
+	private float lastUpdateCamX = 0;
+	private float lastUpdateCamY = 0;
+
 	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 32);
 	private Array<LightingUpdate> lightingUpdates = new Array<LightingUpdate>(32);
 
@@ -56,7 +61,7 @@ public class LightingEngine {
 
 		for (int x = 0; x < sizex; x++) {
 			for (int y = 0; y < sizey; y++) {
-				lightColor[x][y] = Color.rgb888(1, 1, 1);
+				lightColor[x][y] = Color.rgb888(0, 0, 0);
 			}
 		}
 
@@ -67,32 +72,34 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-		if(isUpdateScheduled){
-			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 12),
-					0f, world.sizex);
-			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 12),
-					0f, world.sizey);
-			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 16
+		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH / 2f) {
+			scheduleLightingUpdate();
+		}
+		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT / 2f) {
+			scheduleLightingUpdate();
+		}
+
+		if (isUpdateScheduled) {
+			int prex = (int) MathUtils
+					.clamp(((renderer.camera.camerax / World.tilesizex) - (Settings.DEFAULT_WIDTH / World.tilesizex)),
+							0f, world.sizex);
+			int prey = (int) MathUtils
+					.clamp(((renderer.camera.cameray / World.tilesizey) - (Settings.DEFAULT_HEIGHT / World.tilesizey)),
+							0f, world.sizey);
+			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex)
+					+ (Settings.DEFAULT_WIDTH / World.tilesizex)
 					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
-			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 16
+			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey)
+					+ (Settings.DEFAULT_HEIGHT / World.tilesizey)
 					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
-			
-			resetLighting(prex, prey, postx, posty);
-			
-			for(LightingUpdate l : lightingUpdates){
-				setBrightness(l.brightness, l.x, l.y);
-				setLightColor(l.color, l.x, l.y);
-			}
-			
+
+			lastUpdateCamX = renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f);
+			lastUpdateCamY = renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f);
+
 			updateLighting(prex, prey, postx, posty);
-			
-			for(int i = lightingUpdates.size - 1; i >= 0; i--){
-				lightingUpdatePool.free(lightingUpdates.pop());
-			}
-			
 			isUpdateScheduled = false;
 		}
-		
+
 		ShapeRenderer shapes = main.shapes;
 
 		Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -102,21 +109,38 @@ public class LightingEngine {
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
 				shapes.setColor(setTempColor(x, y));
-				
+
 				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y), World.tilesizex,
 						World.tilesizey);
 			}
 		}
-		
+
 		shapes.end();
-		
+
 		Gdx.gl.glDisable(GL20.GL_BLEND);
-		
+
+	}
+
+	public void updateLighting(int prex, int prey, int postx, int posty) {
+		resetLighting(prex, prey, postx, posty);
+
+		for (int i = lightingUpdates.size - 1; i >= 0; i++) {
+			LightingUpdate l = lightingUpdates.get(i);
+			setBrightness(l.brightness, l.x, l.y);
+			setLightColor(l.color, l.x, l.y);
+		}
+
+		floodFillLighting(prex, prey, postx, posty);
+
+		while (lightingUpdates.size > 0) {
+			LightingUpdate l = lightingUpdates.pop();
+			lightingUpdatePool.free(l);
+		}
 	}
 
 	private Color setTempColor(int x, int y) {
 		Color.rgb888ToColor(tempColor, getLightColor(x, y));
-		
+
 		tempColor.set(tempColor.lerp(ambient, calcAlpha(x, y)));
 
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
@@ -128,17 +152,17 @@ public class LightingEngine {
 
 	public float calcAlpha(int x, int y) {
 		float alpha = (1 - ((world.lightingEngine.getBrightness(x, y) / 127f)));
-		
+
 		float threshold = 0.7f;
-		if(alpha >= threshold){
+		if (alpha >= threshold) {
 			float remainder = alpha - threshold;
 			remainder = (remainder) * (1 / (1 - threshold));
-			
+
 			return remainder;
-		}else{
+		} else {
 			float remainder = alpha - (1 - threshold);
 			remainder = (remainder) * (1 / (1 - remainder));
-			
+
 			return remainder * (1 - threshold);
 		}
 	}
@@ -154,26 +178,26 @@ public class LightingEngine {
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
 			}
-			
+
 			int y = 0;
-			while(!((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)){
+			while (!((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 				// TODO set brightness and colour based on time of day
 				setLightSource((byte) 127, Color.rgb888(0, 0, 0), x, y);
-				
+
 				y++;
 			}
 		}
 
 	}
 
-	public void updateLighting(int originx, int originy, int width, int height) {
+	public void floodFillLighting(int originx, int originy, int width, int height) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-		
+
 		long nano = System.nanoTime();
-		
+
 		copyToTemp();
 
 		for (int x = originx; x < width; x++) {
@@ -183,7 +207,7 @@ public class LightingEngine {
 				}
 			}
 		}
-		
+
 		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
@@ -267,16 +291,16 @@ public class LightingEngine {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(1, 1, 1);
 		return tempLightColor[x][y];
 	}
-	
-	public int getLastUpdateLength(){
+
+	public int getLastUpdateLength() {
 		return lastUpdateLengthNano;
 	}
-	
-	public void scheduleLightingUpdate(){
+
+	public void scheduleLightingUpdate() {
 		isUpdateScheduled = true;
 	}
-	
-	public boolean isLightingUpdateScheduled(){
+
+	public boolean isLightingUpdateScheduled() {
 		return isUpdateScheduled;
 	}
 
