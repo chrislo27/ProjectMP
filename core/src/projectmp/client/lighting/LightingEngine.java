@@ -68,8 +68,6 @@ public class LightingEngine {
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
 		if(isUpdateScheduled){
-			isUpdateScheduled = false;
-			
 			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 12),
 					0f, world.sizex);
 			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 12),
@@ -91,6 +89,8 @@ public class LightingEngine {
 			for(int i = lightingUpdates.size - 1; i >= 0; i--){
 				lightingUpdatePool.free(lightingUpdates.pop());
 			}
+			
+			isUpdateScheduled = false;
 		}
 		
 		ShapeRenderer shapes = main.shapes;
@@ -116,6 +116,7 @@ public class LightingEngine {
 
 	private Color setTempColor(int x, int y) {
 		Color.rgb888ToColor(tempColor, getLightColor(x, y));
+		
 		tempColor.set(tempColor.lerp(ambient, calcAlpha(x, y)));
 
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
@@ -151,13 +152,13 @@ public class LightingEngine {
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				setBrightness((byte) 0, x, y);
-				setLightColor(Color.rgb888(1, 1, 1), x, y);
+				setLightColor(Color.rgb888(0, 0, 0), x, y);
 			}
 			
 			int y = 0;
 			while(!((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)){
 				// TODO set brightness and colour based on time of day
-				setLightSource((byte) 127, Color.rgb888(1, 1, 1), x, y);
+				setLightSource((byte) 127, Color.rgb888(0, 0, 0), x, y);
 				
 				y++;
 			}
