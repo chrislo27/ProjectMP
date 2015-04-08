@@ -4,7 +4,6 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.block.Block.BlockFaces;
-import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -14,6 +13,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.utils.Pools;
 
 public class LightingEngine {
 
@@ -37,6 +39,9 @@ public class LightingEngine {
 	private int lastUpdateLengthNano = 0;
 	
 	private boolean isUpdateScheduled = false;
+	
+	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 32);
+	private Array<LightingUpdate> lightingUpdates = new Array<LightingUpdate>(32);
 
 	public LightingEngine(World world) {
 		this.world = world;
@@ -75,8 +80,17 @@ public class LightingEngine {
 					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
 			
 			resetLighting(prex, prey, postx, posty);
-			// TODO set sources (preferably from stored list)
+			
+			for(LightingUpdate l : lightingUpdates){
+				setBrightness(l.brightness, l.x, l.y);
+				setLightColor(l.color, l.x, l.y);
+			}
+			
 			updateLighting(prex, prey, postx, posty);
+			
+			for(int i = lightingUpdates.size - 1; i >= 0; i--){
+				lightingUpdatePool.free(lightingUpdates.pop());
+			}
 		}
 		
 		ShapeRenderer shapes = main.shapes;
@@ -219,8 +233,7 @@ public class LightingEngine {
 	}
 
 	public void setLightSource(byte bright, int color, int x, int y) {
-		setBrightness(bright, x, y);
-		setLightColor(color, x, y);
+		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, bright, color));
 		scheduleLightingUpdate();
 	}
 
