@@ -193,6 +193,7 @@ public class World {
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 		blocks[x][y] = b;
+		lightingEngine.scheduleLightingUpdate();
 	}
 
 	public void setMeta(int m, int x, int y) {
