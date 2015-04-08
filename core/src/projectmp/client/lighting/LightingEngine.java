@@ -34,7 +34,7 @@ public class LightingEngine {
 	private Color tempColor = new Color();
 	private Color tempColor2 = new Color();
 	
-	private int lastUpdateNano = 0;
+	private int lastUpdateLengthNano = 0;
 	
 	private boolean isUpdateScheduled = false;
 
@@ -169,7 +169,7 @@ public class LightingEngine {
 			}
 		}
 		
-		lastUpdateNano = (int) (System.nanoTime() - nano);
+		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
 	private void copyToTemp() {
@@ -221,6 +221,7 @@ public class LightingEngine {
 	public void setLightSource(byte bright, int color, int x, int y) {
 		setBrightness(bright, x, y);
 		setLightColor(color, x, y);
+		scheduleLightingUpdate();
 	}
 
 	public void setBrightness(byte l, int x, int y) {
@@ -254,7 +255,7 @@ public class LightingEngine {
 	}
 	
 	public int getLastUpdateLength(){
-		return lastUpdateNano;
+		return lastUpdateLengthNano;
 	}
 	
 	public void scheduleLightingUpdate(){
