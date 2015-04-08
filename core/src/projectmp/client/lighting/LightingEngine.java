@@ -45,8 +45,8 @@ public class LightingEngine {
 	private float lastUpdateCamX = 0;
 	private float lastUpdateCamY = 0;
 
-	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 32);
-	private Array<LightingUpdate> lightingUpdates = new Array<LightingUpdate>(32);
+	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 256);
+	private Array<LightingUpdate> lightingUpdates = new Array<LightingUpdate>(256);
 
 	public LightingEngine(World world) {
 		this.world = world;
