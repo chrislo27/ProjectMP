@@ -9,8 +9,12 @@ import projectmp.common.world.World;
 
 public class Block {
 
+	public static final float DEFAULT_TRANSPARENT_LIGHT = 0.05f;
+	public static final float DEFAULT_OPAQUE_LIGHT = 0.2f;
+	
 	int collision = BlockFaces.NONE;
 	LoopingAnimation animation = null;
+	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 	
 	public Block(){
 		
@@ -34,8 +38,21 @@ public class Block {
 		
 	}
 	
-	public byte lightSubtraction(World world, int x, int y){
-		return 12;
+	/**
+	 * overrideable for custom settings
+	 */
+	public float lightSubtraction(World world, int x, int y){
+		return lightBlocked;
+	}
+	
+	public Block setOpaqueToLight(){
+		lightBlocked = DEFAULT_OPAQUE_LIGHT;
+		return this;
+	}
+	
+	public Block setTransparentToLight(){
+		lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
+		return this;
 	}
 	
 	public void render(WorldRenderer renderer, int x, int y){

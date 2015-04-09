@@ -34,6 +34,8 @@ public class LightingEngine {
 	 */
 	private int[][] lightColor;
 	private int[][] tempLightColor;
+	
+	private boolean[][] canSeeSky;
 
 	private Color ambient = new Color(0, 0, 0, 1);
 	private Color tempColor = new Color();
@@ -58,10 +60,12 @@ public class LightingEngine {
 		tempBrightness = new byte[sizex][sizey];
 		lightColor = new int[sizex][sizey];
 		tempLightColor = new int[sizex][sizey];
+		canSeeSky = new boolean[sizex][sizey];
 
 		for (int x = 0; x < sizex; x++) {
 			for (int y = 0; y < sizey; y++) {
 				lightColor[x][y] = Color.rgb888(0, 0, 0);
+				canSeeSky[x][y] = false;
 			}
 		}
 
@@ -109,7 +113,6 @@ public class LightingEngine {
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
 				shapes.setColor(setTempColor(x, y));
-
 				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y), World.tilesizex,
 						World.tilesizey);
 			}
@@ -124,7 +127,7 @@ public class LightingEngine {
 	public void updateLighting(int prex, int prey, int postx, int posty) {
 		resetLighting(prex, prey, postx, posty);
 
-		for (int i = lightingUpdates.size - 1; i >= 0; i++) {
+		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
 			LightingUpdate l = lightingUpdates.get(i);
 			setBrightness(l.brightness, l.x, l.y);
 			setLightColor(l.color, l.x, l.y);
@@ -142,6 +145,10 @@ public class LightingEngine {
 		Color.rgb888ToColor(tempColor, getLightColor(x, y));
 
 		tempColor.set(tempColor.lerp(ambient, calcAlpha(x, y)));
+		
+		if(canSeeSky[x][y]){
+			
+		}
 
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
 	}
@@ -151,7 +158,10 @@ public class LightingEngine {
 	}
 
 	public float calcAlpha(int x, int y) {
-		float alpha = (1 - ((world.lightingEngine.getBrightness(x, y) / 127f)));
+		byte brightness = getBrightness(x, y);
+		if(canSeeSky[x][y]) brightness = 127;
+		
+		float alpha = (1 - ((brightness / 127f)));
 
 		float threshold = 0.7f;
 		if (alpha >= threshold) {
@@ -172,22 +182,29 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-
+		
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
+				canSeeSky[x][y] = false;
 			}
 
 			int y = 0;
-			while (!((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
-				// TODO set brightness and colour based on time of day
-				setLightSource((byte) 127, Color.rgb888(0, 0, 0), x, y);
-
+			boolean terminate = false;
+			while (!terminate) {
+				if(((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)){
+					terminate = true;
+					// TODO set brightness and colour based on time of day
+					setLightSource((byte) 127, Color.rgb888(0, 0, 0), x, y);
+					break;
+				}
+				
+				canSeeSky[x][y] = true;
 				y++;
 			}
+			
 		}
-
 	}
 
 	public void floodFillLighting(int originx, int originy, int width, int height) {
@@ -226,18 +243,17 @@ public class LightingEngine {
 		if (bright <= 0) {
 			return;
 		}
-
 		if (getBrightness(x, y) > bright && bright > 0) {
 			return;
 		}
-
 		if (x < 0 || y < 0 || x + 1 >= sizex || y + 1 >= sizey) {
 			return;
 		}
+		if(canSeeSky[x][y]) return;
 
 		setBrightness(bright, x, y);
 
-		bright = (byte) Math.max(bright - world.getBlock(x, y).lightSubtraction(world, x, y), 0);
+		bright = (byte) MathUtils.clamp(bright - (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
 
 		recursiveLight(x - 1, y, bright, color);
 		recursiveLight(x, y - 1, bright, color);
