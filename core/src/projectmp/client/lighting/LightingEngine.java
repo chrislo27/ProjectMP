@@ -70,6 +70,9 @@ public class LightingEngine {
 		}
 
 		copyToTemp();
+		
+		updateLighting(0, 0, sizex, sizey);
+		Main.logger.debug("Lighting update for entire world took " + (lastUpdateLengthNano / 1000000f) + " ms");
 	}
 
 	/**
@@ -197,6 +200,10 @@ public class LightingEngine {
 			int y = 0;
 			boolean terminate = false;
 			while (!terminate) {
+				if(y >= sizey){
+					terminate = true;
+					break;
+				}
 				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 					terminate = true;
 					// TODO set brightness and colour based on time of day
