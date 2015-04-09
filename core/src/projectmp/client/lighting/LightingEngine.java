@@ -34,7 +34,7 @@ public class LightingEngine {
 	 */
 	private int[][] lightColor;
 	private int[][] tempLightColor;
-	
+
 	private boolean[][] canSeeSky;
 
 	private Color ambient = new Color(0, 0, 0, 1);
@@ -125,6 +125,8 @@ public class LightingEngine {
 	}
 
 	public void updateLighting(int prex, int prey, int postx, int posty) {
+		long nano = System.nanoTime();
+
 		resetLighting(prex, prey, postx, posty);
 
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
@@ -139,15 +141,17 @@ public class LightingEngine {
 			LightingUpdate l = lightingUpdates.pop();
 			lightingUpdatePool.free(l);
 		}
+
+		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
 	private Color setTempColor(int x, int y) {
 		Color.rgb888ToColor(tempColor, getLightColor(x, y));
 
 		tempColor.set(tempColor.lerp(ambient, calcAlpha(x, y)));
-		
-		if(canSeeSky[x][y]){
-			
+
+		if (canSeeSky[x][y]) {
+
 		}
 
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
@@ -159,8 +163,8 @@ public class LightingEngine {
 
 	public float calcAlpha(int x, int y) {
 		byte brightness = getBrightness(x, y);
-		if(canSeeSky[x][y]) brightness = 127;
-		
+		if (canSeeSky[x][y]) brightness = 127;
+
 		float alpha = (1 - ((brightness / 127f)));
 
 		float threshold = 0.7f;
@@ -182,7 +186,7 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-		
+
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				setBrightness((byte) 0, x, y);
@@ -193,17 +197,17 @@ public class LightingEngine {
 			int y = 0;
 			boolean terminate = false;
 			while (!terminate) {
-				if(((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)){
+				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 					terminate = true;
 					// TODO set brightness and colour based on time of day
 					setLightSource((byte) 127, Color.rgb888(0, 0, 0), x, y);
 					break;
 				}
-				
+
 				canSeeSky[x][y] = true;
 				y++;
 			}
-			
+
 		}
 	}
 
@@ -212,8 +216,6 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-
-		long nano = System.nanoTime();
 
 		copyToTemp();
 
@@ -225,7 +227,6 @@ public class LightingEngine {
 			}
 		}
 
-		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
 	private void copyToTemp() {
@@ -249,11 +250,12 @@ public class LightingEngine {
 		if (x < 0 || y < 0 || x + 1 >= sizex || y + 1 >= sizey) {
 			return;
 		}
-		if(canSeeSky[x][y]) return;
+		if (canSeeSky[x][y]) return;
 
 		setBrightness(bright, x, y);
 
-		bright = (byte) MathUtils.clamp(bright - (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
+		bright = (byte) MathUtils.clamp(bright
+				- (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
 
 		recursiveLight(x - 1, y, bright, color);
 		recursiveLight(x, y - 1, bright, color);
@@ -313,6 +315,7 @@ public class LightingEngine {
 	}
 
 	public void scheduleLightingUpdate() {
+		if (world.isServer) return;
 		isUpdateScheduled = true;
 	}
 
