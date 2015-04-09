@@ -54,17 +54,6 @@ public class ServerLogic {
 			}
 			
 		}.start();
-		Pixmap pix = new Pixmap(world.sizex, world.sizey, Format.RGBA8888);
-		for(int x = 0; x < world.sizex; x++){
-			for(int y = 0; y < world.sizey; y++){
-				float noise = (float) world.noiseGen.eval(x * 0.1f, y * 0.1f);
-				float range = ((noise + 1) / 2f);
-				pix.setColor(1 * range, 1 * range, 1 * range, 1);
-				pix.drawPixel(x, y);
-			}
-		}
-		PixmapIO.writePNG(new FileHandle("noisemaps/noisemap.png"), pix);
-		pix.dispose();
 	}
 
 	public void tickUpdate() {
