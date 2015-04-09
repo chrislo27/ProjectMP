@@ -50,7 +50,7 @@ public class ServerLogic {
 				world.setSendingUpdates(false);
 				world.generate();
 				world.setSendingUpdates(true);
-				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms) + " ms");
+				Main.logger.debug("finished generaeing; took " + (System.currentTimeMillis() - ms) + " ms");
 			}
 			
 		}.start();
