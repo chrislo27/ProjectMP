@@ -72,7 +72,7 @@ public class LightingEngine {
 		copyToTemp();
 		
 		updateLighting(0, 0, sizex, sizey);
-		Main.logger.debug("Lighting update for entire world took " + (lastUpdateLengthNano / 1000000f) + " ms");
+		Main.logger.debug("Lighting update for entire world on init took " + (lastUpdateLengthNano / 1000000f) + " ms");
 	}
 
 	/**
