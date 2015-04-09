@@ -313,7 +313,6 @@ public class LightingEngine {
 	}
 
 	public void scheduleLightingUpdate() {
-		if(world.isServer) return;
 		isUpdateScheduled = true;
 	}
 
