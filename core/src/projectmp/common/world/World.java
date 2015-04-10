@@ -71,7 +71,6 @@ public class World {
 			for (int k = 0; k < sizey; k++) {
 				blocks[j][k] = Blocks.instance().getBlock(Blocks.defaultBlock);
 				meta[j][k] = 0;
-				if(k == 0) blocks[j][k] = Blocks.instance().getBlock("stone");
 			}
 		}
 

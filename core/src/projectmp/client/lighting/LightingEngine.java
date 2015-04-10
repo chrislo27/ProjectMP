@@ -50,6 +50,11 @@ public class LightingEngine {
 	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 256);
 	private Array<LightingUpdate> lightingUpdates = new Array<LightingUpdate>(256);
 
+	/**
+	 * used for debug
+	 */
+	private int recursions = 0;
+
 	public LightingEngine(World world) {
 		this.world = world;
 		main = this.world.main;
@@ -70,9 +75,10 @@ public class LightingEngine {
 		}
 
 		copyToTemp();
-		
+
 		updateLighting(0, 0, sizex, sizey);
-		Main.logger.debug("Lighting update for entire world on init took " + (lastUpdateLengthNano / 1000000f) + " ms");
+		Main.logger.debug("Lighting update for entire world on init took "
+				+ (lastUpdateLengthNano / 1000000f) + " ms");
 	}
 
 	/**
@@ -94,11 +100,9 @@ public class LightingEngine {
 					.clamp(((renderer.camera.cameray / World.tilesizey) - (Settings.DEFAULT_HEIGHT / World.tilesizey)),
 							0f, world.sizey);
 			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex)
-					+ (Settings.DEFAULT_WIDTH / World.tilesizex)
-					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
+					+ ((Settings.DEFAULT_WIDTH / World.tilesizex) * 2), 0f, world.sizex);
 			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey)
-					+ (Settings.DEFAULT_HEIGHT / World.tilesizey)
-					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
+					+ ((Settings.DEFAULT_HEIGHT / World.tilesizey) * 2), 0f, world.sizey);
 
 			lastUpdateCamX = renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f);
 			lastUpdateCamY = renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f);
@@ -131,12 +135,6 @@ public class LightingEngine {
 		long nano = System.nanoTime();
 
 		resetLighting(prex, prey, postx, posty);
-
-		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
-			LightingUpdate l = lightingUpdates.get(i);
-			setBrightness(l.brightness, l.x, l.y);
-			setLightColor(l.color, l.x, l.y);
-		}
 
 		floodFillLighting(prex, prey, postx, posty);
 
@@ -200,14 +198,15 @@ public class LightingEngine {
 			int y = 0;
 			boolean terminate = false;
 			while (!terminate) {
-				if(y >= sizey){
+				if (y >= sizey) {
 					terminate = true;
 					break;
 				}
 				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 					terminate = true;
 					// TODO set brightness and colour based on time of day
-					setLightSource((byte) 127, Color.rgb888(0, 0, 0), x, y);
+					lightingUpdates.add(lightingUpdatePool.obtain()
+							.set(x, y, (byte) 127, Color.rgb888(0, 0, 0)));
 					break;
 				}
 
@@ -226,14 +225,24 @@ public class LightingEngine {
 
 		copyToTemp();
 
-		for (int x = originx; x < width; x++) {
-			for (int y = originy; y < height; y++) {
-				if (getTempBrightness(x, y) > 0) {
-					recursiveLight(x, y, (byte) (getTempBrightness(x, y)), getTempLightColor(x, y));
-				}
-			}
+		recursions = 0;
+		int lastRecursionCount = 0;
+
+		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
+			LightingUpdate l = lightingUpdates.get(i);
+			setBrightness(l.brightness, l.x, l.y);
+			setLightColor(l.color, l.x, l.y);
+
+			recursiveLight(l.x, l.y, l.brightness, l.color, true);
+
+			Main.logger.debug("this source took " + (recursions - lastRecursionCount)
+					+ " recursions");
+
+			lastRecursionCount = recursions;
 		}
 
+		Main.logger.debug("lighting update recursions: " + recursions + ", # of sources: "
+				+ lightingUpdates.size);
 	}
 
 	private void copyToTemp() {
@@ -245,13 +254,13 @@ public class LightingEngine {
 		}
 	}
 
-	private void recursiveLight(int x, int y, byte bright, int color) {
+	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
 		mixColors(x, y, color);
 
 		if (bright <= 0) {
 			return;
 		}
-		if (getBrightness(x, y) > bright && bright > 0) {
+		if (getBrightness(x, y) >= bright && bright > 0 && !source) {
 			return;
 		}
 		if (x < 0 || y < 0 || x + 1 >= sizex || y + 1 >= sizey) {
@@ -264,10 +273,12 @@ public class LightingEngine {
 		bright = (byte) MathUtils.clamp(bright
 				- (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
 
-		recursiveLight(x - 1, y, bright, color);
-		recursiveLight(x, y - 1, bright, color);
-		recursiveLight(x + 1, y, bright, color);
-		recursiveLight(x, y + 1, bright, color);
+		recursions++;
+
+		recursiveLight(x - 1, y, bright, color, false);
+		recursiveLight(x, y - 1, bright, color, false);
+		recursiveLight(x + 1, y, bright, color, false);
+		recursiveLight(x, y + 1, bright, color, false);
 	}
 
 	private void mixColors(int x, int y, int color) {
