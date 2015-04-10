@@ -100,7 +100,7 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public float convertWorldY(float worldY) {
-		return Main.convertY(worldY * World.tilesizey - camera.cameray);
+		return Main.convertY(worldY * World.tilesizey - camera.cameray + World.tilesizey);
 	}
 
 	public int getCullStartX(int extra) {
