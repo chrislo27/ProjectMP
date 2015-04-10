@@ -57,7 +57,7 @@ public class Block {
 	
 	public void render(WorldRenderer renderer, int x, int y){
 		if(animation != null){
-			renderer.batch.draw(animation.getCurrentFrame(), renderer.convertWorldX(x), renderer.convertWorldY(y));
+			renderer.batch.draw(animation.getCurrentFrame(), renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey));
 		}
 	}
 	

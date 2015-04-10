@@ -99,8 +99,8 @@ public class WorldRenderer implements Disposable {
 		return worldX * World.tilesizex - camera.camerax;
 	}
 
-	public float convertWorldY(float worldY) {
-		return Main.convertY(worldY * World.tilesizey - camera.cameray + World.tilesizey);
+	public float convertWorldY(float worldY, float offset) {
+		return Main.convertY(worldY * World.tilesizey - camera.cameray + offset);
 	}
 
 	public int getCullStartX(int extra) {
