@@ -75,22 +75,18 @@ public class LightingEngine {
 		}
 
 		copyToTemp();
-
-		updateLighting(0, 0, sizex, sizey);
-		Main.logger.debug("Lighting update for entire world on init took "
-				+ (lastUpdateLengthNano / 1000000f) + " ms");
 	}
 
 	/**
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH / 2f) {
-			scheduleLightingUpdate();
-		}
-		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT / 2f) {
-			scheduleLightingUpdate();
-		}
+//		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH / 2f) {
+//			scheduleLightingUpdate();
+//		}
+//		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT / 2f) {
+//			scheduleLightingUpdate();
+//		}
 
 		if (isUpdateScheduled) {
 			int prex = (int) MathUtils
@@ -241,7 +237,7 @@ public class LightingEngine {
 			lastRecursionCount = recursions;
 		}
 
-		Main.logger.debug("lighting update recursions: " + recursions + ", # of sources: "
+		Main.logger.debug("lighting update method calls: " + recursions + ", # of sources: "
 				+ lightingUpdates.size);
 	}
 
@@ -255,12 +251,13 @@ public class LightingEngine {
 	}
 
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
+		recursions++;
 		mixColors(x, y, color);
 
 		if (bright <= 0) {
 			return;
 		}
-		if (getBrightness(x, y) >= bright && bright > 0 && !source) {
+		if (getBrightness(x, y) >= bright && !source) {
 			return;
 		}
 		if (x < 0 || y < 0 || x + 1 >= sizex || y + 1 >= sizey) {
@@ -272,13 +269,21 @@ public class LightingEngine {
 
 		bright = (byte) MathUtils.clamp(bright
 				- (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
+		
+		if(bright <= 0) return;
 
-		recursions++;
-
-		recursiveLight(x - 1, y, bright, color, false);
-		recursiveLight(x, y - 1, bright, color, false);
-		recursiveLight(x + 1, y, bright, color, false);
-		recursiveLight(x, y + 1, bright, color, false);
+		if ((x - 1 >= 0) && !(getBrightness(x - 1, y) >= bright)) {
+			recursiveLight(x - 1, y, bright, color, false);	
+		}
+		if((y - 1 >= 0) && !(getBrightness(x, y - 1) >= bright)){
+			recursiveLight(x, y - 1, bright, color, false);	
+		}
+		if((x + 1 < sizex) && !(getBrightness(x + 1, y) >= bright)){
+			recursiveLight(x + 1, y, bright, color, false);	
+		}
+		if((y + 1 < sizey) && !(getBrightness(x, y + 1) >= bright)){
+			recursiveLight(x, y + 1, bright, color, false);	
+		}
 	}
 
 	private void mixColors(int x, int y, int color) {
