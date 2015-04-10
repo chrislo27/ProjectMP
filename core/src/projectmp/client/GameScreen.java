@@ -139,11 +139,11 @@ public class GameScreen extends Updateable {
 			world.lightingEngine.resetLighting(prex, prey, postx, posty);
 
 			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0),
-					(int) (getPlayer().x) - 6, (int) getPlayer().y);
+					(int) (getPlayer().x) - 2, (int) getPlayer().y - 2);
 			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0),
 					(int) (getPlayer().x), (int) getPlayer().y);
 			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 0, 1),
-					(int) (getPlayer().x) + 6, (int) getPlayer().y);
+					(int) (getPlayer().x) + 2, (int) getPlayer().y);
 			// world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 1, 1), (int) (getPlayer().x), (int) getPlayer().y);
 
 			world.lightingEngine.floodFillLighting(prex, prey, postx, posty);
