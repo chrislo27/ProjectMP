@@ -175,7 +175,7 @@ public class LightingEngine {
 			float remainder = alpha - threshold;
 			remainder = (remainder) * (1 / (1 - threshold));
 
-			return remainder;
+			return remainder + (1f - threshold);
 		} else {
 			float remainder = alpha - (1 - threshold);
 			remainder = (remainder) * (1 / (1 - remainder));
