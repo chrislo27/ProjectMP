@@ -53,7 +53,7 @@ public class LightingEngine {
 	/**
 	 * used for debug
 	 */
-	private int recursions = 0;
+	private int lightingUpdateMethodCalls = 0;
 
 	public LightingEngine(World world) {
 		this.world = world;
@@ -221,7 +221,7 @@ public class LightingEngine {
 		
 		copyToTemp();
 		
-		recursions = 0;
+		lightingUpdateMethodCalls = 0;
 
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
 			LightingUpdate l = lightingUpdates.get(i);
@@ -231,7 +231,7 @@ public class LightingEngine {
 			recursiveLight(l.x, l.y, l.brightness, l.color, true);
 		}
 
-		Main.logger.debug("lighting update method calls: " + recursions + ", # of sources: "
+		Main.logger.debug("lighting update method calls: " + lightingUpdateMethodCalls + ", # of sources: "
 				+ lightingUpdates.size);
 	}
 
@@ -245,7 +245,7 @@ public class LightingEngine {
 	}
 
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
-		recursions++;
+		lightingUpdateMethodCalls++;
 		mixColors(x, y, color);
 
 		if (bright <= 0) {
