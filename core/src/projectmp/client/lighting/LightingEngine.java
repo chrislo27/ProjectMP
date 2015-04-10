@@ -81,12 +81,12 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-//		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH / 2f) {
-//			scheduleLightingUpdate();
-//		}
-//		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT / 2f) {
-//			scheduleLightingUpdate();
-//		}
+		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH - (World.tilesizex * 2)) {
+			scheduleLightingUpdate();
+		}
+		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT - (World.tilesizey * 2)) {
+			scheduleLightingUpdate();
+		}
 
 		if (isUpdateScheduled) {
 			int prex = (int) MathUtils
@@ -218,11 +218,10 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-
+		
 		copyToTemp();
-
+		
 		recursions = 0;
-		int lastRecursionCount = 0;
 
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
 			LightingUpdate l = lightingUpdates.get(i);
@@ -230,11 +229,6 @@ public class LightingEngine {
 			setLightColor(l.color, l.x, l.y);
 
 			recursiveLight(l.x, l.y, l.brightness, l.color, true);
-
-			Main.logger.debug("this source took " + (recursions - lastRecursionCount)
-					+ " recursions");
-
-			lastRecursionCount = recursions;
 		}
 
 		Main.logger.debug("lighting update method calls: " + recursions + ", # of sources: "
