@@ -272,8 +272,9 @@ public class LightingEngine {
 
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
 		lightingUpdateMethodCalls++;
-		mixColors(x, y, color);
 
+		if(source) mixColors(x, y, color);
+		
 		if (bright <= 0) {
 			return;
 		}
@@ -292,6 +293,11 @@ public class LightingEngine {
 
 		if (bright <= 0) return;
 
+		mixColors(x - 1, y, color);
+		mixColors(x, y - 1, color);
+		mixColors(x, y + 1, color);
+		mixColors(x + 1, y, color);
+		
 		if ((x - 1 >= 0) && !(getBrightness(x - 1, y) >= bright)) {
 			recursiveLight(x - 1, y, bright, color, false);
 		}
@@ -313,9 +319,9 @@ public class LightingEngine {
 		Color parameter = tempColor;
 		Color atPosition = tempColor2;
 
-		parameter.lerp(atPosition, 0.985f);
-		setLightColor(Color.rgb888(parameter), x, y);
-		color = Color.rgb888(parameter);
+		atPosition.lerp(parameter, 1);
+		setLightColor(Color.rgb888(atPosition), x, y);
+		color = Color.rgb888(atPosition);
 	}
 
 	public void setLightSource(byte bright, int color, int x, int y) {
