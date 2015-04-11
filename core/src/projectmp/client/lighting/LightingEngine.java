@@ -255,7 +255,7 @@ public class LightingEngine {
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
 			LightingUpdate l = lightingUpdates.get(i);
 			setBrightness(l.brightness, l.x, l.y);
-			setLightColor(l.color, l.x, l.y);
+			mixColors(l.x, l.y, l.color);
 
 			recursiveLight(l.x, l.y, l.brightness, l.color, true);
 		}
@@ -272,8 +272,6 @@ public class LightingEngine {
 
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
 		lightingUpdateMethodCalls++;
-
-		if(source) mixColors(x, y, color);
 		
 		if (bright <= 0) {
 			return;
@@ -319,7 +317,7 @@ public class LightingEngine {
 		Color parameter = tempColor;
 		Color atPosition = tempColor2;
 
-		atPosition.lerp(parameter, 1);
+		atPosition.lerp(parameter, 0.985f);
 		setLightColor(Color.rgb888(atPosition), x, y);
 		color = Color.rgb888(atPosition);
 	}
