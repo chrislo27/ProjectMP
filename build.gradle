@@ -36,7 +36,8 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-    }
+		compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
+	}
 }
 
 project(":core") {
@@ -49,6 +50,7 @@ project(":core") {
         compile "com.badlogicgames.box2dlights:box2dlights:1.2"
 		compile "com.esotericsoftware:kryo:3.0.0"
 		compile "kryonet:kryonet:2.21"
+		compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
 
