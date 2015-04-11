@@ -51,6 +51,9 @@ public class World {
 
 	public SimplexNoise noiseGen;
 	public long seed = System.currentTimeMillis();
+	
+	protected long worldTime = 0;
+	protected final int ticksPerDay = (Main.TICKS) * 30;
 
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;
@@ -82,6 +85,8 @@ public class World {
 	}
 
 	public void tickUpdate() {
+		++worldTime;
+		
 		if (isServer) {
 			for (int i = 0; i < entities.size; i++) {
 				Entity e = entities.get(i);
@@ -95,6 +100,7 @@ public class World {
 				particles.removeIndex(i);
 				ParticlePool.instance().getPool().free(item);
 			}
+			
 		} else {
 			Particle item;
 			for (int i = particles.size; --i >= 0;) {
@@ -195,6 +201,14 @@ public class World {
 
 	}
 
+	public long getTime(){
+		return worldTime;
+	}
+	
+	public void setTime(long t){
+		worldTime = t;
+	}
+	
 	public Block getBlock(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Blocks.defaultBlock();
 		if (blocks[x][y] == null) return Blocks.defaultBlock();

@@ -4,13 +4,15 @@ import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.packet.PacketBlockUpdate;
+import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.server.ServerLogic;
 
 
 public class ServerWorld extends World{
 
 	ServerLogic logic;
-	PacketBlockUpdate bupacket = new PacketBlockUpdate();
+	private PacketBlockUpdate bupacket = new PacketBlockUpdate();
+	private PacketTimeUpdate timepacket = new PacketTimeUpdate();
 	boolean shouldSendUpdates = true;
 	
 	public ServerWorld(Main main, int x, int y, boolean server, long seed, ServerLogic l) {
@@ -20,6 +22,19 @@ public class ServerWorld extends World{
 	
 	public void setSendingUpdates(boolean b){
 		shouldSendUpdates = b;
+	}
+	
+	@Override
+	public void tickUpdate(){
+		super.tickUpdate();
+		if(worldTime % (Main.TICKS * 5) == 0){
+			sendTimeUpdate();
+		}
+	}
+	
+	public void sendTimeUpdate(){
+		timepacket.time = worldTime;
+		logic.server.sendToAllTCP(timepacket);
 	}
 
 	@Override

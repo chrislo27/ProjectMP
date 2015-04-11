@@ -70,6 +70,9 @@ public class PacketHandshake implements Packet {
 			PacketNewEntity everyone = new PacketNewEntity();
 			everyone.e = newPlayer;
 			logic.server.sendToAllExceptTCP(connection.getID(), everyone);
+			
+			// update the time (for everyone)
+			logic.world.sendTimeUpdate();
 
 			Main.logger.info("Finished handshake for " + username + " ("
 					+ connection.getRemoteAddressTCP().toString() + ", conn. name is "
