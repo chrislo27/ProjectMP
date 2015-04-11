@@ -181,8 +181,8 @@ public class Main extends Game implements Consumer {
 		maskRenderer.enableBlending();
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
-		font = new BitmapFont(Gdx.files.internal("fonts/MotionControlBold.fnt"),
-				Gdx.files.internal("fonts/MotionControlBold.png"), false);
+		font = new BitmapFont(Gdx.files.internal("fonts/TheFirstFontStruction.fnt"),
+				Gdx.files.internal("fonts/TheFirstFontStruction.png"), false);
 		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		font.setMarkupEnabled(true);
 
