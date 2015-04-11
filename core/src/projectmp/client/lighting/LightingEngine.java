@@ -230,9 +230,6 @@ public class LightingEngine {
 
 			recursiveLight(l.x, l.y, l.brightness, l.color, true);
 		}
-
-		Main.logger.debug("lighting update method calls: " + lightingUpdateMethodCalls + ", # of sources: "
-				+ lightingUpdates.size);
 	}
 
 	private void copyToTemp() {
