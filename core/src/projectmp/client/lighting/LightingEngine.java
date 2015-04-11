@@ -116,9 +116,13 @@ public class LightingEngine {
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
 				
-//				shapes.setColor(setTempColor(x, y));
-//				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
-//						World.tilesizey);
+				if (!Settings.smoothLighting) {
+					shapes.setColor(setTempColor(x, y));
+					shapes.rect(renderer.convertWorldX(x),
+							renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
+							World.tilesizey);
+					continue;
+				}
 				
 				// top left corner
 				shapes.setColor(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1));

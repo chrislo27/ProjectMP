@@ -17,6 +17,8 @@ public class Settings {
 	public static float musicVolume = 1;
 	public static float soundVolume = 1;
 	
+	public static boolean smoothLighting = true;
+	
 	static{
 		Settings.instance(); // init settings
 	}
@@ -45,7 +47,7 @@ public class Settings {
 
 	public void save() {
 		pref.putBoolean("showFPS", Settings.showFPS).putBoolean("vignette", showVignette)
-				.putFloat("sound", soundVolume).putFloat("music", musicVolume).flush();
+				.putFloat("sound", soundVolume).putFloat("music", musicVolume).putBoolean("smoothLighting", true).flush();
 	}
 
 	public static Preferences getPreferences() {
