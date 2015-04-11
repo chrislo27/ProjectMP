@@ -58,6 +58,16 @@ public class SettingsScreen extends Updateable {
 			}
 		}.setState(Settings.showVignette));
 		container.elements.add(usernameBox);
+		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
+				.getHeight() - 424, 160, 32, "menu.settings.smoothlighting") {
+
+			@Override
+			public boolean onLeftClick() {
+				super.onLeftClick();
+				Settings.smoothLighting = !Settings.smoothLighting;
+				return true;
+			}
+		}.setState(Settings.smoothLighting));
 
 	}
 
