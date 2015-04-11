@@ -143,12 +143,25 @@ public class GameScreen extends Updateable {
 		}
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-			world.lightingEngine.setLightSource((byte) 127,
-					Color.rgb888(1, 0, 1),
-					((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
-					((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)));
+			greenx = ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex));
+			greeny = ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey));
+			
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0), redx, redy);
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0), greenx, greeny);
+		}
+		if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
+			redx = ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex));
+			redy = ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey));
+
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0), redx, redy);
+			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0), greenx, greeny);
 		}
 	}
+	
+	private int greenx = 0;
+	private int greeny = 0;
+	private int redx = 0;
+	private int redy = 0;
 
 	@Override
 	public void renderDebug(int starting) {
