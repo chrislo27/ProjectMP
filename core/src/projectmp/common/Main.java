@@ -755,7 +755,7 @@ public class Main extends Game implements Consumer {
 	   gradientverts[idx++] = x;
 	   gradientverts[idx++] = y;
 	   gradientverts[idx++] = bl.toFloatBits(); // bottom left
-	   gradientverts[idx++] = filltexRegion.getU(); //NOTE: filltexRegionture coords origin is top left
+	   gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
 	   gradientverts[idx++] = filltexRegion.getV2();
 
 	   gradientverts[idx++] = x;
