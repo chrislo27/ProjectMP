@@ -115,9 +115,55 @@ public class LightingEngine {
 
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
+				
+//				shapes.setColor(setTempColor(x, y));
+//				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
+//						World.tilesizey);
+				
+				// top left corner
+				shapes.setColor(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1));
+				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				// top right corner
+				shapes.setColor(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1));
+				shapes.rect(renderer.convertWorldX(x + 0.75f), renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				// bottom left
+				shapes.setColor(set3LerpColor(x, y, x - 1, y + 1, x - 1, y, x, y + 1));
+				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				// bottom right
+				shapes.setColor(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1));
+				shapes.rect(renderer.convertWorldX(x + 0.75f), renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				
+				// left side
+				shapes.setColor(setLerpColor(x, y, x - 1, y));
+				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 2);
+				// right side
+				shapes.setColor(setLerpColor(x, y, x + 1, y));
+				shapes.rect(renderer.convertWorldX(x + 0.75f), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 2);
+				// top side
+				shapes.setColor(setLerpColor(x, y, x, y - 1));
+				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 2,
+						World.tilesizey / 4);
+				// bottom side
+				shapes.setColor(setLerpColor(x, y, x, y + 1));
+				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 2,
+						World.tilesizey / 4);
+				
+				// inner 2x2
 				shapes.setColor(setTempColor(x, y));
-				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
-						World.tilesizey);
+				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				shapes.rect(renderer.convertWorldX(x + 0.5f), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				shapes.rect(renderer.convertWorldX(x + 0.5f), renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
+				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
+						World.tilesizey / 4);
 			}
 		}
 
@@ -147,11 +193,22 @@ public class LightingEngine {
 
 		tempColor.set(tempColor.lerp(ambient, calcAlpha(x, y)));
 
-		if (canSeeSky[x][y]) {
-
-		}
-
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
+	}
+	
+	private Color setLerpColor(int startx, int starty, int targetx, int targety){
+		tempColor2.set(setTempColor(startx, starty));
+		tempColor.set(setTempColor(targetx, targety));
+		return tempColor.lerp(tempColor2, 0.5f);
+	}
+	
+	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3, int y3){
+		tempColor2.set(setTempColor(startx, starty));
+		tempColor2.lerp(setTempColor(x1, y1), 0.5f / 3f);
+		tempColor2.lerp(setTempColor(x2, y2), 0.5f / 3f);
+		tempColor2.lerp(setTempColor(x3, y3), 0.5f / 3f);
+		
+		return tempColor2;
 	}
 
 	private Color setToAmbient(int x, int y) {
@@ -159,6 +216,8 @@ public class LightingEngine {
 	}
 
 	public float calcAlpha(int x, int y) {
+		if(x < 0 || y < 0 || y + 1 >= sizey || x + 1 >= sizex) return 0;
+		
 		byte brightness = getBrightness(x, y);
 		if (canSeeSky[x][y]) brightness = 127;
 
