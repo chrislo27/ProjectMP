@@ -134,62 +134,6 @@ public class LightingEngine {
 						tempColor4.set(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1)),
 						tempColor5.set(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1)),
 						tempColor6.set(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1)));
-
-//				// top left corner
-//				shapes.setColor(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1));
-//				shapes.rect(renderer.convertWorldX(x),
-//						renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
-//				// top right corner
-//				shapes.setColor(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1));
-//				shapes.rect(renderer.convertWorldX(x + 0.75f),
-//						renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
-//				// bottom left
-//				shapes.setColor(set3LerpColor(x, y, x - 1, y + 1, x - 1, y, x, y + 1));
-//				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey),
-//						World.tilesizex / 4, World.tilesizey / 4);
-//				// bottom right
-//				shapes.setColor(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1));
-//				shapes.rect(renderer.convertWorldX(x + 0.75f),
-//						renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
-//
-//				// left side
-//				shapes.setColor(setLerpColor(x, y, x - 1, y));
-//				shapes.rect(renderer.convertWorldX(x),
-//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 2);
-//				// right side
-//				shapes.setColor(setLerpColor(x, y, x + 1, y));
-//				shapes.rect(renderer.convertWorldX(x + 0.75f),
-//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 2);
-//				// top side
-//				shapes.setColor(setLerpColor(x, y, x, y - 1));
-//				shapes.rect(renderer.convertWorldX(x + 0.25f),
-//						renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 2,
-//						World.tilesizey / 4);
-//				// bottom side
-//				shapes.setColor(setLerpColor(x, y, x, y + 1));
-//				shapes.rect(renderer.convertWorldX(x + 0.25f),
-//						renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 2,
-//						World.tilesizey / 4);
-//
-//				// inner 2x2
-//				shapes.setColor(setTempColor(x, y));
-//				shapes.rect(renderer.convertWorldX(x + 0.25f),
-//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
-//				shapes.rect(renderer.convertWorldX(x + 0.5f),
-//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
-//				shapes.rect(renderer.convertWorldX(x + 0.5f),
-//						renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
-//				shapes.rect(renderer.convertWorldX(x + 0.25f),
-//						renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
-//						World.tilesizey / 4);
 			}
 		}
 
@@ -230,9 +174,9 @@ public class LightingEngine {
 	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
 			int y3) {
 		tempColor2.set(setTempColor(startx, starty));
-		tempColor2.lerp(setTempColor(x1, y1), 0.5f / 3f);
-		tempColor2.lerp(setTempColor(x2, y2), 0.5f / 3f);
-		tempColor2.lerp(setTempColor(x3, y3), 0.5f / 3f);
+		tempColor2.lerp(setTempColor(x1, y1), 1 / 3f);
+		tempColor2.lerp(setTempColor(x2, y2), 1 / 3f);
+		tempColor2.lerp(setTempColor(x3, y3), 1 / 3f);
 
 		return tempColor2;
 	}
