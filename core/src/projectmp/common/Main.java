@@ -37,7 +37,6 @@ import projectmp.client.transition.TransitionScreen;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
 import projectmp.common.util.CaptureStream.Consumer;
-import projectmp.common.util.Difficulty;
 import projectmp.common.util.GameException;
 import projectmp.common.util.Logger;
 import projectmp.common.util.MathHelper;
@@ -70,7 +69,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -93,6 +93,7 @@ public class Main extends Game implements Consumer {
 
 	public ShapeRenderer shapes;
 
+	private FreeTypeFontGenerator ttfGenerator;
 	public BitmapFont font;
 	public BitmapFont arial;
 
@@ -181,8 +182,11 @@ public class Main extends Game implements Consumer {
 		maskRenderer.enableBlending();
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
-		font = new BitmapFont(Gdx.files.internal("fonts/TheFirstFontStruction.fnt"),
-				Gdx.files.internal("fonts/TheFirstFontStruction.png"), false);
+		
+		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MotionControl-Bold.ttf"));
+		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
+		ttfParam.size = 24;
+		font = ttfGenerator.generateFont(ttfParam);
 		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		font.setMarkupEnabled(true);
 
@@ -297,6 +301,7 @@ public class Main extends Game implements Consumer {
 		invertshader.dispose();
 		swizzleshader.dispose();
 		shapes.dispose();
+		ttfGenerator.dispose();
 
 		Iterator it = animations.entrySet().iterator();
 		while (it.hasNext()) {
