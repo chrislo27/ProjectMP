@@ -69,6 +69,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
@@ -120,6 +121,7 @@ public class Main extends Game implements Consumer {
 	public static DirectConnectScreen DIRECTCONNECT = null;
 
 	public static Texture filltex;
+	public static TextureRegion filltexRegion;
 
 	public ShaderProgram maskshader;
 	public ShaderProgram blueprintshader;
@@ -198,6 +200,7 @@ public class Main extends Game implements Consumer {
 		pix.fill();
 		filltex = new Texture(pix);
 		pix.dispose();
+		filltexRegion = new TextureRegion(filltex);
 
 		shapes = new ShapeRenderer();
 
@@ -742,6 +745,38 @@ public class Main extends Game implements Consumer {
 
 	public void fillRect(float x, float y, float width, float height) {
 		batch.draw(filltex, x, y, width, height);
+	}
+	
+	private static float[] gradientverts = new float[20];
+
+	public static void drawGradient(SpriteBatch batch, float x, float y,
+	      float width, float height, Color bl, Color br, Color tr, Color tl) {
+	   int idx = 0;
+	   gradientverts[idx++] = x;
+	   gradientverts[idx++] = y;
+	   gradientverts[idx++] = bl.toFloatBits(); // bottom left
+	   gradientverts[idx++] = filltexRegion.getU(); //NOTE: filltexRegionture coords origin is top left
+	   gradientverts[idx++] = filltexRegion.getV2();
+
+	   gradientverts[idx++] = x;
+	   gradientverts[idx++] = y + height;
+	   gradientverts[idx++] = tl.toFloatBits(); // top left
+	   gradientverts[idx++] = filltexRegion.getU();
+	   gradientverts[idx++] = filltexRegion.getV();
+
+	   gradientverts[idx++] = x + width;
+	   gradientverts[idx++] = y + height;
+	   gradientverts[idx++] = tr.toFloatBits(); // top right
+	   gradientverts[idx++] = filltexRegion.getU2();
+	   gradientverts[idx++] = filltexRegion.getV();
+
+	   gradientverts[idx++] = x + width;
+	   gradientverts[idx++] = y;
+	   gradientverts[idx++] = br.toFloatBits(); // bottom right
+	   gradientverts[idx++] = filltexRegion.getU2();
+	   gradientverts[idx++] = filltexRegion.getV2();
+
+	   batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
 	}
 
 	/**

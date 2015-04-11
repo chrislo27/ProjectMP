@@ -40,6 +40,10 @@ public class LightingEngine {
 	private Color ambient = new Color(0, 0, 0, 1);
 	private Color tempColor = new Color();
 	private Color tempColor2 = new Color();
+	private Color tempColor3 = new Color();
+	private Color tempColor4 = new Color();
+	private Color tempColor5 = new Color();
+	private Color tempColor6 = new Color();
 
 	private int lastUpdateLengthNano = 0;
 
@@ -81,10 +85,12 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH - (World.tilesizex * 2)) {
+		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH
+				- (World.tilesizex * 2)) {
 			scheduleLightingUpdate();
 		}
-		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT - (World.tilesizey * 2)) {
+		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT
+				- (World.tilesizey * 2)) {
 			scheduleLightingUpdate();
 		}
 
@@ -107,73 +113,88 @@ public class LightingEngine {
 			isUpdateScheduled = false;
 		}
 
-		ShapeRenderer shapes = main.shapes;
-
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		shapes.begin(ShapeType.Filled);
-
+			batch.begin();
+		
+		
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
-				
+
 				if (!Settings.smoothLighting) {
-					shapes.setColor(setTempColor(x, y));
-					shapes.rect(renderer.convertWorldX(x),
+					batch.setColor(setTempColor(x, y));
+					main.fillRect(renderer.convertWorldX(x),
 							renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
 							World.tilesizey);
 					continue;
 				}
 				
-				// top left corner
-				shapes.setColor(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1));
-				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				// top right corner
-				shapes.setColor(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1));
-				shapes.rect(renderer.convertWorldX(x + 0.75f), renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				// bottom left
-				shapes.setColor(set3LerpColor(x, y, x - 1, y + 1, x - 1, y, x, y + 1));
-				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				// bottom right
-				shapes.setColor(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1));
-				shapes.rect(renderer.convertWorldX(x + 0.75f), renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				
-				// left side
-				shapes.setColor(setLerpColor(x, y, x - 1, y));
-				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 2);
-				// right side
-				shapes.setColor(setLerpColor(x, y, x + 1, y));
-				shapes.rect(renderer.convertWorldX(x + 0.75f), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 2);
-				// top side
-				shapes.setColor(setLerpColor(x, y, x, y - 1));
-				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 2,
-						World.tilesizey / 4);
-				// bottom side
-				shapes.setColor(setLerpColor(x, y, x, y + 1));
-				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 2,
-						World.tilesizey / 4);
-				
-				// inner 2x2
-				shapes.setColor(setTempColor(x, y));
-				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				shapes.rect(renderer.convertWorldX(x + 0.5f), renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				shapes.rect(renderer.convertWorldX(x + 0.5f), renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
-				shapes.rect(renderer.convertWorldX(x + 0.25f), renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
-						World.tilesizey / 4);
+				Main.drawGradient(batch, renderer.convertWorldX(x),
+						renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
+						World.tilesizey,
+						tempColor3.set(set3LerpColor(x, y, x - 1, y + 1, x - 1, y, x, y + 1)),
+						tempColor4.set(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1)),
+						tempColor5.set(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1)),
+						tempColor6.set(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1)));
+
+//				// top left corner
+//				shapes.setColor(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1));
+//				shapes.rect(renderer.convertWorldX(x),
+//						renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
+//				// top right corner
+//				shapes.setColor(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1));
+//				shapes.rect(renderer.convertWorldX(x + 0.75f),
+//						renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
+//				// bottom left
+//				shapes.setColor(set3LerpColor(x, y, x - 1, y + 1, x - 1, y, x, y + 1));
+//				shapes.rect(renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey),
+//						World.tilesizex / 4, World.tilesizey / 4);
+//				// bottom right
+//				shapes.setColor(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1));
+//				shapes.rect(renderer.convertWorldX(x + 0.75f),
+//						renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
+//
+//				// left side
+//				shapes.setColor(setLerpColor(x, y, x - 1, y));
+//				shapes.rect(renderer.convertWorldX(x),
+//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 2);
+//				// right side
+//				shapes.setColor(setLerpColor(x, y, x + 1, y));
+//				shapes.rect(renderer.convertWorldX(x + 0.75f),
+//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 2);
+//				// top side
+//				shapes.setColor(setLerpColor(x, y, x, y - 1));
+//				shapes.rect(renderer.convertWorldX(x + 0.25f),
+//						renderer.convertWorldY(y - 0.75f, World.tilesizey), World.tilesizex / 2,
+//						World.tilesizey / 4);
+//				// bottom side
+//				shapes.setColor(setLerpColor(x, y, x, y + 1));
+//				shapes.rect(renderer.convertWorldX(x + 0.25f),
+//						renderer.convertWorldY(y, World.tilesizey), World.tilesizex / 2,
+//						World.tilesizey / 4);
+//
+//				// inner 2x2
+//				shapes.setColor(setTempColor(x, y));
+//				shapes.rect(renderer.convertWorldX(x + 0.25f),
+//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
+//				shapes.rect(renderer.convertWorldX(x + 0.5f),
+//						renderer.convertWorldY(y - 0.25f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
+//				shapes.rect(renderer.convertWorldX(x + 0.5f),
+//						renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
+//				shapes.rect(renderer.convertWorldX(x + 0.25f),
+//						renderer.convertWorldY(y - 0.5f, World.tilesizey), World.tilesizex / 4,
+//						World.tilesizey / 4);
 			}
 		}
 
-		shapes.end();
-
-		Gdx.gl.glDisable(GL20.GL_BLEND);
+		batch.end();
+		batch.setColor(1, 1, 1, 1);
 
 	}
 
@@ -199,19 +220,20 @@ public class LightingEngine {
 
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
 	}
-	
-	private Color setLerpColor(int startx, int starty, int targetx, int targety){
+
+	private Color setLerpColor(int startx, int starty, int targetx, int targety) {
 		tempColor2.set(setTempColor(startx, starty));
 		tempColor.set(setTempColor(targetx, targety));
 		return tempColor.lerp(tempColor2, 0.5f);
 	}
-	
-	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3, int y3){
+
+	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
+			int y3) {
 		tempColor2.set(setTempColor(startx, starty));
 		tempColor2.lerp(setTempColor(x1, y1), 0.5f / 3f);
 		tempColor2.lerp(setTempColor(x2, y2), 0.5f / 3f);
 		tempColor2.lerp(setTempColor(x3, y3), 0.5f / 3f);
-		
+
 		return tempColor2;
 	}
 
@@ -220,8 +242,8 @@ public class LightingEngine {
 	}
 
 	public float calcAlpha(int x, int y) {
-		if(x < 0 || y < 0 || y + 1 >= sizey || x + 1 >= sizex) return 0;
-		
+		if (x < 0 || y < 0 || y + 1 >= sizey || x + 1 >= sizex) return 0;
+
 		byte brightness = getBrightness(x, y);
 		if (canSeeSky[x][y]) brightness = 127;
 
@@ -264,8 +286,8 @@ public class LightingEngine {
 				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 					terminate = true;
 					// TODO set brightness and colour based on time of day
-					lightingUpdates.add(lightingUpdatePool.obtain()
-							.set(x, y, (byte) 127, Color.rgb888(0, 0, 0)));
+					lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, (byte) 127,
+							Color.rgb888(0, 0, 0)));
 					break;
 				}
 
@@ -281,9 +303,9 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-		
+
 		copyToTemp();
-		
+
 		lightingUpdateMethodCalls = 0;
 
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
@@ -323,20 +345,20 @@ public class LightingEngine {
 
 		bright = (byte) MathUtils.clamp(bright
 				- (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
-		
-		if(bright <= 0) return;
+
+		if (bright <= 0) return;
 
 		if ((x - 1 >= 0) && !(getBrightness(x - 1, y) >= bright)) {
-			recursiveLight(x - 1, y, bright, color, false);	
+			recursiveLight(x - 1, y, bright, color, false);
 		}
-		if((y - 1 >= 0) && !(getBrightness(x, y - 1) >= bright)){
-			recursiveLight(x, y - 1, bright, color, false);	
+		if ((y - 1 >= 0) && !(getBrightness(x, y - 1) >= bright)) {
+			recursiveLight(x, y - 1, bright, color, false);
 		}
-		if((x + 1 < sizex) && !(getBrightness(x + 1, y) >= bright)){
-			recursiveLight(x + 1, y, bright, color, false);	
+		if ((x + 1 < sizex) && !(getBrightness(x + 1, y) >= bright)) {
+			recursiveLight(x + 1, y, bright, color, false);
 		}
-		if((y + 1 < sizey) && !(getBrightness(x, y + 1) >= bright)){
-			recursiveLight(x, y + 1, bright, color, false);	
+		if ((y + 1 < sizey) && !(getBrightness(x, y + 1) >= bright)) {
+			recursiveLight(x, y + 1, bright, color, false);
 		}
 	}
 
