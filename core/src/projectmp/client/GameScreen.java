@@ -8,6 +8,7 @@ import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
@@ -138,15 +139,14 @@ public class GameScreen extends Updateable {
 
 			world.lightingEngine.resetLighting(prex, prey, postx, posty);
 
-			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0),
-					(int) (getPlayer().x) - 2, (int) getPlayer().y - 2);
-			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0),
-					(int) (getPlayer().x), (int) getPlayer().y);
-			world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 0, 1),
-					(int) (getPlayer().x) + 2, (int) getPlayer().y);
-			// world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 1, 1), (int) (getPlayer().x), (int) getPlayer().y);
-
 			world.lightingEngine.floodFillLighting(prex, prey, postx, posty);
+		}
+
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			world.lightingEngine.setLightSource((byte) 127,
+					Color.rgb888(1, 0, 1),
+					((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
+					((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)));
 		}
 	}
 
@@ -158,8 +158,8 @@ public class GameScreen extends Updateable {
 			main.font.draw(main.batch, "entities: " + world.entities.size, 5,
 					Main.convertY(starting + 15));
 			main.font.draw(main.batch,
-					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms", 5,
-					Main.convertY(starting + 30));
+					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f)
+							+ " ms", 5, Main.convertY(starting + 30));
 		}
 	}
 
@@ -169,7 +169,7 @@ public class GameScreen extends Updateable {
 
 	@Override
 	public void show() {
-		if(world != null){
+		if (world != null) {
 			world.lightingEngine.scheduleLightingUpdate();
 		}
 	}
