@@ -7,7 +7,7 @@ import projectmp.common.Main;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
-public class EntityPlayer extends Entity {
+public class EntityPlayer extends EntityLiving {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
 

@@ -121,10 +121,7 @@ public class GameScreen extends Updateable {
 			getPlayer().moveRight();
 		}
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			getPlayer().moveUp();
-		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-			getPlayer().moveDown();
+			getPlayer().jump();
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.L)) {

@@ -1,6 +1,7 @@
 package projectmp.common;
 
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
@@ -49,6 +50,7 @@ public class ClassRegistration {
 	
 	private static void registerEntities(Kryo kryo){
 		kryo.register(Entity.class);
+		kryo.register(EntityLiving.class);
 		kryo.register(EntityPlayer.class);
 	}
 	
