@@ -36,8 +36,6 @@ public class LightingEngine {
 	private int[][] lightColor;
 	private int[][] tempLightColor;
 
-	private boolean[][] canSeeSky;
-
 	private TimeOfDay lastTOD = TimeOfDay.DAYTIME;
 	public float lastDayBrightness = TimeOfDay.DAYTIME.lightLevel / 127f;
 	private Color daylightColor = new Color(0, 0, 0, 1);
@@ -73,12 +71,10 @@ public class LightingEngine {
 		tempBrightness = new byte[sizex][sizey];
 		lightColor = new int[sizex][sizey];
 		tempLightColor = new int[sizex][sizey];
-		canSeeSky = new boolean[sizex][sizey];
 
 		for (int x = 0; x < sizex; x++) {
 			for (int y = 0; y < sizey; y++) {
 				lightColor[x][y] = Color.rgb888(0, 0, 0);
-				canSeeSky[x][y] = false;
 			}
 		}
 
@@ -240,7 +236,6 @@ public class LightingEngine {
 			for (int y = originy; y < height; y++) {
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
-				canSeeSky[x][y] = false;
 			}
 
 			int y = 0;
@@ -257,7 +252,6 @@ public class LightingEngine {
 					break;
 				}
 
-				canSeeSky[x][y] = true;
 				setBrightness((byte) (lastDayBrightness * 127f), x, y);
 				setLightColor(Color.rgb888(daylightColor), x, y);
 				y++;
@@ -267,7 +261,6 @@ public class LightingEngine {
 	}
 	
 	private void setToAmbientLight(int x, int y){
-		// TODO set brightness and colour based on time of day
 		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, (byte) (lastDayBrightness * 127f),
 				Color.rgb888(daylightColor)));
 	}
