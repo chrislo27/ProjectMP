@@ -319,7 +319,7 @@ public class Main extends Game implements Consumer {
 		}
 
 		for (Block b : Blocks.instance().getBlockList()) {
-			if (b.getAnimation() != null) b.getAnimation().dispose();
+			b.dispose();
 		}
 
 		// dispose screens

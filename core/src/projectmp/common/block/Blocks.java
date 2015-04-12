@@ -29,7 +29,9 @@ public class Blocks {
 		put(defaultBlock, new BlockEmpty());
 		put("stone", new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight());
 		put("dirt", new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight());
-		put("grass", new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight().setAnimation(Block.newSingleFrameAnimation("images/blocks/grass.png")));
+		put("grass",
+				new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
+						.addAnimation(Block.newSingleFrameAnimation("images/blocks/grass.png")));
 	}
 
 	private void put(String key, Block value) {
@@ -47,8 +49,8 @@ public class Blocks {
 		if (block == null) return defaultBlock;
 		return reverse.get(block);
 	}
-	
-	public Array<Block> getBlockList(){
+
+	public Array<Block> getBlockList() {
 		return allBlocks;
 	}
 
