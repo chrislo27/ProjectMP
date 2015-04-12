@@ -256,6 +256,8 @@ public class LightingEngine {
 				}
 
 				canSeeSky[x][y] = true;
+				setBrightness((byte) (lastDayBrightness * 127f), x, y);
+				setLightColor(Color.rgb888(daylightColor), x, y);
 				y++;
 			}
 
@@ -308,7 +310,6 @@ public class LightingEngine {
 		if (x < 0 || y < 0 || x + 1 >= sizex || y + 1 >= sizey) {
 			return;
 		}
-		if (canSeeSky[x][y]) return;
 
 		setBrightness(bright, x, y);
 
