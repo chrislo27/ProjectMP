@@ -3,8 +3,10 @@ package projectmp.common.world;
 import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
+import projectmp.common.entity.EntityLiving;
 import projectmp.common.packet.PacketBlockUpdate;
 import projectmp.common.packet.PacketTimeUpdate;
+import projectmp.common.packet.PacketUpdateHealth;
 import projectmp.server.ServerLogic;
 
 
@@ -13,6 +15,7 @@ public class ServerWorld extends World{
 	ServerLogic logic;
 	private PacketBlockUpdate bupacket = new PacketBlockUpdate();
 	private PacketTimeUpdate timepacket = new PacketTimeUpdate();
+	private PacketUpdateHealth healthpacket = new PacketUpdateHealth();
 	boolean shouldSendUpdates = true;
 	
 	public ServerWorld(Main main, int x, int y, boolean server, long seed, ServerLogic l) {
@@ -35,6 +38,12 @@ public class ServerWorld extends World{
 	public void sendTimeUpdate(){
 		timepacket.totalTicks = worldTime.totalTicks;
 		logic.server.sendToAllTCP(timepacket);
+	}
+	
+	public void sendHealthUpdate(EntityLiving e){
+		healthpacket.uuid = e.uuid;
+		healthpacket.newhealth = e.health;
+		logic.server.sendToAllTCP(healthpacket);
 	}
 
 	@Override
