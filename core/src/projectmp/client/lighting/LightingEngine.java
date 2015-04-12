@@ -101,11 +101,11 @@ public class LightingEngine {
 			Color.rgb888ToColor(tempColor, world.worldTime.getCurrentTimeOfDay().color);
 			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() * 2.0f);
 			
-			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
-				// forcefully set the colour and brightness when it's "close enough"
-				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
-				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
-			}
+//			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
+//				// forcefully set the colour and brightness when it's "close enough"
+//				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
+//				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
+//			}
 			
 			if((byte) (lastDayBrightness * 127) != byteform) scheduleLightingUpdate();
 		}
