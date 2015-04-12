@@ -213,7 +213,6 @@ public class LightingEngine {
 		if (x < 0 || y < 0 || y + 1 >= sizey || x + 1 >= sizex) return 0;
 
 		byte brightness = getBrightness(x, y);
-		if (canSeeSky[x][y]) brightness = (byte) (lastDayBrightness * 127f);
 
 		float alpha = (1 - ((brightness / 127f)));
 
