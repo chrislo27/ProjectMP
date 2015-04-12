@@ -93,6 +93,8 @@ public class LightingEngine {
 		lastTOD = world.worldTime.getCurrentTimeOfDay();
 
 		if((int) (lastDayBrightness * 127) != world.worldTime.getCurrentTimeOfDay().lightLevel){
+			byte byteform = (byte) (lastDayBrightness * 127);
+			
 			lastDayBrightness += ((world.worldTime.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
 					* Gdx.graphics.getDeltaTime() * 2.0f;
 			
@@ -104,7 +106,8 @@ public class LightingEngine {
 				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
 				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
 			}
-			scheduleLightingUpdate();
+			
+			if((byte) (lastDayBrightness * 127) != byteform) scheduleLightingUpdate();
 		}
 		
 		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH
