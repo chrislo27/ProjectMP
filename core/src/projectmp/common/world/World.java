@@ -52,8 +52,7 @@ public class World {
 	public SimplexNoise noiseGen;
 	public long seed = System.currentTimeMillis();
 	
-	protected long worldTime = 0;
-	protected final int ticksPerDay = (Main.TICKS) * 30;
+	public Time worldTime = new Time();
 
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;
@@ -85,7 +84,7 @@ public class World {
 	}
 
 	public void tickUpdate() {
-		++worldTime;
+		worldTime.tickUpdate();
 		
 		if (isServer) {
 			for (int i = 0; i < entities.size; i++) {
@@ -199,14 +198,6 @@ public class World {
 		PixmapIO.writePNG(new FileHandle("noisemaps/worldmap.png"), pix);
 		pix.dispose();
 
-	}
-
-	public long getTime(){
-		return worldTime;
-	}
-	
-	public void setTime(long t){
-		worldTime = t;
 	}
 	
 	public Block getBlock(int x, int y) {

@@ -27,13 +27,13 @@ public class ServerWorld extends World{
 	@Override
 	public void tickUpdate(){
 		super.tickUpdate();
-		if(worldTime % (Main.TICKS * 5) == 0){
+		if(worldTime.totalTicks % (Main.TICKS * 5) == 0){
 			sendTimeUpdate();
 		}
 	}
 	
 	public void sendTimeUpdate(){
-		timepacket.time = worldTime;
+		timepacket.totalTicks = worldTime.totalTicks;
 		logic.server.sendToAllTCP(timepacket);
 	}
 

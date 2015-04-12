@@ -7,6 +7,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.block.Block.BlockFaces;
+import projectmp.common.world.Time.TimeOfDay;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -37,7 +38,10 @@ public class LightingEngine {
 
 	private boolean[][] canSeeSky;
 
-	private Color ambient = new Color(0, 0, 0, 1);
+	private TimeOfDay lastTOD = TimeOfDay.DAYTIME;
+	public float lastDayBrightness = TimeOfDay.DAYTIME.lightLevel / 127f;
+	private Color daylightColor = new Color(0, 0, 0, 1);
+	private final Color shadowColor = new Color(0, 0, 0, 1);
 	private Color tempColor = new Color();
 	private Color tempColor2 = new Color();
 	private Color tempColor3 = new Color();
@@ -85,6 +89,24 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
+		if(lastTOD != world.worldTime.getCurrentTimeOfDay()) scheduleLightingUpdate();
+		lastTOD = world.worldTime.getCurrentTimeOfDay();
+
+		if((int) (lastDayBrightness * 127) != world.worldTime.getCurrentTimeOfDay().lightLevel){
+			lastDayBrightness += ((world.worldTime.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
+					* Gdx.graphics.getDeltaTime() * 2.0f;
+			
+			Color.rgb888ToColor(tempColor, world.worldTime.getCurrentTimeOfDay().color);
+			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() * 2.0f);
+			
+			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
+				// forcefully set the colour and brightness when it's "close enough"
+				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
+				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
+			}
+			scheduleLightingUpdate();
+		}
+		
 		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH
 				- (World.tilesizex * 2)) {
 			scheduleLightingUpdate();
@@ -112,10 +134,9 @@ public class LightingEngine {
 			updateLighting(prex, prey, postx, posty);
 			isUpdateScheduled = false;
 		}
+	
+		batch.begin();
 
-			batch.begin();
-		
-		
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
 
@@ -126,7 +147,7 @@ public class LightingEngine {
 							World.tilesizey);
 					continue;
 				}
-				
+
 				Main.drawGradient(batch, renderer.convertWorldX(x),
 						renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
 						World.tilesizey,
@@ -160,7 +181,7 @@ public class LightingEngine {
 	private Color setTempColor(int x, int y) {
 		Color.rgb888ToColor(tempColor, getLightColor(x, y));
 
-		tempColor.set(tempColor.lerp(ambient, calcAlpha(x, y)));
+		tempColor.set(tempColor.lerp(shadowColor, calcAlpha(x, y)));
 
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
 	}
@@ -182,14 +203,14 @@ public class LightingEngine {
 	}
 
 	private Color setToAmbient(int x, int y) {
-		return tempColor.set(ambient.r, ambient.g, ambient.b, calcAlpha(x, y));
+		return tempColor.set(daylightColor.r, daylightColor.g, daylightColor.b, calcAlpha(x, y));
 	}
 
 	public float calcAlpha(int x, int y) {
 		if (x < 0 || y < 0 || y + 1 >= sizey || x + 1 >= sizex) return 0;
 
 		byte brightness = getBrightness(x, y);
-		if (canSeeSky[x][y]) brightness = 127;
+		if (canSeeSky[x][y]) brightness = (byte) (lastDayBrightness * 127f);
 
 		float alpha = (1 - ((brightness / 127f)));
 
@@ -229,9 +250,8 @@ public class LightingEngine {
 				}
 				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 					terminate = true;
-					// TODO set brightness and colour based on time of day
-					lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, (byte) 127,
-							Color.rgb888(0, 0, 0)));
+					
+					setToAmbientLight(x, y);
 					break;
 				}
 
@@ -240,6 +260,12 @@ public class LightingEngine {
 			}
 
 		}
+	}
+	
+	private void setToAmbientLight(int x, int y){
+		// TODO set brightness and colour based on time of day
+		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, (byte) (lastDayBrightness * 127f),
+				Color.rgb888(daylightColor)));
 	}
 
 	public void floodFillLighting(int originx, int originy, int width, int height) {
@@ -348,12 +374,12 @@ public class LightingEngine {
 	}
 
 	public int getLightColor(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(1, 1, 1);
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(0, 0, 0);
 		return lightColor[x][y];
 	}
 
 	private int getTempLightColor(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(1, 1, 1);
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(0, 0, 0);
 		return tempLightColor[x][y];
 	}
 
