@@ -339,7 +339,7 @@ public class LightingEngine {
 		Color parameter = tempColor;
 		Color atPosition = tempColor2;
 
-		atPosition.lerp(parameter, 0.985f);
+		atPosition.lerp(parameter, 0.5f);
 		setLightColor(Color.rgb888(atPosition), x, y);
 		color = Color.rgb888(atPosition);
 	}
