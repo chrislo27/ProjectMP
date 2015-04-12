@@ -533,21 +533,7 @@ public class Main extends Game implements Consumer {
 				Texture.class);
 		manager.load(AssetMap.add("guinextlevel", "images/ui/button/nextlevel.png"), Texture.class);
 		manager.load(AssetMap.add("guiretry", "images/ui/button/retry.png"), Texture.class);
-		manager.load("images/ui/damage/yourMother.png", Texture.class);
-		manager.load("images/ui/damage/spikes.png", Texture.class);
-		manager.load("images/ui/damage/generic.png", Texture.class);
-		manager.load("images/ui/damage/fire.png", Texture.class);
-		manager.load("images/ui/damage/electric.png", Texture.class);
-		manager.load("images/ui/damage/theVoid.png", Texture.class);
 		manager.load(AssetMap.add("playerdirectionarrow", "images/ui/player-arrow.png"),
-				Texture.class);
-		manager.load(AssetMap.add("exityes", "images/ui/exitsign/exityes.png"), Texture.class);
-		manager.load(AssetMap.add("exitno", "images/ui/exitsign/exitno.png"), Texture.class);
-		manager.load(AssetMap.add("objective-failed", "images/ui/objective/failed.png"),
-				Texture.class);
-		manager.load(AssetMap.add("objective-complete", "images/ui/objective/complete.png"),
-				Texture.class);
-		manager.load(AssetMap.add("objective-incomplete", "images/ui/objective/incomplete.png"),
 				Texture.class);
 
 		// particle
@@ -589,38 +575,18 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("player", "images/entity/player/player.png"), Texture.class);
 		manager.load(AssetMap.add("playerGears", "images/entity/player/Copy of player.png"),
 				Texture.class);
-		manager.load(AssetMap.add("smallasteroid", "images/entity/smallasteroid.png"),
-				Texture.class);
-		manager.load(AssetMap.add("entityzaborinox", "images/entity/zaborinox.png"), Texture.class);
-		manager.load(AssetMap.add("entitywhale", "images/entity/whale.png"), Texture.class);
-		manager.load(AssetMap.add("entityball", "images/entity/ball.png"), Texture.class);
 
 		// misc
 		manager.load(AssetMap.add("vignette", "images/ui/vignette.png"), Texture.class);
 		manager.load(AssetMap.add("entityshield", "images/entity/shield.png"), Texture.class);
-		manager.load(AssetMap.add("levelselectbg", "images/levelselect/levelselectbg.png"),
-				Texture.class);
-		manager.load(AssetMap.add("levelselectdot", "images/levelselect/levelselectdot.png"),
-				Texture.class);
-		manager.load(
-				AssetMap.add("levelselectdotgears", "images/levelselect/levelselectdotgears.png"),
-				Texture.class);
-		manager.load(AssetMap.add("levelselected", "images/levelselect/levelselected.png"),
-				Texture.class);
 		manager.load(AssetMap.add("glintsquare", "images/item/glintsquare.png"), Texture.class);
 		manager.load(AssetMap.add("voidend", "images/voidend.png"), Texture.class);
 		manager.load(AssetMap.add("circlegradient", "images/circlegradient.png"), Texture.class);
 		manager.load(AssetMap.add("stunhalo", "images/stunhalo.png"), Texture.class);
 		manager.load(AssetMap.add("featheredcircle", "images/featheredcircle.png"), Texture.class);
 
-		// level backgrounds
-		manager.load(AssetMap.add("levelbgcity", "images/levelbg/city.png"), Texture.class);
-		manager.load(AssetMap.add("levelbgcircuit", "images/levelbg/circuit.png"), Texture.class);
-
 		// sfx
-		manager.load(AssetMap.add("questcomplete", "sounds/questcomplete.ogg"), Sound.class);
-		manager.load(AssetMap.add("switchsfx", "sounds/switch.ogg"), Sound.class);
-		manager.load(AssetMap.add("voidambient", "sounds/ambient/void.ogg"), Sound.class);
+		
 
 		// music
 
