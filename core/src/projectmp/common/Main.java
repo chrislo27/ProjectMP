@@ -317,9 +317,9 @@ public class Main extends Game implements Consumer {
 		while (it.hasNext()) {
 			((Texture) ((Entry) it.next()).getValue()).dispose();
 		}
-		
-		for(Block b : Blocks.instance().getBlockList()){
-			b.getAnimation().dispose();
+
+		for (Block b : Blocks.instance().getBlockList()) {
+			if (b.getAnimation() != null) b.getAnimation().dispose();
 		}
 
 		// dispose screens
