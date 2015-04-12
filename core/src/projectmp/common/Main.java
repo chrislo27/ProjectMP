@@ -34,6 +34,8 @@ import projectmp.client.animation.Animation;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.client.transition.Transition;
 import projectmp.client.transition.TransitionScreen;
+import projectmp.common.block.Block;
+import projectmp.common.block.Blocks;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
 import projectmp.common.util.CaptureStream.Consumer;
@@ -314,6 +316,10 @@ public class Main extends Game implements Consumer {
 		it = textures.entrySet().iterator();
 		while (it.hasNext()) {
 			((Texture) ((Entry) it.next()).getValue()).dispose();
+		}
+		
+		for(Block b : Blocks.instance().getBlockList()){
+			b.getAnimation().dispose();
 		}
 
 		// dispose screens
