@@ -54,12 +54,12 @@ import projectmp.server.ServerLogic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Colors;
@@ -272,6 +272,12 @@ public class Main extends Game implements Consumer {
 			}
 		}.start();
 
+		// set resolution/fullscreen according to settings
+		Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight, Settings.fullscreen);
+		
+		for(DisplayMode d : Gdx.graphics.getDisplayModes()){
+			Main.logger.debug("display mode: " + d.toString());
+		}
 	}
 
 	public void prepareStates() {
