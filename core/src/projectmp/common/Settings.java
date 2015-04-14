@@ -62,21 +62,45 @@ public class Settings {
 	public static Preferences getPreferences() {
 		return instance().pref;
 	}
-	
-	private static final String[] resolutions43 = new String[]{"640480", "800600", "1024x768", "1152x864", "1280x960"};
-	private static final String[] resolutions169 = new String[]{"1176x664", "1280x720", "1360x768", "1366x768", "1600x900", "1768x992", "1920x1080"};
-	private static final String[] resolutions1610 = new String[]{"1280x800", "1440x900", "1600x1024", "1680x750"};
-	
-	public static String[] get43ResolutionsList(){
+
+	private static final Resolution[] resolutions43 = new Resolution[] { new Resolution(640, 480),
+			new Resolution(800, 600), new Resolution(1024, 768), new Resolution(1152, 864),
+			new Resolution(1280, 960) };
+	private static final Resolution[] resolutions169 = new Resolution[] {
+			new Resolution(1176, 664), new Resolution(1280, 720), new Resolution(1360, 768),
+			new Resolution(1366, 768), new Resolution(1600, 900), new Resolution(1768, 992),
+			new Resolution(1920, 1080) };
+	private static final Resolution[] resolutions1610 = new Resolution[] {
+			new Resolution(1280, 800), new Resolution(1440, 900), new Resolution(1600, 1024),
+			new Resolution(1680, 750) };
+
+	public static Resolution[] get43ResolutionsList() {
 		return resolutions43;
 	}
-	
-	public static String[] get169ResolutionsList(){
+
+	public static Resolution[] get169ResolutionsList() {
 		return resolutions169;
 	}
-	
-	public static String[] get1610ResolutionsList(){
+
+	public static Resolution[] get1610ResolutionsList() {
 		return resolutions1610;
+	}
+
+	public static class Resolution {
+
+		int width = 0;
+		int height = 0;
+
+		public Resolution(int w, int h) {
+			width = w;
+			height = h;
+		}
+
+		@Override
+		public String toString() {
+			return width + "x" + height;
+		}
+
 	}
 
 }
