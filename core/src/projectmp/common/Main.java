@@ -274,10 +274,6 @@ public class Main extends Game implements Consumer {
 
 		// set resolution/fullscreen according to settings
 		Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight, Settings.fullscreen);
-		
-		for(DisplayMode d : Gdx.graphics.getDisplayModes()){
-			Main.logger.debug("display mode: " + d.toString());
-		}
 	}
 
 	public void prepareStates() {
