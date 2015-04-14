@@ -62,5 +62,21 @@ public class Settings {
 	public static Preferences getPreferences() {
 		return instance().pref;
 	}
+	
+	private static final String[] resolutions43 = new String[]{"640480", "800600", "1024x768", "1152x864", "1280x960"};
+	private static final String[] resolutions169 = new String[]{"1176x664", "1280x720", "1360x768", "1366x768", "1600x900", "1768x992", "1920x1080"};
+	private static final String[] resolutions1610 = new String[]{"1280x800", "1440x900", "1600x1024", "1680x750"};
+	
+	public static String[] get43ResolutionsList(){
+		return resolutions43;
+	}
+	
+	public static String[] get169ResolutionsList(){
+		return resolutions169;
+	}
+	
+	public static String[] get1610ResolutionsList(){
+		return resolutions1610;
+	}
 
 }
