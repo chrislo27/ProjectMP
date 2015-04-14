@@ -36,7 +36,7 @@ public class Block implements Disposable {
 		return this;
 	}
 
-	public static LoopingAnimation newSingleFrameAnimation(String path) {
+	public static LoopingAnimation singleBlockTexture(String path) {
 		return new LoopingAnimation(1, 1, path, false);
 	}
 

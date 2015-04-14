@@ -31,7 +31,7 @@ public class Blocks {
 		put("dirt", new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight());
 		put("grass",
 				new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.newSingleFrameAnimation("images/blocks/grass.png")));
+						.addAnimation(Block.singleBlockTexture("images/blocks/grass.png")));
 	}
 
 	private void put(String key, Block value) {
