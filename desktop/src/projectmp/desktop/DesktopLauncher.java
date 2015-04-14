@@ -16,11 +16,11 @@ public class DesktopLauncher {
 		config.title = "";
 		config.width = Settings.DEFAULT_WIDTH;
 		config.height = Settings.DEFAULT_HEIGHT;
+		config.fullscreen = false;
 		config.foregroundFPS = Main.MAX_FPS;
 		config.backgroundFPS = Main.MAX_FPS;
 		config.resizable = true;
 		config.vSyncEnabled = true;
-		config.fullscreen = false;
 		
 		config.addIcon("images/icon/icon32.png", FileType.Internal);
 		config.addIcon("images/icon/icon16.png", FileType.Internal);

@@ -2,11 +2,15 @@ package projectmp.client;
 
 import projectmp.client.ui.BackButton;
 import projectmp.client.ui.BooleanButton;
+import projectmp.client.ui.Button;
+import projectmp.client.ui.ChoiceButton;
 import projectmp.client.ui.LanguageButton;
+import projectmp.client.ui.ResolutionButton;
 import projectmp.client.ui.Slider;
 import projectmp.client.ui.TextBox;
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.Settings.Resolution;
 import projectmp.common.Translator;
 
 import com.badlogic.gdx.Gdx;
@@ -24,7 +28,7 @@ public class SettingsScreen extends Updateable {
 	private void addGuiElements() {
 		container.elements.clear();
 		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37,
-				Gdx.graphics.getHeight() - 37) {
+				Settings.DEFAULT_HEIGHT - 37) {
 
 			@Override
 			public boolean onLeftClick() {
@@ -68,13 +72,47 @@ public class SettingsScreen extends Updateable {
 				return true;
 			}
 		}.setState(Settings.smoothLighting));
+		
+		container.elements.add(resolutions169);
+		container.elements.add(resolutions43);
+		container.elements.add(resolutions1610);
+		container.elements.add(aspectRatio);
+		container.elements.add(fullscreen);
 
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 290, Settings.DEFAULT_HEIGHT - 430, 100, 32, "menu.settings.apply"){
+			
+			@Override
+			public boolean onLeftClick() {
+				super.onLeftClick();
+				
+				Resolution r = null;
+				switch(aspectRatio.selection){
+				case 0: // 16:9
+					r = Settings.get169ResolutionsList()[resolutions169.selection];
+					break;
+				case 1: // 4:3
+					r = Settings.get43ResolutionsList()[resolutions43.selection];
+					break;
+				case 2: // 16:10
+					r = Settings.get1610ResolutionsList()[resolutions1610.selection];
+					break;
+				}
+				
+				Settings.actualWidth = r.width;
+				Settings.actualHeight = r.height;
+				Settings.fullscreen = fullscreen.state;
+				
+				Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight, Settings.fullscreen);
+				
+				return true;
+			}
+		});
 	}
 
 	private Slider music = new Slider((Settings.DEFAULT_WIDTH / 2) - 80,
-			Gdx.graphics.getHeight() - 192, 160, 32);
+			Settings.DEFAULT_HEIGHT - 192, 160, 32);
 	private Slider sound = new Slider((Settings.DEFAULT_WIDTH / 2) - 80,
-			Gdx.graphics.getHeight() - 240, 160, 32);
+			Settings.DEFAULT_HEIGHT - 240, 160, 32);
 
 	private TextBox usernameBox = new TextBox((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
 			.getHeight() - 144, 160, 32, "" + Main.username).setAllowDigits(true)
@@ -82,7 +120,7 @@ public class SettingsScreen extends Updateable {
 			.setPasswordMode(false);
 	
 	private BooleanButton debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
-			Gdx.graphics.getHeight() - 332, 160, 32, "menu.settings.debugmode") {
+			Settings.DEFAULT_HEIGHT - 332, 160, 32, "menu.settings.debugmode") {
 
 		@Override
 		public boolean onLeftClick() {
@@ -91,6 +129,52 @@ public class SettingsScreen extends Updateable {
 			return true;
 		}
 	}.setState(Settings.debug);
+
+	private ResolutionButton resolutions169 = new ResolutionButton(
+			(Settings.DEFAULT_WIDTH / 2) - 320, Settings.DEFAULT_HEIGHT - 334, 160, 32,
+			Settings.get169ResolutionsStrings()){
+		
+		@Override
+		public boolean visible(){
+			return aspectRatio.selection == 0;
+		}
+	};
+
+	private ResolutionButton resolutions43 = new ResolutionButton(
+			(Settings.DEFAULT_WIDTH / 2) - 320, Settings.DEFAULT_HEIGHT - 334, 160, 32,
+			Settings.get43ResolutionsStrings()){
+		
+		@Override
+		public boolean visible(){
+			return aspectRatio.selection == 1;
+		}
+	};
+
+	private ResolutionButton resolutions1610 = new ResolutionButton(
+			(Settings.DEFAULT_WIDTH / 2) - 320, Settings.DEFAULT_HEIGHT - 334, 160, 32,
+			Settings.get1610ResolutionsStrings()){
+		
+		@Override
+		public boolean visible(){
+			return aspectRatio.selection == 2;
+		}
+	};
+
+	private ChoiceButton aspectRatio = new ChoiceButton((Settings.DEFAULT_WIDTH / 2) - 320,
+			Settings.DEFAULT_HEIGHT - 286, 160, 32, "menu.settings.aspectratio", new String[] {
+					"menu.settings.aspectratio.169", "menu.settings.aspectratio.43",
+					"menu.settings.aspectratio.1610" });
+
+	private BooleanButton fullscreen = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 320,
+			Settings.DEFAULT_HEIGHT - 382, 160, 32, "menu.settings.fullscreen") {
+
+		@Override
+		public boolean onLeftClick() {
+			super.onLeftClick();
+			Settings.fullscreen = !Settings.fullscreen;
+			return true;
+		}
+	}.setState(Settings.fullscreen);
 
 	private boolean showRestartMsg = false;
 
@@ -104,9 +188,9 @@ public class SettingsScreen extends Updateable {
 
 		if (showRestartMsg) {
 			main.font.setColor(1, 0, 0, 1);
-			main.font.draw(main.batch, "[RED]*[]",
+			main.font.draw(main.batch, "*",
 					(Settings.DEFAULT_WIDTH / 2) - 100 - (main.font.getSpaceWidth() * 2),
-					Gdx.graphics.getHeight() - 144 + 20);
+					Settings.DEFAULT_HEIGHT - 144 + 20);
 
 			main.font.setColor(1, 1, 1, 1);
 			main.drawScaled(Translator.getMsg("menu.settings.requiresrestart"),
@@ -116,13 +200,14 @@ public class SettingsScreen extends Updateable {
 		main.font.draw(main.batch,
 				Translator.getMsg("menu.settings.musicvol", (int) (music.slider * 100)),
 				(Settings.DEFAULT_WIDTH / 2) + 80 + (main.font.getSpaceWidth()),
-				Gdx.graphics.getHeight() - 192 + 20);
+				Settings.DEFAULT_HEIGHT - 192 + 20);
 		main.font.draw(main.batch,
 				Translator.getMsg("menu.settings.soundvol", (int) (sound.slider * 100)),
 				(Settings.DEFAULT_WIDTH / 2) + 80 + (main.font.getSpaceWidth()),
-				Gdx.graphics.getHeight() - 240 + 20);
+				Settings.DEFAULT_HEIGHT - 240 + 20);
 		main.drawInverse(Translator.getMsg("menu.settings.username", (int) (sound.slider * 100)),
-				(Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics.getHeight() - 144 + 23);
+				(Settings.DEFAULT_WIDTH / 2) - 80, Settings.DEFAULT_HEIGHT - 144 + 23);
+		main.drawCentered(Translator.getMsg("menu.settings.graphics"), (Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 232);
 
 		main.batch.end();
 	}
@@ -142,7 +227,6 @@ public class SettingsScreen extends Updateable {
 	private void exitScreen() {
 		main.setScreen(Main.MAINMENU);
 		Main.username = usernameBox.text;
-		Settings.getPreferences().putString("username", Main.username);
 		Settings.instance().save();
 	}
 
@@ -161,6 +245,36 @@ public class SettingsScreen extends Updateable {
 	@Override
 	public void show() {
 		usernameBox.text = Main.username;
+		pickCorrectResolution();
+	}
+	
+	private void pickCorrectResolution(){
+		fullscreen.state = Settings.fullscreen;
+		for(int i = 0; i < Settings.get169ResolutionsList().length; i++){
+			Resolution r = Settings.get169ResolutionsList()[i];
+			if(r.width == Gdx.graphics.getWidth() && r.height == Gdx.graphics.getHeight()){
+				aspectRatio.selection = 0;
+				resolutions169.selection = i;
+				Main.logger.debug("16:9 found at " + r.width + "x" + r.height);
+				return;
+			}
+		}
+		for(int i = 0; i < Settings.get43ResolutionsList().length; i++){
+			Resolution r = Settings.get43ResolutionsList()[i];
+			if(r.width == Gdx.graphics.getWidth() && r.height == Gdx.graphics.getHeight()){
+				aspectRatio.selection = 1;
+				resolutions43.selection = i;
+				return;
+			}
+		}
+		for(int i = 0; i < Settings.get1610ResolutionsList().length; i++){
+			Resolution r = Settings.get1610ResolutionsList()[i];
+			if(r.width == Gdx.graphics.getWidth() && r.height == Gdx.graphics.getHeight()){
+				aspectRatio.selection = 2;
+				resolutions1610.selection = i;
+				return;
+			}
+		}
 	}
 
 	@Override

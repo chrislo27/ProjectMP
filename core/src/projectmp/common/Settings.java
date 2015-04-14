@@ -7,7 +7,7 @@ public class Settings {
 
 	private static Settings instance;
 
-	public static final int DEFAULT_WIDTH = 1290;
+	public static final int DEFAULT_WIDTH = 1280;
 	public static final int DEFAULT_HEIGHT = 720;
 	public static final int DEFAULT_PORT = 27299;
 
@@ -56,7 +56,7 @@ public class Settings {
 		pref.putBoolean("showFPS", Settings.showFPS).putBoolean("vignette", showVignette)
 				.putFloat("sound", soundVolume).putFloat("music", musicVolume)
 				.putBoolean("smoothLighting", true).putInteger("actualWidth", actualWidth)
-				.putInteger("actualHeight", actualHeight).flush();
+				.putInteger("actualHeight", actualHeight).putString("username", Main.username).flush();
 	}
 
 	public static Preferences getPreferences() {
@@ -85,11 +85,38 @@ public class Settings {
 	public static Resolution[] get1610ResolutionsList() {
 		return resolutions1610;
 	}
+	
+	public static String[] get43ResolutionsStrings() {
+		String[] list = new String[get43ResolutionsList().length];
+		for(int i = 0; i < list.length; i++){
+			list[i] = get43ResolutionsList()[i].toString();
+		}
+		
+		return list;
+	}
+
+	public static String[] get169ResolutionsStrings() {
+		String[] list = new String[get169ResolutionsList().length];
+		for(int i = 0; i < list.length; i++){
+			list[i] = get169ResolutionsList()[i].toString();
+		}
+		
+		return list;
+	}
+
+	public static String[] get1610ResolutionsStrings() {
+		String[] list = new String[get1610ResolutionsList().length];
+		for(int i = 0; i < list.length; i++){
+			list[i] = get1610ResolutionsList()[i].toString();
+		}
+		
+		return list;
+	}
 
 	public static class Resolution {
 
-		int width = 0;
-		int height = 0;
+		public int width = 0;
+		public int height = 0;
 
 		public Resolution(int w, int h) {
 			width = w;

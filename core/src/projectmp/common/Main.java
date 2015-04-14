@@ -186,7 +186,7 @@ public class Main extends Game implements Consumer {
 		maskRenderer.enableBlending();
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
-		
+
 		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MotionControl-Bold.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.size = 24;
@@ -273,7 +273,13 @@ public class Main extends Game implements Consumer {
 		}.start();
 
 		// set resolution/fullscreen according to settings
-		Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight, Settings.fullscreen);
+		if (Gdx.graphics.getWidth() != Settings.actualWidth
+				|| Gdx.graphics.getHeight() != Settings.actualHeight
+				|| Gdx.graphics.isFullscreen() != Settings.fullscreen) {
+			Main.logger.debug("current: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
+			Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight,
+					Settings.fullscreen);
+		}
 	}
 
 	public void prepareStates() {
@@ -496,7 +502,7 @@ public class Main extends Game implements Consumer {
 				} else if (Gdx.input.isKeyJustPressed(Keys.M)) {
 					ERRORMSG.setMessage("Error: Success");
 					setScreen(ERRORMSG);
-				} else if (Gdx.input.isKeyJustPressed(Keys.N)){
+				} else if (Gdx.input.isKeyJustPressed(Keys.N)) {
 					Main.username = Main.getRandomUsername();
 				}
 
@@ -587,7 +593,6 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("featheredcircle", "images/featheredcircle.png"), Texture.class);
 
 		// sfx
-		
 
 		// music
 
@@ -719,37 +724,37 @@ public class Main extends Game implements Consumer {
 	public void fillRect(float x, float y, float width, float height) {
 		batch.draw(filltex, x, y, width, height);
 	}
-	
+
 	private static float[] gradientverts = new float[20];
 
-	public static void drawGradient(SpriteBatch batch, float x, float y,
-	      float width, float height, Color bl, Color br, Color tr, Color tl) {
-	   int idx = 0;
-	   gradientverts[idx++] = x;
-	   gradientverts[idx++] = y;
-	   gradientverts[idx++] = bl.toFloatBits(); // bottom left
-	   gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
-	   gradientverts[idx++] = filltexRegion.getV2();
+	public static void drawGradient(SpriteBatch batch, float x, float y, float width, float height,
+			Color bl, Color br, Color tr, Color tl) {
+		int idx = 0;
+		gradientverts[idx++] = x;
+		gradientverts[idx++] = y;
+		gradientverts[idx++] = bl.toFloatBits(); // bottom left
+		gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
+		gradientverts[idx++] = filltexRegion.getV2();
 
-	   gradientverts[idx++] = x;
-	   gradientverts[idx++] = y + height;
-	   gradientverts[idx++] = tl.toFloatBits(); // top left
-	   gradientverts[idx++] = filltexRegion.getU();
-	   gradientverts[idx++] = filltexRegion.getV();
+		gradientverts[idx++] = x;
+		gradientverts[idx++] = y + height;
+		gradientverts[idx++] = tl.toFloatBits(); // top left
+		gradientverts[idx++] = filltexRegion.getU();
+		gradientverts[idx++] = filltexRegion.getV();
 
-	   gradientverts[idx++] = x + width;
-	   gradientverts[idx++] = y + height;
-	   gradientverts[idx++] = tr.toFloatBits(); // top right
-	   gradientverts[idx++] = filltexRegion.getU2();
-	   gradientverts[idx++] = filltexRegion.getV();
+		gradientverts[idx++] = x + width;
+		gradientverts[idx++] = y + height;
+		gradientverts[idx++] = tr.toFloatBits(); // top right
+		gradientverts[idx++] = filltexRegion.getU2();
+		gradientverts[idx++] = filltexRegion.getV();
 
-	   gradientverts[idx++] = x + width;
-	   gradientverts[idx++] = y;
-	   gradientverts[idx++] = br.toFloatBits(); // bottom right
-	   gradientverts[idx++] = filltexRegion.getU2();
-	   gradientverts[idx++] = filltexRegion.getV2();
+		gradientverts[idx++] = x + width;
+		gradientverts[idx++] = y;
+		gradientverts[idx++] = br.toFloatBits(); // bottom right
+		gradientverts[idx++] = filltexRegion.getU2();
+		gradientverts[idx++] = filltexRegion.getV2();
 
-	   batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
+		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
 	}
 
 	/**
