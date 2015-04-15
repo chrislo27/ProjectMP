@@ -54,7 +54,6 @@ import projectmp.server.ServerLogic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
@@ -190,9 +189,10 @@ public class Main extends Game implements Consumer {
 
 		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
+		ttfParam.minFilter = TextureFilter.Linear;
+		ttfParam.magFilter = TextureFilter.Nearest;
 		ttfParam.size = 12;
 		font = ttfGenerator.generateFont(ttfParam);
-		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		font.setMarkupEnabled(true);
 
 		arial = new BitmapFont();
