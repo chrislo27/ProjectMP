@@ -198,7 +198,7 @@ public class Main extends Game implements Consumer {
 		arial = new BitmapFont();
 		arial.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		
-		courier = new BitmapFont(Gdx.files.internal("fonts/couriernewbolt.fnt"));
+		courier = new BitmapFont(Gdx.files.internal("fonts/couriernewbold.fnt"));
 		courier.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		Pixmap pix = new Pixmap(1, 1, Format.RGBA8888);
