@@ -188,7 +188,7 @@ public class Main extends Game implements Consumer {
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
 
-		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/MotionControl-Bold.ttf"));
+		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.size = 24;
 		font = ttfGenerator.generateFont(ttfParam);
