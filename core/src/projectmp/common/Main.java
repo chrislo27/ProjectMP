@@ -276,7 +276,6 @@ public class Main extends Game implements Consumer {
 		if (Gdx.graphics.getWidth() != Settings.actualWidth
 				|| Gdx.graphics.getHeight() != Settings.actualHeight
 				|| Gdx.graphics.isFullscreen() != Settings.fullscreen) {
-			Main.logger.debug("current: " + Gdx.graphics.getWidth() + "x" + Gdx.graphics.getHeight());
 			Gdx.graphics.setDisplayMode(Settings.actualWidth, Settings.actualHeight,
 					Settings.fullscreen);
 		}
