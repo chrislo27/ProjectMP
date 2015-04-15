@@ -98,6 +98,7 @@ public class Main extends Game implements Consumer {
 
 	private FreeTypeFontGenerator ttfGenerator;
 	public BitmapFont font;
+	public BitmapFont courier;
 	public BitmapFont arial;
 
 	private static Color rainbow = new Color();
@@ -196,6 +197,9 @@ public class Main extends Game implements Consumer {
 
 		arial = new BitmapFont();
 		arial.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		
+		courier = new BitmapFont(Gdx.files.internal("fonts/couriernewbolt.fnt"));
+		courier.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		Pixmap pix = new Pixmap(1, 1, Format.RGBA8888);
 		pix.setColor(Color.WHITE);
@@ -304,6 +308,7 @@ public class Main extends Game implements Consumer {
 		manager.dispose();
 		font.dispose();
 		arial.dispose();
+		courier.dispose();
 		maskshader.dispose();
 		blueprintshader.dispose();
 		toonshader.dispose();
