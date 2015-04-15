@@ -267,6 +267,7 @@ public class Main extends Game implements Consumer {
 
 		new Thread("version checker") {
 
+			@Override
 			public void run() {
 				VersionGetter.instance().getVersionFromServer();
 			}
