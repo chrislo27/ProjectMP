@@ -97,7 +97,6 @@ public class Main extends Game implements Consumer {
 
 	private FreeTypeFontGenerator ttfGenerator;
 	public BitmapFont font;
-	public BitmapFont courier;
 	public BitmapFont arial;
 
 	private static Color rainbow = new Color();
@@ -187,19 +186,16 @@ public class Main extends Game implements Consumer {
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
 
-		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
+		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Osaka.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
-		ttfParam.minFilter = TextureFilter.Linear;
-		ttfParam.magFilter = TextureFilter.Nearest;
-		ttfParam.size = 12;
+		ttfParam.magFilter = TextureFilter.Linear;
+		ttfParam.minFilter = TextureFilter.Nearest;
+		ttfParam.size = 16;
 		font = ttfGenerator.generateFont(ttfParam);
 		font.setMarkupEnabled(true);
 
 		arial = new BitmapFont();
 		arial.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
-		courier = new BitmapFont(Gdx.files.internal("fonts/couriernewbold.fnt"));
-		courier.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		Pixmap pix = new Pixmap(1, 1, Format.RGBA8888);
 		pix.setColor(Color.WHITE);
@@ -308,7 +304,6 @@ public class Main extends Game implements Consumer {
 		manager.dispose();
 		font.dispose();
 		arial.dispose();
-		courier.dispose();
 		maskshader.dispose();
 		blueprintshader.dispose();
 		toonshader.dispose();
