@@ -26,20 +26,20 @@ public class TextBox extends Button {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guibgtext");
-		main.font.setColor(1, 1, 1, 1);
+		main.courier.setColor(1, 1, 1, 1);
 
 		if (!passwordMode) {
-			main.font.draw(main.batch, text, x + 8, y + (height / 2)
-					+ (main.font.getBounds(text).height / 2));
+			main.courier.draw(main.batch, text, x + 8, y + (height / 2)
+					+ (main.courier.getBounds(text).height / 2));
 		} else {
-			main.font.draw(main.batch, Utils.repeat("*", text.length()), x + 8, y + (height / 2)
-					+ (main.font.getBounds(text).height / 2));
+			main.courier.draw(main.batch, Utils.repeat("*", text.length()), x + 8, y + (height / 2)
+					+ (main.courier.getBounds(text).height / 2));
 		}
 
 		if (clicked
 				&& MathHelper.getNumberFromTime(System.currentTimeMillis() - clickedTime, 1f) <= 0.5f) {
-			main.font.draw(main.batch, "|", x + 8 + main.font.getBounds(text).width, y
-					+ (height / 2) + (main.font.getBounds(text).height / 2));
+			main.courier.draw(main.batch, "|", x + 8 + main.courier.getBounds(text).width, y
+					+ (height / 2) + (main.courier.getBounds(text).height / 2));
 		}
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {

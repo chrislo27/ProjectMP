@@ -17,8 +17,8 @@ public class LanguageButton extends Button {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guilanguage");
-		main.font.setColor(Color.WHITE);
-		main.font.draw(main.batch,
+		main.courier.setColor(Color.WHITE);
+		main.courier.draw(main.batch,
 				Translator.getMsg("menu.language") + ": "
 						+ Translator.instance().languageList.get(Translator.instance().toUse),
 				x + width + 5, y + (height / 2));

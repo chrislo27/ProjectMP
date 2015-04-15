@@ -156,7 +156,7 @@ public class Particle implements Poolable {
 				if (texture.startsWith("_")) {
 					main.font.setColor(tintr, tintg, tintb,
 							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
-					main.drawCentered(texture.substring(1), x * World.tilesizex,
+					main.drawCentered(main.font, texture.substring(1), x * World.tilesizex,
 							Main.convertY(y * World.tilesizey));
 					main.font.setColor(Color.WHITE);
 				} else {

@@ -31,7 +31,7 @@ public class EntityPlayer extends EntityLiving {
 		if(!world.isServer){
 			if(Main.GAME.getPlayer() != this){
 				world.main.font.setColor(1, 1, 1, 1);
-				world.main.drawCentered(username, renderer.convertWorldX(visualX + (sizex / 2)),
+				world.main.drawCentered(world.main.font, username, renderer.convertWorldX(visualX + (sizex / 2)),
 						renderer.convertWorldY(visualY - sizey, World.tilesizey * sizey) + 20);
 			}
 		}

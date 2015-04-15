@@ -57,28 +57,28 @@ public strictfp class MainMenuScreen extends Updateable {
 
 		main.font.setColor(Color.WHITE);
 		main.font.setScale(2.5f);
-		main.drawCentered(Translator.getMsg("gamename").toUpperCase(), Settings.DEFAULT_WIDTH / 2,
+		main.drawCentered(main.font, Translator.getMsg("gamename").toUpperCase(), Settings.DEFAULT_WIDTH / 2,
 				Main.convertY(200));
 		main.font.setScale(1);
 
-		main.drawInverse(Main.version, Settings.DEFAULT_WIDTH - 5, 20);
+		main.drawInverse(main.font, Main.version, Settings.DEFAULT_WIDTH - 5, 20);
 		if (Main.githubVersion == null) {
-			main.drawInverse(Translator.getMsg("menu.checkingversion"),
+			main.drawInverse(main.font, Translator.getMsg("menu.checkingversion"),
 					Settings.DEFAULT_WIDTH - 5, 35);
 		} else {
 			if(Main.githubVersion.equals(Main.version)){
 				main.font.setColor(0, 1, 0, 1);
-				main.drawInverse(Translator.getMsg("menu.uptodate"), Settings.DEFAULT_WIDTH - 5,
+				main.drawInverse(main.font, Translator.getMsg("menu.uptodate"), Settings.DEFAULT_WIDTH - 5,
 						35);
 				main.font.setColor(1, 1, 1, 1);
 			}else{
 				main.font.setColor(1, 0, 0, 1);
-				main.drawInverse(Translator.getMsg("menu.newversion") + Main.githubVersion,
+				main.drawInverse(main.font, Translator.getMsg("menu.newversion") + Main.githubVersion,
 						Settings.DEFAULT_WIDTH - 5, 35);
 				main.font.setColor(1, 1, 1, 1);
 			}
 		}
-		main.drawInverse(Translator.getMsg("menu.player") + Main.username, Settings.DEFAULT_WIDTH - 5, 50);
+		main.drawInverse(main.font, Translator.getMsg("menu.player") + Main.username, Settings.DEFAULT_WIDTH - 5, 50);
 		container.render(main);
 		main.font.setColor(Color.WHITE);
 		main.batch.setColor(1, 1, 1, 1);

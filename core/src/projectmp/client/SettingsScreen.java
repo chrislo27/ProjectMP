@@ -193,7 +193,7 @@ public class SettingsScreen extends Updateable {
 					Settings.DEFAULT_HEIGHT - 144 + 20);
 
 			main.font.setColor(1, 1, 1, 1);
-			main.drawScaled(Translator.getMsg("menu.settings.requiresrestart"),
+			main.drawScaled(main.font, Translator.getMsg("menu.settings.requiresrestart"),
 					(Settings.DEFAULT_WIDTH / 2), 100, 512, 0);
 		}
 		main.font.setColor(1, 1, 1, 1);
@@ -205,9 +205,9 @@ public class SettingsScreen extends Updateable {
 				Translator.getMsg("menu.settings.soundvol", (int) (sound.slider * 100)),
 				(Settings.DEFAULT_WIDTH / 2) + 80 + (main.font.getSpaceWidth()),
 				Settings.DEFAULT_HEIGHT - 240 + 20);
-		main.drawInverse(Translator.getMsg("menu.settings.username", (int) (sound.slider * 100)),
+		main.drawInverse(main.font, Translator.getMsg("menu.settings.username", (int) (sound.slider * 100)),
 				(Settings.DEFAULT_WIDTH / 2) - 80, Settings.DEFAULT_HEIGHT - 144 + 23);
-		main.drawCentered(Translator.getMsg("menu.settings.graphics"), (Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 232);
+		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics"), (Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 232);
 
 		main.batch.end();
 	}

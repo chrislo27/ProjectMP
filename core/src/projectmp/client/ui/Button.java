@@ -45,17 +45,18 @@ public class Button extends GuiElement {
 	@Override
 	public void render(Main main) {
 		imageRender(main, "guibg");
-		main.font.setColor(Color.BLACK);
 		renderText(main, Translator.getMsg(text), this.width);
 	}
 	
 	protected void renderText(Main main, String text, float width){
-		if(main.font.getBounds(text).width + 6 > width){
-			main.font.setScale(width / (main.font.getBounds(text).width + 6));
+		main.courier.setColor(Color.BLACK);
+		
+		if(main.courier.getBounds(text).width + 6 > width){
+			main.courier.setScale(width / (main.courier.getBounds(text).width + 6));
 		}
-		main.drawCentered(text, x + (width / 2),
-				y + (height / 2) + (main.font.getBounds(text).height / 2));
-		main.font.setScale(1f);
+		main.drawCentered(main.courier, text, x + (width / 2),
+				y + (height / 2) + (main.courier.getBounds(text).height / 2));
+		main.courier.setScale(1f);
 	}
 
 	@Override

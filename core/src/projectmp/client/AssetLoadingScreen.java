@@ -62,13 +62,13 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		main.fillRect(Settings.DEFAULT_WIDTH / 2 + 132, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
 
 		if (main.manager.getAssetNames().size > 0) {
-			main.drawTextBg(output.getLastMsg(),
+			main.drawTextBg(main.font, output.getLastMsg(),
 					Settings.DEFAULT_WIDTH / 2
 							- (main.font.getBounds(output.getLastMsg()).width / 2),
 					Gdx.graphics.getHeight() / 2 - 35);
 		}
 		String percent = String.format("%.0f", (main.manager.getProgress() * 100f)) + "%";
-		main.drawTextBg(percent, Settings.DEFAULT_WIDTH / 2
+		main.drawTextBg(main.font, percent, Settings.DEFAULT_WIDTH / 2
 				- (main.font.getBounds(percent).width / 2), Gdx.graphics.getHeight() / 2 - 60);
 
 //		if(Gdx.input.isKeyJustPressed(Keys.S)){
