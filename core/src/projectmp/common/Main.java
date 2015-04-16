@@ -188,11 +188,11 @@ public class Main extends Game implements Consumer {
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
 
-		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Osaka.ttf"));
+		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.magFilter = TextureFilter.Linear;
 		ttfParam.minFilter = TextureFilter.Linear;
-		ttfParam.size = 16;
+		ttfParam.size = 14; // 14 for my font, 16 for Osaka font
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
 		font.setMarkupEnabled(true);
