@@ -204,6 +204,10 @@ public class Shaders {
 	public static final String VERTSWIZZLE = VERTDEFAULT;
 	
 	public static final String FRAGSWIZZLE = Gdx.files.internal("shaders/swizzle.frag").readString();
+	
+	public static final String VERTDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.vert").readString();
+	
+	public static final String FRAGDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.frag").readString();
 
 	
 }

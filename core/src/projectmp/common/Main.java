@@ -134,6 +134,7 @@ public class Main extends Game implements Consumer {
 	public ShaderProgram defaultShader;
 	public ShaderProgram invertshader;
 	public ShaderProgram swizzleshader;
+	public ShaderProgram distanceFieldShader;
 
 	public HashMap<String, Animation> animations = new HashMap<String, Animation>();
 	public HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -190,7 +191,7 @@ public class Main extends Game implements Consumer {
 		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Osaka.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.magFilter = TextureFilter.Linear;
-		ttfParam.minFilter = TextureFilter.Nearest;
+		ttfParam.minFilter = TextureFilter.Linear;
 		ttfParam.size = 16;
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
@@ -259,6 +260,7 @@ public class Main extends Game implements Consumer {
 
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
 		swizzleshader = new ShaderProgram(Shaders.VERTSWIZZLE, Shaders.FRAGSWIZZLE);
+		distanceFieldShader = new ShaderProgram(Shaders.VERTDISTANCEFIELD, Shaders.FRAGDISTANCEFIELD);
 
 		loadUnmanagedAssets();
 		loadAssets();
@@ -317,6 +319,7 @@ public class Main extends Game implements Consumer {
 		blueprintrenderer.dispose();
 		invertshader.dispose();
 		swizzleshader.dispose();
+		distanceFieldShader.dispose();
 		shapes.dispose();
 
 		Iterator it = animations.entrySet().iterator();
