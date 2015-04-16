@@ -57,10 +57,8 @@ public strictfp class MainMenuScreen extends Updateable {
 
 		main.font.setColor(Color.WHITE);
 		main.font.setScale(2.5f);
-		main.batch.setShader(main.distanceFieldShader);
 		main.drawCentered(main.font, Translator.getMsg("gamename").toUpperCase(), Settings.DEFAULT_WIDTH / 2,
 				Main.convertY(200));
-		main.batch.setShader(null);
 		main.font.setScale(1);
 
 		main.drawInverse(main.font, Main.version, Settings.DEFAULT_WIDTH - 5, 20);
