@@ -44,6 +44,7 @@ import projectmp.common.util.Logger;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.MemoryUtils;
 import projectmp.common.util.ScreenshotFactory;
+import projectmp.common.util.SpecialCharactersList;
 import projectmp.common.util.Splashes;
 import projectmp.common.util.Utils;
 import projectmp.common.util.render.Gears;
@@ -191,8 +192,11 @@ public class Main extends Game implements Consumer {
 		ttfParam.magFilter = TextureFilter.Linear;
 		ttfParam.minFilter = TextureFilter.Nearest;
 		ttfParam.size = 16;
+		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
 		font.setMarkupEnabled(true);
+
+		ttfGenerator.dispose();
 
 		arial = new BitmapFont();
 		arial.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
@@ -314,7 +318,6 @@ public class Main extends Game implements Consumer {
 		invertshader.dispose();
 		swizzleshader.dispose();
 		shapes.dispose();
-		ttfGenerator.dispose();
 
 		Iterator it = animations.entrySet().iterator();
 		while (it.hasNext()) {
@@ -817,7 +820,8 @@ public class Main extends Game implements Consumer {
 		batch.setColor(1, 1, 1, 1);
 	}
 
-	public void drawScaled(BitmapFont font, String text, float x, float y, float width, float padding) {
+	public void drawScaled(BitmapFont font, String text, float x, float y, float width,
+			float padding) {
 		if (font.getBounds(text).width + (padding * 2) > width) {
 			font.setScale(width / (font.getBounds(text).width + (padding * 2)));
 		}
