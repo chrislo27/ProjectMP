@@ -96,7 +96,6 @@ public class Main extends Game implements Consumer {
 
 	public ShapeRenderer shapes;
 
-	private FreeTypeFontGenerator ttfGenerator;
 	public BitmapFont font;
 	public BitmapFont arial;
 
@@ -188,7 +187,7 @@ public class Main extends Game implements Consumer {
 		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
 
-		ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
+		FreeTypeFontGenerator ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.magFilter = TextureFilter.Linear;
 		ttfParam.minFilter = TextureFilter.Linear;
