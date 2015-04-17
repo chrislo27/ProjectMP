@@ -1,6 +1,6 @@
 package projectmp.client;
 
-import projectmp.client.ui.Container;
+import projectmp.client.ui.UiContainer;
 import projectmp.common.Main;
 
 import com.badlogic.gdx.Screen;
@@ -8,7 +8,7 @@ import com.badlogic.gdx.Screen;
 public abstract class Updateable implements Screen {
 
 	public Main main;
-	public Container container = new Container();
+	public UiContainer container = new UiContainer();
 
 	public Updateable(Main m) {
 		main = m;

@@ -8,7 +8,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 
-public class Slider extends GuiElement {
+public class Slider extends UiElement {
 
 	public float slider = 0;
 

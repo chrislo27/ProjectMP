@@ -43,7 +43,7 @@ public class TextBox extends Button {
 		}
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-			if (!Container.mouseIn(this)) {
+			if (!UiContainer.mouseIn(this)) {
 				setFocus(false);
 			}
 		}

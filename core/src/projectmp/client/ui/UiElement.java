@@ -2,7 +2,7 @@ package projectmp.client.ui;
 
 import projectmp.common.Main;
 
-public abstract class GuiElement {
+public abstract class UiElement {
 
 	protected int x;
 	protected int y;

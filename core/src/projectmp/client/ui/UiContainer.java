@@ -8,19 +8,19 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 
-public class Container {
+public class UiContainer {
 
-	public Array<GuiElement> elements = new Array<GuiElement>();
+	public Array<UiElement> elements = new Array<UiElement>();
 
 	public void render(Main main) {
-		for (GuiElement e : elements) {
+		for (UiElement e : elements) {
 			if (!e.visible()) continue;
 			e.render(main);
 		}
 	}
 
 	public boolean onLeftClick() {
-		for (GuiElement e : elements) {
+		for (UiElement e : elements) {
 			if (!e.visible()) continue;
 			if (mouseIn(e)) if (e.onLeftClick()) return true;
 		}
@@ -29,7 +29,7 @@ public class Container {
 	}
 
 	public boolean onRightClick() {
-		for (GuiElement e : elements) {
+		for (UiElement e : elements) {
 			if (!e.visible()) continue;
 			if (mouseIn(e)) if (e.onRightClick()) return true;
 		}
@@ -38,7 +38,7 @@ public class Container {
 	}
 
 	public boolean onKeyTyped(char c) {
-		for (GuiElement e : elements) {
+		for (UiElement e : elements) {
 			if (!e.visible()) continue;
 			if (e.onKeyTyped(c)) return true;
 		}
@@ -46,7 +46,7 @@ public class Container {
 		return false;
 	}
 
-	protected static boolean mouseIn(GuiElement e) {
+	protected static boolean mouseIn(UiElement e) {
 		if (!e.visible()) return false;
 		if (Main.getInputX() >= e.getX() && Main.getInputX() <= (e.getX()) + (e.getWidth())) {
 			if (Settings.DEFAULT_HEIGHT - Main.getInputY() >= e.getY()

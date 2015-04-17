@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 
-public class Button extends GuiElement {
+public class Button extends UiElement {
 
 	public String text;
 
@@ -34,7 +34,7 @@ public class Button extends GuiElement {
 
 	public void imageRender(Main main, String img) {
 		main.batch.draw(main.manager.get(AssetMap.get(img), Texture.class), x, y, width, height);
-		if (Container.mouseIn(this)) {
+		if (UiContainer.mouseIn(this)) {
 			main.batch.setColor(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.42f);
 			main.batch
 					.draw(main.manager.get(AssetMap.get(img), Texture.class), x, y, width, height);
