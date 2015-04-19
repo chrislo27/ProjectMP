@@ -206,8 +206,6 @@ public class LightingEngine {
 	}
 
 	public float calcAlpha(int x, int y) {
-		if (x < 0 || y < 0 || y + 1 >= sizey || x + 1 >= sizex) return 0;
-
 		byte brightness = getBrightness(x, y);
 
 		float alpha = (1 - ((brightness / 127f)));
@@ -359,23 +357,47 @@ public class LightingEngine {
 		lightColor[x][y] = color;
 	}
 
-	public byte getBrightness(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return 0;
+	public byte getBrightness(int posx, int posy) {
+		int x = posx;
+		int y = posy;
+		if(x < 0) x = 0;
+		if(x >= world.sizex) x = world.sizex - 1;
+		if(y < 0) y = 0;
+		if(y >= world.sizey) y = world.sizey - 1;
+		
 		return brightness[x][y];
 	}
 
-	private byte getTempBrightness(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return 0;
+	private byte getTempBrightness(int posx, int posy) {
+		int x = posx;
+		int y = posy;
+		if(x < 0) x = 0;
+		if(x >= world.sizex) x = world.sizex - 1;
+		if(y < 0) y = 0;
+		if(y >= world.sizey) y = world.sizey - 1;
+		
 		return tempBrightness[x][y];
 	}
 
-	public int getLightColor(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(0, 0, 0);
+	public int getLightColor(int posx, int posy) {
+		int x = posx;
+		int y = posy;
+		if(x < 0) x = 0;
+		if(x >= world.sizex) x = world.sizex - 1;
+		if(y < 0) y = 0;
+		if(y >= world.sizey) y = world.sizey - 1;
+		
 		return lightColor[x][y];
 	}
 
-	private int getTempLightColor(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Color.rgb888(0, 0, 0);
+	private int getTempLightColor(int posx, int posy) {
+		int x = posx;
+		int y = posy;
+		if(x < 0) x = 0;
+		if(x >= world.sizex) x = world.sizex - 1;
+		if(y < 0) y = 0;
+		if(y >= world.sizey) y = world.sizey - 1;
+		
 		return tempLightColor[x][y];
 	}
 
