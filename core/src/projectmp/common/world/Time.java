@@ -31,6 +31,8 @@ public class Time {
 
 	public void setTotalTime(int t) {
 		totalTicks = t;
+		currentDayTicks = totalTicks % ticksPerDay;
+		days = totalTicks / ticksPerDay;
 	}
 
 	public TimeOfDay getCurrentTimeOfDay() {
