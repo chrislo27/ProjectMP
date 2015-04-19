@@ -2,6 +2,7 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.packet.PacketPlayerPosUpdate;
@@ -84,10 +85,12 @@ public class GameScreen extends Updateable {
 	public void tickUpdate() {
 		renderer.tickUpdate();
 
+		for(int i = 0; i < world.entities.size; i++){
+			world.entities.get(i).movementAndCollision();
+		}
+		
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
-				getPlayer().tickUpdate();
-
 				if (getPlayer().hasMovedLastTick()) {
 					playerUpdate.username = Main.username;
 					playerUpdate.x = getPlayer().x;
@@ -95,6 +98,10 @@ public class GameScreen extends Updateable {
 
 					main.client.sendUDP(playerUpdate);
 				}
+			}else{
+				main.client.close();
+				Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.connectionlost"));
+				main.setScreen(Main.ERRORMSG);
 			}
 
 		}
