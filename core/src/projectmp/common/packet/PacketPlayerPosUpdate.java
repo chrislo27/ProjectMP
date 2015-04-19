@@ -6,7 +6,12 @@ import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
-
+/**
+ * client sends this to the server
+ * if the server sends this to a client they must update the position
+ * server uses PacketPositionUpdate to update ALL entities, regardless of type
+ *
+ */
 public class PacketPlayerPosUpdate implements Packet {
 
 	public String username;
