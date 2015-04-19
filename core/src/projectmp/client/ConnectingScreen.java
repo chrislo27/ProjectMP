@@ -2,6 +2,8 @@ package projectmp.client;
 
 import java.io.IOException;
 
+import com.esotericsoftware.minlog.Log;
+
 import projectmp.common.Main;
 import projectmp.common.packet.PacketHandshake;
 
@@ -11,13 +13,11 @@ public class ConnectingScreen extends MessageScreen{
 	public ConnectingScreen(Main m) {
 		super(m);
 	}
-	
-	public void connectTo(final String host, final int port){
-		setMessage("Closing client (if still connected)");
-		main.client.stop();
+
+	public void connectTo(final String host, final int port) {
 		setMessage("Attempting to connect to " + host + ":" + port);
-		main.client.start();
-		new Thread(){
+		
+		Thread connector = new Thread(){
 			
 			@Override
 			public void run(){
@@ -38,7 +38,9 @@ public class ConnectingScreen extends MessageScreen{
 				}
 			}
 			
-		}.start();
+		};
+		connector.setDaemon(true);
+		connector.start();
 	}
 	
 	@Override
