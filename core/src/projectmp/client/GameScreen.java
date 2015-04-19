@@ -174,6 +174,14 @@ public class GameScreen extends Updateable {
 					"worldTime: " + world.worldTime.currentDayTicks + ", lastDayBri: " + world.lightingEngine.lastDayBrightness, 5, Main.convertY(starting + 45));
 			main.font.draw(main.batch,
 					"timeOfDay: " + world.worldTime.getCurrentTimeOfDay(), 5, Main.convertY(starting + 60));
+			main.font.draw(main.batch,
+					"x: " + getPlayer().x, 5, Main.convertY(starting + 75));
+			main.font.draw(main.batch,
+					"y: " + getPlayer().y, 5, Main.convertY(starting + 90));
+			main.font.draw(main.batch,
+					"lastTickX: " + getPlayer().lastTickX, 5, Main.convertY(starting + 105));
+			main.font.draw(main.batch,
+					"lastTickY: " + getPlayer().lastTickY, 5, Main.convertY(starting + 120));
 		}
 	}
 
