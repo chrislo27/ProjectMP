@@ -74,9 +74,7 @@ public class PacketHandshake implements Packet {
 			// update the time (for everyone)
 			logic.world.sendTimeUpdate();
 
-			Main.logger.info("Finished handshake for " + username + " ("
-					+ connection.getRemoteAddressTCP().toString() + ", conn. name is "
-					+ connection.toString() + ")");
+			Main.logger.info("Finished handshake for " + username + " (" + connection.getRemoteAddressTCP().toString() + ", conn. name is " + connection.toString() + ")");
 		}
 	}
 
