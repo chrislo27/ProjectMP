@@ -109,6 +109,10 @@ public abstract class Entity implements Sizeable{
 	 * called every tick, before rendering
 	 */
 	public void tickUpdate() {
+		movementAndCollision();
+	}
+	
+	public void movementAndCollision(){
 		lastTickX = x;
 		lastTickY = y;
 		
@@ -291,7 +295,6 @@ public abstract class Entity implements Sizeable{
 				}
 			}
 		}
-
 	}
 
 	public boolean intersectingOther(Entity other) {
