@@ -12,6 +12,10 @@ public abstract class EntityLiving extends Entity{
 	public int maxhealth = 100;
 	public int health = 100;
 	
+	public EntityLiving(){
+		super();
+	}
+	
 	public EntityLiving(World w, float posx, float posy) {
 		super(w, posx, posy);
 	}

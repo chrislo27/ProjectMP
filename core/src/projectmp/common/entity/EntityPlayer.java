@@ -11,6 +11,10 @@ public class EntityPlayer extends EntityLiving {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
 
+	public EntityPlayer(){
+		super();
+	}
+	
 	public EntityPlayer(World w, float posx, float posy) {
 		super(w, posx, posy);
 	}

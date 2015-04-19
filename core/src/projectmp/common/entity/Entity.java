@@ -53,6 +53,13 @@ public abstract class Entity implements Sizeable{
 	public float accspeed = 1.5f; // acceleration blocks/sec
 	public float maxspeed = 1.5f; // speed cap blocks/sec
 	
+	/**
+	 * used for deserialization
+	 */
+	public Entity(){
+		prepare();
+	}
+	
 	public Entity(World w, float posx, float posy) {
 		world = w;
 		x = posx;
