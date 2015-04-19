@@ -10,8 +10,13 @@ public class PacketBeginChunkTransfer implements Packet {
 
 	public float percentPerChunk = 0f;
 	
-	public PacketBeginChunkTransfer(float percentPerChunk){
-		this.percentPerChunk = percentPerChunk;
+	public PacketBeginChunkTransfer(){
+		
+	}
+	
+	public PacketBeginChunkTransfer setPercentage(float p){
+		percentPerChunk = p;
+		return this;
 	}
 	
 	@Override

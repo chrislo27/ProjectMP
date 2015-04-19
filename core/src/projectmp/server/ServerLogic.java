@@ -116,7 +116,7 @@ public class ServerLogic {
 			}
 		}
 		
-		connection.sendTCP(new PacketBeginChunkTransfer(1.0f / queue.size));
+		connection.sendTCP(new PacketBeginChunkTransfer().setPercentage(1.0f / queue.size));
 		
 		connection.addListener(new ChunkQueueSender(queue, connection));
 	}
