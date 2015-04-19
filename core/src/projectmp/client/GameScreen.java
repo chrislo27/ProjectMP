@@ -84,13 +84,11 @@ public class GameScreen extends Updateable {
 	@Override
 	public void tickUpdate() {
 		renderer.tickUpdate();
-
-		for(int i = 0; i < world.entities.size; i++){
-			world.entities.get(i).movementAndCollision();
-		}
 		
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
+				getPlayer().movementAndCollision();
+				
 				if (getPlayer().hasMovedLastTick()) {
 					playerUpdate.username = Main.username;
 					playerUpdate.x = getPlayer().x;
