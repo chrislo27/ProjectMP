@@ -96,9 +96,10 @@ public class GameScreen extends Updateable {
 
 					main.client.sendUDP(playerUpdate);
 				}
-			}else{
+			} else {
 				main.client.close();
-				Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.connectionlost"));
+				Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.disconnected")
+						+ Translator.instance().getMsg("menu.msg.connectionlost"));
 				main.setScreen(Main.ERRORMSG);
 			}
 
