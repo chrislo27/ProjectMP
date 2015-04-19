@@ -69,6 +69,7 @@ public class ServerLogic {
 				positionUpdate.y = new float[world.entities.size];
 			}
 			
+			boolean shouldSend = false;
 			int iter = 0;
 			for (Entity e : world.entities) {
 				if (!e.hasMovedLastTick()) continue;
@@ -86,11 +87,12 @@ public class ServerLogic {
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;
+				shouldSend = true;
 
 				iter++;
 			}
 			
-			server.sendToAllUDP(positionUpdate);
+			if(shouldSend) server.sendToAllUDP(positionUpdate);
 		}
 	}
 
