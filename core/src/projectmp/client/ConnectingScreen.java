@@ -14,8 +14,9 @@ public class ConnectingScreen extends MessageScreen{
 	
 	public void connectTo(final String host, final int port){
 		setMessage("Closing client (if still connected)");
-		main.client.close();
+		main.client.stop();
 		setMessage("Attempting to connect to " + host + ":" + port);
+		main.client.start();
 		new Thread(){
 			
 			@Override
