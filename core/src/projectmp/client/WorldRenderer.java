@@ -2,16 +2,11 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.entity.Entity;
-import projectmp.common.util.AssetMap;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
@@ -67,6 +62,21 @@ public class WorldRenderer implements Disposable {
 		}
 		if (Main.GAME.getPlayer() != null) Main.GAME.getPlayer().render(this);
 
+		world.main.font.setColor(1, 1, 1, 1);
+		for (int i = 0; i < world.entities.size; i++) {
+			if (world.entities.get(i) instanceof EntityPlayer) {
+				if (Main.GAME.getPlayer() != world.entities.get(i)) {
+					EntityPlayer p = (EntityPlayer) world.entities.get(i);
+					
+					batch.setColor(1, 1, 1, 0.25f);
+					world.main.drawTextBg(world.main.font, p.username, convertWorldX(p.visualX
+							+ (p.sizex / 2))
+							- (world.main.font.getBounds(p.username).width / 2),
+							convertWorldY(p.visualY - p.sizey, World.tilesizey * p.sizey) + 20);
+				}
+			}
+		}
+
 		batch.setColor(1, 1, 1, 1);
 		batch.end();
 
@@ -86,8 +96,8 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		batch.end();
 	}
-	
-	public void tickUpdate(){
+
+	public void tickUpdate() {
 
 	}
 
