@@ -26,7 +26,7 @@ public class PacketPositionUpdate implements Packet {
 			for(int key = 0; key < entityid.length; key++){
 				if(Main.GAME.world.entities.get(i).uuid == entityid[key]){
 					if(Main.GAME.world.entities.get(i) instanceof EntityPlayer){
-						if(((EntityPlayer) Main.GAME.world.entities.get(i)).username.equals(Main.username)){
+						if(Main.GAME.getPlayer().uuid == entityid[key]){
 							continue;
 						}
 					}
