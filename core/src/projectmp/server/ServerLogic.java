@@ -73,17 +73,6 @@ public class ServerLogic {
 			int iter = 0;
 			for (Entity e : world.entities) {
 				if (!e.hasMovedLastTick()) continue;
-//				if(e instanceof EntityPlayer){
-//					updatePlayer.username = ((EntityPlayer) e).username;
-//					updatePlayer.x = e.x;
-//					updatePlayer.y = e.y;
-//					
-//					int connid = getConnectionIDByName(((EntityPlayer) e).username);
-//					if(connid != -1){
-//						server.sendToAllExceptUDP(connid, updatePlayer);
-//					}
-//					continue;
-//				}
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;
