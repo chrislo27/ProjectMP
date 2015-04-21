@@ -184,10 +184,6 @@ public class GameScreen extends Updateable {
 					"x: " + getPlayer().x, 5, Main.convertY(starting + 75));
 			main.font.draw(main.batch,
 					"y: " + getPlayer().y, 5, Main.convertY(starting + 90));
-			main.font.draw(main.batch,
-					"lastTickX: " + getPlayer().lastTickX, 5, Main.convertY(starting + 105));
-			main.font.draw(main.batch,
-					"lastTickY: " + getPlayer().lastTickY, 5, Main.convertY(starting + 120));
 		}
 	}
 
