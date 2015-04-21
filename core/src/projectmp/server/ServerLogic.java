@@ -151,10 +151,6 @@ public class ServerLogic {
 		return null;
 	}
 	
-	public PacketPositionUpdate getSharedPosUpdatePacket(){
-		return positionUpdate;
-	}
-	
 	protected void removePlayer(String name){
 		EntityPlayer p = getPlayerByName(name);
 		

@@ -14,6 +14,8 @@ import com.esotericsoftware.kryonet.Connection;
  */
 public class PacketPlayerPosUpdate implements Packet {
 
+	private static final PacketPositionUpdate playerPosPacket = new PacketPositionUpdate();
+	
 	public String username;
 	public float x, y;
 	
@@ -27,7 +29,7 @@ public class PacketPlayerPosUpdate implements Packet {
 		p.x = x;
 		p.y = y;
 		
-		PacketPositionUpdate shared = logic.getSharedPosUpdatePacket();
+		PacketPositionUpdate shared = playerPosPacket;
 		shared.entityid[0] = p.uuid;
 		shared.x[0] = p.x;
 		shared.y[0] = p.y;

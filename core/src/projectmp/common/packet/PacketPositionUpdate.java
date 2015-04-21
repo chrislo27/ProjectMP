@@ -27,6 +27,7 @@ public class PacketPositionUpdate implements Packet {
 				if(Main.GAME.world.entities.get(i).uuid == entityid[key]){
 					if(Main.GAME.world.entities.get(i) instanceof EntityPlayer){
 						if(Main.GAME.getPlayer().uuid == entityid[key]){
+							// skip own player because that's locked to client
 							continue;
 						}
 					}
