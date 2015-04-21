@@ -63,7 +63,7 @@ public class ServerLogic {
 		world.tickUpdate();
 
 		if (server.getConnections().length > 0 && world.entities.size > 0) {
-			if(positionUpdate.entityid.length < world.entities.size){
+			if(positionUpdate.entityid.length < world.entities.size || Math.abs(positionUpdate.entityid.length - world.entities.size) >= 32){
 				positionUpdate.entityid = new long[world.entities.size];
 				positionUpdate.x = new float[world.entities.size];
 				positionUpdate.y = new float[world.entities.size];
