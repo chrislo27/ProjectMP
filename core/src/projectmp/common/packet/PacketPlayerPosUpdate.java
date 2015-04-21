@@ -18,6 +18,7 @@ public class PacketPlayerPosUpdate implements Packet {
 	
 	public String username;
 	public float x, y;
+	public float velox, veloy;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -28,12 +29,16 @@ public class PacketPlayerPosUpdate implements Packet {
 		EntityPlayer p = logic.getPlayerByName(username);
 		p.x = x;
 		p.y = y;
+		p.velox = velox;
+		p.veloy = veloy;
 	}
 
 	@Override
 	public void actionClient(Connection connection, Main main) {
 		if(username.equals(Main.username)){
 			if(Main.GAME.getPlayer() != null){
+				Main.GAME.getPlayer().velox = velox;
+				Main.GAME.getPlayer().veloy = veloy;
 				Main.GAME.getPlayer().positionUpdate(x, y);
 			}
 		}

@@ -13,6 +13,16 @@ public class PacketPositionUpdate implements Packet {
 	public long[] entityid = new long[1];
 	public float[] x = new float[1];
 	public float[] y = new float[1];
+	public float[] velox = new float[1];
+	public float[] veloy = new float[1];
+	
+	public void resetTables(int newlength){
+		entityid = new long[newlength];
+		x = new float[newlength];
+		y = new float[newlength];
+		velox = new float[newlength];
+		veloy = new float[newlength];
+	}
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -31,6 +41,8 @@ public class PacketPositionUpdate implements Packet {
 							continue;
 						}
 					}
+					Main.GAME.world.entities.get(i).velox = velox[key];
+					Main.GAME.world.entities.get(i).veloy = veloy[key];
 					Main.GAME.world.entities.get(i).positionUpdate(x[key], y[key]);
 					
 					break;

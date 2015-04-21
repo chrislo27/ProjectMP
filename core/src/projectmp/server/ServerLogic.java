@@ -64,9 +64,7 @@ public class ServerLogic {
 
 		if (server.getConnections().length > 0 && world.entities.size > 0) {
 			if(positionUpdate.entityid.length < world.entities.size || Math.abs(positionUpdate.entityid.length - world.entities.size) >= 32){
-				positionUpdate.entityid = new long[world.entities.size];
-				positionUpdate.x = new float[world.entities.size];
-				positionUpdate.y = new float[world.entities.size];
+				positionUpdate.resetTables(world.entities.size);
 			}
 			
 			boolean shouldSend = false;
@@ -76,6 +74,8 @@ public class ServerLogic {
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;
+				positionUpdate.velox[iter] = e.velox;
+				positionUpdate.veloy[iter] = e.veloy;
 				shouldSend = true;
 
 				iter++;
