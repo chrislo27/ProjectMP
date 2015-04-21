@@ -10,10 +10,10 @@ public class Time {
 	public int totalTicks = 0;
 	public int currentDayTicks = 0;
 
-	public final int ticksPerDay = Math.round(Main.TICKS * 30);
-	public final float daytimePercentage = 0.5f;
-	public final float eveningPercentage = 0.1f;
-	public final float nighttimePercentage = 0.4f;
+	public final int ticksPerDay = Math.round(Main.TICKS * 180);
+	public final float daytimePercentage = 0.85f;
+	public final float eveningPercentage = 0.05f;
+	public final float nighttimePercentage = 0.1f;
 
 	public Time() {
 
