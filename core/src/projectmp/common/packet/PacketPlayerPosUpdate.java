@@ -27,14 +27,6 @@ public class PacketPlayerPosUpdate implements Packet {
 		
 		EntityPlayer p = logic.getPlayerByName(username);
 		p.x = x;
-		p.y = y;
-		
-		PacketPositionUpdate shared = playerPosPacket;
-		shared.entityid[0] = p.uuid;
-		shared.x[0] = p.x;
-		shared.y[0] = p.y;
-		
-		logic.server.sendToAllExceptUDP(connection.getID(), shared);
 	}
 
 	@Override
