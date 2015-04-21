@@ -19,10 +19,10 @@ public abstract class Entity implements Sizeable{
 	public float y = 0;
 	public float visualX = x;
 	public float visualY = y;
-	public float lastPacketX = x;
-	public float lastPacketY = y;
-	public float lastTickX = x;
-	public float lastTickY = y;
+	public transient float lastPacketX = x;
+	public transient float lastPacketY = y;
+	public transient float lastTickX = x;
+	public transient float lastTickY = y;
 	public float sizex = 1;
 	public float sizey = 1;
 	public float velox = 0;
@@ -85,9 +85,9 @@ public abstract class Entity implements Sizeable{
 	public void clientRenderUpdate() {
 		visualX += ((x - visualX) / 5);
 		visualY += ((y - visualY) / 5);
-		
-		if(Math.abs(x - visualX) <= World.tilepartx) visualX = x;
-		if(Math.abs(y - visualY) <= World.tileparty) visualY = y;
+
+		if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
+		if (Math.abs(y - visualY) <= World.tileparty) visualY = y;
 	}
 	
 	public void positionUpdate(float newx, float newy){
