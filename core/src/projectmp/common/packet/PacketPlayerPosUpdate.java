@@ -27,6 +27,7 @@ public class PacketPlayerPosUpdate implements Packet {
 		
 		EntityPlayer p = logic.getPlayerByName(username);
 		p.x = x;
+		p.y = y;
 	}
 
 	@Override
