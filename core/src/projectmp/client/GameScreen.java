@@ -61,7 +61,7 @@ public class GameScreen extends Updateable {
 	@Override
 	public void renderUpdate() {
 		playerInput();
-
+		
 		for (Entity e : world.entities) {
 			e.clientRenderUpdate();
 		}
@@ -88,11 +88,14 @@ public class GameScreen extends Updateable {
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
 				getPlayer().movementAndCollision();
+				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 				
 				if (getPlayer().hasMovedLastTick()) {
 					playerUpdate.username = Main.username;
 					playerUpdate.x = getPlayer().x;
 					playerUpdate.y = getPlayer().y;
+					playerUpdate.velox = getPlayer().velox;
+					playerUpdate.veloy = getPlayer().veloy;
 
 					main.client.sendUDP(playerUpdate);
 				}

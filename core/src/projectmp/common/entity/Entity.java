@@ -84,16 +84,16 @@ public abstract class Entity implements Sizeable{
 	 * called every render update BEFORE rendering on client only
 	 */
 	public void clientRenderUpdate() {
-		if (!shouldPredictFuture) {
-			visualX += ((x - visualX) / 5);
-			visualY += ((y - visualY) / 5);
+		visualX += ((x - visualX) * Gdx.graphics.getDeltaTime() * Main.TICKS);
+		visualY += ((y - visualY) * Gdx.graphics.getDeltaTime() * Main.TICKS);
 
-			if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
-			if (Math.abs(y - visualY) <= World.tileparty) visualY = y;
-			
-			if (visualX == x && visualY == y) shouldPredictFuture = true;
-		} else {
+		if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
+		if (Math.abs(y - visualY) <= World.tileparty) visualY = y;
 
+		if (visualX == x && visualY == y) shouldPredictFuture = true;
+		if (shouldPredictFuture) {
+			visualX += (velox * Gdx.graphics.getDeltaTime() / Main.TICKS);
+			visualY += (veloy * Gdx.graphics.getDeltaTime() / Main.TICKS);
 		}
 	}
 
@@ -102,8 +102,6 @@ public abstract class Entity implements Sizeable{
 		lastPacketY = y;
 		x = newx;
 		y = newy;
-		visualX = lastPacketX;
-		visualY = lastPacketY;
 		shouldPredictFuture = false;
 	}
 	
