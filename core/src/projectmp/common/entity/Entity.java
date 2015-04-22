@@ -23,6 +23,7 @@ public abstract class Entity implements Sizeable{
 	public transient float lastPacketY = y;
 	public transient float lastTickX = x;
 	public transient float lastTickY = y;
+	private transient boolean shouldPredictFuture = false;
 	public float sizex = 1;
 	public float sizey = 1;
 	public float velox = 0;
@@ -83,13 +84,19 @@ public abstract class Entity implements Sizeable{
 	 * called every render update BEFORE rendering on client only
 	 */
 	public void clientRenderUpdate() {
-		visualX += ((x - visualX) / 5);
-		visualY += ((y - visualY) / 5);
+		if (!shouldPredictFuture) {
+			visualX += ((x - visualX) / 5);
+			visualY += ((y - visualY) / 5);
 
-		if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
-		if (Math.abs(y - visualY) <= World.tileparty) visualY = y;
+			if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
+			if (Math.abs(y - visualY) <= World.tileparty) visualY = y;
+			
+			if (visualX == x && visualY == y) shouldPredictFuture = true;
+		} else {
+
+		}
 	}
-	
+
 	public void positionUpdate(float newx, float newy){
 		lastPacketX = x;
 		lastPacketY = y;
@@ -97,6 +104,7 @@ public abstract class Entity implements Sizeable{
 		y = newy;
 		visualX = lastPacketX;
 		visualY = lastPacketY;
+		shouldPredictFuture = false;
 	}
 	
 	public boolean hasMovedLastTick(){
