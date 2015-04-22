@@ -1,6 +1,5 @@
 package projectmp.common.packet;
 
-import projectmp.client.GameScreen;
 import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.server.ServerLogic;
@@ -31,7 +30,7 @@ public class PacketPositionUpdate implements Packet {
 	@Override
 	public void actionClient(Connection connection, Main main) {
 		if(Main.GAME.world == null) return;
-		
+
 		for(int i = 0; i < Main.GAME.world.entities.size; i++){
 			for(int key = 0; key < entityid.length; key++){
 				if(Main.GAME.world.entities.get(i).uuid == entityid[key]){
