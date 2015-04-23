@@ -92,8 +92,11 @@ public class GameScreen extends Updateable {
 			if (main.client.isConnected()) {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
-				
-				if (getPlayer().hasMovedLastTick() || (world.worldTime.totalTicks % ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
+
+				// send a movement update if the player moved last tick OR if it's time to send a packet (every 2.5 sec)
+				if (getPlayer().hasMovedLastTick()
+						|| (world.worldTime.totalTicks
+								% ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
 					prepareMovementUpdate();
 				}
 			} else {
