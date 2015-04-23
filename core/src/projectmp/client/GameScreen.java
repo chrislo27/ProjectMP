@@ -28,7 +28,8 @@ public class GameScreen extends Updateable {
 	private PacketPlayerPosUpdate playerUpdate = new PacketPlayerPosUpdate();
 
 	private int playerIndex = -1;
-	private boolean sentStoppedPacket = false;
+	
+	public static final float TIME_BETWEEN_FORCE_UPDATE = 2.5f;
 
 	@Override
 	public void render(float delta) {
@@ -85,19 +86,15 @@ public class GameScreen extends Updateable {
 	@Override
 	public void tickUpdate() {
 		renderer.tickUpdate();
+		world.tickUpdate();
 		
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 				
-				if (getPlayer().hasMovedLastTick() || (!getPlayer().hasMovedLastTick() && !sentStoppedPacket)) {
-					if(getPlayer().hasMovedLastTick()){
-						sentStoppedPacket = false;
-					}else{
-						sentStoppedPacket = true;
-					}
-					sendMovementUpdate();
+				if (getPlayer().hasMovedLastTick() || (world.worldTime.totalTicks % ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
+					prepareMovementUpdate();
 				}
 			} else {
 				main.client.close();
@@ -107,17 +104,14 @@ public class GameScreen extends Updateable {
 			}
 
 		}
-		world.tickUpdate();
 	}
 	
-	private void sendMovementUpdate(){
+	private void prepareMovementUpdate(){
 		playerUpdate.username = Main.username;
 		playerUpdate.x = getPlayer().x;
 		playerUpdate.y = getPlayer().y;
 		playerUpdate.velox = getPlayer().velox;
 		playerUpdate.veloy = getPlayer().veloy;
-
-		main.client.sendUDP(playerUpdate);
 	}
 
 	public void centerCameraOnPlayer() {
