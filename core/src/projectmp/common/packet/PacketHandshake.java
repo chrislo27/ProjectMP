@@ -58,7 +58,7 @@ public class PacketHandshake implements Packet {
 			connection.setName(username);
 
 			// create the new player entity
-			EntityPlayer newPlayer = new EntityPlayer(logic.world, 0, 0);
+			EntityPlayer newPlayer = new EntityPlayer(logic.world, logic.world.sizex / 4f * 3, 0);
 			newPlayer.username = username;
 			logic.world.entities.add(newPlayer);
 
