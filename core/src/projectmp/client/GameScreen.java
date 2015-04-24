@@ -199,6 +199,13 @@ public class GameScreen extends Updateable {
 					"cursorx: " + ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)), 5, Main.convertY(starting + 105));
 			main.font.draw(main.batch,
 					"cursory: " + ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)), 5, Main.convertY(starting + 120));
+			main.font
+					.draw(main.batch,
+							"lightlevel: "
+									+ world.lightingEngine.getBrightness(
+											((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
+											((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey))),
+							5, Main.convertY(starting + 135));
 		}
 	}
 
