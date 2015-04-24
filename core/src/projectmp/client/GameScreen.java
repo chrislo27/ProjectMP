@@ -98,6 +98,7 @@ public class GameScreen extends Updateable {
 						|| (world.worldTime.totalTicks
 								% ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
 					prepareMovementUpdate();
+					main.client.sendUDP(playerUpdate);
 				}
 			} else {
 				main.client.close();
@@ -194,6 +195,10 @@ public class GameScreen extends Updateable {
 					"x: " + getPlayer().x, 5, Main.convertY(starting + 75));
 			main.font.draw(main.batch,
 					"y: " + getPlayer().y, 5, Main.convertY(starting + 90));
+			main.font.draw(main.batch,
+					"cursorx: " + ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)), 5, Main.convertY(starting + 105));
+			main.font.draw(main.batch,
+					"cursory: " + ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)), 5, Main.convertY(starting + 120));
 		}
 	}
 
