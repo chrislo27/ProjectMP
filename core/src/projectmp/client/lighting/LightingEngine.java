@@ -185,12 +185,6 @@ public class LightingEngine {
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
 	}
 
-	private Color setLerpColor(int startx, int starty, int targetx, int targety) {
-		tempColor2.set(setTempColor(startx, starty));
-		tempColor.set(setTempColor(targetx, targety));
-		return tempColor.lerp(tempColor2, 0.5f);
-	}
-
 	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
 			int y3) {
 		tempColor2.set(setTempColor(startx, starty));
@@ -360,8 +354,9 @@ public class LightingEngine {
 	public byte getBrightness(int posx, int posy) {
 		int x = posx;
 		int y = posy;
-		if(x < 0) x = 0;
-		if(x >= world.sizex) x = world.sizex - 1;
+		if (x < 0) x = 0;
+		if (x >= world.sizex) x = world.sizex - 1;
+		
 		if(y < 0) y = 0;
 		if(y >= world.sizey) y = world.sizey - 1;
 		
