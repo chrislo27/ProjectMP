@@ -187,10 +187,37 @@ public class LightingEngine {
 
 	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
 			int y3) {
-		tempColor2.set(setTempColor(startx, starty));
-		tempColor2.lerp(setTempColor(x1, y1), 1 / 3f);
-		tempColor2.lerp(setTempColor(x2, y2), 1 / 3f);
-		tempColor2.lerp(setTempColor(x3, y3), 1 / 3f);
+		float r, g, b, a;
+		float r1, g1, b1, a1;
+		float r2, g2, b2, a2;
+		float r3, g3, b3, a3;
+
+		setTempColor(startx, starty);
+		r = tempColor.r;
+		g = tempColor.g;
+		b = tempColor.b;
+		a = tempColor.a;
+
+		setTempColor(x1, y1);
+		r1 = tempColor.r;
+		g1 = tempColor.g;
+		b1 = tempColor.b;
+		a1 = tempColor.a;
+
+		setTempColor(x2, y2);
+		r2 = tempColor.r;
+		g2 = tempColor.g;
+		b2 = tempColor.b;
+		a2 = tempColor.a;
+
+		setTempColor(x3, y3);
+		r3 = tempColor.r;
+		g3 = tempColor.g;
+		b3 = tempColor.b;
+		a3 = tempColor.a;
+
+		tempColor2
+				.set((r + r1 + r2 + r3) / 4f, (g + g1 + g2 + g3) / 4f, (b + b1 + b2 + b3) / 4f, (a + a1 + a2 + a3) / 4f);
 
 		return tempColor2;
 	}
