@@ -294,7 +294,7 @@ public class LightingEngine {
 		if (getBrightness(x, y) >= bright && !source) {
 			return;
 		}
-		if (x < 0 || y < 0 || x + 1 >= sizex || y + 1 >= sizey) {
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) {
 			return;
 		}
 
@@ -355,10 +355,9 @@ public class LightingEngine {
 		int x = posx;
 		int y = posy;
 		if (x < 0) x = 0;
-		if (x >= world.sizex) x = world.sizex - 1;
-		
+		if (x >= sizex) x = sizex - 1;
 		if(y < 0) y = 0;
-		if(y >= world.sizey) y = world.sizey - 1;
+		if(y >= sizey) y = sizey - 1;
 		
 		return brightness[x][y];
 	}
@@ -367,9 +366,9 @@ public class LightingEngine {
 		int x = posx;
 		int y = posy;
 		if(x < 0) x = 0;
-		if(x >= world.sizex) x = world.sizex - 1;
+		if(x >= sizex) x = sizex - 1;
 		if(y < 0) y = 0;
-		if(y >= world.sizey) y = world.sizey - 1;
+		if(y >= sizey) y = sizey - 1;
 		
 		return tempBrightness[x][y];
 	}
@@ -378,9 +377,9 @@ public class LightingEngine {
 		int x = posx;
 		int y = posy;
 		if(x < 0) x = 0;
-		if(x >= world.sizex) x = world.sizex - 1;
+		if(x >= sizex) x = sizex - 1;
 		if(y < 0) y = 0;
-		if(y >= world.sizey) y = world.sizey - 1;
+		if(y >= sizey) y = sizey - 1;
 		
 		return lightColor[x][y];
 	}
@@ -389,9 +388,9 @@ public class LightingEngine {
 		int x = posx;
 		int y = posy;
 		if(x < 0) x = 0;
-		if(x >= world.sizex) x = world.sizex - 1;
+		if(x >= sizex) x = sizex - 1;
 		if(y < 0) y = 0;
-		if(y >= world.sizey) y = world.sizey - 1;
+		if(y >= sizey) y = sizey - 1;
 		
 		return tempLightColor[x][y];
 	}
