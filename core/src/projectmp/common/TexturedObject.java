@@ -14,7 +14,7 @@ import com.badlogic.gdx.utils.Disposable;
  */
 public class TexturedObject<T> implements Disposable{
 
-	private T type;
+	private T returnType;
 	
 	Array<LoopingAnimation> animations = new Array<LoopingAnimation>();
 
@@ -30,7 +30,7 @@ public class TexturedObject<T> implements Disposable{
 	public T addAnimation(LoopingAnimation a) {
 		animations.add(a);
 
-		return type;
+		return returnType;
 	}
 	
 	public void loadAnimations(){
