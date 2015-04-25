@@ -45,7 +45,7 @@ public class Items {
 		return reverse.get(item);
 	}
 
-	public Array<Item> getBlockList() {
+	public Array<Item> getItemList() {
 		return allItems;
 	}
 
