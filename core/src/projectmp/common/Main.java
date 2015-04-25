@@ -367,7 +367,7 @@ public class Main extends Game implements Consumer {
 
 	@Override
 	public void render() {
-		deltaUntilTick += Gdx.graphics.getRawDeltaTime();
+		deltaUntilTick += Gdx.graphics.getDeltaTime();
 
 		try {
 			while (deltaUntilTick >= (1.0f / TICKS)) {
