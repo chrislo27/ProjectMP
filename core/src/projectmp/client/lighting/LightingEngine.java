@@ -150,12 +150,15 @@ public class LightingEngine {
 				Main.drawGradient(batch, renderer.convertWorldX(x),
 						renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
 						World.tilesizey,
-						tempColor3.set(set3LerpColor(x, y, x - 1, y + 1, x - 1, y, x, y + 1)),
-						tempColor4.set(set3LerpColor(x, y, x + 1, y + 1, x + 1, y, x, y + 1)),
-						tempColor5.set(set3LerpColor(x, y, x + 1, y - 1, x + 1, y, x, y - 1)),
-						tempColor6.set(set3LerpColor(x, y, x - 1, y - 1, x - 1, y, x, y - 1)));
+						tempColor3.set(setAveragedColors(x, y, x - 1, y + 1, x - 1, y, x, y + 1)),
+						tempColor4.set(setAveragedColors(x, y, x + 1, y + 1, x + 1, y, x, y + 1)),
+						tempColor5.set(setAveragedColors(x, y, x + 1, y - 1, x + 1, y, x, y - 1)),
+						tempColor6.set(setAveragedColors(x, y, x - 1, y - 1, x - 1, y, x, y - 1)));
 			}
 		}
+
+		Main.drawGradient(batch, 100, 100, 256, 256, tempColor.set(1, 0, 0, 1),
+				tempColor2.set(0, 1, 0, 1), tempColor3.set(0, 0, 1, 1), tempColor4.set(1, 1, 1, 1));
 
 		batch.end();
 		batch.setColor(1, 1, 1, 1);
@@ -185,7 +188,7 @@ public class LightingEngine {
 		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
 	}
 
-	private Color set3LerpColor(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
+	private Color setAveragedColors(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
 			int y3) {
 		float r, g, b, a;
 		float r1, g1, b1, a1;
