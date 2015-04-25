@@ -732,15 +732,21 @@ public class Main extends Game implements Consumer {
 
 	private static float[] gradientverts = new float[20];
 	private static Color tempGradientColor = new Color();
-	private static Color gradientclearcolor = new Color(0, 0, 0, 0);
 
 	public static void drawGradient(SpriteBatch batch, float x, float y, float width, float height,
 			Color bl, Color br, Color tr, Color tl) {
+		tempGradientColor.set((bl.r + br.r + tr.r + tl.r) / 4f, (bl.g + br.g + tr.g + tl.g) / 4f,
+				(bl.b + br.b + tr.b + tl.b) / 4f, (bl.a + br.a + tr.a + tl.a) / 4f);
 		int idx = 0;
 		
-		// draw bottom left quadrant
+		// draw bottom face
 		idx = 0;
-		gradientclearcolor.set(bl.r, bl.g, bl.b, 0);
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
+		
 		gradientverts[idx++] = x;
 		gradientverts[idx++] = y;
 		gradientverts[idx++] = bl.toFloatBits(); // bottom left
@@ -749,67 +755,31 @@ public class Main extends Game implements Consumer {
 		
 		gradientverts[idx++] = x + width;
 		gradientverts[idx++] = y;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // bottom right
+		gradientverts[idx++] = br.toFloatBits(); // bottom right
 		gradientverts[idx++] = filltexRegion.getU2();
 		gradientverts[idx++] = filltexRegion.getV2();
-
-		gradientverts[idx++] = x + width;
-		gradientverts[idx++] = y + height;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // top right
-		gradientverts[idx++] = filltexRegion.getU2();
-		gradientverts[idx++] = filltexRegion.getV();
 		
-		gradientverts[idx++] = x;
-		gradientverts[idx++] = y + height;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // top left
-		gradientverts[idx++] = filltexRegion.getU();
-		gradientverts[idx++] = filltexRegion.getV();
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
 		
 		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
 
-		// draw top left quadrant
+		// draw top face
 		idx = 0;
-		gradientclearcolor.set(tl.r, tl.g, tl.b, 0);
-		gradientverts[idx++] = x;
-		gradientverts[idx++] = y;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // bottom left
-		gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
-		gradientverts[idx++] = filltexRegion.getV2();
-		
-		gradientverts[idx++] = x + width;
-		gradientverts[idx++] = y;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // bottom right
-		gradientverts[idx++] = filltexRegion.getU2();
-		gradientverts[idx++] = filltexRegion.getV2();
-
-		gradientverts[idx++] = x + width;
-		gradientverts[idx++] = y + height;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // top right
-		gradientverts[idx++] = filltexRegion.getU2();
-		gradientverts[idx++] = filltexRegion.getV();
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
 		
 		gradientverts[idx++] = x;
 		gradientverts[idx++] = y + height;
 		gradientverts[idx++] = tl.toFloatBits(); // top left
 		gradientverts[idx++] = filltexRegion.getU();
 		gradientverts[idx++] = filltexRegion.getV();
-		
-		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
-
-		// draw top right quadrant
-		idx = 0;
-		gradientclearcolor.set(tr.r, tr.g, tr.b, 0);
-		gradientverts[idx++] = x;
-		gradientverts[idx++] = y;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // bottom left
-		gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
-		gradientverts[idx++] = filltexRegion.getV2();
-		
-		gradientverts[idx++] = x + width;
-		gradientverts[idx++] = y;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // bottom right
-		gradientverts[idx++] = filltexRegion.getU2();
-		gradientverts[idx++] = filltexRegion.getV2();
 
 		gradientverts[idx++] = x + width;
 		gradientverts[idx++] = y + height;
@@ -817,40 +787,67 @@ public class Main extends Game implements Consumer {
 		gradientverts[idx++] = filltexRegion.getU2();
 		gradientverts[idx++] = filltexRegion.getV();
 		
-		gradientverts[idx++] = x;
-		gradientverts[idx++] = y + height;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // top left
-		gradientverts[idx++] = filltexRegion.getU();
-		gradientverts[idx++] = filltexRegion.getV();
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
 		
 		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
 
-		// draw bottom right quadrant
+		// draw left face
 		idx = 0;
-		gradientclearcolor.set(br.r, br.g, br.b, 0);
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
+		
+		gradientverts[idx++] = x;
+		gradientverts[idx++] = y + height;
+		gradientverts[idx++] = tl.toFloatBits(); // top left
+		gradientverts[idx++] = filltexRegion.getU();
+		gradientverts[idx++] = filltexRegion.getV();
+		
 		gradientverts[idx++] = x;
 		gradientverts[idx++] = y;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // bottom left
+		gradientverts[idx++] = bl.toFloatBits(); // bottom left
 		gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
 		gradientverts[idx++] = filltexRegion.getV2();
+		
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
+		
+		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
+
+		// draw right face
+		idx = 0;
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
+		
+		gradientverts[idx++] = x + width;
+		gradientverts[idx++] = y + height;
+		gradientverts[idx++] = tr.toFloatBits(); // top right
+		gradientverts[idx++] = filltexRegion.getU2();
+		gradientverts[idx++] = filltexRegion.getV();
 		
 		gradientverts[idx++] = x + width;
 		gradientverts[idx++] = y;
 		gradientverts[idx++] = br.toFloatBits(); // bottom right
 		gradientverts[idx++] = filltexRegion.getU2();
 		gradientverts[idx++] = filltexRegion.getV2();
-
-		gradientverts[idx++] = x + width;
-		gradientverts[idx++] = y + height;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // top right
-		gradientverts[idx++] = filltexRegion.getU2();
-		gradientverts[idx++] = filltexRegion.getV();
 		
-		gradientverts[idx++] = x;
-		gradientverts[idx++] = y + height;
-		gradientverts[idx++] = gradientclearcolor.toFloatBits(); // top left
-		gradientverts[idx++] = filltexRegion.getU();
-		gradientverts[idx++] = filltexRegion.getV();
+		gradientverts[idx++] = x + (width / 2);
+		gradientverts[idx++] = y + (height / 2);
+		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = 0.5f;
+		gradientverts[idx++] = 0.5f;
 
 		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
 		
