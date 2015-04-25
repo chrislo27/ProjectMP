@@ -46,6 +46,7 @@ public class LightingEngine {
 	private Color tempColor4 = new Color();
 	private Color tempColor5 = new Color();
 	private Color tempColor6 = new Color();
+	private Color tempColor7 = new Color();
 
 	private int lastUpdateLengthNano = 0;
 
