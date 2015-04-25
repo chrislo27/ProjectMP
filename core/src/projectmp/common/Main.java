@@ -36,6 +36,8 @@ import projectmp.client.transition.Transition;
 import projectmp.client.transition.TransitionScreen;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
+import projectmp.common.item.Item;
+import projectmp.common.item.Items;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
 import projectmp.common.util.CaptureStream.Consumer;
@@ -333,6 +335,9 @@ public class Main extends Game implements Consumer {
 
 		for (Block b : Blocks.instance().getBlockList()) {
 			b.dispose();
+		}
+		for (Item i : Items.instance().getItemList()) {
+			i.dispose();
 		}
 
 		// dispose screens
