@@ -734,16 +734,14 @@ public class Main extends Game implements Consumer {
 	private static Color tempGradientColor = new Color();
 
 	public static void drawGradient(SpriteBatch batch, float x, float y, float width, float height,
-			Color bl, Color br, Color tr, Color tl) {
-		tempGradientColor.set((bl.r + br.r + tr.r + tl.r) / 4f, (bl.g + br.g + tr.g + tl.g) / 4f,
-				(bl.b + br.b + tr.b + tl.b) / 4f, (bl.a + br.a + tr.a + tl.a) / 4f);
+			Color bl, Color br, Color tr, Color tl, Color middle) {
 		int idx = 0;
 		
 		// draw bottom face
 		idx = 0;
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -761,7 +759,7 @@ public class Main extends Game implements Consumer {
 		
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -771,7 +769,7 @@ public class Main extends Game implements Consumer {
 		idx = 0;
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -789,7 +787,7 @@ public class Main extends Game implements Consumer {
 		
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -799,7 +797,7 @@ public class Main extends Game implements Consumer {
 		idx = 0;
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -817,7 +815,7 @@ public class Main extends Game implements Consumer {
 		
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -827,7 +825,7 @@ public class Main extends Game implements Consumer {
 		idx = 0;
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 		
@@ -845,7 +843,7 @@ public class Main extends Game implements Consumer {
 		
 		gradientverts[idx++] = x + (width / 2);
 		gradientverts[idx++] = y + (height / 2);
-		gradientverts[idx++] = tempGradientColor.toFloatBits(); // middle
+		gradientverts[idx++] = middle.toFloatBits(); // middle
 		gradientverts[idx++] = 0.5f;
 		gradientverts[idx++] = 0.5f;
 
@@ -881,6 +879,11 @@ public class Main extends Game implements Consumer {
 //		gradientverts[idx++] = filltexRegion.getU2();
 //		gradientverts[idx++] = filltexRegion.getV();
 
+	}
+	
+	public static void drawGradient(SpriteBatch batch, float x, float y, float width, float height, Color bl, Color br, Color tr, Color tl){
+		drawGradient(batch, x, y, width, height, bl, br, tr, tl, tempGradientColor.set((bl.r + br.r + tr.r + tl.r) / 4f, (bl.g + br.g + tr.g + tl.g) / 4f,
+				(bl.b + br.b + tr.b + tl.b) / 4f, (bl.a + br.a + tr.a + tl.a) / 4f));
 	}
 
 	/**
