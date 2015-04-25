@@ -2,39 +2,25 @@ package projectmp.common.block;
 
 import projectmp.client.WorldRenderer;
 import projectmp.client.animation.LoopingAnimation;
+import projectmp.common.TexturedObject;
 import projectmp.common.entity.Entity;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-public class Block implements Disposable {
+public class Block extends TexturedObject<Block>{
 
 	public static final float DEFAULT_TRANSPARENT_LIGHT = 0.05f;
 	public static final float DEFAULT_OPAQUE_LIGHT = 0.2f;
 
 	int collision = BlockFaces.NONE;
-	Array<LoopingAnimation> animations = new Array<LoopingAnimation>();
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 
 	public Block() {
 
 	}
 
-	public LoopingAnimation getAnimation(int index) {
-		return animations.get(index);
-	}
-
-	/**
-	 * ordered
-	 * @param a
-	 * @return
-	 */
-	public Block addAnimation(LoopingAnimation a) {
-		animations.add(a);
-
-		return this;
-	}
 
 	public static LoopingAnimation singleBlockTexture(String path) {
 		return new LoopingAnimation(1, 1, path, false);
@@ -100,19 +86,6 @@ public class Block implements Disposable {
 
 	public void onCollideDownFace(World world, int x, int y, Entity e) {
 
-	}
-
-	public void loadAnimations(){
-		for (int i = 0; i < animations.size; i++) {
-			if (animations.get(i) != null) animations.get(i).load();
-		}
-	}
-	
-	@Override
-	public void dispose() {
-		for (int i = 0; i < animations.size; i++) {
-			if (animations.get(i) != null) animations.get(i).dispose();
-		}
 	}
 
 	public static class BlockFaces {
