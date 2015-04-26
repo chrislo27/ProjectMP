@@ -139,6 +139,7 @@ public class Main extends Game implements Consumer {
 	public ShaderProgram invertshader;
 	public ShaderProgram swizzleshader;
 	public ShaderProgram distanceFieldShader;
+	public static ShaderProgram meshShader;
 
 	public HashMap<String, Animation> animations = new HashMap<String, Animation>();
 	public HashMap<String, Texture> textures = new HashMap<String, Texture>();
@@ -265,6 +266,7 @@ public class Main extends Game implements Consumer {
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
 		swizzleshader = new ShaderProgram(Shaders.VERTSWIZZLE, Shaders.FRAGSWIZZLE);
 		distanceFieldShader = new ShaderProgram(Shaders.VERTDISTANCEFIELD, Shaders.FRAGDISTANCEFIELD);
+		meshShader = new ShaderProgram(Shaders.VERTMESH, Shaders.FRAGMESH);
 
 		loadUnmanagedAssets();
 		loadAssets();
@@ -324,6 +326,7 @@ public class Main extends Game implements Consumer {
 		invertshader.dispose();
 		swizzleshader.dispose();
 		distanceFieldShader.dispose();
+		meshShader.dispose();
 		shapes.dispose();
 
 		Iterator it = animations.entrySet().iterator();

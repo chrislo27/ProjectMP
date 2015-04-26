@@ -128,86 +128,87 @@ public class Shaders {
 			+ "	vTexCoord = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
 			+ "	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}";
 
-	public static final String FRAGBLUR = "#ifdef GL_ES\n" + 
-			"#define LOWP lowp\n" + 
-			"precision mediump float;\n" + 
-			"#else\n" + 
-			"#define LOWP \n" + 
-			"#endif\n" + 
-			"varying LOWP vec4 vColor;\n" + 
-			"varying vec2 vTexCoord;\n" + 
-			"\n" + 
-			"uniform sampler2D u_texture;\n" + 
-			"uniform float resolution;\n" + 
-			"uniform float radius;\n" + 
-			"uniform vec2 dir;\n" + 
-			"\n" + 
-			"void main() {\n" + 
-			"	vec4 sum = vec4(0.0);\n" + 
-			"	vec2 tc = vTexCoord;\n" + 
-			"	float blur = radius/resolution; \n" + 
-			"    \n" + 
-			"    float hstep = dir.x;\n" + 
-			"    float vstep = dir.y;\n" + 
-			"    \n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.05;\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.09;\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.12;\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.15;\n" + 
-			"	\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x, tc.y)) * 0.16;\n" + 
-			"	\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.15;\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.12;\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.09;\n" + 
-			"	sum += texture2D(u_texture, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.05;\n" + 
-			"\n" + 
-			"	gl_FragColor = vColor * vec4(sum.rgb, 1.0);\n" + 
-			"}";
+	public static final String FRAGBLUR = "#ifdef GL_ES\n"
+			+ "#define LOWP lowp\n"
+			+ "precision mediump float;\n"
+			+ "#else\n"
+			+ "#define LOWP \n"
+			+ "#endif\n"
+			+ "varying LOWP vec4 vColor;\n"
+			+ "varying vec2 vTexCoord;\n"
+			+ "\n"
+			+ "uniform sampler2D u_texture;\n"
+			+ "uniform float resolution;\n"
+			+ "uniform float radius;\n"
+			+ "uniform vec2 dir;\n"
+			+ "\n"
+			+ "void main() {\n"
+			+ "	vec4 sum = vec4(0.0);\n"
+			+ "	vec2 tc = vTexCoord;\n"
+			+ "	float blur = radius/resolution; \n"
+			+ "    \n"
+			+ "    float hstep = dir.x;\n"
+			+ "    float vstep = dir.y;\n"
+			+ "    \n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x - 4.0*blur*hstep, tc.y - 4.0*blur*vstep)) * 0.05;\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x - 3.0*blur*hstep, tc.y - 3.0*blur*vstep)) * 0.09;\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x - 2.0*blur*hstep, tc.y - 2.0*blur*vstep)) * 0.12;\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x - 1.0*blur*hstep, tc.y - 1.0*blur*vstep)) * 0.15;\n"
+			+ "	\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x, tc.y)) * 0.16;\n"
+			+ "	\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x + 1.0*blur*hstep, tc.y + 1.0*blur*vstep)) * 0.15;\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x + 2.0*blur*hstep, tc.y + 2.0*blur*vstep)) * 0.12;\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x + 3.0*blur*hstep, tc.y + 3.0*blur*vstep)) * 0.09;\n"
+			+ "	sum += texture2D(u_texture, vec2(tc.x + 4.0*blur*hstep, tc.y + 4.0*blur*vstep)) * 0.05;\n"
+			+ "\n" + "	gl_FragColor = vColor * vec4(sum.rgb, 1.0);\n" + "}";
 
-	
-	public static final String VERTINVERT = "attribute vec4 "+ShaderProgram.POSITION_ATTRIBUTE+";\n" +
-			"attribute vec4 "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +
-			"attribute vec2 "+ShaderProgram.TEXCOORD_ATTRIBUTE+"0;\n" +
-			
-			"uniform mat4 u_projTrans;\n" + 
-			" \n" + 
-			"varying vec4 vColor;\n" +
-			"varying vec2 vTexCoord;\n" +
-			
-			"void main() {\n" +  
-			"	vColor = "+ShaderProgram.COLOR_ATTRIBUTE+";\n" +
-			"	vTexCoord = "+ShaderProgram.TEXCOORD_ATTRIBUTE+"0;\n" +
-			"	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" +
-			"}";
+	public static final String VERTINVERT = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE
+			+ ";\n" + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n" + "attribute vec2 "
+			+ ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n" +
+
+			"uniform mat4 u_projTrans;\n" + " \n" + "varying vec4 vColor;\n"
+			+ "varying vec2 vTexCoord;\n" +
+
+			"void main() {\n" + "	vColor = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
+			+ "	vTexCoord = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
+			+ "	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}";
 	public static final String FRAGINVERT = "#ifdef GL_ES\n" //
 			+ "#define LOWP lowp\n" //
 			+ "precision mediump float;\n" //
 			+ "#else\n" //
 			+ "#define LOWP \n" //
-			+ "#endif\n" + //
-			"varying LOWP vec4 vColor;\n" +
-			"varying vec2 vTexCoord;\n" + 
-			"uniform sampler2D u_texture;\n" +			
-			"void main() {\n" +  
-			"	vec4 texColor = texture2D(u_texture, vTexCoord);\n" + 
-			"	\n" + 
-			"	texColor.rgb = 1.0 - texColor.rgb;\n" + 
-			"	\n" + 
-			"	gl_FragColor = texColor * vColor;\n" + 
-			"}";
-	
-	public static final String VERTWARP = VERTDEFAULT;
-	
-	public static final String FRAGWARP = Gdx.files.internal("shaders/warp.frag").readString();
-	
-	public static final String VERTSWIZZLE = VERTDEFAULT;
-	
-	public static final String FRAGSWIZZLE = Gdx.files.internal("shaders/swizzle.frag").readString();
-	
-	public static final String VERTDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.vert").readString();
-	
-	public static final String FRAGDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.frag").readString();
+			+ "#endif\n"
+			+ //
+			"varying LOWP vec4 vColor;\n"
+			+ "varying vec2 vTexCoord;\n"
+			+ "uniform sampler2D u_texture;\n"
+			+ "void main() {\n"
+			+ "	vec4 texColor = texture2D(u_texture, vTexCoord);\n"
+			+ "	\n"
+			+ "	texColor.rgb = 1.0 - texColor.rgb;\n"
+			+ "	\n"
+			+ "	gl_FragColor = texColor * vColor;\n" + "}";
 
-	
+	public static final String VERTWARP = VERTDEFAULT;
+
+	public static final String FRAGWARP = Gdx.files.internal("shaders/warp.frag").readString();
+
+	public static final String VERTSWIZZLE = VERTDEFAULT;
+
+	public static final String FRAGSWIZZLE = Gdx.files.internal("shaders/swizzle.frag")
+			.readString();
+
+	public static final String VERTDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.vert")
+			.readString();
+
+	public static final String FRAGMESH = Gdx.files.internal("shaders/mesh.frag")
+			.readString();
+
+	public static final String VERTMESH = Gdx.files.internal("shaders/mesh.vert")
+			.readString();
+
+	public static final String FRAGDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.frag")
+			.readString();
+
 }
