@@ -135,7 +135,7 @@ public class LightingEngine {
 			isUpdateScheduled = false;
 		}
 	
-		batch.begin();
+		if(!Settings.smoothLighting) batch.begin();
 
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
@@ -157,12 +157,12 @@ public class LightingEngine {
 						tempColor6.set(setAveragedColors(x, y, x - 1, y - 1, x - 1, y, x, y - 1)));
 			}
 		}
-		batch.end();
-		batch.setColor(1, 1, 1, 1);
+		if (!Settings.smoothLighting) {
+			batch.end();
+			batch.setColor(1, 1, 1, 1);
+		}
 		Main.drawGradient(batch, 100, 100, 256, 256, tempColor.set(1, 0, 0, 1),
 				tempColor2.set(0, 1, 0, 1), tempColor3.set(0, 0, 1, 1), tempColor4.set(1, 1, 1, 1));
-
-		
 
 	}
 
