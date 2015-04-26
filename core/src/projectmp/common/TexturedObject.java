@@ -12,25 +12,18 @@ import com.badlogic.gdx.utils.Disposable;
  * Intended to combine the image loading for items and blocks
  *
  */
-public class TexturedObject<T> implements Disposable{
+public class TexturedObject implements Disposable{
 
-	private T returnType;
-	
 	Array<LoopingAnimation> animations = new Array<LoopingAnimation>();
-
+	
 	public LoopingAnimation getAnimation(int index) {
 		return animations.get(index);
 	}
 
-	/**
-	 * ordered
-	 * @param a
-	 * @return
-	 */
-	public T addAnimation(LoopingAnimation a) {
+	public TexturedObject addAnimation(LoopingAnimation a) {
 		animations.add(a);
-
-		return returnType;
+		
+		return this;
 	}
 	
 	public void loadAnimations(){

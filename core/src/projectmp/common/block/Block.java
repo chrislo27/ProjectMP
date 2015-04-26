@@ -9,7 +9,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-public class Block extends TexturedObject<Block>{
+public class Block extends TexturedObject{
 
 	public static final float DEFAULT_TRANSPARENT_LIGHT = 0.05f;
 	public static final float DEFAULT_OPAQUE_LIGHT = 0.2f;
@@ -18,7 +18,7 @@ public class Block extends TexturedObject<Block>{
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 
 	public Block() {
-
+		
 	}
 
 

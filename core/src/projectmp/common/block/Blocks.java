@@ -30,7 +30,7 @@ public class Blocks {
 		put("stone", new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight());
 		put("dirt", new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight());
 		put("grass",
-				new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
+				(Block) new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
 						.addAnimation(Block.singleBlockTexture("images/blocks/grass.png")));
 	}
 
