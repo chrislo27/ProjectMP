@@ -158,9 +158,6 @@ public class LightingEngine {
 			}
 		}
 
-		main.drawGradient(batch, 100, 100, 256, 256, tempColor.set(1, 0, 0, 1),
-				tempColor2.set(0, 1, 0, 1), tempColor3.set(0, 0, 1, 1), tempColor4.set(1, 1, 1, 1));
-
 		batch.end();
 		batch.setColor(1, 1, 1, 1);
 	}
