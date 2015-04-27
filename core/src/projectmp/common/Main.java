@@ -207,7 +207,7 @@ public class Main extends Game implements Consumer {
 		arial = new BitmapFont();
 		arial.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		Pixmap pix = new Pixmap(1, 1, Format.RGBA8888);
+		Pixmap pix = new Pixmap(2, 2, Format.RGBA8888);
 		pix.setColor(Color.WHITE);
 		pix.fill();
 		filltex = new Texture(pix);
@@ -740,55 +740,37 @@ public class Main extends Game implements Consumer {
 	public void fillRect(float x, float y, float width, float height) {
 		batch.draw(filltex, x, y, width, height);
 	}
-
-	private static float[] gradientverts = new float[16];
-	private static Color tempGradientColor = new Color();
-	private static Mesh gradientmesh = null;
+	
+	private static float[] gradientverts = new float[20];
 
 	public static void drawGradient(SpriteBatch batch, float x, float y, float width, float height,
 			Color bl, Color br, Color tr, Color tl) {
-		if (gradientmesh == null) {
-			gradientmesh = new Mesh(false, 4, 4, new VertexAttribute(Usage.Position, 3,
-					"a_position"), new VertexAttribute(Usage.ColorPacked, 4, "a_color"));
-			gradientmesh.setIndices(new short[] { 0, 1, 2, 3 });
-		}
-		
-		// bottom left
-		gradientverts[0] = convertScreenXToMesh(x);
-		gradientverts[1] = convertScreenYToMesh(y);
-		gradientverts[2] = 0;
-		gradientverts[3] = bl.toFloatBits();
-		
-		// bottom right
-		gradientverts[4] = convertScreenXToMesh(x + width);
-		gradientverts[5] = convertScreenYToMesh(y);
-		gradientverts[6] = 0;
-		gradientverts[7] = br.toFloatBits();
-		
-		// top right
-		gradientverts[8] = convertScreenXToMesh(x + width);
-		gradientverts[9] = convertScreenYToMesh(y + height);
-		gradientverts[10] = 0;
-		gradientverts[11] = tr.toFloatBits();
-		
-		// top left
-		gradientverts[12] = convertScreenXToMesh(x);
-		gradientverts[13] = convertScreenYToMesh(y + height);
-		gradientverts[14] = 0;
-		gradientverts[15] = tl.toFloatBits();
-		
-		gradientmesh.setVertices(gradientverts);
-		
-		gradientmesh.render(defaultShader, GL20.GL_TRIANGLE_FAN, 0, gradientverts.length);
+		int idx = 0;
+		gradientverts[idx++] = x;
+		gradientverts[idx++] = y;
+		gradientverts[idx++] = bl.toFloatBits(); // bottom left
+		gradientverts[idx++] = filltexRegion.getU(); //NOTE: texture coords origin is top left
+		gradientverts[idx++] = filltexRegion.getV2();
 
-	}
-	
-	public static float convertScreenXToMesh(float x){
-		return (x / Settings.DEFAULT_WIDTH) * 2 - 1;
-	}
-	
-	public static float convertScreenYToMesh(float y){
-		return (y / Settings.DEFAULT_HEIGHT) * 2 - 1;
+		gradientverts[idx++] = x + width;
+		gradientverts[idx++] = y;
+		gradientverts[idx++] = br.toFloatBits(); // bottom right
+		gradientverts[idx++] = filltexRegion.getU2();
+		gradientverts[idx++] = filltexRegion.getV2();
+		
+		gradientverts[idx++] = x + width;
+		gradientverts[idx++] = y + height;
+		gradientverts[idx++] = tr.toFloatBits(); // top right
+		gradientverts[idx++] = filltexRegion.getU2();
+		gradientverts[idx++] = filltexRegion.getV();
+		
+		gradientverts[idx++] = x;
+		gradientverts[idx++] = y + height;
+		gradientverts[idx++] = tl.toFloatBits(); // top left
+		gradientverts[idx++] = filltexRegion.getU();
+		gradientverts[idx++] = filltexRegion.getV();
+
+		batch.draw(filltexRegion.getTexture(), gradientverts, 0, gradientverts.length);
 	}
 
 	/**
