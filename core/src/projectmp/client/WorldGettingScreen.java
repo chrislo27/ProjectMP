@@ -1,6 +1,7 @@
 package projectmp.client;
 
 import projectmp.common.Main;
+import projectmp.common.Settings;
 import projectmp.common.Translator;
 
 import com.badlogic.gdx.math.MathUtils;
@@ -27,6 +28,11 @@ public class WorldGettingScreen extends MessageScreen{
 	@Override
 	public void show(){
 		setMessage(Translator.instance().getMsg("menu.msg.gettingworld"));
+	}
+	
+	@Override
+	public void render(float delta){
+		super.render(delta);
 	}
 
 }
