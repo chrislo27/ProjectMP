@@ -1,5 +1,7 @@
 package projectmp.common.inventory;
 
+import projectmp.common.world.World;
+
 
 public class Slot {
 
@@ -7,5 +9,7 @@ public class Slot {
 	
 	int posx = 0;
 	int posy = 0;
+	int width = World.tilesizex;
+	int height = World.tilesizey;
 	
 }
