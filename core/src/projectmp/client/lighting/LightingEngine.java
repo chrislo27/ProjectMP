@@ -1,8 +1,5 @@
 package projectmp.client.lighting;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
@@ -12,10 +9,7 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
@@ -35,6 +29,8 @@ public class LightingEngine {
 	 */
 	private int[][] lightColor;
 	private int[][] tempLightColor;
+	
+	private boolean[][] isPartOfSky;
 
 	private TimeOfDay lastTOD = TimeOfDay.DAYTIME;
 	public float lastDayBrightness = TimeOfDay.DAYTIME.lightLevel / 127f;
@@ -72,6 +68,7 @@ public class LightingEngine {
 		tempBrightness = new byte[sizex][sizey];
 		lightColor = new int[sizex][sizey];
 		tempLightColor = new int[sizex][sizey];
+		isPartOfSky = new boolean[sizex][sizey];
 
 		for (int x = 0; x < sizex; x++) {
 			for (int y = 0; y < sizey; y++) {
@@ -140,6 +137,8 @@ public class LightingEngine {
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
 
+				if(getIsPartOfSky(x, y)) continue;
+				
 				if (!Settings.smoothLighting) {
 					batch.setColor(setTempColor(x, y));
 					main.fillRect(renderer.convertWorldX(x),
@@ -255,6 +254,7 @@ public class LightingEngine {
 			for (int y = originy; y < height; y++) {
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
+				setIsPartOfSky(false, x, y);
 			}
 
 			int y = 0;
@@ -273,6 +273,7 @@ public class LightingEngine {
 
 				setBrightness((byte) (lastDayBrightness * 127f), x, y);
 				setLightColor(Color.rgb888(daylightColor), x, y);
+				setIsPartOfSky(true, x, y);
 				y++;
 			}
 
@@ -377,6 +378,11 @@ public class LightingEngine {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 		lightColor[x][y] = color;
 	}
+	
+	private void setIsPartOfSky(boolean b, int x, int y){
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
+		isPartOfSky[x][y] = b;
+	}
 
 	public byte getBrightness(int posx, int posy) {
 		int x = posx;
@@ -420,6 +426,17 @@ public class LightingEngine {
 		if(y >= sizey) y = sizey - 1;
 		
 		return tempLightColor[x][y];
+	}
+	
+	private boolean getIsPartOfSky(int posx, int posy) {
+		int x = posx;
+		int y = posy;
+		if(x < 0) x = 0;
+		if(x >= sizex) x = sizex - 1;
+		if(y < 0) y = 0;
+		if(y >= sizey) y = sizey - 1;
+		
+		return isPartOfSky[x][y];
 	}
 
 	public int getLastUpdateLength() {
