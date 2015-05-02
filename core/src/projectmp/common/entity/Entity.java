@@ -78,6 +78,10 @@ public abstract class Entity implements Sizeable{
 	 */
 	public abstract void prepare();
 	
+	/**
+	 * you MUST adhere to the batch's color!
+	 * @param renderer
+	 */
 	public abstract void render(WorldRenderer renderer);
 	
 	/**
