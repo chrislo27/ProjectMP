@@ -136,8 +136,6 @@ public class LightingEngine {
 
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
-
-				if(getIsPartOfSky(x, y)) continue;
 				
 				if (!Settings.smoothLighting) {
 					batch.setColor(setTempColor(x, y));
