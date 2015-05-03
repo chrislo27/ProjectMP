@@ -1,5 +1,6 @@
 package projectmp.common.packet;
 
+import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
@@ -79,13 +80,13 @@ public class PacketHandshake implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
+	public void actionClient(Connection connection, ClientLogic logic) {
 		if (state == ACCEPTED) {
-			Main.GAME.newWorld(new World(main, worldsizex, worldsizey, false, seed));
+			logic.newWorld(new World(logic.main, worldsizex, worldsizey, false, seed));
 			Main.CONNECTING.setMessage("Receiving world data: ");
 		} else if (state == REJECTED) {
 			Main.ERRORMSG.setMessage("Failed to connect:\n" + rejectReason);
-			main.setScreen(Main.ERRORMSG);
+			logic.main.setScreen(Main.ERRORMSG);
 			connection.close();
 		}
 	}

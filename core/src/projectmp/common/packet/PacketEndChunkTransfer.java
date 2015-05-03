@@ -1,5 +1,6 @@
 package projectmp.common.packet;
 
+import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.server.ServerLogic;
 
@@ -13,9 +14,9 @@ public class PacketEndChunkTransfer implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
+	public void actionClient(Connection connection, ClientLogic logic) {
 		Main.logger.info("Finished receiving chunk data from the server");
-		main.setScreen(Main.GAME);
+		logic.main.setScreen(Main.GAME);
 	}
 
 }

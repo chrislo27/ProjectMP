@@ -1,5 +1,6 @@
 package projectmp.common.packet;
 
+import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.server.ServerLogic;
@@ -34,12 +35,12 @@ public class PacketPlayerPosUpdate implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
+	public void actionClient(Connection connection, ClientLogic logic) {
 		if(username.equals(Main.username)){
-			if(Main.GAME.getPlayer() != null){
-				Main.GAME.getPlayer().velox = velox;
-				Main.GAME.getPlayer().veloy = veloy;
-				Main.GAME.getPlayer().positionUpdate(x, y);
+			if(logic.getPlayer() != null){
+				logic.getPlayer().velox = velox;
+				logic.getPlayer().veloy = veloy;
+				logic.getPlayer().positionUpdate(x, y);
 			}
 		}
 	}

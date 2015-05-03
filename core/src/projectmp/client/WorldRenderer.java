@@ -17,16 +17,18 @@ import com.badlogic.gdx.utils.Disposable;
 public class WorldRenderer implements Disposable {
 
 	public Main main;
+	public ClientLogic logic;
 	public SpriteBatch batch;
 	public SmoothCamera camera;
 	public World world;
 
 	FrameBuffer worldBuffer;
-
-	public WorldRenderer(Main m, World w) {
+	
+	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
 		batch = main.batch;
 		world = w;
+		logic = l;
 
 		camera = new SmoothCamera(world);
 
@@ -57,17 +59,17 @@ public class WorldRenderer implements Disposable {
 
 		for (int i = 0; i < world.entities.size; i++) {
 			Entity e = world.entities.get(i);
-			if (e == Main.GAME.getPlayer()) {
+			if (e == logic.getPlayer()) {
 				continue;
 			}
 			e.render(this);
 		}
-		if (Main.GAME.getPlayer() != null) Main.GAME.getPlayer().render(this);
+		if (logic.getPlayer() != null) logic.getPlayer().render(this);
 
 		world.main.font.setColor(1, 1, 1, 1);
 		for (int i = 0; i < world.entities.size; i++) {
 			if (world.entities.get(i) instanceof EntityPlayer) {
-				if (Main.GAME.getPlayer() != world.entities.get(i)) {
+				if (logic.getPlayer() != world.entities.get(i)) {
 					EntityPlayer p = (EntityPlayer) world.entities.get(i);
 					
 					batch.setColor(1, 1, 1, 0.25f);
@@ -96,9 +98,7 @@ public class WorldRenderer implements Disposable {
 
 	public void renderHUD() {
 		batch.begin();
-		for(int x = 0; x < 10; x++){
-			batch.draw(main.manager.get(AssetMap.get("invslot"), Texture.class), x * 32 + 32, Main.convertY(64));
-		}
+		// TODO render hotbar
 		batch.end();
 	}
 

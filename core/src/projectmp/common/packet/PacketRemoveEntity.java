@@ -1,6 +1,6 @@
 package projectmp.common.packet;
 
-import projectmp.common.Main;
+import projectmp.client.ClientLogic;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -15,10 +15,10 @@ public class PacketRemoveEntity implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
-		for(int i = 0; i < Main.GAME.world.entities.size; i++){
-			if(Main.GAME.world.entities.get(i).uuid == uuid){
-				Main.GAME.world.entities.removeIndex(i);
+	public void actionClient(Connection connection, ClientLogic logic) {
+		for(int i = 0; i < logic.world.entities.size; i++){
+			if(logic.world.entities.get(i).uuid == uuid){
+				logic.world.entities.removeIndex(i);
 				return;
 			}
 		}

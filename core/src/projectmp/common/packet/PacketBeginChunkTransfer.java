@@ -1,5 +1,6 @@
 package projectmp.common.packet;
 
+import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.server.ServerLogic;
 
@@ -24,10 +25,10 @@ public class PacketBeginChunkTransfer implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
+	public void actionClient(Connection connection, ClientLogic logic) {
 		Main.WORLDGETTING.percentReceived = 0f;
 		Main.WORLDGETTING.percentEach = percentPerChunk;
-		main.setScreen(Main.WORLDGETTING);
+		logic.main.setScreen(Main.WORLDGETTING);
 	}
 
 }

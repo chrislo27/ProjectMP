@@ -1,6 +1,6 @@
 package projectmp.common.packet;
 
-import projectmp.common.Main;
+import projectmp.client.ClientLogic;
 import projectmp.common.block.Blocks;
 import projectmp.server.ServerLogic;
 
@@ -20,9 +20,9 @@ public class PacketBlockUpdate implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
-		Main.GAME.world.setBlock(Blocks.instance().getBlock(block), x, y);
-		Main.GAME.world.setMeta(meta, x, y);
+	public void actionClient(Connection connection, ClientLogic logic) {
+		logic.world.setBlock(Blocks.instance().getBlock(block), x, y);
+		logic.world.setMeta(meta, x, y);
 	}
 
 }

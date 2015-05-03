@@ -1,7 +1,6 @@
 package projectmp.common.packet;
 
-import projectmp.common.Main;
-import projectmp.common.world.Time;
+import projectmp.client.ClientLogic;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -16,8 +15,8 @@ public class PacketTimeUpdate implements Packet{
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
-		Main.GAME.world.worldTime.setTotalTime(totalTicks);
+	public void actionClient(Connection connection, ClientLogic logic) {
+		logic.world.worldTime.setTotalTime(totalTicks);
 	}
 
 }

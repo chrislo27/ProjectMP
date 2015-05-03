@@ -1,5 +1,6 @@
 package projectmp.common.packet;
 
+import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.server.ServerLogic;
@@ -20,11 +21,11 @@ public class PacketSendChunk implements Packet{
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
+	public void actionClient(Connection connection, ClientLogic logic) {
 		for(int x = 0; x < 16; x++){
 			for(int y = 0; y < 16; y++){
-				Main.GAME.world.setBlock(Blocks.instance().getBlock(blocks[x][y]), originx + x, originy + y);
-				Main.GAME.world.setMeta(meta[x][y], originx + x, originy + y);
+				logic.world.setBlock(Blocks.instance().getBlock(blocks[x][y]), originx + x, originy + y);
+				logic.world.setMeta(meta[x][y], originx + x, originy + y);
 			}
 		}
 		

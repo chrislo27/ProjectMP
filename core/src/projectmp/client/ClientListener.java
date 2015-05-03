@@ -29,7 +29,7 @@ public class ClientListener extends Listener {
 		if (!(obj instanceof Packet)) return;
 		
 		main.client.updateReturnTripTime();
-		((Packet) obj).actionClient(connection, main);
+		((Packet) obj).actionClient(connection, main.clientLogic);
 	}
 
 }

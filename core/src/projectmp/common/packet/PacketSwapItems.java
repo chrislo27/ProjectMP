@@ -1,6 +1,6 @@
 package projectmp.common.packet;
 
-import projectmp.common.Main;
+import projectmp.client.ClientLogic;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -13,7 +13,7 @@ public class PacketSwapItems implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
+	public void actionClient(Connection connection, ClientLogic logic) {
 	}
 
 }

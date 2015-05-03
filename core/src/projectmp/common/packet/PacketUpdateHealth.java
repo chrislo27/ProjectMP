@@ -1,5 +1,6 @@
 package projectmp.common.packet;
 
+import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.entity.EntityLiving;
 import projectmp.server.ServerLogic;
@@ -18,11 +19,11 @@ public class PacketUpdateHealth implements Packet{
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
-		for(int i = 0; i < Main.GAME.world.entities.size; i++){
-			if(Main.GAME.world.entities.get(i).uuid == uuid){
-				if(Main.GAME.world.entities.get(i) instanceof EntityLiving){
-					EntityLiving e = (EntityLiving) Main.GAME.world.entities.get(i);
+	public void actionClient(Connection connection, ClientLogic logic) {
+		for(int i = 0; i < logic.world.entities.size; i++){
+			if(logic.world.entities.get(i).uuid == uuid){
+				if(logic.world.entities.get(i) instanceof EntityLiving){
+					EntityLiving e = (EntityLiving) logic.world.entities.get(i);
 					e.health = MathUtils.clamp(newhealth, 0, e.maxhealth);
 				}
 			}

@@ -1,6 +1,6 @@
 package projectmp.common.packet;
 
-import projectmp.common.Main;
+import projectmp.client.ClientLogic;
 import projectmp.common.entity.Entity;
 import projectmp.server.ServerLogic;
 
@@ -16,9 +16,9 @@ public class PacketNewEntity implements Packet {
 	}
 
 	@Override
-	public void actionClient(Connection connection, Main main) {
-		e.world = Main.GAME.world;
-		Main.GAME.world.entities.add(e);
+	public void actionClient(Connection connection, ClientLogic logic) {
+		e.world = logic.world;
+		logic.world.entities.add(e);
 	}
 
 }

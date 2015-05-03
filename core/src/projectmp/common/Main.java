@@ -19,6 +19,7 @@ import javax.swing.JTextArea;
 
 import projectmp.client.AssetLoadingScreen;
 import projectmp.client.ClientListener;
+import projectmp.client.ClientLogic;
 import projectmp.client.ConnectingScreen;
 import projectmp.client.DirectConnectScreen;
 import projectmp.client.ErrorScreen;
@@ -151,6 +152,7 @@ public class Main extends Game implements Consumer {
 	private JScrollPane conscrollPane;
 
 	public Client client;
+	public ClientLogic clientLogic;
 	public Server server;
 	public ServerLogic serverLogic;
 
@@ -220,6 +222,7 @@ public class Main extends Game implements Consumer {
 		client.addListener(new ClientListener(this));
 		ClassRegistration.registerClasses(client.getKryo());
 		client.start();
+		clientLogic = new ClientLogic(this);
 
 		server = new Server();
 		ClassRegistration.registerClasses(server.getKryo());
@@ -328,6 +331,7 @@ public class Main extends Game implements Consumer {
 		distanceFieldShader.dispose();
 		meshShader.dispose();
 		shapes.dispose();
+		clientLogic.dispose();
 
 		Iterator it = animations.entrySet().iterator();
 		while (it.hasNext()) {
