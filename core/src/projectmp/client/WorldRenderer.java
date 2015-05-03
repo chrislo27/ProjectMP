@@ -4,9 +4,11 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
@@ -94,6 +96,9 @@ public class WorldRenderer implements Disposable {
 
 	public void renderHUD() {
 		batch.begin();
+		for(int x = 0; x < 10; x++){
+			batch.draw(main.manager.get(AssetMap.get("invslot"), Texture.class), x * 32 + 32, Main.convertY(64));
+		}
 		batch.end();
 	}
 
