@@ -16,28 +16,27 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
-
-public class ClientLogic implements Disposable{
+public class ClientLogic implements Disposable {
 
 	public Main main;
 	public Client client;
-	
+
 	public World world;
 	public WorldRenderer renderer;
-	
+
 	private PacketPlayerPosUpdate playerUpdate = new PacketPlayerPosUpdate();
 
 	private int playerIndex = -1;
-	
+
 	public static final float TIME_BETWEEN_FORCE_UPDATE = 2.5f;
-	
-	public ClientLogic(Main main){
+
+	public ClientLogic(Main main) {
 		this.main = main;
 		client = main.client;
-		
+
 		renderer = new WorldRenderer(main, world, this);
 	}
-	
+
 	public EntityPlayer getPlayer() {
 		if (world == null) return null;
 		if (world.entities.size == 0) return null;
@@ -64,11 +63,11 @@ public class ClientLogic implements Disposable{
 		renderer.camera.setWorld(world);
 		this.world.isServer = false;
 	}
-	
-	public void tickUpdate(){
+
+	public void tickUpdate() {
 		renderer.tickUpdate();
 		world.tickUpdate();
-		
+
 		if (getPlayer() != null) {
 			if (main.client.isConnected()) {
 				getPlayer().movementAndCollision();
@@ -90,15 +89,15 @@ public class ClientLogic implements Disposable{
 
 		}
 	}
-	
-	public void render(){
+
+	public void render() {
 		centerCameraOnPlayer();
 
 		renderer.renderWorld();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
 	}
-	
+
 	public void renderUpdate() {
 		playerInput();
 
@@ -113,8 +112,8 @@ public class ClientLogic implements Disposable{
 			main.setScreen(Main.ERRORMSG);
 		}
 	}
-	
-	public void renderDebug(int starting){
+
+	public void renderDebug(int starting) {
 		main.font.draw(main.batch, "latency: " + main.client.getReturnTripTime() + " ms", 5,
 				Main.convertY(starting));
 		if (world != null) {
@@ -123,18 +122,19 @@ public class ClientLogic implements Disposable{
 			main.font.draw(main.batch,
 					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f)
 							+ " ms", 5, Main.convertY(starting + 30));
-			main.font.draw(main.batch,
-					"worldTime: " + world.worldTime.currentDayTicks + ", lastDayBri: " + world.lightingEngine.lastDayBrightness, 5, Main.convertY(starting + 45));
-			main.font.draw(main.batch,
-					"timeOfDay: " + world.worldTime.getCurrentTimeOfDay(), 5, Main.convertY(starting + 60));
-			main.font.draw(main.batch,
-					"x: " + getPlayer().x, 5, Main.convertY(starting + 75));
-			main.font.draw(main.batch,
-					"y: " + getPlayer().y, 5, Main.convertY(starting + 90));
-			main.font.draw(main.batch,
-					"cursorx: " + ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)), 5, Main.convertY(starting + 105));
-			main.font.draw(main.batch,
-					"cursory: " + ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)), 5, Main.convertY(starting + 120));
+			main.font.draw(main.batch, "worldTime: " + world.worldTime.currentDayTicks
+					+ ", lastDayBri: " + world.lightingEngine.lastDayBrightness, 5,
+					Main.convertY(starting + 45));
+			main.font.draw(main.batch, "timeOfDay: " + world.worldTime.getCurrentTimeOfDay(), 5,
+					Main.convertY(starting + 60));
+			main.font.draw(main.batch, "x: " + getPlayer().x, 5, Main.convertY(starting + 75));
+			main.font.draw(main.batch, "y: " + getPlayer().y, 5, Main.convertY(starting + 90));
+			main.font.draw(main.batch, "cursorx: "
+					+ ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)), 5,
+					Main.convertY(starting + 105));
+			main.font.draw(main.batch, "cursory: "
+					+ ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)), 5,
+					Main.convertY(starting + 120));
 			main.font
 					.draw(main.batch,
 							"lightlevel: "
@@ -144,8 +144,8 @@ public class ClientLogic implements Disposable{
 							5, Main.convertY(starting + 135));
 		}
 	}
-	
-	private void prepareMovementUpdate(){
+
+	private void prepareMovementUpdate() {
 		playerUpdate.username = Main.username;
 		playerUpdate.x = getPlayer().x;
 		playerUpdate.y = getPlayer().y;
@@ -196,5 +196,5 @@ public class ClientLogic implements Disposable{
 	public void dispose() {
 		renderer.dispose();
 	}
-	
+
 }
