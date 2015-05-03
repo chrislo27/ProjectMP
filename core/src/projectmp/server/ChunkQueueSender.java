@@ -1,4 +1,4 @@
-package projectmp.server.networking;
+package projectmp.server;
 
 import projectmp.common.Main;
 import projectmp.common.packet.PacketEndChunkTransfer;
