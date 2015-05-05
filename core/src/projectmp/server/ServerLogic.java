@@ -12,7 +12,6 @@ import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.ServerWorld;
-import projectmp.server.networking.ChunkQueueSender;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
