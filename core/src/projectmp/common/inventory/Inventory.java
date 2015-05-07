@@ -10,6 +10,7 @@ public class Inventory {
 
 	Array<Slot> slots = new Array<Slot>();
 	
+	// TODO uuid check for conflicts
 	long uuid = MathUtils.random(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1);
 	
 	public Slot getSlotAt(float x, float y){
