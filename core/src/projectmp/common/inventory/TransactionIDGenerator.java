@@ -1,29 +1,32 @@
 package projectmp.common.inventory;
 
+import java.util.Random;
+
 import com.badlogic.gdx.math.MathUtils;
 
 
 public class TransactionIDGenerator {
 	
+	private static Random random = new Random();
+	
 	/**
-	 * Uses the magic of nanosecond time and some random numbers to make a transaction id
-	 * that is essentially guaranteed to never occur again within the same client
+	 * Returns a random transaction ID that's essentially never going to happen again
 	 * <br>
-	 * <br>
-	 * The formula is:
-	 * <br>
-	 * <code>(random32bitInt << 32) | (nanoTime & 0xFFFFFFFF)
+	 * It sets the seed to the current nanosecond time, then returns <br>
+	 * <code>
+	 * nextLong() * randomSign
 	 * </code>
+	 * <p>
 	 * 
-	 * @return a transaction id
+	 * The only way to make it return a value again is to change the computer clock
+	 * back and somehow re-call this method at the exact nanosecond.
+	 * 
+	 * @return random transaction ID
 	 */
 	public static long getNewTransactionID(){
-		// random 32 bit int, bit shifted left by 32
-		long random = MathUtils.random(Integer.MIN_VALUE + 1, Integer.MAX_VALUE - 1) << 32;
-		// OR by nano time which is ANDed 32 times
-		long transId = random | (System.nanoTime() & 0xFFFFFFFF);
+		random.setSeed(System.nanoTime());
 		
-		return transId;
+		return random.nextLong() * MathUtils.randomSign();
 	}
 	
 }
