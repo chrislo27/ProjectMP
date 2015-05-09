@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class TransactionIDGenerator {
 	
-	private static Random random = new Random();
+	private static Random random = new Random(System.nanoTime());
 	
 	/**
 	 * Returns a random transaction ID that's essentially never going to happen again
@@ -24,8 +24,6 @@ public class TransactionIDGenerator {
 	 * @return random transaction ID
 	 */
 	public static long getNewTransactionID(){
-		random.setSeed(System.nanoTime());
-		
 		return random.nextLong() * MathUtils.randomSign();
 	}
 	
