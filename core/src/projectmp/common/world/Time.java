@@ -1,8 +1,8 @@
 package projectmp.common.world;
 
-import com.badlogic.gdx.graphics.Color;
-
 import projectmp.common.Main;
+
+import com.badlogic.gdx.graphics.Color;
 
 public class Time {
 
