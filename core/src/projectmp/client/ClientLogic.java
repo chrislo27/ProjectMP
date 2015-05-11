@@ -18,7 +18,7 @@ import com.esotericsoftware.kryonet.Client;
 public class ClientLogic implements Disposable {
 
 	public static final float TIME_BETWEEN_FORCE_UPDATE = 2.5f;
-	
+
 	public Main main;
 	public Client client;
 
