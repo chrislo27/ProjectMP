@@ -1,9 +1,12 @@
 package projectmp.server;
 
+import java.util.HashMap;
+
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.Inventory;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketNewEntity;
@@ -13,10 +16,6 @@ import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.ServerWorld;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
@@ -30,6 +29,8 @@ public class ServerLogic {
 
 	public int maxplayers = 2;
 
+	public HashMap<String, Inventory> playerInventories = new HashMap<String, Inventory>();
+	
 	private PacketPositionUpdate positionUpdate = new PacketPositionUpdate();
 	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();
 	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
@@ -160,6 +161,8 @@ public class ServerLogic {
 			
 			world.entities.removeValue(p, false);
 		}
+		
+		playerInventories.remove(name);
 	}
 	
 }

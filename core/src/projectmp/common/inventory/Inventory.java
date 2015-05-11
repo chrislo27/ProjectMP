@@ -10,12 +10,23 @@ public class Inventory {
 
 	public static final int PLAYER_SLOTS = 10;
 	
-	ItemStack[] items;
-	int maxCapacity;
+	ItemStack[] items = new ItemStack[1];
+	int maxCapacity = 1;
 	
-	public Inventory(final int maxCap){
-		maxCapacity = maxCap;
-		items = new ItemStack[maxCap];
+	public Inventory(){
+		
+	}
+	
+	/**
+	 * sets max capacity AND re-inits itemstack array
+	 * @param cap
+	 * @return
+	 */
+	public Inventory setMaxCapacity(int cap){
+		maxCapacity = cap;
+		items = new ItemStack[cap];
+		
+		return this;
 	}
 	
 }

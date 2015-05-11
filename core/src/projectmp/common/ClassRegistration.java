@@ -4,6 +4,7 @@ import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.ItemStack;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketBlockUpdate;
@@ -35,6 +36,8 @@ public class ClassRegistration {
 		kryo.register(long[].class);
 		kryo.register(float[].class);
 		kryo.register(Inventory.class);
+		kryo.register(ItemStack.class);
+		kryo.register(ItemStack[].class);
 	}
 	
 	private static void registerPackets(Kryo kryo){
