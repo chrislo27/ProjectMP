@@ -5,6 +5,7 @@ import projectmp.common.Settings;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.Inventory;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.world.World;
 
@@ -16,6 +17,8 @@ import com.esotericsoftware.kryonet.Client;
 
 public class ClientLogic implements Disposable {
 
+	public static final float TIME_BETWEEN_FORCE_UPDATE = 2.5f;
+	
 	public Main main;
 	public Client client;
 
@@ -26,7 +29,7 @@ public class ClientLogic implements Disposable {
 
 	private int playerIndex = -1;
 
-	public static final float TIME_BETWEEN_FORCE_UPDATE = 2.5f;
+	public Inventory playerInventory = null;
 
 	public ClientLogic(Main main) {
 		this.main = main;

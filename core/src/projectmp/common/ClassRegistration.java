@@ -3,6 +3,7 @@ package projectmp.common;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.Inventory;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketBlockUpdate;
@@ -10,6 +11,7 @@ import projectmp.common.packet.PacketEndChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketHandshake;
 import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketPlayerInventory;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
@@ -23,6 +25,8 @@ import com.esotericsoftware.kryo.Kryo;
 public class ClassRegistration {
 
 	public static void registerClasses(Kryo kryo){
+		registerPackets(kryo);
+		registerEntities(kryo);
 		kryo.register(Entity[].class);
 		kryo.register(String[][].class);
 		kryo.register(int[][].class);
@@ -30,8 +34,7 @@ public class ClassRegistration {
 		kryo.register(int[].class);
 		kryo.register(long[].class);
 		kryo.register(float[].class);
-		registerPackets(kryo);
-		registerEntities(kryo);
+		kryo.register(Inventory.class);
 	}
 	
 	private static void registerPackets(Kryo kryo){
@@ -48,6 +51,7 @@ public class ClassRegistration {
 		kryo.register(PacketEndChunkTransfer.class);
 		kryo.register(PacketTimeUpdate.class);
 		kryo.register(PacketSendInv.class);
+		kryo.register(PacketPlayerInventory.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){
