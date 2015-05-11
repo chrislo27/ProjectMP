@@ -1,10 +1,9 @@
 package projectmp.common.inventory;
 
-import java.util.Random;
+import projectmp.common.util.sidedictation.Side;
+import projectmp.common.util.sidedictation.SideOnly;
 
-import com.badlogic.gdx.math.MathUtils;
-
-
+@SideOnly(Side.CLIENT)
 public class TransactionIDGenerator {
 	
 	private static long currentID = System.nanoTime();
