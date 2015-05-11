@@ -14,6 +14,7 @@ import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
+import projectmp.common.packet.PacketSendInv;
 import projectmp.common.packet.PacketTimeUpdate;
 
 import com.esotericsoftware.kryo.Kryo;
@@ -46,6 +47,7 @@ public class ClassRegistration {
 		kryo.register(PacketBeginChunkTransfer.class);
 		kryo.register(PacketEndChunkTransfer.class);
 		kryo.register(PacketTimeUpdate.class);
+		kryo.register(PacketSendInv.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){
