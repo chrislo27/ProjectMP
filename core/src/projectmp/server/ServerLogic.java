@@ -15,6 +15,7 @@ import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.ServerWorld;
+import projectmp.common.world.chunk.Chunk;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
@@ -88,20 +89,23 @@ public class ServerLogic {
 	public void sendEntireWorld(Connection connection) {
 		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16) + Math.max(1, world.sizey / 16));
 		
-		for (int x = 0; x < Math.max(1, world.sizex / 16); x++) {
-			for (int y = 0; y < Math.max(1, world.sizey / 16); y++) {
-				PacketSendChunk chunk = new PacketSendChunk();
-				chunk.originx = x * 16;
-				chunk.originy = y * 16;
-				for (int cx = 0; cx < (16) && (cx + x * 16) < world.sizex; cx++) {
-					for (int cy = 0; cy < (16) && (cy + y * 16) < world.sizey; cy++) {
-						chunk.blocks[cx][cy] = Blocks.instance().getKey(
-								world.getBlock((cx + x * 16), (cy + y * 16)));
-						chunk.meta[cx][cy] = world.getMeta((cx + x * 16), (cy + y * 16));
+		for(int x = 0; x < world.getWidthInChunks(); x++){
+			for(int y = 0; y < world.getHeightInChunks(); y++){
+				PacketSendChunk packet = new PacketSendChunk();
+				
+				packet.originx = x * Chunk.CHUNK_SIZE;
+				packet.originy = y * Chunk.CHUNK_SIZE;
+				
+				for(int j = 0; j < Chunk.CHUNK_SIZE; j++){
+					for(int k = 0; k < Chunk.CHUNK_SIZE; k++){
+						Chunk currentChunk = world.getChunk(x, y);
+						
+						packet.blocks[j][k] = Blocks.instance().getKey(currentChunk.getBlock(j, k));
+						packet.meta[j][k] = currentChunk.getMeta(j, k);
 					}
 				}
-
-				queue.add(chunk);
+				
+				queue.add(packet);
 			}
 		}
 		

@@ -48,22 +48,22 @@ public class ServerWorld extends World{
 
 	@Override
 	public void setBlock(Block b, int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		blocks[x][y] = b;
-		sendBlockUpdatePacket(x, y);
+		Block old = getBlock(x, y);
+		super.setBlock(b, x, y);
+		if(getBlock(x, y) != old) sendBlockUpdatePacket(x, y);
 	}
 
 	@Override
 	public void setMeta(int m, int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		meta[x][y] = m;
-		sendBlockUpdatePacket(x, y);
+		int old = getMeta(x, y);
+		super.setMeta(m, x, y);
+		if(getMeta(x, y) != old) sendBlockUpdatePacket(x, y);
 	}
 	
 	private void sendBlockUpdatePacket(int x, int y){
 		if(!shouldSendUpdates) return;
-		bupacket.block = Blocks.instance().getKey(blocks[x][y]);
-		bupacket.meta = meta[x][y];
+		bupacket.block = Blocks.instance().getKey(getBlock(x, y));
+		bupacket.meta = getMeta(x, y);
 		bupacket.x = x;
 		bupacket.y = y;
 		
