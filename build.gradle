@@ -51,6 +51,7 @@ project(":core") {
 		compile "com.esotericsoftware:kryo:3.0.0"
 		compile "com.esotericsoftware:kryonet:2.22.0-RC1"
 		compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
+		compile "com.googlecode.json-simple:json-simple:1.1.1"
     }
 }
 
