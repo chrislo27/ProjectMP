@@ -9,7 +9,7 @@ public class Chunk {
 	public static final int CHUNK_SIZE = 16;
 	
 	protected Block[][] blocks = new Block[CHUNK_SIZE][CHUNK_SIZE];
-	protected int[][] metadata = new int[CHUNK_SIZE][CHUNK_SIZE];
+	protected byte[][] metadata = new byte[CHUNK_SIZE][CHUNK_SIZE];
 	
 	int locationX = 0;
 	int locationY = 0;
@@ -44,7 +44,7 @@ public class Chunk {
 
 	public void setMeta(int m, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
-		metadata[x][y] = m;
+		metadata[x][y] = (byte) m;
 	}
 	
 }
