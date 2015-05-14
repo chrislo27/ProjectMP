@@ -52,7 +52,7 @@ project(":core") {
 		compile "com.esotericsoftware:kryonet:2.22.0-RC1"
 		compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
 		compile "com.googlecode.json-simple:json-simple:1.1.1"
-		compile "org.msgpack:msgpack-core:0.7.0-p9"
+		// compile "org.msgpack:msgpack-core:0.7.0-p9"
     }
 }
 
