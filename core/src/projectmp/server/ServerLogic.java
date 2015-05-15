@@ -1,12 +1,17 @@
 package projectmp.server;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.zip.GZIPOutputStream;
 
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
+import projectmp.common.nbt.WorldNBTIO;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketNewEntity;
@@ -55,6 +60,31 @@ public class ServerLogic {
 				world.lightingEngine.updateLighting(0, 0, world.sizex, world.sizey);
 				Main.logger.debug("Lighting update for entire world on init took "
 						+ (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms");
+				
+				try {
+					byte[] bytes = WorldNBTIO.encode(world);
+					
+					new File("worldfiles").mkdir();
+					new File("worldfiles/savefile_uncompressed.dat").createNewFile();
+					new File("worldfiles/savefile_compressed.dat").createNewFile();
+					
+					long nano = System.nanoTime();
+					FileOutputStream fos = new FileOutputStream("worldfiles/savefile_uncompressed.dat");
+					fos.write(bytes);
+					fos.close();
+					Main.logger.debug("Time to save uncompressed world: " + (System.nanoTime() - nano) / 1000000d + " ms");
+					
+					nano = System.nanoTime();
+					fos = new FileOutputStream("worldfiles/savefile_compressed.dat");
+					GZIPOutputStream gzipstream = new GZIPOutputStream(fos);
+					gzipstream.write(bytes);
+					gzipstream.finish();
+					gzipstream.close();
+					fos.close();
+					Main.logger.debug("Time to save compressed world: " + (System.nanoTime() - nano) / 1000000d + " ms");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			
 		}.start();

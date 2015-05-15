@@ -2,9 +2,14 @@ package projectmp.common.world.chunk;
 
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
+import projectmp.common.nbt.NBTIOAble;
+
+import com.evilco.mc.nbt.tag.TagByteArray;
+import com.evilco.mc.nbt.tag.TagCompound;
+import com.evilco.mc.nbt.tag.TagIntegerArray;
 
 
-public class Chunk {
+public class Chunk implements NBTIOAble{
 
 	public static final int CHUNK_SIZE = 16;
 	
@@ -45,6 +50,29 @@ public class Chunk {
 	public void setMeta(int m, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
 		metadata[x][y] = (byte) m;
+	}
+
+	@Override
+	public TagCompound writeToNBT(TagCompound tag) {
+		int[] blockids = new int[CHUNK_SIZE * CHUNK_SIZE];
+		byte[] metas = new byte[CHUNK_SIZE * CHUNK_SIZE];
+		for(int x = 0; x < CHUNK_SIZE; x++){
+			for(int y = 0; y < CHUNK_SIZE; y++){
+				blockids[(x * CHUNK_SIZE) + y] = Blocks.instance().getIDFromBlock(blocks[x][y]);
+				metas[(x * CHUNK_SIZE) + y] = metadata[x][y];
+			}
+		}
+		
+		tag.setTag(new TagIntegerArray("Location", new int[]{locationX, locationY}));
+		tag.setTag(new TagIntegerArray("Blocks", blockids));
+		tag.setTag(new TagByteArray("Metadata", metas));
+		
+		return tag;
+	}
+
+	@Override
+	public void readFromNBT(TagCompound tag) {
+		
 	}
 	
 }
