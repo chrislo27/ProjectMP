@@ -24,6 +24,7 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 		maven { url "http://clojars.org/repo/" }
+		maven { url "http://basket.cindyscats.com/content/repositories/releases/" }
     }
 }
 
