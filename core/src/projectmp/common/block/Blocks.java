@@ -23,20 +23,24 @@ public class Blocks {
 
 	private HashMap<String, Block> blocks = new HashMap<String, Block>();
 	private HashMap<Block, String> reverse = new HashMap<Block, String>();
+	private HashMap<Integer, Block> blockIDs = new HashMap<Integer, Block>();
+	private HashMap<Block, Integer> reverseBlockIDs = new HashMap<Block, Integer>();
 	private Array<Block> allBlocks = new Array<Block>();
 
 	private void loadResources() {
-		put(defaultBlock, new BlockEmpty());
-		put("stone", new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight());
-		put("dirt", new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight());
-		put("grass",
+		put(defaultBlock, 0, new BlockEmpty());
+		put("stone", 1, new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight());
+		put("dirt", 2, new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight());
+		put("grass", 3, 
 				(Block) new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
 						.addAnimation(Block.singleBlockTexture("images/blocks/grass.png")));
 	}
 
-	private void put(String key, Block value) {
+	private void put(String key, int id, Block value) {
 		blocks.put(key, value);
 		reverse.put(value, key);
+		blockIDs.put(id, value);
+		reverseBlockIDs.put(value, id);
 		allBlocks.add(value);
 	}
 
@@ -48,6 +52,26 @@ public class Blocks {
 	public String getKey(Block block) {
 		if (block == null) return defaultBlock;
 		return reverse.get(block);
+	}
+	
+	public Block getBlockFromID(int id){
+		if(id <= -1) return defaultBlock();
+		return blockIDs.get(id);
+	}
+	
+	public int getIDFromBlock(Block block){
+		if(block == null) return 0;
+		return reverseBlockIDs.get(block);
+	}
+	
+	public int getIDFromName(String name){
+		if(name == null) return 0;
+		return getIDFromBlock(getBlock(name));
+	}
+	
+	public String getNameFromID(int id){
+		if(id <= -1) return defaultBlock;
+		return getKey(getBlockFromID(id));
 	}
 
 	public Array<Block> getBlockList() {
