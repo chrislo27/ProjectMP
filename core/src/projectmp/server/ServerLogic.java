@@ -65,17 +65,10 @@ public class ServerLogic {
 					byte[] bytes = WorldNBTIO.encode(world);
 					
 					new File("worldfiles").mkdir();
-					new File("worldfiles/savefile_uncompressed.dat").createNewFile();
 					new File("worldfiles/savefile_compressed.dat").createNewFile();
 					
 					long nano = System.nanoTime();
-					FileOutputStream fos = new FileOutputStream("worldfiles/savefile_uncompressed.dat");
-					fos.write(bytes);
-					fos.close();
-					Main.logger.debug("Time to save uncompressed world: " + (System.nanoTime() - nano) / 1000000d + " ms");
-					
-					nano = System.nanoTime();
-					fos = new FileOutputStream("worldfiles/savefile_compressed.dat");
+					FileOutputStream fos = new FileOutputStream("worldfiles/savefile_compressed.dat");
 					GZIPOutputStream gzipstream = new GZIPOutputStream(fos);
 					gzipstream.write(bytes);
 					gzipstream.finish();
