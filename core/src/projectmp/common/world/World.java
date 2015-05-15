@@ -132,11 +132,11 @@ public class World {
 		return quadlist;
 	}
 
-	public long getUniqueUUID() {
+	public long getNewUniqueUUID() {
 		long id = MathUtils.random(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1);
 		for (int i = 0; i < entities.size; i++) {
 			if (entities.get(i).uuid == id) {
-				return getUniqueUUID();
+				return getNewUniqueUUID();
 			}
 		}
 		return id;
