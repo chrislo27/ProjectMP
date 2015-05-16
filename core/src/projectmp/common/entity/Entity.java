@@ -4,6 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.block.BlockEmpty;
+import projectmp.common.nbt.NBTIOAble;
 import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;
@@ -11,8 +12,9 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.evilco.mc.nbt.tag.TagCompound;
 
-public abstract class Entity implements Sizeable{
+public abstract class Entity implements Sizeable, NBTIOAble{
 
 	public transient World world;
 	public float x = 0;
@@ -305,6 +307,18 @@ public abstract class Entity implements Sizeable{
 				}
 			}
 		}
+	}
+	
+	@Override
+	public TagCompound writeToNBT(TagCompound tag){
+		
+		
+		return tag;
+	}
+	
+	@Override
+	public void readFromNBT(TagCompound tag){
+		
 	}
 
 	public boolean intersectingOther(Entity other) {
