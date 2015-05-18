@@ -19,8 +19,10 @@ import com.evilco.mc.nbt.tag.TagList;
 import com.evilco.mc.nbt.tag.TagLong;
 import com.evilco.mc.nbt.tag.TagString;
 
-public class WorldNBTIO {
+public final class WorldNBTIO {
 
+	private WorldNBTIO(){}
+	
 	public static final int SAVE_FORMAT_VERSION = 1;
 	
 	public static byte[] encode(World world) throws IOException {
