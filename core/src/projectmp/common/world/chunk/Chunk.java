@@ -1,10 +1,17 @@
 package projectmp.common.world.chunk;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.nbt.NBTIOAble;
 import projectmp.common.tileentity.TileEntity;
 
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
+import com.evilco.mc.nbt.tag.ITag;
 import com.evilco.mc.nbt.tag.TagByteArray;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagIntegerArray;
@@ -71,7 +78,11 @@ public class Chunk implements NBTIOAble {
 				metas[(x * CHUNK_SIZE) + y] = metadata[x][y];
 				if(tileEntities[x][y] != null){
 					TagCompound teTag = new TagCompound("TileEntity_" + x + "," + y);
+					
+					teTag.setTag(new TagByteArray("Location", new byte[]{(byte) x, (byte) y}));
+					
 					tileEntities[x][y].writeToNBT(teTag);
+					
 					tiles.setTag(teTag);
 				}
 			}
@@ -87,7 +98,42 @@ public class Chunk implements NBTIOAble {
 
 	@Override
 	public void readFromNBT(TagCompound tag) {
-
+		int[] location = null;
+		int[] blockarray = null;
+		byte[] metaarray = null;
+		Map<String, ITag> tileEntityTags = null;
+		
+		try {
+			location = tag.getIntegerArray("Location");
+			blockarray = tag.getIntegerArray("Blocks");
+			metaarray = tag.getByteArray("Metadata");
+			tileEntityTags = tag.getCompound("TileEntities").getTags();
+		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		locationX = location[0];
+		locationY = location[1];
+		
+		for (int x = 0; x < CHUNK_SIZE; x++) {
+			for (int y = 0; y < CHUNK_SIZE; y++) {
+				blocks[x][y] = Blocks.instance().getBlockFromID(blockarray[(x * CHUNK_SIZE) + y]);
+				metadata[x][y] = metaarray[(x * CHUNK_SIZE) + y];
+				tileEntities[x][y] = null;
+			}
+		}
+		
+		Iterator<Entry<String, ITag>> it = tileEntityTags.entrySet().iterator();
+		while(it.hasNext()){
+			TagCompound tileEntityComp = (TagCompound) it.next().getValue();
+			try {
+				byte[] loc = tileEntityComp.getByteArray("Location");
+			} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
 	}
 
 }
