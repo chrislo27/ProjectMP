@@ -4,9 +4,11 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.nbt.NBTIOAble;
+import projectmp.common.registry.GameRegistry;
 import projectmp.common.tileentity.TileEntity;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -15,6 +17,7 @@ import com.evilco.mc.nbt.tag.ITag;
 import com.evilco.mc.nbt.tag.TagByteArray;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagIntegerArray;
+import com.evilco.mc.nbt.tag.TagString;
 
 public class Chunk implements NBTIOAble {
 
@@ -80,6 +83,7 @@ public class Chunk implements NBTIOAble {
 					TagCompound teTag = new TagCompound("TileEntity_" + x + "," + y);
 					
 					teTag.setTag(new TagByteArray("Location", new byte[]{(byte) x, (byte) y}));
+					teTag.setTag(new TagString("Type", GameRegistry.getTileEntityRegistry().getKey(tileEntities[x][y].getClass())));
 					
 					tileEntities[x][y].writeToNBT(teTag);
 					
@@ -126,12 +130,33 @@ public class Chunk implements NBTIOAble {
 		Iterator<Entry<String, ITag>> it = tileEntityTags.entrySet().iterator();
 		while(it.hasNext()){
 			TagCompound tileEntityComp = (TagCompound) it.next().getValue();
+			
+			byte[] loc = null;
 			try {
-				byte[] loc = tileEntityComp.getByteArray("Location");
+				loc = tileEntityComp.getByteArray("Location");
 			} catch (UnexpectedTagTypeException | TagNotFoundException e) {
 				e.printStackTrace();
 			}
 			
+			TileEntity te = null;
+			int teLocX = loc[0] + (locationX * CHUNK_SIZE);
+			int teLocY = loc[1] + (locationY * CHUNK_SIZE);
+			String teType = null;
+			try {
+				teType = tileEntityComp.getString("Type");
+				te = GameRegistry
+						.getTileEntityRegistry()
+						.getValue(teType)
+						.newInstance()
+						.setLocation(teLocX, teLocY);
+			} catch (InstantiationException | IllegalAccessException | UnexpectedTagTypeException
+					| TagNotFoundException e) {
+				Main.logger.warn("Failed to load tile entity at " + teLocX + ", " + teLocY
+						+ " of type " + teType, e);
+			}
+			
+			tileEntities[teLocX][teLocY] = te;
+
 		}
 		
 	}
