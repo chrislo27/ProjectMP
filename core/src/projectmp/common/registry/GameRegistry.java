@@ -1,8 +1,8 @@
 package projectmp.common.registry;
 
-import java.util.HashMap;
-
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityLiving;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.tileentity.TileEntity;
 
 
@@ -30,7 +30,12 @@ public class GameRegistry {
 	
 	private void loadResources() {
 		// built-in game objects to be registered here
-		registerTileEntity(TileEntity.class, "tileEntity");
+		
+		// entities
+		registerEntity(EntityLiving.class, "entityLiving");
+		registerEntity(EntityPlayer.class, "player");
+		
+		// tile entities
 	}
 	
 	public static void registerTileEntity(Class<? extends TileEntity> clazz, String name){
@@ -39,6 +44,14 @@ public class GameRegistry {
 	
 	public static void registerEntity(Class<? extends Entity> clazz, String name){
 		instance().entityRegistry.register(clazz, name);
+	}
+	
+	public static RegistryMap<TileEntity> getTileEntityRegistry(){
+		return instance().tileEntityRegistry;
+	}
+	
+	public static RegistryMap<Entity> getEntityRegistry(){
+		return instance().entityRegistry;
 	}
 	
 }
