@@ -5,7 +5,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import projectmp.common.Main;
 import projectmp.common.entity.Entity;
+import projectmp.common.registry.GameRegistry;
 import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -15,6 +17,7 @@ import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagInteger;
 import com.evilco.mc.nbt.tag.TagList;
 import com.evilco.mc.nbt.tag.TagLong;
+import com.evilco.mc.nbt.tag.TagString;
 
 public class WorldNBTIO {
 
@@ -34,19 +37,30 @@ public class WorldNBTIO {
 		compound.setTag(new TagLong("WorldSeed", world.seed));
 		
 		// chunks
-		TagList chunksList = new TagList("Chunks");
+		TagCompound chunksList = new TagCompound("Chunks");
 		for(int x = 0; x < world.getWidthInChunks(); x++){
 			for(int y = 0; y < world.getHeightInChunks(); y++){
 				TagCompound chunkTag = new TagCompound("Chunk_" + x + "," + y);
 				
 				world.getChunk(x, y).writeToNBT(chunkTag);
 				
-				chunksList.addTag(chunkTag);
+				chunksList.setTag(chunkTag);
 			}
 		}
 		compound.setTag(chunksList);
 		
 		TagList entitiesList = new TagList("Entities");
+		
+		for(int i = 0; i < world.entities.size; i++){
+			Entity e = world.entities.get(i);
+			
+			TagCompound entTag = new TagCompound("Entity");
+			
+			entTag.setTag(new TagString("EntityType", GameRegistry.getEntityRegistry().getKey(e.getClass())));
+			e.writeToNBT(entTag);
+			
+			entitiesList.addTag(entTag);
+		}
 		
 		compound.setTag(entitiesList);
 		
@@ -68,15 +82,33 @@ public class WorldNBTIO {
 		world.prepare();
 		
 		// set world
+		TagCompound chunkCompound = tag.getCompound("Chunks");
 		for(int x = 0; x < world.getWidthInChunks(); x++){
 			for(int y = 0; y < world.getHeightInChunks(); y++){
-				TagCompound chunkTag = tag.getCompound("Chunk_" + x + "," + y);
+				TagCompound chunkTag = chunkCompound.getCompound("Chunk_" + x + "," + y);
 				
 				world.getChunk(x, y).readFromNBT(chunkTag);
 			}
 		}
 		
 		// entities
+		List<TagCompound> entitiesList = tag.getList("Entities", TagCompound.class);
+		for(TagCompound comp : entitiesList){
+			Entity e = null;
+			try {
+				e = GameRegistry.getEntityRegistry().getValue(comp.getString("EntityType")).newInstance();
+			} catch (InstantiationException | IllegalAccessException ex) {
+				Main.logger.error("Failed to re-create entity of type " + comp.getString("EntityType"), ex);
+			}
+			
+			if(e != null){
+				e.world = world;
+				e.readFromNBT(comp);
+				
+				world.entities.add(e);
+			}
+			
+		}
 		
 		nbtStream.close();
 		return world;

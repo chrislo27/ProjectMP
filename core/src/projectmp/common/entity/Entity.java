@@ -12,7 +12,11 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
+import com.evilco.mc.nbt.tag.TagFloat;
+import com.evilco.mc.nbt.tag.TagLong;
 
 public abstract class Entity implements Sizeable, NBTIOAble{
 
@@ -311,14 +315,33 @@ public abstract class Entity implements Sizeable, NBTIOAble{
 	
 	@Override
 	public TagCompound writeToNBT(TagCompound tag){
-		
+		tag.setTag(new TagFloat("PosX", x));
+		tag.setTag(new TagFloat("PosY", y));
+		tag.setTag(new TagFloat("VeloX", velox));
+		tag.setTag(new TagFloat("VeloY", veloy));
+		tag.setTag(new TagLong("UUID", uuid));
+		tag.setTag(new TagFloat("SizeX", sizex));
+		tag.setTag(new TagFloat("SizeY", sizey));
 		
 		return tag;
 	}
 	
 	@Override
 	public void readFromNBT(TagCompound tag){
-		
+		try {
+			uuid = tag.getLong("UUID");
+			
+			x = tag.getFloat("PosX");
+			y = tag.getFloat("PosY");
+			
+			velox = tag.getFloat("VeloX");
+			veloy = tag.getFloat("VeloY");
+			
+			sizex = tag.getFloat("SizeX");
+			sizey = tag.getFloat("SizeY");
+		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.error("Failed to get tags from NBT when decoding entity (" + this.getClass().getName() + ")", e);
+		}
 	}
 
 	public boolean intersectingOther(Entity other) {
