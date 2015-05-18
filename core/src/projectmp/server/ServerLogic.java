@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.zip.GZIPOutputStream;
 
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
@@ -21,6 +20,7 @@ import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.ServerWorld;
 import projectmp.common.world.chunk.Chunk;
+import projectmp.common.world.io.WorldSavingLoading;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
@@ -62,19 +62,19 @@ public class ServerLogic {
 						+ (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms");
 				
 				try {
-					byte[] bytes = WorldNBTIO.encode(world);
+					byte[] worldBytes = WorldSavingLoading.loadWorld(new File("saves/save0/world.dat"));
+					world = (ServerWorld) WorldNBTIO.decode(world, worldBytes);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				try {
+					new File("saves/save0/").mkdirs();
+					File f = new File("saves/save0/world.dat");
+					f.createNewFile();
 					
-					new File("worldfiles").mkdir();
-					new File("worldfiles/savefile_compressed.dat").createNewFile();
-					
-					long nano = System.nanoTime();
-					FileOutputStream fos = new FileOutputStream("worldfiles/savefile_compressed.dat");
-					GZIPOutputStream gzipstream = new GZIPOutputStream(fos);
-					gzipstream.write(bytes);
-					gzipstream.finish();
-					gzipstream.close();
-					fos.close();
-					Main.logger.debug("Time to save compressed world: " + (System.nanoTime() - nano) / 1000000d + " ms");
+					byte[] worldBytes = WorldNBTIO.encode(world);
+					WorldSavingLoading.saveWorld(WorldNBTIO.encode(world), f);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

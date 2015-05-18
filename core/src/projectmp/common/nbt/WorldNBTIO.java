@@ -3,7 +3,9 @@ package projectmp.common.nbt;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import projectmp.common.Main;
 import projectmp.common.entity.Entity;
@@ -13,6 +15,7 @@ import projectmp.common.world.World;
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.stream.NbtInputStream;
 import com.evilco.mc.nbt.stream.NbtOutputStream;
+import com.evilco.mc.nbt.tag.ITag;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagInteger;
 import com.evilco.mc.nbt.tag.TagList;
@@ -75,11 +78,12 @@ public final class WorldNBTIO {
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 		NbtInputStream nbtStream = new NbtInputStream(byteStream);
 		TagCompound tag = (TagCompound) nbtStream.readTag();
+		int saveFormat = tag.getInteger("SaveFormatVersion");
 		
 		world.sizex = tag.getInteger("WorldWidth");
 		world.sizey = tag.getInteger("WorldHeight");
 		world.worldTime.setTotalTime(tag.getInteger("WorldTime"));
-		world.seed = tag.getInteger("WorldSeed");
+		world.seed = tag.getLong("WorldSeed");
 		
 		world.prepare();
 		
