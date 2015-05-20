@@ -135,10 +135,10 @@ public class Utils {
 	 * @param width
 	 * @param height
 	 */
-	public static void drawMaskedTexture(Main main, Batch batch, Texture toMask, Texture stencil, float x,
+	public static void drawMaskedTexture(Main main, Batch batch, Texture theMask, Texture baked, float x,
 			float y, float width, float height) {
-		Main.useMask(toMask, stencil);
-		batch.draw(toMask, x, y, width, height);
+		Main.useMask(theMask);
+		batch.draw(baked, x, y, width, height);
 	}
 
 	public static String repeat(String s, int times) {

@@ -18,55 +18,7 @@ public class Shaders {
 			"void main() {\n" + "	vColor = " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
 			+ "	vTexCoord = " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"
 			+ "	gl_Position =  u_projTrans * " + ShaderProgram.POSITION_ATTRIBUTE + ";\n" + "}";
-	public static final String FRAGBAKE = "#ifdef GL_ES\n" //
-			+ "#define LOWP lowp\n" //
-			+ "precision mediump float;\n" //
-			+ "#else\n" //
-			+ "#define LOWP \n" //
-			+ "#endif\n"
-			+ //
-			"varying LOWP vec4 vColor;\n"
-			+ "varying vec2 vTexCoord;\n"
-			+ "uniform sampler2D u_texture;\n"
-			+ "uniform sampler2D u_texture1;\n"
-			+ "uniform sampler2D u_mask;\n"
-			+ "void main(void) {\n"
-			+ "	//sample the colour from the first texture\n"
-			+ "	vec4 texColor0 = texture2D(u_texture, vTexCoord);\n"
-			+ "\n"
-			+ "	//sample the colour from the second texture\n"
-			+ "	vec4 texColor1 = texture2D(u_texture1, vTexCoord);\n"
-			+ "\n"
-			+ "	//get the mask; we will only use the alpha channel\n"
-			+ "	float mask = texture2D(u_mask, vTexCoord).a;\n"
-			+ "\n"
-			+ "	//interpolate the colours based on the mask\n"
-			+ "	gl_FragColor = vColor * mix(texColor0, texColor1, mask);\n" + "}";
-	
-	public static final String FRAGBAKEINVERSE = "#ifdef GL_ES\n" //
-			+ "#define LOWP lowp\n" //
-			+ "precision mediump float;\n" //
-			+ "#else\n" //
-			+ "#define LOWP \n" //
-			+ "#endif\n"
-			+ //
-			"varying LOWP vec4 vColor;\n"
-			+ "varying vec2 vTexCoord;\n"
-			+ "uniform sampler2D u_texture;\n"
-			+ "uniform sampler2D u_texture1;\n"
-			+ "uniform sampler2D u_mask;\n"
-			+ "void main(void) {\n"
-			+ "	//sample the colour from the first texture\n"
-			+ "	vec4 texColor0 = texture2D(u_texture, vTexCoord);\n"
-			+ "\n"
-			+ "	//sample the colour from the second texture\n"
-			+ "	vec4 texColor1 = texture2D(u_texture1, vTexCoord);\n"
-			+ "\n"
-			+ "	//get the mask; we will only use the alpha channel\n"
-			+ "	float mask = texture2D(u_mask, vTexCoord).a;\n"
-			+ "\n"
-			+ "	//interpolate the colours based on the mask\n"
-			+ "	gl_FragColor = vColor * mix(texColor0, texColor1, 1.0 - mask);\n" + "}";
+	public static final String FRAGBAKE = Gdx.files.internal("shaders/mask.frag").readString();
 
 	public static final String VERTBLUEPRINT = "attribute vec4 a_position;\r\n"
 			+ "attribute vec4 a_color;\r\n" + "attribute vec2 a_texCoord0;\r\n" + "\r\n"

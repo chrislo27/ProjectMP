@@ -5,8 +5,11 @@ import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.AssetMap;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -22,7 +25,8 @@ public class WorldRenderer implements Disposable {
 	public SmoothCamera camera;
 	public World world;
 
-	FrameBuffer worldBuffer;
+	private FrameBuffer worldBuffer;
+	private FrameBuffer lightingBuffer;
 	
 	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
@@ -34,18 +38,45 @@ public class WorldRenderer implements Disposable {
 
 		worldBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, true);
+		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true);
 	}
 
 	public void renderWorld() {
 		camera.update();
 
-		// world to buffer
-		worldBuffer.begin();
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		// render background
 		batch.begin();
-
+		
 		batch.setColor(0.4f, 0.4f, 0.6f, 1);
 		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
+		
+		batch.end();
+		
+		/* --------------------------------------------------------------------- */
+		
+		// lighting to buffer
+		lightingBuffer.begin();
+		
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		world.lightingEngine.render(this, batch);
+		
+		lightingBuffer.end();
+		
+		/* --------------------------------------------------------------------- */
+		
+		// world to buffer
+		worldBuffer.begin();
+
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		batch.begin();
 
 		int prex = getCullStartX(0);
 		int prey = getCullStartY(0);
@@ -66,6 +97,29 @@ public class WorldRenderer implements Disposable {
 		}
 		if (logic.getPlayer() != null) logic.getPlayer().render(this);
 
+		batch.setColor(1, 1, 1, 1);
+		batch.end();
+		
+		worldBuffer.end();
+
+		/* --------------------------------------------------------------------- */
+		
+		// mask lighting buffer onto world buffer
+		
+		batch.begin();
+		
+		// draw the world buffer as-is
+		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		
+		// draw the lighting buffer, masked
+		batch.setShader(main.maskshader);
+		Main.useMask(worldBuffer.getColorBufferTexture());
+		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		batch.setShader(null);
+		
+		/* --------------------------------------------------------------------- */
+		
+		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
 		for (int i = 0; i < world.entities.size; i++) {
 			if (world.entities.get(i) instanceof EntityPlayer) {
@@ -80,20 +134,9 @@ public class WorldRenderer implements Disposable {
 				}
 			}
 		}
-
-		batch.setColor(1, 1, 1, 1);
+		
 		batch.end();
 
-		worldBuffer.end();
-		// end world to buffer
-
-		// draw everything
-		batch.begin();
-		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
-				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		batch.end();
-
-		world.lightingEngine.render(this, batch);
 	}
 
 	public void renderHUD() {
@@ -141,6 +184,7 @@ public class WorldRenderer implements Disposable {
 	@Override
 	public void dispose() {
 		worldBuffer.dispose();
+		lightingBuffer.dispose();
 	}
 
 }
