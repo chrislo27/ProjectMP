@@ -129,6 +129,7 @@ public class Main extends Game implements Consumer {
 	public static TextureRegion filltexRegion;
 
 	public ShaderProgram maskshader;
+	public ShaderProgram maskshaderInverted;
 	public ShaderProgram blueprintshader;
 	public ShaderProgram toonshader;
 	public ShaderProgram greyshader;
@@ -236,6 +237,12 @@ public class Main extends Game implements Consumer {
 		maskshader.setUniformi("u_texture1", 1);
 		maskshader.setUniformi("u_mask", 2);
 		maskshader.end();
+		
+		maskshaderInverted = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKEINVERSE);
+		maskshaderInverted.begin();
+		maskshaderInverted.setUniformi("u_texture1", 1);
+		maskshaderInverted.setUniformi("u_mask", 2);
+		maskshaderInverted.end();
 
 		blueprintshader = new ShaderProgram(Shaders.VERTBLUEPRINT, Shaders.FRAGBLUEPRINT);
 		blueprintshader.begin();
@@ -313,6 +320,7 @@ public class Main extends Game implements Consumer {
 		font.dispose();
 		arial.dispose();
 		maskshader.dispose();
+		maskshaderInverted.dispose();
 		blueprintshader.dispose();
 		toonshader.dispose();
 		warpshader.dispose();
