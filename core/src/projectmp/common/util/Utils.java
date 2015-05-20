@@ -124,47 +124,21 @@ public class Utils {
 		char randomChar = (char) ((int) 'A' + Math.random() * ((int) 'Z' - (int) 'A' + 1));
 		return randomChar;
 	}
-
-	public static void drawTexWithShiny(Main main, Texture texture, float x, float y, float width,
-			float height) {
-		Color c = Main.getRainbow(-1);
-		// draw original
-		main.batch.draw(texture, x, y, width, height);
-
-		main.batch.end();
-
-		c = Main.getRainbow();
-
-		main.maskRenderer.begin();
-		main.maskRenderer.setColor(c.r, c.g, c.b, 0.5f);
-		// use the mask (itemshine) and the texture to bake on
-		Main.useMask(texture, main.getCurrentShine());
-		// draw the bg
-		main.maskRenderer.draw(texture, x, y, width, height);
-		main.maskRenderer.end();
-
-		main.batch.begin();
-	}
-
-	public static void drawTexMask(Main main, Texture texture, Texture mask, float x, float y,
-			float width, float height) {
-		Color c = Main.getRainbow(-1);
-		// draw original
-		main.batch.draw(texture, x, y, width, height);
-
-		main.batch.end();
-
-		c = Main.getRainbow();
-
-		main.maskRenderer.begin();
-		main.maskRenderer.setColor(c.r, c.g, c.b, 0.5f);
-		// use the mask (itemshine) and the texture to bake on
-		Main.useMask(texture, mask);
-		// draw the bg
-		main.maskRenderer.draw(texture, x, y, width, height);
-		main.maskRenderer.end();
-
-		main.batch.begin();
+	
+	/**
+	 * Draws toMask texture that's masked with the stencil texture.
+	 * @param main
+	 * @param toMask
+	 * @param stencil
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public static void drawMaskedTexture(Main main, Batch batch, Texture toMask, Texture stencil, float x,
+			float y, float width, float height) {
+		Main.useMask(toMask, stencil);
+		batch.draw(toMask, x, y, width, height);
 	}
 
 	public static String repeat(String s, int times) {

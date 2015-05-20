@@ -97,8 +97,6 @@ public class Main extends Game implements Consumer {
 	public static OrthographicCamera camera;
 
 	public SpriteBatch batch;
-	public SpriteBatch maskRenderer;
-	public SpriteBatch blueprintrenderer;
 
 	public ShapeRenderer shapes;
 
@@ -190,9 +188,6 @@ public class Main extends Game implements Consumer {
 		camera.setToOrtho(false, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch = new SpriteBatch();
 		batch.enableBlending();
-		maskRenderer = new SpriteBatch();
-		maskRenderer.enableBlending();
-		blueprintrenderer = new SpriteBatch();
 		manager = new AssetManager();
 
 		FreeTypeFontGenerator ttfGenerator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/default.ttf"));
@@ -241,12 +236,10 @@ public class Main extends Game implements Consumer {
 		maskshader.setUniformi("u_texture1", 1);
 		maskshader.setUniformi("u_mask", 2);
 		maskshader.end();
-		maskRenderer.setShader(maskshader);
 
 		blueprintshader = new ShaderProgram(Shaders.VERTBLUEPRINT, Shaders.FRAGBLUEPRINT);
 		blueprintshader.begin();
 		blueprintshader.end();
-		blueprintrenderer.setShader(blueprintshader);
 
 		toonshader = new ShaderProgram(Shaders.VERTTOON, Shaders.FRAGTOON);
 		greyshader = new ShaderProgram(Shaders.VERTGREY, Shaders.FRAGGREY);
@@ -323,9 +316,7 @@ public class Main extends Game implements Consumer {
 		blueprintshader.dispose();
 		toonshader.dispose();
 		warpshader.dispose();
-		maskRenderer.dispose();
 		blurshader.dispose();
-		blueprintrenderer.dispose();
 		invertshader.dispose();
 		swizzleshader.dispose();
 		distanceFieldShader.dispose();
@@ -869,19 +860,7 @@ public class Main extends Game implements Consumer {
 	}
 
 	/**
-	 * Directions to use
-	 * 
-	 * 1) Draw original texture (the base tex) on main batch - this renders the
-	 * actual sprite
-	 * 
-	 * 2) end main batch, start itemRenderer
-	 * 
-	 * 3) call this method (base tex, mask) - prepares mask
-	 * 
-	 * 4) re-draw original texture (base tex) - draws the stencil (which uses
-	 * base tex)
-	 * 
-	 * 5) end itemRenderer, begin main batch
+	 * Call after the masking shader is set to mask a texture onto another stencil texture
 	 * 
 	 * 
 	 * 
