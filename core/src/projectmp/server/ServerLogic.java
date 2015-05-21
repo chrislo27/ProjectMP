@@ -10,7 +10,8 @@ import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
-import projectmp.common.nbt.WorldNBTIO;
+import projectmp.common.io.WorldNBTIO;
+import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketNewEntity;
@@ -20,7 +21,6 @@ import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.ServerWorld;
 import projectmp.common.world.chunk.Chunk;
-import projectmp.common.world.io.WorldSavingLoading;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;

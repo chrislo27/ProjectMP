@@ -4,7 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.block.BlockEmpty;
-import projectmp.common.nbt.NBTIOAble;
+import projectmp.common.io.NBTIOAble;
 import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;

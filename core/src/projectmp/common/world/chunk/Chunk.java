@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
-import projectmp.common.nbt.NBTIOAble;
+import projectmp.common.io.NBTIOAble;
 import projectmp.common.registry.GameRegistry;
 import projectmp.common.tileentity.TileEntity;
 

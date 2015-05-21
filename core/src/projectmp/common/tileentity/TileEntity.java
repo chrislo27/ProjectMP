@@ -2,7 +2,7 @@ package projectmp.common.tileentity;
 
 import com.evilco.mc.nbt.tag.TagCompound;
 
-import projectmp.common.nbt.NBTIOAble;
+import projectmp.common.io.NBTIOAble;
 
 
 public abstract class TileEntity implements NBTIOAble{

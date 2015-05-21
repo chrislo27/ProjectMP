@@ -1,4 +1,4 @@
-package projectmp.common.nbt;
+package projectmp.common.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

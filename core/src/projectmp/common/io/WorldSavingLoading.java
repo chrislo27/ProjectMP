@@ -1,4 +1,4 @@
-package projectmp.common.world.io;
+package projectmp.common.io;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

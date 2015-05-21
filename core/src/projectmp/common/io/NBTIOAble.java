@@ -1,4 +1,4 @@
-package projectmp.common.nbt;
+package projectmp.common.io;
 
 import com.evilco.mc.nbt.tag.TagCompound;
 
