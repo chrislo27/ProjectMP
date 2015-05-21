@@ -314,7 +314,7 @@ public abstract class Entity implements Sizeable, NBTIOAble{
 	}
 	
 	@Override
-	public TagCompound writeToNBT(TagCompound tag){
+	public void writeToNBT(TagCompound tag){
 		tag.setTag(new TagFloat("PosX", x));
 		tag.setTag(new TagFloat("PosY", y));
 		tag.setTag(new TagFloat("VeloX", velox));
@@ -322,8 +322,6 @@ public abstract class Entity implements Sizeable, NBTIOAble{
 		tag.setTag(new TagLong("UUID", uuid));
 		tag.setTag(new TagFloat("SizeX", sizex));
 		tag.setTag(new TagFloat("SizeY", sizey));
-		
-		return tag;
 	}
 	
 	@Override

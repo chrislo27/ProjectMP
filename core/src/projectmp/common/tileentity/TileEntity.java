@@ -15,8 +15,7 @@ public abstract class TileEntity implements NBTIOAble{
 	}
 	
 	@Override
-	public TagCompound writeToNBT(TagCompound tag) {
-		return tag;
+	public void writeToNBT(TagCompound tag) {
 	}
 
 	@Override

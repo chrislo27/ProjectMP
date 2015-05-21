@@ -70,7 +70,7 @@ public class Chunk implements NBTIOAble {
 	}
 
 	@Override
-	public TagCompound writeToNBT(TagCompound tag) {
+	public void writeToNBT(TagCompound tag) {
 		int[] blockids = new int[CHUNK_SIZE * CHUNK_SIZE];
 		byte[] metas = new byte[CHUNK_SIZE * CHUNK_SIZE];
 		TagCompound tiles = new TagCompound("TileEntities");
@@ -96,8 +96,6 @@ public class Chunk implements NBTIOAble {
 		tag.setTag(new TagIntegerArray("Blocks", blockids));
 		tag.setTag(new TagByteArray("Metadata", metas));
 		tag.setTag(tiles);
-
-		return tag;
 	}
 
 	@Override

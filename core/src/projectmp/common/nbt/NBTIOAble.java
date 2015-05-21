@@ -12,9 +12,8 @@ public interface NBTIOAble {
 	/**
 	 * 
 	 * @param tag TagCompound for the object only
-	 * @return
 	 */
-	public TagCompound writeToNBT(TagCompound tag);
+	public void writeToNBT(TagCompound tag);
 	
 	public void readFromNBT(TagCompound tag);
 	
