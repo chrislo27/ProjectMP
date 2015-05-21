@@ -2,10 +2,10 @@ package projectmp.common.tileentity;
 
 import com.evilco.mc.nbt.tag.TagCompound;
 
-import projectmp.common.io.NBTIOAble;
+import projectmp.common.io.CanBeSavedToNBT;
 
 
-public abstract class TileEntity implements NBTIOAble{
+public abstract class TileEntity implements CanBeSavedToNBT{
 
 	protected int x = 0;
 	protected int y = 0;

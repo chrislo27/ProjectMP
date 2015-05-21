@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
-import projectmp.common.io.NBTIOAble;
+import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.registry.GameRegistry;
 import projectmp.common.tileentity.TileEntity;
 
@@ -19,7 +19,7 @@ import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagIntegerArray;
 import com.evilco.mc.nbt.tag.TagString;
 
-public class Chunk implements NBTIOAble {
+public class Chunk implements CanBeSavedToNBT {
 
 	public static final int CHUNK_SIZE = 16;
 

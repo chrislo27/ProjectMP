@@ -4,7 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.block.BlockEmpty;
-import projectmp.common.io.NBTIOAble;
+import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;
@@ -18,7 +18,7 @@ import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagFloat;
 import com.evilco.mc.nbt.tag.TagLong;
 
-public abstract class Entity implements Sizeable, NBTIOAble{
+public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 
 	public transient World world;
 	public float x = 0;

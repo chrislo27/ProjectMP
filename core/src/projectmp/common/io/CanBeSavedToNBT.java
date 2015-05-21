@@ -3,11 +3,11 @@ package projectmp.common.io;
 import com.evilco.mc.nbt.tag.TagCompound;
 
 /**
- * Having the weirdest name, this interface has write and read methods to/from a NBTTagCompound.
+ * Indicates the class can read and write to an NBT compound tag
  * 
  *
  */
-public interface NBTIOAble {
+public interface CanBeSavedToNBT {
 
 	/**
 	 * 
