@@ -10,5 +10,5 @@ void main(void) {
     // get the mask; we will only use the alpha channel of the mask
     float mask = texture2D(u_mask, vTexCoord).a;
 
-    gl_FragColor = vColor * mix(sentIn, vec4(0.0, 0.0, 0.0, 0.0), 1.0 - mask);
+    gl_FragColor = vColor * mix(sentIn, vec4(sentIn.rgb, 0.0), 1.0 - mask);
 }
