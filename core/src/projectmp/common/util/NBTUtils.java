@@ -1,5 +1,7 @@
 package projectmp.common.util;
 
+import projectmp.common.Main;
+
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.ITag;
@@ -14,6 +16,7 @@ public final class NBTUtils {
 		try {
 			return tag.getInteger(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type Int named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -22,6 +25,7 @@ public final class NBTUtils {
 		try {
 			return tag.getShort(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type Short named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -30,6 +34,7 @@ public final class NBTUtils {
 		try {
 			return tag.getByte(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type Byte named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -38,6 +43,7 @@ public final class NBTUtils {
 		try {
 			return tag.getLong(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type Long named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -46,6 +52,7 @@ public final class NBTUtils {
 		try {
 			return tag.getDouble(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type Double named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -54,6 +61,7 @@ public final class NBTUtils {
 		try {
 			return tag.getFloat(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type Float named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -62,6 +70,7 @@ public final class NBTUtils {
 		try {
 			return tag.getString(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type String named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -70,6 +79,7 @@ public final class NBTUtils {
 		try {
 			return tag.getIntegerArray(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type IntArray named " + key + " not found", e);
 			return def;
 		}
 	}
@@ -78,6 +88,7 @@ public final class NBTUtils {
 		try {
 			return tag.getByteArray(key);
 		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
+			Main.logger.warn("Tag of type ByteArray named " + key + " not found", e);
 			return def;
 		}
 	}
