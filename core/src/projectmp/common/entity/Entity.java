@@ -325,21 +325,17 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 	}
 	
 	@Override
-	public void readFromNBT(TagCompound tag){
-		try {
-			uuid = tag.getLong("UUID");
-			
-			x = tag.getFloat("PosX");
-			y = tag.getFloat("PosY");
-			
-			velox = tag.getFloat("VeloX");
-			veloy = tag.getFloat("VeloY");
-			
-			sizex = tag.getFloat("SizeX");
-			sizey = tag.getFloat("SizeY");
-		} catch (UnexpectedTagTypeException | TagNotFoundException e) {
-			Main.logger.error("Failed to get tags from NBT when decoding entity (" + this.getClass().getName() + ")", e);
-		}
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
+		uuid = tag.getLong("UUID");
+
+		x = tag.getFloat("PosX");
+		y = tag.getFloat("PosY");
+
+		velox = tag.getFloat("VeloX");
+		veloy = tag.getFloat("VeloY");
+
+		sizex = tag.getFloat("SizeX");
+		sizey = tag.getFloat("SizeY");
 	}
 
 	public boolean intersectingOther(Entity other) {

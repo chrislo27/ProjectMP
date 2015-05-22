@@ -5,7 +5,10 @@ import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
+import com.evilco.mc.nbt.tag.TagString;
 
 public class EntityPlayer extends EntityLiving {
 
@@ -36,13 +39,16 @@ public class EntityPlayer extends EntityLiving {
 	
 	@Override
 	public void writeToNBT(TagCompound tag){
+		super.writeToNBT(tag);
 		
-		
+		tag.setTag(new TagString("Username", username));
 	}
 	
 	@Override
-	public void readFromNBT(TagCompound tag){
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
+		super.readFromNBT(tag);
 		
+		username = tag.getString("Username");
 	}
 
 }

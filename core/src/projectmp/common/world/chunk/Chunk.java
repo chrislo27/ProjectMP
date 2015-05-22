@@ -99,7 +99,7 @@ public class Chunk implements CanBeSavedToNBT {
 	}
 
 	@Override
-	public void readFromNBT(TagCompound tag) {
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
 		int[] location = null;
 		int[] blockarray = null;
 		byte[] metaarray = null;

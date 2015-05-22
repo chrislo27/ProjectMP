@@ -1,5 +1,7 @@
 package projectmp.common.io;
 
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
 
 /**
@@ -15,6 +17,6 @@ public interface CanBeSavedToNBT {
 	 */
 	public void writeToNBT(TagCompound tag);
 	
-	public void readFromNBT(TagCompound tag);
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException;
 	
 }
