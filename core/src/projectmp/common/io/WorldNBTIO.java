@@ -75,13 +75,22 @@ public final class WorldNBTIO {
 	public static World decode(World world, byte[] bytes) throws IOException, TagNotFoundException, UnexpectedTagTypeException {
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 		NbtInputStream nbtStream = new NbtInputStream(byteStream);
-		TagCompound tag = (TagCompound) nbtStream.readTag();
-		int saveFormat = tag.getInteger("SaveFormatVersion");
+		TagCompound tag = null;
+		int saveFormat = -1;
 		
-		world.sizex = tag.getInteger("WorldWidth");
-		world.sizey = tag.getInteger("WorldHeight");
-		world.worldTime.setTotalTime(tag.getInteger("WorldTime"));
-		world.seed = tag.getLong("WorldSeed");
+		try{
+			tag = (TagCompound) nbtStream.readTag();
+			saveFormat = tag.getInteger("SaveFormatVersion");
+			
+			world.sizex = tag.getInteger("WorldWidth");
+			world.sizey = tag.getInteger("WorldHeight");
+			world.worldTime.setTotalTime(tag.getInteger("WorldTime"));
+			world.seed = tag.getLong("WorldSeed");
+		}catch(UnexpectedTagTypeException | TagNotFoundException ex){
+			sendToErrorScreen(world.main, "An error occured while reading tags", ex);
+			nbtStream.close();
+			return null;
+		}
 		
 		world.prepare();
 		
@@ -89,9 +98,14 @@ public final class WorldNBTIO {
 		TagCompound chunkCompound = tag.getCompound("Chunks");
 		for(int x = 0; x < world.getWidthInChunks(); x++){
 			for(int y = 0; y < world.getHeightInChunks(); y++){
-				TagCompound chunkTag = chunkCompound.getCompound("Chunk_" + x + "," + y);
-				
-				world.getChunk(x, y).readFromNBT(chunkTag);
+				try{
+					TagCompound chunkTag = chunkCompound.getCompound("Chunk_" + x + "," + y);
+					world.getChunk(x, y).readFromNBT(chunkTag);
+				}catch (UnexpectedTagTypeException | TagNotFoundException ex){
+					sendToErrorScreen(world.main, "Failed to read chunk (" + x + ", " + y + ")", ex);
+					nbtStream.close();
+					return null;
+				}
 			}
 		}
 		
@@ -100,22 +114,47 @@ public final class WorldNBTIO {
 		for(TagCompound comp : entitiesList){
 			Entity e = null;
 			try {
-				e = GameRegistry.getEntityRegistry().getValue(comp.getString("EntityType")).newInstance();
-			} catch (InstantiationException | IllegalAccessException ex) {
-				Main.logger.error("Failed to re-create entity of type " + comp.getString("EntityType"), ex);
+				e = GameRegistry.getEntityRegistry().getValue(comp.getString("EntityType"))
+						.newInstance();
+			} catch (InstantiationException ex) {
+				sendToErrorScreen(world.main, "Failed to re-create entity of type " + comp.getString("EntityType") + " because instantiating failed", ex);
+				nbtStream.close();
+				return null;
+			} catch (IllegalAccessException ex) {
+				sendToErrorScreen(world.main, "Failed to re-create entity of type " + comp.getString("EntityType") + " because the constructor was inaccessible", ex);
+				nbtStream.close();
+				return null;
 			}
-			
-			if(e != null){
+
+			if (e != null) {
 				e.world = world;
-				e.readFromNBT(comp);
-				
-				world.entities.add(e);
+
+				try {
+					e.readFromNBT(comp);
+
+					world.entities.add(e);
+				} catch (UnexpectedTagTypeException ex) {
+					sendToErrorScreen(world.main, "Failed to re-create entity because the tag type was incorrect", ex);
+					nbtStream.close();
+					return null;
+				} catch (TagNotFoundException ex) {
+					sendToErrorScreen(world.main, "Failed to re-create entity because the tag wasn't found", ex);
+					nbtStream.close();
+					return null;
+				}
 			}
 			
 		}
 		
 		nbtStream.close();
 		return world;
+	}
+	
+	private static void sendToErrorScreen(Main main, String msg, Throwable ex){
+		Main.logger.warn(msg, ex);
+		
+		Main.ERRORMSG.setMessage(msg + "\n" + ex.toString());
+		main.setScreen(Main.ERRORMSG);
 	}
 
 }
