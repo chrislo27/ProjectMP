@@ -1,9 +1,14 @@
 package projectmp.common.entity;
 
+import projectmp.common.util.NBTUtils;
 import projectmp.common.world.ServerWorld;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
+import com.evilco.mc.nbt.tag.TagCompound;
+import com.evilco.mc.nbt.tag.TagInteger;
 
 
 public abstract class EntityLiving extends Entity{
@@ -32,6 +37,22 @@ public abstract class EntityLiving extends Entity{
 		if(world instanceof ServerWorld && world.isServer == true){
 			((ServerWorld) world).sendHealthUpdate(this);
 		}
+	}
+	
+	@Override
+	public void writeToNBT(TagCompound tag){
+		super.writeToNBT(tag);
+		
+		tag.setTag(new TagInteger("MaxHealth", maxhealth));
+		tag.setTag(new TagInteger("Health", health));
+	}
+	
+	@Override
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
+		super.readFromNBT(tag);
+		
+		maxhealth = NBTUtils.getIntWithDef(tag, "MaxHealth", 100);
+		health = NBTUtils.getIntWithDef(tag, "Health", maxhealth);
 	}
 
 }

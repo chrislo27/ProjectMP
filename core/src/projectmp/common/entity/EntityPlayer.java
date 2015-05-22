@@ -2,6 +2,7 @@ package projectmp.common.entity;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.util.AssetMap;
+import projectmp.common.util.NBTUtils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -48,7 +49,7 @@ public class EntityPlayer extends EntityLiving {
 	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
 		super.readFromNBT(tag);
 		
-		username = tag.getString("Username");
+		username = NBTUtils.getStringWithDef(tag, "Username", this.username);
 	}
 
 }
