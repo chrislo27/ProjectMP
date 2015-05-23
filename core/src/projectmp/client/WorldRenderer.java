@@ -51,9 +51,9 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		
 		batch.setColor(0.4f, 0.4f, 0.6f, 1);
-		//main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
-		batch.draw(main.manager.get(AssetMap.get("starrysky"), Texture.class), 0, 0);
+		//batch.draw(main.manager.get(AssetMap.get("starrysky"), Texture.class), 0, 0);
 		
 		batch.end();
 		
@@ -142,7 +142,13 @@ public class WorldRenderer implements Disposable {
 
 	public void renderHUD() {
 		batch.begin();
+		// render vignette
+		batch.setColor(0, 0, 0, 0.25f);
+		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		batch.setColor(1, 1, 1, 1);
+		
 		// TODO render hotbar
+		
 		batch.end();
 	}
 
