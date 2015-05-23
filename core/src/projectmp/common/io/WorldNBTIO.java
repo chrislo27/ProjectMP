@@ -156,8 +156,12 @@ public final class WorldNBTIO {
 					nbtStream.close();
 					return world;
 				} catch (TagNotFoundException ex) {
-					Main.logger.warn("Tag wasn't found when reading entity (" + entityType + ")",
+					sendToErrorScreen(
+							world.main,
+							"Failed to re-create entity because a tag wasn't found while reading world file (this should've been handled by the entity!)",
 							ex);
+					nbtStream.close();
+					return world;
 				}
 			}
 
