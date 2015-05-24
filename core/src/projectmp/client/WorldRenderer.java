@@ -117,6 +117,7 @@ public class WorldRenderer implements Disposable {
 		Main.useMask(worldBuffer.getColorBufferTexture());
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
+		batch.flush();
 		
 		/* --------------------------------------------------------------------- */
 		
