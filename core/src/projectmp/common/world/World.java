@@ -12,6 +12,7 @@ import projectmp.common.util.Particle;
 import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
+import projectmp.common.world.background.Background;
 import projectmp.common.world.chunk.Chunk;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -54,6 +55,8 @@ public class World {
 	public long seed = System.currentTimeMillis();
 	
 	public Time worldTime = new Time();
+	
+	public Background background = new Background(this);
 
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;

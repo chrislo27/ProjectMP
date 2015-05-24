@@ -1,8 +1,12 @@
 package projectmp.common.world;
 
 import projectmp.common.Main;
+import projectmp.common.Settings;
+import projectmp.common.util.AssetMap;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Time {
 
@@ -40,9 +44,30 @@ public class Time {
 	}
 
 	public static enum TimeOfDay {
-		DAYTIME((byte) 127, Color.rgb888(0, 0, 0), Time.daytimePercentage), EVENING((byte) 64,
-				Color.rgb888(1, 174 / 255f, 0), Time.eveningPercentage), NIGHTTIME((byte) 16, Color
-				.rgb888(0, 0, 0), Time.nighttimePercentage);
+		DAYTIME((byte) 127, Color.rgb888(0, 0, 0), Time.daytimePercentage){
+			@Override
+			public void renderBackground(Batch batch, World world){
+				batch.setColor(0.4f, 0.4f, 0.6f, batch.getColor().a);
+				world.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+				batch.setColor(1, 1, 1, 1);
+			}
+		}, 
+		
+		EVENING((byte) 64, Color.rgb888(1, 174 / 255f, 0), Time.eveningPercentage){
+			@Override
+			public void renderBackground(Batch batch, World world){
+				batch.setColor(1, 137f / 255f, 41f / 255f, batch.getColor().a);
+				world.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+				batch.setColor(1, 1, 1, 1);
+			}
+		}, 
+				
+		NIGHTTIME((byte) 16, Color.rgb888(0, 0, 0), Time.nighttimePercentage){
+			@Override
+			public void renderBackground(Batch batch, World world){
+				batch.draw(world.main.manager.get(AssetMap.get("starrysky"), Texture.class), 0, 0);
+			}
+		};
 
 		public byte lightLevel = 127;
 		public int color = Color.rgb888(0, 0, 0);
@@ -52,6 +77,10 @@ public class Time {
 			lightLevel = light;
 			this.color = color;
 			percentage = percent;
+		}
+		
+		public void renderBackground(Batch batch, World world){
+			
 		}
 		
 		public static float getTotalPercentage(){
