@@ -144,7 +144,7 @@ public class WorldRenderer implements Disposable {
 	public void renderHUD() {
 		batch.begin();
 		// render vignette
-		batch.setColor(0, 0, 0, 0.25f);
+		batch.setColor(0, 0, 0, 0.1f);
 		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 		
