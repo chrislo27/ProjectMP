@@ -20,4 +20,8 @@ public abstract class Weather {
 		return ticksRemaining;
 	}
 	
+	public void tickDownTimeRemaining(){
+		ticksRemaining--;
+	}
+	
 }

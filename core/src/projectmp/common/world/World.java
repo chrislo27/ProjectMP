@@ -129,6 +129,12 @@ public class World {
 		for (int i = 0; i < entities.size; i++) {
 			quadtree.insert(entities.get(i));
 		}
+		
+		if(weather != null){
+			weather.tickDownTimeRemaining();
+			
+			weather.tickUpdate(this);
+		}
 	}
 
 	public ArrayList<Entity> getQuadArea(Entity e) {
