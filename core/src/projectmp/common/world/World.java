@@ -6,6 +6,7 @@ import projectmp.client.lighting.LightingEngine;
 import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
+import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.util.Particle;
@@ -13,7 +14,6 @@ import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
 import projectmp.common.world.background.Background;
-import projectmp.common.world.chunk.Chunk;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;

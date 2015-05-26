@@ -1,4 +1,4 @@
-package projectmp.common.world.chunk;
+package projectmp.common.chunk;
 
 import java.util.Iterator;
 import java.util.Map;

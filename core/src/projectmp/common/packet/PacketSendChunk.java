@@ -3,7 +3,7 @@ package projectmp.common.packet;
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
-import projectmp.common.world.chunk.Chunk;
+import projectmp.common.chunk.Chunk;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;

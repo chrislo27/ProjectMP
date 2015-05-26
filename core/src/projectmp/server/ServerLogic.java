@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
+import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
@@ -20,7 +21,6 @@ import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.world.ServerWorld;
-import projectmp.common.world.chunk.Chunk;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
