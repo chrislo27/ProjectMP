@@ -72,7 +72,6 @@ public class Background {
 
 		batch.setColor(1, 1, 1, 1);
 
-		
 		// sun
 		Texture tex = world.main.manager.get(AssetMap.get("celestialbody_sun"), Texture.class);
 		float texCenteredX = ((Settings.DEFAULT_WIDTH / 2) - (tex.getWidth() / 2));
