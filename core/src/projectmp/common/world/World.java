@@ -8,11 +8,11 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
-import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.util.Particle;
 import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
+import projectmp.common.weather.Weather;
 import projectmp.common.world.background.Background;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -57,6 +57,8 @@ public class World {
 	public Time worldTime = new Time();
 	
 	public Background background = new Background(this);
+	
+	public Weather weather = null;
 
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;

@@ -4,6 +4,7 @@ import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.tileentity.TileEntity;
+import projectmp.common.weather.Weather;
 
 
 public class GameRegistry {
@@ -27,15 +28,19 @@ public class GameRegistry {
 
 	private RegistryMap<TileEntity> tileEntityRegistry = new RegistryMap<>();
 	private RegistryMap<Entity> entityRegistry = new RegistryMap<>();
+	private RegistryMap<Weather> weatherRegistry = new RegistryMap<>();
 	
 	private void loadResources() {
 		// built-in game objects to be registered here
+		// mods can have their own registry and call the static methods at runtime
 		
 		// entities
 		registerEntity(EntityLiving.class, "entityLiving");
 		registerEntity(EntityPlayer.class, "player");
 		
 		// tile entities
+		
+		// weather types
 	}
 	
 	public static void registerTileEntity(Class<? extends TileEntity> clazz, String name){
@@ -52,6 +57,10 @@ public class GameRegistry {
 	
 	public static RegistryMap<Entity> getEntityRegistry(){
 		return instance().entityRegistry;
+	}
+	
+	public static RegistryMap<Weather> getWeatherRegistry(){
+		return instance().weatherRegistry;
 	}
 	
 }
