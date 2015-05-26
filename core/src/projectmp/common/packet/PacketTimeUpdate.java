@@ -16,7 +16,7 @@ public class PacketTimeUpdate implements Packet{
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		logic.world.worldTime.setTotalTime(totalTicks);
+		logic.world.time.setTotalTime(totalTicks);
 	}
 
 }

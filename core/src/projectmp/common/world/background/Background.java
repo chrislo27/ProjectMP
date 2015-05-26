@@ -34,8 +34,8 @@ public class Background {
 	}
 
 	public void render() {
-		if (world.worldTime.getCurrentTimeOfDay() != currentKnownTOD) {
-			currentKnownTOD = world.worldTime.getCurrentTimeOfDay();
+		if (world.time.getCurrentTimeOfDay() != currentKnownTOD) {
+			currentKnownTOD = world.time.getCurrentTimeOfDay();
 			lastTOD = getTimeOfDayBefore();
 			fullnessOfBg = 0;
 		}
@@ -60,7 +60,7 @@ public class Background {
 
 		// then render the current one on top with an alpha (for the transition)
 		world.batch.setColor(1, 1, 1, fullnessOfBg);
-		world.worldTime.getCurrentTimeOfDay().renderBackground(world.batch, world);
+		world.time.getCurrentTimeOfDay().renderBackground(world.batch, world);
 		world.batch.setColor(1, 1, 1, 1);
 	}
 
@@ -76,7 +76,7 @@ public class Background {
 		Texture tex = world.main.manager.get(AssetMap.get("celestialbody_sun"), Texture.class);
 		float texCenteredX = ((Settings.DEFAULT_WIDTH / 2) - (tex.getWidth() / 2));
 		float texCenteredY = (0 - (tex.getWidth() / 2));
-		float sunAngle = (360 * (world.worldTime.currentDayTicks * 1f / world.worldTime.ticksPerDay));
+		float sunAngle = (360 * (world.time.currentDayTicks * 1f / world.time.ticksPerDay));
 
 		batch.draw(tex, texCenteredX + (SUN_DISTANCE * MathUtils.cosDeg(sunAngle)), texCenteredY
 				+ (SUN_DISTANCE * MathUtils.sinDeg(sunAngle)));
@@ -96,7 +96,7 @@ public class Background {
 
 		int index = 0;
 		for (int i = 0; i < values.length; i++) {
-			if (world.worldTime.getCurrentTimeOfDay() == values[i]) {
+			if (world.time.getCurrentTimeOfDay() == values[i]) {
 				index = i - 1;
 				if (index < 0) index = values.length - 1;
 			}

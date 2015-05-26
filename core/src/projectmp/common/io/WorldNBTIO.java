@@ -37,7 +37,7 @@ public final class WorldNBTIO {
 		compound.setTag(new TagInteger("SaveFormatVersion", SAVE_FORMAT_VERSION));
 		compound.setTag(new TagInteger("WorldWidth", world.sizex));
 		compound.setTag(new TagInteger("WorldHeight", world.sizey));
-		compound.setTag(new TagInteger("WorldTime", world.worldTime.totalTicks));
+		compound.setTag(new TagInteger("WorldTime", world.time.totalTicks));
 		compound.setTag(new TagLong("WorldSeed", world.seed));
 
 		// chunks
@@ -87,7 +87,7 @@ public final class WorldNBTIO {
 
 			world.sizex = tag.getInteger("WorldWidth");
 			world.sizey = tag.getInteger("WorldHeight");
-			world.worldTime.setTotalTime(tag.getInteger("WorldTime"));
+			world.time.setTotalTime(tag.getInteger("WorldTime"));
 			world.seed = tag.getLong("WorldSeed");
 		} catch (UnexpectedTagTypeException | TagNotFoundException ex) {
 			sendToErrorScreen(world.main, "An error occured while reading tags from world file", ex);

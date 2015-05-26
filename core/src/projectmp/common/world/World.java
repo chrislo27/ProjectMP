@@ -54,7 +54,7 @@ public class World {
 	public SimplexNoise noiseGen;
 	public long seed = System.currentTimeMillis();
 	
-	public Time worldTime = new Time();
+	public Time time = new Time();
 	
 	public Background background = new Background(this);
 	
@@ -98,7 +98,7 @@ public class World {
 	}
 
 	public void tickUpdate() {
-		worldTime.tickUpdate();
+		time.tickUpdate();
 		
 		if (isServer) {
 			for (int i = 0; i < entities.size; i++) {

@@ -83,16 +83,16 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-		if(lastTOD != world.worldTime.getCurrentTimeOfDay()) scheduleLightingUpdate();
-		lastTOD = world.worldTime.getCurrentTimeOfDay();
+		if(lastTOD != world.time.getCurrentTimeOfDay()) scheduleLightingUpdate();
+		lastTOD = world.time.getCurrentTimeOfDay();
 
-		if((int) (lastDayBrightness * 127) != world.worldTime.getCurrentTimeOfDay().lightLevel){
+		if((int) (lastDayBrightness * 127) != world.time.getCurrentTimeOfDay().lightLevel){
 			byte byteform = (byte) (lastDayBrightness * 127);
 			
-			lastDayBrightness += ((world.worldTime.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
+			lastDayBrightness += ((world.time.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
 					* Gdx.graphics.getDeltaTime() * 2.0f;
 			
-			Color.rgb888ToColor(tempColor, world.worldTime.getCurrentTimeOfDay().color);
+			Color.rgb888ToColor(tempColor, world.time.getCurrentTimeOfDay().color);
 			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() * 2.0f);
 			
 //			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){

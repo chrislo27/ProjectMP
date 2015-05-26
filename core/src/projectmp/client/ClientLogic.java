@@ -76,7 +76,7 @@ public class ClientLogic implements Disposable {
 
 				// send a movement update if the player moved last tick OR if it's time to send a packet (every 2.5 sec)
 				if (getPlayer().hasMovedLastTick()
-						|| (world.worldTime.totalTicks
+						|| (world.time.totalTicks
 								% ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
 					prepareMovementUpdate();
 					main.client.sendUDP(playerUpdate);
@@ -123,10 +123,10 @@ public class ClientLogic implements Disposable {
 			main.font.draw(main.batch,
 					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f)
 							+ " ms", 5, Main.convertY(starting + 30));
-			main.font.draw(main.batch, "worldTime: " + world.worldTime.currentDayTicks
+			main.font.draw(main.batch, "worldTime: " + world.time.currentDayTicks
 					+ ", lastDayBri: " + world.lightingEngine.lastDayBrightness, 5,
 					Main.convertY(starting + 45));
-			main.font.draw(main.batch, "timeOfDay: " + world.worldTime.getCurrentTimeOfDay(), 5,
+			main.font.draw(main.batch, "timeOfDay: " + world.time.getCurrentTimeOfDay(), 5,
 					Main.convertY(starting + 60));
 			main.font.draw(main.batch, "x: " + getPlayer().x, 5, Main.convertY(starting + 75));
 			main.font.draw(main.batch, "y: " + getPlayer().y, 5, Main.convertY(starting + 90));
