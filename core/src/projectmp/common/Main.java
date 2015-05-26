@@ -602,7 +602,11 @@ public class Main extends Game implements Consumer {
 		manager.load(AssetMap.add("circlegradient", "images/circlegradient.png"), Texture.class);
 		manager.load(AssetMap.add("stunhalo", "images/stunhalo.png"), Texture.class);
 		manager.load(AssetMap.add("featheredcircle", "images/featheredcircle.png"), Texture.class);
+		
+		// background related
 		manager.load(AssetMap.add("starrysky", "images/starrysky.png"), Texture.class);
+		manager.load(AssetMap.add("celestialbody_moon", "images/celestialbodies/moon.png"), Texture.class);
+		manager.load(AssetMap.add("celestialbody_sun", "images/celestialbodies/sun.png"), Texture.class);
 
 		// sfx
 

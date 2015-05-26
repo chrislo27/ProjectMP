@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 
 public enum TimeOfDay {
+	
 	DAYTIME((byte) 127, Color.rgb888(0, 0, 0), Time.daytimePercentage){
 		@Override
 		public void renderBackground(Batch batch, World world){

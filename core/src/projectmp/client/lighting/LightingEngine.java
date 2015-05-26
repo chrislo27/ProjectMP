@@ -4,7 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.block.Block.BlockFaces;
-import projectmp.common.world.Time.TimeOfDay;
+import projectmp.common.world.TimeOfDay;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
