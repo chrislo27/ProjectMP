@@ -5,6 +5,11 @@ import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.weather.Weather;
+import projectmp.common.weather.WeatherDustStorm;
+import projectmp.common.weather.WeatherFog;
+import projectmp.common.weather.WeatherHail;
+import projectmp.common.weather.WeatherRain;
+import projectmp.common.weather.WeatherThundering;
 
 
 public class GameRegistry {
@@ -41,6 +46,11 @@ public class GameRegistry {
 		// tile entities
 		
 		// weather types
+		registerWeather(WeatherDustStorm.class, "dustStorm");
+		registerWeather(WeatherFog.class, "fog");
+		registerWeather(WeatherHail.class, "hail");
+		registerWeather(WeatherRain.class, "rain");
+		registerWeather(WeatherThundering.class, "thundering");
 	}
 	
 	public static void registerTileEntity(Class<? extends TileEntity> clazz, String name){
@@ -49,6 +59,10 @@ public class GameRegistry {
 	
 	public static void registerEntity(Class<? extends Entity> clazz, String name){
 		instance().entityRegistry.register(clazz, name);
+	}
+	
+	public static void registerWeather(Class<? extends Weather> clazz, String name){
+		instance().weatherRegistry.register(clazz, name);
 	}
 	
 	public static RegistryMap<TileEntity> getTileEntityRegistry(){
