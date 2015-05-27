@@ -47,14 +47,6 @@ public class WorldRenderer implements Disposable {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
-		// render background
-		batch.begin();
-		batch.setColor(1, 1, 1, 1);
-		
-		world.background.render(this);
-		
-		batch.end();
-		
 		/* --------------------------------------------------------------------- */
 		
 		// lighting to buffer
@@ -66,8 +58,6 @@ public class WorldRenderer implements Disposable {
 		world.lightingEngine.render(this, batch);
 		
 		lightingBuffer.end();
-		
-		/* --------------------------------------------------------------------- */
 		
 		// world to buffer
 		worldBuffer.begin();
@@ -107,7 +97,15 @@ public class WorldRenderer implements Disposable {
 
 		/* --------------------------------------------------------------------- */
 		
-		// mask lighting buffer onto world buffer
+		// render background
+		batch.begin();
+		batch.setColor(1, 1, 1, 1);
+		
+		world.background.render(this);
+		
+		batch.end();
+		
+		// mask lighting buffer onto world buffer and render
 		
 		batch.begin();
 		
@@ -120,8 +118,6 @@ public class WorldRenderer implements Disposable {
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
 		batch.flush();
-		
-		/* --------------------------------------------------------------------- */
 		
 		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
