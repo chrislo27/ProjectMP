@@ -50,8 +50,8 @@ public class Background {
 
 		renderCelestialBodies();
 		
-		if(world.weather != null){
-			world.weather.renderOverBackground(world.batch);
+		if(world.getWeather() != null){
+			world.getWeather().renderOverBackground(world.batch);
 		}
 	}
 

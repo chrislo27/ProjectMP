@@ -13,6 +13,7 @@ import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
 import projectmp.common.weather.Weather;
+import projectmp.common.weather.WeatherFog;
 import projectmp.common.world.background.Background;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -58,7 +59,7 @@ public class World {
 	
 	public Background background = new Background(this);
 	
-	public Weather weather = null;
+	private Weather weather = new WeatherFog(20 * 300, this);
 
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;
@@ -133,7 +134,11 @@ public class World {
 		if(weather != null){
 			weather.tickDownTimeRemaining();
 			
-			weather.tickUpdate();
+			if(weather.getTimeRemaining() > 0){
+				weather.tickUpdate();
+			}else{
+				weather = null;
+			}
 		}
 	}
 
@@ -218,6 +223,10 @@ public class World {
 		PixmapIO.writePNG(new FileHandle("noisemaps/worldmap.png"), pix);
 		pix.dispose();
 
+	}
+	
+	public Weather getWeather(){
+		return weather;
 	}
 	
 	public int getWidthInChunks(){
