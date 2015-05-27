@@ -19,6 +19,7 @@ import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSendInv;
 import projectmp.common.packet.PacketTimeUpdate;
+import projectmp.common.packet.PacketWeather;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -55,6 +56,7 @@ public class ClassRegistration {
 		kryo.register(PacketTimeUpdate.class);
 		kryo.register(PacketSendInv.class);
 		kryo.register(PacketPlayerInventory.class);
+		kryo.register(PacketWeather.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){

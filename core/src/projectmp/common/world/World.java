@@ -225,6 +225,10 @@ public class World {
 
 	}
 	
+	public void setWeather(Weather w){
+		weather = w;
+	}
+	
 	public Weather getWeather(){
 		return weather;
 	}

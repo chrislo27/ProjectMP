@@ -42,6 +42,13 @@ public abstract class Weather {
 		
 	}
 	
+	public void setTimeRemaining(int timeRemaining){
+		if(timeRemaining > originalDuration){
+			originalDuration = timeRemaining;
+		}
+		ticksRemaining = timeRemaining;
+	}
+	
 	public int getTimeRemaining(){
 		return ticksRemaining;
 	}

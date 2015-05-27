@@ -143,6 +143,9 @@ public class ClientLogic implements Disposable {
 											((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
 											((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey))),
 							5, Main.convertY(starting + 135));
+			main.font.draw(main.batch, "weather: "
+					+ (world.getWeather() == null ? null : world.getWeather().getClass()
+							.getSimpleName()), 5, Main.convertY(starting + 150));
 		}
 	}
 
