@@ -2,6 +2,7 @@ package projectmp.common.weather;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.world.World;
 
 
@@ -10,10 +11,10 @@ public class WeatherThundering extends WeatherRain{
 	public WeatherThundering(int duration, World world) {
 		super(duration, world);
 	}
-	
+
 	@Override
-	public void renderOverBackground(Batch batch) {
-		super.renderOverBackground(batch);
+	public void renderOverBackground(WorldRenderer renderer) {
+		super.renderOverBackground(renderer);
 	}
 
 	@Override
@@ -22,13 +23,13 @@ public class WeatherThundering extends WeatherRain{
 	}
 
 	@Override
-	public void renderOnWorld(Batch batch) {
-		super.renderOnWorld(batch);
+	public void renderOnWorld(WorldRenderer renderer) {
+		super.renderOnWorld(renderer);
 	}
 
 	@Override
-	public void renderHUD(Batch batch) {
-		super.renderHUD(batch);
+	public void renderHUD(WorldRenderer renderer) {
+		super.renderHUD(renderer);
 	}
-
+	
 }

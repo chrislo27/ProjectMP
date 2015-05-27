@@ -1,6 +1,6 @@
 package projectmp.common.world.background;
 
-import projectmp.common.Main;
+import projectmp.client.WorldRenderer;
 import projectmp.common.Settings;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.TimeOfDay;
@@ -33,7 +33,7 @@ public class Background {
 		this.world = w;
 	}
 
-	public void render() {
+	public void render(WorldRenderer renderer) {
 		if (world.time.getCurrentTimeOfDay() != currentKnownTOD) {
 			currentKnownTOD = world.time.getCurrentTimeOfDay();
 			lastTOD = getTimeOfDayBefore();
@@ -51,7 +51,7 @@ public class Background {
 		renderCelestialBodies();
 		
 		if(world.getWeather() != null){
-			world.getWeather().renderOverBackground(world.batch);
+			world.getWeather().renderOverBackground(renderer);
 		}
 	}
 

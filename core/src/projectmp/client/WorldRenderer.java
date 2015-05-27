@@ -51,7 +51,7 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		batch.setColor(1, 1, 1, 1);
 		
-		world.background.render();
+		world.background.render(this);
 		
 		batch.end();
 		
@@ -97,7 +97,7 @@ public class WorldRenderer implements Disposable {
 		if (logic.getPlayer() != null) logic.getPlayer().render(this);
 		
 		if(world.getWeather() != null){
-			world.getWeather().renderOnWorld(batch);
+			world.getWeather().renderOnWorld(this);
 		}
 
 		batch.setColor(1, 1, 1, 1);
@@ -147,7 +147,7 @@ public class WorldRenderer implements Disposable {
 		batch.begin();
 		// render weather
 		if(world.getWeather() != null){
-			world.getWeather().renderHUD(batch);
+			world.getWeather().renderHUD(this);
 		}
 		
 		// render vignette

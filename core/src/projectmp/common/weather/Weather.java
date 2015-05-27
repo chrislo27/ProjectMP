@@ -1,8 +1,7 @@
 package projectmp.common.weather;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.world.World;
-
-import com.badlogic.gdx.graphics.g2d.Batch;
 
 
 public abstract class Weather {
@@ -26,13 +25,13 @@ public abstract class Weather {
 		this.world = world;
 	}
 	
-	public abstract void renderOverBackground(Batch batch);
+	public abstract void renderOverBackground(WorldRenderer renderer);
 	
 	public abstract void tickUpdate();
 	
-	public abstract void renderOnWorld(Batch batch);
+	public abstract void renderOnWorld(WorldRenderer renderer);
 	
-	public abstract void renderHUD(Batch batch);
+	public abstract void renderHUD(WorldRenderer renderer);
 	
 	public void onStart(){
 		
