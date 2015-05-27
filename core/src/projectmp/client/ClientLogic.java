@@ -145,7 +145,7 @@ public class ClientLogic implements Disposable {
 							5, Main.convertY(starting + 135));
 			main.font.draw(main.batch, "weather: "
 					+ (world.getWeather() == null ? null : world.getWeather().getClass()
-							.getSimpleName()), 5, Main.convertY(starting + 150));
+							.getSimpleName() + ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5, Main.convertY(starting + 150));
 		}
 	}
 
