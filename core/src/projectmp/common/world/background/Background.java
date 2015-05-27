@@ -49,6 +49,10 @@ public class Background {
 		renderTimeOfDayBackgrounds();
 
 		renderCelestialBodies();
+		
+		if(world.weather != null){
+			world.weather.renderAboveBackground(world.batch, world);
+		}
 	}
 
 	/**
