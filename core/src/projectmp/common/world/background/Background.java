@@ -51,7 +51,7 @@ public class Background {
 		renderCelestialBodies();
 		
 		if(world.weather != null){
-			world.weather.renderAboveBackground(world.batch, world);
+			world.weather.renderOverBackground(world.batch);
 		}
 	}
 

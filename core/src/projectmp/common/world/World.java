@@ -133,7 +133,7 @@ public class World {
 		if(weather != null){
 			weather.tickDownTimeRemaining();
 			
-			weather.tickUpdate(this);
+			weather.tickUpdate();
 		}
 	}
 
