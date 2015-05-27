@@ -1,6 +1,7 @@
 package projectmp.common.weather;
 
 import projectmp.client.WorldRenderer;
+import projectmp.common.Main;
 import projectmp.common.world.World;
 
 
@@ -66,6 +67,24 @@ public abstract class Weather {
 		if(ticksRemaining == 0){
 			onFinish();
 		}
+	}
+	
+	/**
+	 * handy method that returns a coefficient you can use to fade in (for example alpha values)
+	 * @return
+	 */
+	public float getFadeCoefficient(float secondsAway){
+		float returnValue = 1;
+		int ticks = (int) (secondsAway * Main.TICKS);
+		
+		if(originalDuration - ticksRemaining <= ticks){
+			returnValue = ((originalDuration - ticksRemaining) * 1f / ticks);
+		}
+		if(ticksRemaining <= ticks){
+			returnValue = ticksRemaining * 1f / ticks;
+		}
+		
+		return returnValue;
 	}
 	
 }
