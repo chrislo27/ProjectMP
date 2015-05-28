@@ -59,7 +59,7 @@ public class World {
 	
 	public Background background = new Background(this);
 	
-	private Weather weather = new WeatherFog(20 * 30, this);
+	private Weather weather = null;
 
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;
