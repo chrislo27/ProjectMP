@@ -5,7 +5,6 @@ import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.AssetMap;
-import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -48,6 +47,8 @@ public class WorldRenderer implements Disposable {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		/* --------------------------------------------------------------------- */
+		
+		batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
 		
 		// lighting to buffer
 		lightingBuffer.begin();
@@ -94,6 +95,8 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 		
 		worldBuffer.end();
+		
+		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		/* --------------------------------------------------------------------- */
 		

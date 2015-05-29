@@ -24,14 +24,14 @@ public class WeatherFog extends Weather {
 
 	@Override
 	public void renderOnWorld(WorldRenderer renderer) {
-		
+		renderer.batch.setColor(232f / 255f, 232f / 255f, 232f / 255f, 0.75f * getFadeCoefficient(5f));
+		renderer.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		renderer.batch.setColor(1, 1, 1, 1);
 	}
 
 	@Override
 	public void renderHUD(WorldRenderer renderer) {
-		renderer.batch.setColor(232f / 255f, 232f / 255f, 232f / 255f, 0.75f * getFadeCoefficient(5f));
-		renderer.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
-		renderer.batch.setColor(1, 1, 1, 1);
+		
 	}
 
 }
