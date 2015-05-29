@@ -3,8 +3,6 @@ package projectmp.common.util;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.badlogic.gdx.math.Rectangle;
-
 /**
  * A lot of this code was stolen from this article: <br>
  * http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
