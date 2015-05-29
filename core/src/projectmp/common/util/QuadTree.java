@@ -5,6 +5,14 @@ import java.util.List;
 
 import com.badlogic.gdx.math.Rectangle;
 
+/**
+ * A lot of this code was stolen from this article: <br>
+ * http://gamedevelopment.tutsplus.com/tutorials/quick-tip-use-quadtrees-to-detect-likely-collisions-in-2d-space--gamedev-374
+ * <br>
+ * <br>
+ * created by chrislo27
+ *
+ */
 public class QuadTree {
 
 	private int MAX_OBJECTS = 10;
@@ -12,16 +20,38 @@ public class QuadTree {
 
 	private int level;
 	private List<Sizeable> objects;
-	private Rectangle bounds;
+	private float posX, posY, width, height;
 	private QuadTree[] nodes;
 
-	/*
-	 * Constructor
+	/**
+	 * ideal constructor for making a quadtree that's empty
+	 * <br>
+	 * simply calls the normal constructor with 
+	 * <code>
+	 * this(0, 0, 0, width, height)
+	 * </code>
+	 * @param width your game world width in units
+	 * @param height your game world height in units
 	 */
-	public QuadTree(int pLevel, Rectangle pBounds) {
+	public QuadTree(float width, float height){
+		this(0, 0, 0, width, height);
+	}
+	
+	/**
+	 * 
+	 * @param pLevel start at level 0 if you're creating an empty quadtree
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
+	public QuadTree(int pLevel, float x, float y, float width, float height) {
 		level = pLevel;
 		objects = new ArrayList();
-		bounds = pBounds;
+		posX = x;
+		posY = y;
+		this.width = width;
+		this.height = height;
 		nodes = new QuadTree[4];
 	}
 
@@ -67,16 +97,15 @@ public class QuadTree {
 	 * Splits the node into 4 subnodes
 	 */
 	private void split() {
-		int subWidth = (int) (bounds.getWidth() / 2);
-		int subHeight = (int) (bounds.getHeight() / 2);
-		int x = (int) bounds.getX();
-		int y = (int) bounds.getY();
+		float subWidth = (width / 2);
+		float subHeight = (height / 2);
+		float x = posX;
+		float y = posY;
 
-		nodes[0] = new QuadTree(level + 1, new Rectangle(x + subWidth, y, subWidth, subHeight));
-		nodes[1] = new QuadTree(level + 1, new Rectangle(x, y, subWidth, subHeight));
-		nodes[2] = new QuadTree(level + 1, new Rectangle(x, y + subHeight, subWidth, subHeight));
-		nodes[3] = new QuadTree(level + 1, new Rectangle(x + subWidth, y + subHeight, subWidth,
-				subHeight));
+		nodes[0] = new QuadTree(level + 1, x + subWidth, y, subWidth, subHeight);
+		nodes[1] = new QuadTree(level + 1, x, y, subWidth, subHeight);
+		nodes[2] = new QuadTree(level + 1, x, y + subHeight, subWidth, subHeight);
+		nodes[3] = new QuadTree(level + 1, x + subWidth, y + subHeight, subWidth, subHeight);
 	}
 
 	/*
@@ -85,8 +114,8 @@ public class QuadTree {
 	 */
 	private int getIndex(Sizeable pRect) {
 		int index = -1;
-		double verticalMidpoint = bounds.getX() + (bounds.getWidth() / 2);
-		double horizontalMidpoint = bounds.getY() + (bounds.getHeight() / 2);
+		double verticalMidpoint = posX + (width / 2);
+		double horizontalMidpoint = posY + (width/ 2);
 
 		// Object can completely fit within the top quadrants
 		boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY()

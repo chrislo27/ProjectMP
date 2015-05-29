@@ -93,7 +93,7 @@ public class World {
 
 		entities = new Array<Entity>(32);
 		particles = new Array<Particle>();
-		quadtree = new QuadTree(1, new Rectangle(0f, 0f, sizex, sizey));
+		quadtree = new QuadTree(sizex, sizey);
 
 		noiseGen = new SimplexNoise(seed);
 	}
