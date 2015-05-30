@@ -1,10 +1,12 @@
 package projectmp.common.util;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.concurrent.TimeUnit;
 
 import projectmp.common.Main;
+import projectmp.common.Settings;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -26,6 +28,31 @@ public class Utils {
 	
 	public static int getUnsignedByte(byte b){
 		return (b & 0xFF);
+	}
+	
+	/**
+	 * WARNING: slow method!
+	 * @return
+	 */
+	public static int findFreePort(){
+		ServerSocket socket = null;
+		int port = -1;
+		try {
+			socket = new ServerSocket(0);
+			port = socket.getLocalPort();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				socket.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if(port == Settings.DEFAULT_PORT) return findFreePort();
+		
+		return port;
 	}
 
 //	public static float getSoundPan(float xpos, float camerax) {
