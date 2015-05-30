@@ -223,12 +223,6 @@ public class Main extends Game implements Consumer {
 		server.start();
 		serverLogic = new ServerLogic(this);
 		server.addListener(new ServerListener(serverLogic));
-		try {
-			server.bind(Settings.DEFAULT_PORT, Settings.DEFAULT_PORT);
-			Main.logger.info("Bound to port " + Settings.DEFAULT_PORT + " successfully");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		maskshader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKE);
 		maskshader.begin();
@@ -644,6 +638,16 @@ public class Main extends Game implements Consumer {
 		Colors.put("DANGER", new Color(1, 0, 0, 1)); // red
 		Colors.put("OBJECT", new Color(1, 217 / 255f, 0, 1)); // yellow
 		Colors.put("KEY", new Color(0, 204 / 255f, 0, 1)); // green
+	}
+	
+	public void attemptBindPort(int port){
+		try {
+			server.bind(port, port);
+			Main.logger.info("Bound to port " + port + " successfully");
+		} catch (IOException e) {
+			Main.ERRORMSG.setMessage("Failed to bind to port " + port + "\n" + e.getMessage());
+			setScreen(Main.ERRORMSG);
+		}
 	}
 
 	public static String getRandomUsername() {

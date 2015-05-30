@@ -6,6 +6,7 @@ import projectmp.client.ui.SettingsButton;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.Translator;
+import projectmp.common.util.Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -21,8 +22,13 @@ public strictfp class MainMenuScreen extends Updateable {
 
 			@Override
 			public boolean onLeftClick() {
+				int port = Utils.findFreePort();
+				
 				main.setScreen(Main.CONNECTING);
-				Main.CONNECTING.connectTo("localhost", Settings.DEFAULT_PORT);
+				
+				main.attemptBindPort(port);
+				Main.CONNECTING.connectTo("localhost", port);
+				
 				return true;
 			}
 		});
