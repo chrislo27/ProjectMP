@@ -87,10 +87,6 @@ public class WorldRenderer implements Disposable {
 		}
 		if (logic.getPlayer() != null) logic.getPlayer().render(this);
 		
-		if(world.getWeather() != null){
-			world.getWeather().renderOnWorld(this);
-		}
-
 		batch.setColor(1, 1, 1, 1);
 		batch.end();
 		
@@ -114,6 +110,9 @@ public class WorldRenderer implements Disposable {
 		
 		// draw the world buffer as-is
 		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		if(world.getWeather() != null){
+			world.getWeather().renderOnWorld(this);
+		}
 		
 		// draw the lighting buffer, masked
 		batch.setShader(main.maskshader);
