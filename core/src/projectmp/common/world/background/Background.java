@@ -1,6 +1,7 @@
 package projectmp.common.world.background;
 
 import projectmp.client.WorldRenderer;
+import projectmp.client.lighting.LightingEngine;
 import projectmp.common.Settings;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.TimeOfDay;
@@ -41,7 +42,7 @@ public class Background {
 		}
 
 		if (fullnessOfBg < 1) {
-			fullnessOfBg += Gdx.graphics.getDeltaTime() * 2;
+			fullnessOfBg += Gdx.graphics.getDeltaTime() / LightingEngine.TRANSITION_MULTIPLIER_SECS;
 
 			if (fullnessOfBg > 1) fullnessOfBg = 1;
 		}

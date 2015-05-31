@@ -17,6 +17,8 @@ import com.badlogic.gdx.utils.Pools;
 
 public class LightingEngine {
 
+	public static final float TRANSITION_MULTIPLIER_SECS = 1f;
+	
 	private World world;
 	private Main main;
 	private int sizex = 1;
@@ -90,10 +92,10 @@ public class LightingEngine {
 			byte byteform = (byte) (lastDayBrightness * 127);
 			
 			lastDayBrightness += ((world.time.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
-					* Gdx.graphics.getDeltaTime() * 2.0f;
+					* Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS;
 			
 			Color.rgb888ToColor(tempColor, world.time.getCurrentTimeOfDay().color);
-			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() * 2.0f);
+			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS);
 			
 //			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
 //				// forcefully set the colour and brightness when it's "close enough"
