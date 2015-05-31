@@ -80,12 +80,8 @@ public class WorldRenderer implements Disposable {
 
 		for (int i = 0; i < world.entities.size; i++) {
 			Entity e = world.entities.get(i);
-			if (e == logic.getPlayer()) {
-				continue;
-			}
 			e.render(this);
 		}
-		if (logic.getPlayer() != null) logic.getPlayer().render(this);
 		
 		batch.setColor(1, 1, 1, 1);
 		batch.end();
