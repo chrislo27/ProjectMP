@@ -5,6 +5,7 @@ import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.AssetMap;
+import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -26,7 +27,7 @@ public class WorldRenderer implements Disposable {
 
 	private FrameBuffer worldBuffer;
 	private FrameBuffer lightingBuffer;
-	
+
 	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
 		batch = main.batch;
@@ -37,7 +38,8 @@ public class WorldRenderer implements Disposable {
 
 		worldBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, true);
-		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true);
+		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
+				Settings.DEFAULT_HEIGHT, true);
 	}
 
 	public void renderWorld() {
@@ -45,27 +47,27 @@ public class WorldRenderer implements Disposable {
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		/* --------------------------------------------------------------------- */
-		
+
 		batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
-		
+
 		// lighting to buffer
 		lightingBuffer.begin();
-		
+
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		world.lightingEngine.render(this, batch);
-		
+
 		lightingBuffer.end();
-		
+
 		// world to buffer
 		worldBuffer.begin();
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+
 		batch.begin();
 
 		int prex = getCullStartX(0);
@@ -80,50 +82,58 @@ public class WorldRenderer implements Disposable {
 
 		for (int i = 0; i < world.entities.size; i++) {
 			Entity e = world.entities.get(i);
+
+			// culling
+			if (MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
+					convertWorldX(e.visualX), convertWorldY(e.visualY, 0), e.sizex * World.tilesizex,
+					e.sizey * World.tilesizey))
+
 			e.render(this);
 		}
-		
+
 		batch.setColor(1, 1, 1, 1);
 		batch.end();
-		
+
 		worldBuffer.end();
-		
+
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		/* --------------------------------------------------------------------- */
-		
+
 		// render background
 		batch.begin();
 		batch.setColor(1, 1, 1, 1);
-		
+
 		world.background.render(this);
-		
+
 		batch.end();
-		
+
 		// mask lighting buffer onto world buffer and render
-		
+
 		batch.begin();
-		
+
 		// draw the world buffer as-is
-		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		if(world.getWeather() != null){
+		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		if (world.getWeather() != null) {
 			world.getWeather().renderOnWorld(this);
 		}
-		
+
 		// draw the lighting buffer, masked
 		batch.setShader(main.maskshader);
 		Main.useMask(worldBuffer.getColorBufferTexture());
-		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
 		batch.flush();
-		
+
 		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
 		for (int i = 0; i < world.entities.size; i++) {
 			if (world.entities.get(i) instanceof EntityPlayer) {
 				if (logic.getPlayer() != world.entities.get(i)) {
 					EntityPlayer p = (EntityPlayer) world.entities.get(i);
-					
+
 					batch.setColor(1, 1, 1, 0.25f);
 					world.main.drawTextBg(world.main.font, p.username, convertWorldX(p.visualX
 							+ (p.sizex / 2))
@@ -132,7 +142,7 @@ public class WorldRenderer implements Disposable {
 				}
 			}
 		}
-		
+
 		batch.end();
 
 	}
@@ -140,17 +150,18 @@ public class WorldRenderer implements Disposable {
 	public void renderHUD() {
 		batch.begin();
 		// render weather
-		if(world.getWeather() != null){
+		if (world.getWeather() != null) {
 			world.getWeather().renderHUD(this);
 		}
-		
+
 		// render vignette
 		batch.setColor(0, 0, 0, 0.1f);
-		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0,
+				Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
-		
+
 		// TODO render hotbar
-		
+
 		batch.end();
 	}
 
