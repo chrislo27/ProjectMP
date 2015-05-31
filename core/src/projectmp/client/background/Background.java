@@ -1,4 +1,4 @@
-package projectmp.common.world.background;
+package projectmp.client.background;
 
 import projectmp.client.WorldRenderer;
 import projectmp.client.lighting.LightingEngine;

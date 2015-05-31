@@ -2,6 +2,7 @@ package projectmp.common.world;
 
 import java.util.ArrayList;
 
+import projectmp.client.background.Background;
 import projectmp.client.lighting.LightingEngine;
 import projectmp.common.Main;
 import projectmp.common.block.Block;
@@ -14,7 +15,6 @@ import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
 import projectmp.common.weather.Weather;
 import projectmp.common.weather.WeatherFog;
-import projectmp.common.world.background.Background;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
