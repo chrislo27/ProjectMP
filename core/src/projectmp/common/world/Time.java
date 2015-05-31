@@ -18,7 +18,7 @@ public class Time {
 	public int totalTicks = 0;
 	public int currentDayTicks = 0;
 
-	public final int ticksPerDay = Math.round(Main.TICKS * 30);
+	public final int ticksPerDay = Math.round(Main.TICKS * 45);
 
 	public Time() {
 

@@ -17,7 +17,7 @@ import com.badlogic.gdx.utils.Pools;
 
 public class LightingEngine {
 
-	public static final float TRANSITION_MULTIPLIER_SECS = 1f;
+	public static final float TRANSITION_MULTIPLIER_SECS = 2.5f;
 	
 	private World world;
 	private Main main;
