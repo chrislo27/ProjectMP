@@ -83,6 +83,12 @@ public class ClientLogic implements Disposable {
 				}
 			} else {
 				main.client.close();
+				
+				if(main.serverLogic.isSingleplayer){
+					main.serverLogic.isSingleplayer = false;
+					main.server.close();
+				}
+				
 				Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.disconnected")
 						+ Translator.instance().getMsg("menu.msg.connectionlost"));
 				main.setScreen(Main.ERRORMSG);
@@ -108,9 +114,6 @@ public class ClientLogic implements Disposable {
 
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
 			main.client.close();
-			Main.logger.info("Connection closed");
-			Main.ERRORMSG.setMessage("Disconnected from server: client closed connection");
-			main.setScreen(Main.ERRORMSG);
 		}
 	}
 

@@ -28,6 +28,7 @@ public strictfp class MainMenuScreen extends Updateable {
 				
 				main.attemptBindPort(port);
 				Main.CONNECTING.connectTo("localhost", port);
+				main.serverLogic.isSingleplayer = true;
 				
 				return true;
 			}

@@ -13,6 +13,7 @@ public class ConnectingScreen extends MessageScreen{
 
 	public void connectTo(final String host, final int port) {
 		setMessage(Translator.instance().getMsg("menu.msg.attemptingconnection") + host + ":" + port);
+		main.serverLogic.isSingleplayer = false; // this gets changed if it's singleplayer outside of this method
 		
 		Thread connector = new Thread(){
 			

@@ -28,6 +28,8 @@ import com.esotericsoftware.kryonet.Server;
 
 public class ServerLogic {
 
+	public boolean isSingleplayer = false;
+	
 	public Main main;
 	public Server server;
 
