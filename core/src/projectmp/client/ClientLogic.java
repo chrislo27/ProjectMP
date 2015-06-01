@@ -87,11 +87,13 @@ public class ClientLogic implements Disposable {
 				if(main.serverLogic.isSingleplayer){
 					main.serverLogic.isSingleplayer = false;
 					main.server.close();
+					
+					main.setScreen(Main.MAINMENU);
+				}else{
+					Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.disconnected")
+							+ Translator.instance().getMsg("menu.msg.connectionlost"));
+					main.setScreen(Main.ERRORMSG);
 				}
-				
-				Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.disconnected")
-						+ Translator.instance().getMsg("menu.msg.connectionlost"));
-				main.setScreen(Main.ERRORMSG);
 			}
 
 		}
