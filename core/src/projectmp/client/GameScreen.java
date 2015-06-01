@@ -35,6 +35,8 @@ public class GameScreen extends Updateable {
 			
 			main.clientLogic.world.lightingEngine.setLightSource((byte) 127, Color.rgb888(1, 0, 0), redx, redy);
 			main.clientLogic.world.lightingEngine.setLightSource((byte) 127, Color.rgb888(0, 1, 0), greenx, greeny);
+			
+			main.serverLogic.world.setBlock(null, greenx, greeny);
 		}
 		if (Gdx.input.isButtonPressed(Buttons.RIGHT)) {
 			redx = ((int) ((Main.getInputX() + main.clientLogic.renderer.camera.camerax) / World.tilesizex));
