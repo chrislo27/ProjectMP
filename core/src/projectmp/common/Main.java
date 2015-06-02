@@ -632,10 +632,7 @@ public class Main extends Game implements Consumer {
 	}
 
 	private void addColors() {
-		// text related
-		Colors.put("DANGER", new Color(1, 0, 0, 1)); // red
-		Colors.put("OBJECT", new Color(1, 217 / 255f, 0, 1)); // yellow
-		Colors.put("KEY", new Color(0, 204 / 255f, 0, 1)); // green
+		
 	}
 	
 	public void attemptBindPort(int port){
