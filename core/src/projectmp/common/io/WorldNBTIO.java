@@ -57,6 +57,8 @@ public final class WorldNBTIO {
 
 		for (int i = 0; i < world.entities.size; i++) {
 			Entity e = world.entities.get(i);
+			
+			if(e instanceof Unsaveable) continue;
 
 			TagCompound entTag = new TagCompound("Entity");
 

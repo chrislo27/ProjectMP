@@ -1,6 +1,7 @@
 package projectmp.common.entity;
 
 import projectmp.client.WorldRenderer;
+import projectmp.common.io.Unsaveable;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.NBTUtils;
 import projectmp.common.world.World;
@@ -11,7 +12,7 @@ import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagString;
 
-public class EntityPlayer extends EntityLiving {
+public class EntityPlayer extends EntityLiving implements Unsaveable{
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
 
