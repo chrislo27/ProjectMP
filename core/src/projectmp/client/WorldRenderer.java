@@ -85,10 +85,11 @@ public class WorldRenderer implements Disposable {
 
 			// culling
 			if (MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
-					convertWorldX(e.visualX), convertWorldY(e.visualY, 0), e.sizex * World.tilesizex,
-					e.sizey * World.tilesizey))
+					convertWorldX(e.visualX), convertWorldY(e.visualY, 0), e.sizex
+							* World.tilesizex, e.sizey * World.tilesizey)) {
 
-			e.render(this);
+				e.render(this);
+			}
 		}
 
 		batch.setColor(1, 1, 1, 1);
@@ -134,6 +135,11 @@ public class WorldRenderer implements Disposable {
 				if (logic.getPlayer() != world.entities.get(i)) {
 					EntityPlayer p = (EntityPlayer) world.entities.get(i);
 
+					// culling
+					if(!MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
+					convertWorldX(p.visualX), convertWorldY(p.visualY, 0), p.sizex
+							* World.tilesizex, p.sizey * World.tilesizey)) continue;
+					
 					batch.setColor(1, 1, 1, 0.25f);
 					world.main.drawTextBg(world.main.font, p.username, convertWorldX(p.visualX
 							+ (p.sizex / 2))
