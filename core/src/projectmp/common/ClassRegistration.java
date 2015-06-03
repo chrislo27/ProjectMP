@@ -20,6 +20,7 @@ import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSendInv;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketWeather;
+import projectmp.common.tileentity.TileEntity;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -29,6 +30,7 @@ public class ClassRegistration {
 	public static void registerClasses(Kryo kryo){
 		registerPackets(kryo);
 		registerEntities(kryo);
+		registerTileEntities(kryo);
 		kryo.register(Entity[].class);
 		kryo.register(String[][].class);
 		kryo.register(int[][].class);
@@ -63,6 +65,10 @@ public class ClassRegistration {
 		kryo.register(Entity.class);
 		kryo.register(EntityLiving.class);
 		kryo.register(EntityPlayer.class);
+	}
+	
+	private static void registerTileEntities(Kryo kryo){
+		kryo.register(TileEntity.class);
 	}
 	
 }
