@@ -54,7 +54,7 @@ public class Chunk implements CanBeSavedToNBT {
 		return metadata[x][y];
 	}
 
-	public TileEntity geTileEntity(int x, int y) {
+	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return null;
 		return tileEntities[x][y];
 	}
