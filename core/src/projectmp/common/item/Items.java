@@ -29,7 +29,7 @@ public class Items {
 		
 	}
 
-	private void put(String key, Item value) {
+	public void put(String key, Item value) {
 		items.put(key, value);
 		reverse.put(value, key);
 		allItems.add(value);

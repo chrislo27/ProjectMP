@@ -36,7 +36,7 @@ public class Blocks {
 						.addAnimation(Block.singleBlockTexture("images/blocks/grass.png")));
 	}
 
-	private void put(String key, int id, Block value) {
+	public void put(String key, int id, Block value) {
 		blocks.put(key, value);
 		reverse.put(value, key);
 		blockIDs.put(id, value);
