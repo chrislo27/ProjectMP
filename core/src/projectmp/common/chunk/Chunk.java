@@ -22,7 +22,7 @@ import com.evilco.mc.nbt.tag.TagString;
 public class Chunk implements CanBeSavedToNBT {
 
 	public static final int CHUNK_SIZE = 16;
-
+	
 	protected Block[][] blocks = new Block[CHUNK_SIZE][CHUNK_SIZE];
 	protected byte[][] metadata = new byte[CHUNK_SIZE][CHUNK_SIZE];
 	protected TileEntity[][] tileEntities = new TileEntity[CHUNK_SIZE][CHUNK_SIZE];
@@ -82,7 +82,7 @@ public class Chunk implements CanBeSavedToNBT {
 		
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int y = 0; y < CHUNK_SIZE; y++) {
-				blockids[(x * CHUNK_SIZE) + y] = Blocks.instance().getIDFromBlock(blocks[x][y]);
+				blockids[(x * CHUNK_SIZE) + y] = BlockIDMap.instance().stringToID.get(Blocks.instance().getKey(blocks[x][y]));
 				metas[(x * CHUNK_SIZE) + y] = metadata[x][y];
 				if(tileEntities[x][y] != null){
 					TagCompound teTag = new TagCompound("TileEntity_" + x + "," + y);
@@ -124,7 +124,7 @@ public class Chunk implements CanBeSavedToNBT {
 		
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int y = 0; y < CHUNK_SIZE; y++) {
-				blocks[x][y] = Blocks.instance().getBlockFromID(blockarray[(x * CHUNK_SIZE) + y]);
+				blocks[x][y] = Blocks.instance().getBlock(BlockIDMap.instance().idToString.get(blockarray[(x * CHUNK_SIZE) + y]));
 				metadata[x][y] = metaarray[(x * CHUNK_SIZE) + y];
 				tileEntities[x][y] = null;
 			}

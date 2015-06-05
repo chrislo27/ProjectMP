@@ -6,6 +6,8 @@ import java.io.IOException;
 import java.util.List;
 
 import projectmp.common.Main;
+import projectmp.common.block.Blocks;
+import projectmp.common.chunk.BlockIDMap;
 import projectmp.common.entity.Entity;
 import projectmp.common.registry.GameRegistry;
 import projectmp.common.world.World;
@@ -40,6 +42,11 @@ public final class WorldNBTIO {
 		compound.setTag(new TagInteger("WorldTime", world.time.totalTicks));
 		compound.setTag(new TagLong("WorldSeed", world.seed));
 
+		// block key to id map
+		TagCompound idmap = BlockIDMap.generateBlockIDMap();
+		BlockIDMap.instance().setMap(idmap);
+		compound.setTag(idmap);
+		
 		// chunks
 		TagCompound chunksList = new TagCompound("Chunks");
 		for (int x = 0; x < world.getWidthInChunks(); x++) {
@@ -91,6 +98,8 @@ public final class WorldNBTIO {
 			world.sizey = tag.getInteger("WorldHeight");
 			world.time.setTotalTime(tag.getInteger("WorldTime"));
 			world.seed = tag.getLong("WorldSeed");
+			
+			BlockIDMap.instance().setMap(tag.getCompound(BlockIDMap.COMPOUND_TAG_NAME));
 		} catch (UnexpectedTagTypeException | TagNotFoundException ex) {
 			sendToErrorScreen(world.main, "An error occured while reading tags from world file", ex);
 			nbtStream.close();
