@@ -68,6 +68,11 @@ public class Chunk implements CanBeSavedToNBT {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
 		metadata[x][y] = (byte) m;
 	}
+	
+	public void setTileEntity(TileEntity te, int x, int y){
+		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
+		tileEntities[x][y] = te;
+	}
 
 	@Override
 	public void writeToNBT(TagCompound tag) {

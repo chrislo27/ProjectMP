@@ -9,12 +9,12 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
+import projectmp.common.tileentity.TileEntity;
 import projectmp.common.util.Particle;
 import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
 import projectmp.common.weather.Weather;
-import projectmp.common.weather.WeatherFog;
 
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -22,7 +22,6 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
 public class World {
@@ -308,6 +307,12 @@ public class World {
 
 		return getChunkBlockIsIn(x, y).getMeta(getBlockXInChunk(x), getBlockYInChunk(y));
 	}
+	
+	public TileEntity getTileEntity(int x, int y){
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
+
+		return getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
+	}
 
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
@@ -320,6 +325,12 @@ public class World {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
 		getChunkBlockIsIn(x, y).setMeta(m, getBlockXInChunk(x), getBlockYInChunk(y));
+	}
+	
+	public void setTileEntity(TileEntity te, int x, int y){
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
+
+		getChunkBlockIsIn(x, y).setTileEntity(te, getBlockXInChunk(x), getBlockYInChunk(y));
 	}
 
 }

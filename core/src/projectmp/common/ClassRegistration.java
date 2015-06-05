@@ -18,6 +18,7 @@ import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSendInv;
+import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketWeather;
 import projectmp.common.tileentity.TileEntity;
@@ -59,6 +60,7 @@ public class ClassRegistration {
 		kryo.register(PacketSendInv.class);
 		kryo.register(PacketPlayerInventory.class);
 		kryo.register(PacketWeather.class);
+		kryo.register(PacketSendTileEntity.class);
 	}
 	
 	private static void registerEntities(Kryo kryo){

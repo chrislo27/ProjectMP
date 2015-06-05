@@ -5,10 +5,12 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.packet.PacketBlockUpdate;
+import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketUpdateHealth;
 import projectmp.common.packet.PacketWeather;
 import projectmp.common.registry.GameRegistry;
+import projectmp.common.tileentity.TileEntity;
 import projectmp.common.weather.Weather;
 import projectmp.server.ServerLogic;
 
@@ -19,6 +21,7 @@ public class ServerWorld extends World {
 	private PacketTimeUpdate timepacket = new PacketTimeUpdate();
 	private PacketUpdateHealth healthpacket = new PacketUpdateHealth();
 	private PacketWeather weatherpacket = new PacketWeather();
+	private PacketSendTileEntity tepacket = new PacketSendTileEntity();
 	boolean shouldSendUpdates = true;
 
 	public ServerWorld(Main main, int x, int y, boolean server, long seed, ServerLogic l) {
@@ -80,6 +83,20 @@ public class ServerWorld extends World {
 		int old = getMeta(x, y);
 		super.setMeta(m, x, y);
 		if (getMeta(x, y) != old) sendBlockUpdatePacket(x, y);
+	}
+	
+	@Override
+	public void setTileEntity(TileEntity te, int x, int y){
+		super.setTileEntity(te, x, y);
+		sendTileEntityUpdate(x, y);
+	}
+	
+	private void sendTileEntityUpdate(int x, int y){
+		tepacket.te = getTileEntity(x, y);
+		tepacket.x = x;
+		tepacket.y = y;
+		
+		logic.server.sendToAllTCP(tepacket);
 	}
 
 	private void sendBlockUpdatePacket(int x, int y) {
