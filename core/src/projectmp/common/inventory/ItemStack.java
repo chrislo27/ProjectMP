@@ -19,7 +19,7 @@ public class ItemStack {
 	 * @return
 	 */
 	public Item getItem(){
-		return Items.instance().getBlock(item);
+		return Items.instance().getItem(item);
 	}
 	
 }

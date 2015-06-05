@@ -35,7 +35,7 @@ public class Items {
 		allItems.add(value);
 	}
 
-	public Item getBlock(String key) {
+	public Item getItem(String key) {
 		if (key == null) return null;
 		return items.get(key);
 	}
