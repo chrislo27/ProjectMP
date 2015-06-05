@@ -1,6 +1,7 @@
 package projectmp.common.inventory;
 
 import projectmp.common.item.Item;
+import projectmp.common.item.Items;
 
 
 public class ItemStack {
@@ -11,6 +12,14 @@ public class ItemStack {
 	public ItemStack(String i, int amount){
 		item = i;
 		quantity = amount;
+	}
+	
+	/**
+	 * Convienence method to get the item from the stored string
+	 * @return
+	 */
+	public Item getItem(){
+		return Items.instance().getBlock(item);
 	}
 	
 }
