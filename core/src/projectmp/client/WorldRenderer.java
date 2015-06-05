@@ -121,11 +121,11 @@ public class WorldRenderer implements Disposable {
 		}
 
 		// draw the lighting buffer, masked
-		batch.setShader(main.maskshader);
-		Main.useMask(worldBuffer.getColorBufferTexture());
+		//batch.setShader(main.maskshader);
+		//Main.useMask(worldBuffer.getColorBufferTexture());
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		batch.setShader(null);
+		//batch.setShader(null);
 		batch.flush();
 
 		// render player names
