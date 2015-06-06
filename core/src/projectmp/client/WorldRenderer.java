@@ -37,9 +37,9 @@ public class WorldRenderer implements Disposable {
 		camera = new SmoothCamera(world);
 
 		worldBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
-				Settings.DEFAULT_HEIGHT, true);
+				Settings.DEFAULT_HEIGHT, false);
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
-				Settings.DEFAULT_HEIGHT, true);
+				Settings.DEFAULT_HEIGHT, false);
 	}
 
 	public void renderWorld() {
@@ -50,7 +50,7 @@ public class WorldRenderer implements Disposable {
 
 		/* --------------------------------------------------------------------- */
 
-		batch.setBlendFunction(GL20.GL_ONE, GL20.GL_ONE);
+		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		// lighting to buffer
 		lightingBuffer.begin();
