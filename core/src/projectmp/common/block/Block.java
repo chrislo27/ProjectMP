@@ -48,13 +48,30 @@ public class Block extends TexturedObject{
 	}
 
 	public void render(WorldRenderer renderer, int x, int y) {
-		if (getAnimation(getCurrentRenderingIndex(renderer.world, x, y)) != null) {
-			renderer.batch.draw(getAnimation(getCurrentRenderingIndex(renderer.world, x, y))
+		renderIndexAt(renderer, x, y, getCurrentRenderingIndex(renderer.world, x, y));
+	}
+	
+	protected void renderIndexAt(WorldRenderer renderer, int x, int y, int renderingIndex){
+		if (getAnimation(renderingIndex) != null) {
+			renderer.batch.draw(getAnimation(renderingIndex)
 					.getCurrentFrame(), renderer.convertWorldX(x), renderer.convertWorldY(y,
 					World.tilesizey));
 		}
 	}
+	
+	@Override
+	public Block addAnimation(LoopingAnimation a){
+		super.addAnimation(a);
+		return this;
+	}
 
+	/**
+	 * used to change the current block animation
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	protected int getCurrentRenderingIndex(World world, int x, int y) {
 		return 0;
 	}
