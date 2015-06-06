@@ -63,12 +63,12 @@ public class ServerLogic {
 				Main.logger.debug("Lighting update for entire world on init took "
 						+ (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms");
 				
-				try {
-					byte[] worldBytes = WorldSavingLoading.loadWorld(new File("saves/save0/world.dat"));
-					world = (ServerWorld) WorldNBTIO.decode(world, worldBytes);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+//				try {
+//					byte[] worldBytes = WorldSavingLoading.loadWorld(new File("saves/save0/world.dat"));
+//					world = (ServerWorld) WorldNBTIO.decode(world, worldBytes);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 				
 				try {
 					new File("saves/save0/").mkdirs();
