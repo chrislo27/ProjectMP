@@ -8,6 +8,7 @@ import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
@@ -19,11 +20,14 @@ public class BlockTallGrass extends Block{
 	
 	@Override
 	public void render(WorldRenderer renderer, int x, int y){
+		float c = renderer.batch.getColor().toFloatBits();
 		TextureRegion region = getAnimation(getCurrentRenderingIndex(renderer.world, 0, 0))
 				.getCurrentFrame();
 		int idx = 0;
 		float wave = (MathHelper.clampNumberFromTime(System.currentTimeMillis(), 3f)) * 32;
 		float offsetx = wave + renderer.world.getMeta(x, y);
+		
+		renderer.batch.setColor(0f, 175f / 255f, 17f / 255f, 1);
 		
 		// bottom left
 		vertices[idx++] = renderer.convertWorldX(x);
@@ -54,8 +58,7 @@ public class BlockTallGrass extends Block{
 		vertices[idx++] = region.getV2();
 		
 		renderer.batch.draw(region.getTexture(), vertices, 0, vertices.length);
-		
-//		super.render(renderer, x, y);
+		renderer.batch.setColor(c);
 	}
 	
 	@Override
