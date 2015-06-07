@@ -14,6 +14,7 @@ import projectmp.common.util.Particle;
 import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
+import projectmp.common.util.Sizeable;
 import projectmp.common.weather.Weather;
 
 import com.badlogic.gdx.files.FileHandle;
@@ -100,6 +101,12 @@ public class World {
 	public void tickUpdate() {
 		time.tickUpdate();
 		
+		for(int x = 0; x < sizex; x++){
+			for(int y = sizey - 1; y > 0; y--){
+				getBlock(x, y).tickUpdate(this, x, y);
+			}
+		}
+		
 		if (isServer) {
 			for (int i = 0; i < entities.size; i++) {
 				Entity e = entities.get(i);
@@ -141,7 +148,7 @@ public class World {
 		}
 	}
 
-	public ArrayList<Entity> getQuadArea(Entity e) {
+	public ArrayList<Entity> getQuadArea(Sizeable e) {
 		quadlist.clear();
 		quadtree.retrieve(quadlist, e);
 		return quadlist;

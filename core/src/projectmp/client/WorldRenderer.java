@@ -137,7 +137,7 @@ public class WorldRenderer implements Disposable {
 
 					// culling
 					if(!MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
-					convertWorldX(p.visualX), convertWorldY(p.visualY, 0), p.sizex
+					convertWorldX(p.visualX), convertWorldY(p.visualY, world.entities.get(i).sizey * World.tilesizey), p.sizex
 							* World.tilesizex, p.sizey * World.tilesizey)) continue;
 					
 					batch.setColor(1, 1, 1, 0.25f);
