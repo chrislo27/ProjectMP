@@ -186,7 +186,6 @@ public class ServerLogic {
 		if(p != null){
 			removeEntity.uuid = p.uuid;
 			server.sendToAllTCP(removeEntity);
-			Main.logger.debug("Removed player " + p.username + " on server");
 			
 			world.entities.removeValue(p, false);
 		}
