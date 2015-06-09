@@ -1,6 +1,5 @@
 package projectmp.common.util;
 
-
 public class DamageSource {
 
 	public static final DamageSource yourMother = new DamageSource("yourMother");
@@ -9,10 +8,10 @@ public class DamageSource {
 	public static final DamageSource spikes = new DamageSource("spikes");
 	public static final DamageSource electric = new DamageSource("electric");
 	public static final DamageSource theVoid = new DamageSource("theVoid");
-	
+
 	public String name = "";
-	
-	public DamageSource(String n){
+
+	public DamageSource(String n) {
 		name = n;
 	}
 }

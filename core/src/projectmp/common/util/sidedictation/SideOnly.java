@@ -12,8 +12,8 @@ import java.lang.annotation.RetentionPolicy;
  *
  */
 @Retention(RetentionPolicy.SOURCE)
-public @interface SideOnly{
+public @interface SideOnly {
 
 	Side value();
-	
+
 }

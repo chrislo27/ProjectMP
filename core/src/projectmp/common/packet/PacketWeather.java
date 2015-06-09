@@ -33,8 +33,9 @@ public class PacketWeather implements Packet {
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				Main.logger.error("Failed to re-create weather instance client-side", e);
-				
-				Main.ERRORMSG.setMessage("Failed to re-create weather instance client-side\n" + e.getMessage());
+
+				Main.ERRORMSG.setMessage("Failed to re-create weather instance client-side\n"
+						+ e.getMessage());
 				logic.main.setScreen(Main.ERRORMSG);
 			}
 		}

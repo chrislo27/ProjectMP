@@ -32,7 +32,7 @@ public class Splashes {
 	private void loadResources() {
 		String all = Gdx.files.internal("localization/splashes.txt").readString("UTF-8");
 		splashes = new Array<String>(all.split("\\r?\\n|\\r"));
-		
+
 		splashes.shuffle();
 	}
 

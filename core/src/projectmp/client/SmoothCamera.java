@@ -28,8 +28,8 @@ public class SmoothCamera {
 	public SmoothCamera(World w) {
 		setWorld(w);
 	}
-	
-	public void setWorld(World w){
+
+	public void setWorld(World w) {
 		world = w;
 	}
 
@@ -105,14 +105,18 @@ public class SmoothCamera {
 	}
 
 	public void clamp() {
-		camerax = MathUtils.clamp(camerax, 0, world.sizex * World.tilesizex - Settings.DEFAULT_WIDTH);
-		cameray = MathUtils.clamp(cameray, 0, world.sizey * World.tilesizey - Settings.DEFAULT_HEIGHT);
-		
-		wantedx = MathUtils.clamp(wantedx, 0, world.sizex * World.tilesizex - Settings.DEFAULT_WIDTH);
-		wantedy = MathUtils.clamp(wantedy, 0, world.sizey * World.tilesizey - Settings.DEFAULT_HEIGHT);
+		camerax = MathUtils.clamp(camerax, 0, world.sizex * World.tilesizex
+				- Settings.DEFAULT_WIDTH);
+		cameray = MathUtils.clamp(cameray, 0, world.sizey * World.tilesizey
+				- Settings.DEFAULT_HEIGHT);
+
+		wantedx = MathUtils.clamp(wantedx, 0, world.sizex * World.tilesizex
+				- Settings.DEFAULT_WIDTH);
+		wantedy = MathUtils.clamp(wantedy, 0, world.sizey * World.tilesizey
+				- Settings.DEFAULT_HEIGHT);
 	}
-	
-	public void translate(float x, float y){
+
+	public void translate(float x, float y) {
 		wantedx += x;
 		wantedy += y;
 	}

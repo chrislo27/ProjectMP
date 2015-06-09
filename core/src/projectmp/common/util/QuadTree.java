@@ -31,10 +31,10 @@ public class QuadTree {
 	 * @param width your game world width in units
 	 * @param height your game world height in units
 	 */
-	public QuadTree(float width, float height){
+	public QuadTree(float width, float height) {
 		this(0, 0, 0, width, height);
 	}
-	
+
 	/**
 	 * 
 	 * @param pLevel start at level 0 if you're creating an empty quadtree
@@ -113,7 +113,7 @@ public class QuadTree {
 	private int getIndex(Sizeable pRect) {
 		int index = -1;
 		double verticalMidpoint = posX + (width / 2);
-		double horizontalMidpoint = posY + (width/ 2);
+		double horizontalMidpoint = posY + (width / 2);
 
 		// Object can completely fit within the top quadrants
 		boolean topQuadrant = (pRect.getY() < horizontalMidpoint && pRect.getY()

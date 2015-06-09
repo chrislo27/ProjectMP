@@ -77,7 +77,7 @@ public class Translator {
 		languageList.ordered = true;
 
 		addBundle(defaultLang, I18NBundle.createBundle(base, new Locale("")));
-//		addBundle("Česky", I18NBundle.createBundle(base, new Locale("cz")));
+		//		addBundle("Česky", I18NBundle.createBundle(base, new Locale("cz")));
 
 		Preferences settings = Settings.getPreferences();
 		for (int i = 0; i < languageList.size; i++) {
@@ -111,9 +111,9 @@ public class Translator {
 		} catch (MissingResourceException m) {
 			if (!instance().caught.contains(key, false)) {
 				instance().caught.add(key + "");
-				Main.logger.warn("WARNING: the bundle \""
-						+ instance().base.nameWithoutExtension() + "_"
-						+ getBundle().getLocale().toString() + "\" has no key \"" + key + "\"");
+				Main.logger.warn("WARNING: the bundle \"" + instance().base.nameWithoutExtension()
+						+ "_" + getBundle().getLocale().toString() + "\" has no key \"" + key
+						+ "\"");
 			}
 			return key;
 		}

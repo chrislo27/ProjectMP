@@ -16,7 +16,8 @@ public interface CanBeSavedToNBT {
 	 * @param tag TagCompound for the object only
 	 */
 	public void writeToNBT(TagCompound tag);
-	
-	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException;
-	
+
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
+			UnexpectedTagTypeException;
+
 }

@@ -28,11 +28,11 @@ public class StencilMaskUtil {
 
 		Gdx.gl.glDepthFunc(GL20.GL_EQUAL);
 	}
-	
+
 	/**
 	 * call this AFTER batch.flush/end
 	 */
-	public static void resetMask(){
+	public static void resetMask() {
 		Gdx.gl.glDisable(GL20.GL_DEPTH_TEST);
 	}
 }

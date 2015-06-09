@@ -18,10 +18,11 @@ public class LanguageButton extends Button {
 	public void render(Main main) {
 		imageRender(main, "guilanguage");
 		main.font.setColor(Color.WHITE);
-		main.font.draw(main.batch,
+		main.font.draw(
+				main.batch,
 				Translator.getMsg("menu.language") + ": "
-						+ Translator.instance().languageList.get(Translator.instance().toUse),
-				x + width + 5, y + (height / 2));
+						+ Translator.instance().languageList.get(Translator.instance().toUse), x
+						+ width + 5, y + (height / 2));
 	}
 
 	@Override
@@ -30,6 +31,7 @@ public class LanguageButton extends Button {
 		Main.getPref("settings").putString("language", Translator.instance().currentLang()).flush();
 		return true;
 	}
+
 	@Override
 	public boolean onRightClick() {
 		Translator.instance().prevLang();

@@ -19,8 +19,8 @@ public class DirectConnectScreen extends Updateable {
 		container.elements.add(ip);
 		container.elements.add(port);
 		container.elements.add(connectButton);
-		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37, Gdx.graphics
-				.getHeight() - 37) {
+		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37,
+				Gdx.graphics.getHeight() - 37) {
 
 			@Override
 			public boolean onLeftClick() {
@@ -35,16 +35,17 @@ public class DirectConnectScreen extends Updateable {
 	private TextBox port = new TextBox((Settings.DEFAULT_WIDTH / 2) - 80, 192, 160, 32, ""
 			+ Settings.DEFAULT_PORT).setAllowDigits(true).setAllowLetters(false)
 			.setAllowSpaces(false).setAllowSpecial(false);
-	private Button connectButton = new Button((Settings.DEFAULT_WIDTH / 2) - 80, 64, 160, 32, "menu.connect"){
-		
+	private Button connectButton = new Button((Settings.DEFAULT_WIDTH / 2) - 80, 64, 160, 32,
+			"menu.connect") {
+
 		@Override
-		public boolean onLeftClick(){
+		public boolean onLeftClick() {
 			Main.CONNECTING.connectTo(ip.text, Integer.parseInt(port.text));
 			main.setScreen(Main.CONNECTING);
-			
+
 			return true;
 		}
-		
+
 	};
 
 	@Override
@@ -55,12 +56,13 @@ public class DirectConnectScreen extends Updateable {
 		main.batch.begin();
 		main.drawInverse(main.font, Translator.getMsg("menu.player") + Main.username,
 				Settings.DEFAULT_WIDTH - 5, 20);
-		
+
 		main.drawInverse(main.font, Translator.getMsg("menu.connecting.ip"),
 				(Settings.DEFAULT_WIDTH / 2) - 85, 256 + 23);
-		main.drawInverse(main.font, Translator.getMsg("menu.connecting.port", Settings.DEFAULT_PORT),
+		main.drawInverse(main.font,
+				Translator.getMsg("menu.connecting.port", Settings.DEFAULT_PORT),
 				(Settings.DEFAULT_WIDTH / 2) - 85, 192 + 23);
-		
+
 		container.render(main);
 		main.batch.end();
 	}

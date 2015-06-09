@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Bresenham2;
  *
  */
 public class Raycaster {
-	
+
 	private static Raycaster instance;
 
 	private Raycaster() {
@@ -23,13 +23,13 @@ public class Raycaster {
 	}
 
 	private Bresenham2 bre;
-	
+
 	private void loadResources() {
 		bre = new Bresenham2();
 	}
-	
-	public static Bresenham2 get(){
+
+	public static Bresenham2 get() {
 		return instance().bre;
 	}
-	
+
 }

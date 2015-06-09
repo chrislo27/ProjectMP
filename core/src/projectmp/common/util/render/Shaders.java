@@ -179,11 +179,9 @@ public class Shaders {
 	public static final String VERTDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.vert")
 			.readString();
 
-	public static final String FRAGMESH = Gdx.files.internal("shaders/mesh.frag")
-			.readString();
+	public static final String FRAGMESH = Gdx.files.internal("shaders/mesh.frag").readString();
 
-	public static final String VERTMESH = Gdx.files.internal("shaders/mesh.vert")
-			.readString();
+	public static final String VERTMESH = Gdx.files.internal("shaders/mesh.vert").readString();
 
 	public static final String FRAGDISTANCEFIELD = Gdx.files.internal("shaders/distancefield.frag")
 			.readString();

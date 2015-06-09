@@ -27,7 +27,7 @@ public class ClientListener extends Listener {
 	@Override
 	public void received(Connection connection, Object obj) {
 		if (!(obj instanceof Packet)) return;
-		
+
 		main.client.updateReturnTripTime();
 		((Packet) obj).actionClient(connection, main.clientLogic);
 	}

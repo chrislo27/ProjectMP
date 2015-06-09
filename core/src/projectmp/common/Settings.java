@@ -56,7 +56,8 @@ public class Settings {
 		pref.putBoolean("showFPS", Settings.showFPS).putBoolean("vignette", showVignette)
 				.putFloat("sound", soundVolume).putFloat("music", musicVolume)
 				.putBoolean("smoothLighting", true).putInteger("actualWidth", actualWidth)
-				.putInteger("actualHeight", actualHeight).putString("username", Main.username).flush();
+				.putInteger("actualHeight", actualHeight).putString("username", Main.username)
+				.flush();
 	}
 
 	public static Preferences getPreferences() {
@@ -85,31 +86,31 @@ public class Settings {
 	public static Resolution[] get1610ResolutionsList() {
 		return resolutions1610;
 	}
-	
+
 	public static String[] get43ResolutionsStrings() {
 		String[] list = new String[get43ResolutionsList().length];
-		for(int i = 0; i < list.length; i++){
+		for (int i = 0; i < list.length; i++) {
 			list[i] = get43ResolutionsList()[i].toString();
 		}
-		
+
 		return list;
 	}
 
 	public static String[] get169ResolutionsStrings() {
 		String[] list = new String[get169ResolutionsList().length];
-		for(int i = 0; i < list.length; i++){
+		for (int i = 0; i < list.length; i++) {
 			list[i] = get169ResolutionsList()[i].toString();
 		}
-		
+
 		return list;
 	}
 
 	public static String[] get1610ResolutionsStrings() {
 		String[] list = new String[get1610ResolutionsList().length];
-		for(int i = 0; i < list.length; i++){
+		for (int i = 0; i < list.length; i++) {
 			list[i] = get1610ResolutionsList()[i].toString();
 		}
-		
+
 		return list;
 	}
 

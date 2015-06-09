@@ -2,8 +2,7 @@ package projectmp.client.ui;
 
 import projectmp.common.Main;
 
-
-public abstract class RetryLevelButton extends Button{
+public abstract class RetryLevelButton extends Button {
 
 	public RetryLevelButton(int x, int y) {
 		super(x, y, 48, 48, null);
@@ -16,10 +15,10 @@ public abstract class RetryLevelButton extends Button{
 
 	@Override
 	public abstract boolean onLeftClick();
-	
+
 	@Override
 	public boolean onRightClick() {
 		return false;
 	}
-	
+
 }

@@ -25,16 +25,16 @@ public class Utils {
 
 		return false;
 	}
-	
-	public static int getUnsignedByte(byte b){
+
+	public static int getUnsignedByte(byte b) {
 		return (b & 0xFF);
 	}
-	
+
 	/**
 	 * WARNING: slow method!
 	 * @return
 	 */
-	public static int findFreePort(){
+	public static int findFreePort() {
 		ServerSocket socket = null;
 		int port = -1;
 		try {
@@ -42,25 +42,25 @@ public class Utils {
 			port = socket.getLocalPort();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally{
+		} finally {
 			try {
 				socket.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-		
-		if(port == Settings.DEFAULT_PORT) return findFreePort();
-		
+
+		if (port == Settings.DEFAULT_PORT) return findFreePort();
+
 		return port;
 	}
 
-//	public static float getSoundPan(float xpos, float camerax) {
-//		return MathUtils
-//				.clamp(((xpos - (Math.round((camerax + (Settings.DEFAULT_WIDTH / 2))
-//						/ World.tilesizex))) / (((Settings.DEFAULT_WIDTH / 2f) - World.tilesizex) / World.tilesizex)),
-//						-1f, 1f);
-//	}
+	//	public static float getSoundPan(float xpos, float camerax) {
+	//		return MathUtils
+	//				.clamp(((xpos - (Math.round((camerax + (Settings.DEFAULT_WIDTH / 2))
+	//						/ World.tilesizex))) / (((Settings.DEFAULT_WIDTH / 2f) - World.tilesizex) / World.tilesizex)),
+	//						-1f, 1f);
+	//	}
 
 	public static void drawRotatedCentered(Batch batch, Texture tex, float x, float y, float width,
 			float height, float rotation, boolean clockwise) {
@@ -151,7 +151,7 @@ public class Utils {
 		char randomChar = (char) ((int) 'A' + Math.random() * ((int) 'Z' - (int) 'A' + 1));
 		return randomChar;
 	}
-	
+
 	/**
 	 * Draws toMask texture that's masked with the stencil texture.
 	 * @param main
@@ -162,8 +162,8 @@ public class Utils {
 	 * @param width
 	 * @param height
 	 */
-	public static void drawMaskedTexture(Main main, Batch batch, Texture theMask, Texture baked, float x,
-			float y, float width, float height) {
+	public static void drawMaskedTexture(Main main, Batch batch, Texture theMask, Texture baked,
+			float x, float y, float width, float height) {
 		Main.useMask(theMask);
 		batch.draw(baked, x, y, width, height);
 	}

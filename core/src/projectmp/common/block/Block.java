@@ -9,7 +9,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
-public class Block extends TexturedObject{
+public class Block extends TexturedObject {
 
 	public static final float DEFAULT_TRANSPARENT_LIGHT = 0.05f;
 	public static final float DEFAULT_OPAQUE_LIGHT = 0.2f;
@@ -18,9 +18,8 @@ public class Block extends TexturedObject{
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 
 	public Block() {
-		
-	}
 
+	}
 
 	public static LoopingAnimation singleBlockTexture(String path) {
 		return new LoopingAnimation(1, 1, path, false);
@@ -50,17 +49,16 @@ public class Block extends TexturedObject{
 	public void render(WorldRenderer renderer, int x, int y) {
 		renderIndexAt(renderer, x, y, getCurrentRenderingIndex(renderer.world, x, y));
 	}
-	
-	protected void renderIndexAt(WorldRenderer renderer, int x, int y, int renderingIndex){
+
+	protected void renderIndexAt(WorldRenderer renderer, int x, int y, int renderingIndex) {
 		if (getAnimation(renderingIndex) != null) {
-			renderer.batch.draw(getAnimation(renderingIndex)
-					.getCurrentFrame(), renderer.convertWorldX(x), renderer.convertWorldY(y,
-					World.tilesizey));
+			renderer.batch.draw(getAnimation(renderingIndex).getCurrentFrame(),
+					renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey));
 		}
 	}
-	
+
 	@Override
-	public Block addAnimation(LoopingAnimation a){
+	public Block addAnimation(LoopingAnimation a) {
 		super.addAnimation(a);
 		return this;
 	}

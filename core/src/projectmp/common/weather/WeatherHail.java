@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import projectmp.client.WorldRenderer;
 import projectmp.common.world.World;
 
-
-public class WeatherHail extends WeatherPrecipitation{
+public class WeatherHail extends WeatherPrecipitation {
 
 	public WeatherHail(int duration, World world) {
 		super(duration, world);

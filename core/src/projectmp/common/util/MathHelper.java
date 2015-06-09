@@ -42,15 +42,16 @@ public class MathHelper {
 	}
 
 	public static float timePulse(float num) {
-		return ((num > 0.5f ? (0.5f - (num - 0.5f)) : num)) - MathUtils.clamp(0.50000001f, 1f, 0.5f);
+		return ((num > 0.5f ? (0.5f - (num - 0.5f)) : num))
+				- MathUtils.clamp(0.50000001f, 1f, 0.5f);
 	}
 
 	public static double calcDistance(double x1, double y1, double x2, double y2) {
 		return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 	}
-	
+
 	public static double clamp(double val, double min, double max) {
-	    return Math.max(min, Math.min(max, val));
+		return Math.max(min, Math.min(max, val));
 	}
 
 	/**
@@ -65,20 +66,20 @@ public class MathHelper {
 	public static float getNumberFromTime(float seconds) {
 		return getNumberFromTime(System.currentTimeMillis(), seconds);
 	}
-	
+
 	public static float getNumberFromTime(long time, float seconds) {
-		if(seconds == 0) throw new IllegalArgumentException("Seconds cannot be zero!");
+		if (seconds == 0) throw new IllegalArgumentException("Seconds cannot be zero!");
 		return ((time % Math.round((seconds * 1000))) / (seconds * 1000f));
 	}
-	
-	public static float clampNumberFromTime(long ms, float seconds){
+
+	public static float clampNumberFromTime(long ms, float seconds) {
 		float f = getNumberFromTime(ms, seconds);
-		if(f >= 0.5f){
+		if (f >= 0.5f) {
 			return 1f - f;
-		}else return f;
+		} else return f;
 	}
-	
-	public static float clampNumberFromTime(float sec){
+
+	public static float clampNumberFromTime(float sec) {
 		return clampNumberFromTime(System.currentTimeMillis(), sec);
 	}
 
@@ -110,11 +111,11 @@ public class MathHelper {
 		return ((number & (number - 1)) == 0);
 	}
 
-//	public static <T extends Comparable<T>> T clamp(T val, T min, T max) {
-//		if (val.compareTo(min) < 0) return min;
-//		else if (val.compareTo(max) > 0) return max;
-//		else return val;
-//	}
+	//	public static <T extends Comparable<T>> T clamp(T val, T min, T max) {
+	//		if (val.compareTo(min) < 0) return min;
+	//		else if (val.compareTo(max) > 0) return max;
+	//		else return val;
+	//	}
 
 	public static float distanceSquared(float x, float y, float x2, float y2) {
 		return (x2 - x) * (x2 - x) + (y2 - y) * (y2 - y);
@@ -138,13 +139,13 @@ public class MathHelper {
 	public static boolean isOneOfThem(int check, int com) {
 		return check == com;
 	}
-	
-	public static float getJumpVelo(double gravity, double distance){
+
+	public static float getJumpVelo(double gravity, double distance) {
 		return (float) (gravity * Math.sqrt((2 * distance) / gravity));
 	}
 
-	public static boolean intersects(double oldx, double oldy, double oldwidth, double oldheight, double oldx2,
-			double oldy2, double oldwidth2, double oldheight2) {
+	public static boolean intersects(double oldx, double oldy, double oldwidth, double oldheight,
+			double oldx2, double oldy2, double oldwidth2, double oldheight2) {
 
 		double x, y, width, height, x2, y2, width2, height2;
 

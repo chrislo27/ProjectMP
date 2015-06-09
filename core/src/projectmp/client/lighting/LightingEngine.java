@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Pools;
 public class LightingEngine {
 
 	public static final float TRANSITION_MULTIPLIER_SECS = 2.5f;
-	
+
 	private World world;
 	private Main main;
 	private int sizex = 1;
@@ -31,7 +31,7 @@ public class LightingEngine {
 	 */
 	private int[][] lightColor;
 	private int[][] tempLightColor;
-	
+
 	private boolean[][] isPartOfSky;
 
 	private TimeOfDay lastTOD = TimeOfDay.DAYTIME;
@@ -85,27 +85,27 @@ public class LightingEngine {
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-		if(lastTOD != world.time.getCurrentTimeOfDay()) scheduleLightingUpdate();
+		if (lastTOD != world.time.getCurrentTimeOfDay()) scheduleLightingUpdate();
 		lastTOD = world.time.getCurrentTimeOfDay();
 
-		if((int) (lastDayBrightness * 127) != world.time.getCurrentTimeOfDay().lightLevel){
+		if ((int) (lastDayBrightness * 127) != world.time.getCurrentTimeOfDay().lightLevel) {
 			byte byteform = (byte) (lastDayBrightness * 127);
-			
+
 			lastDayBrightness += ((world.time.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
 					* Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS;
-			
+
 			Color.rgb888ToColor(tempColor, world.time.getCurrentTimeOfDay().color);
 			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS);
-			
-//			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
-//				// forcefully set the colour and brightness when it's "close enough"
-//				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
-//				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
-//			}
-			
-			if((byte) (lastDayBrightness * 127) != byteform) scheduleLightingUpdate();
+
+			//			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
+			//				// forcefully set the colour and brightness when it's "close enough"
+			//				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
+			//				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
+			//			}
+
+			if ((byte) (lastDayBrightness * 127) != byteform) scheduleLightingUpdate();
 		}
-		
+
 		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH
 				- (World.tilesizex * 2)) {
 			scheduleLightingUpdate();
@@ -138,7 +138,7 @@ public class LightingEngine {
 
 		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
 			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
-				
+
 				if (!Settings.smoothLighting) {
 					batch.setColor(setTempColor(x, y));
 					main.fillRect(renderer.convertWorldX(x),
@@ -215,8 +215,8 @@ public class LightingEngine {
 		b3 = tempColor.b;
 		a3 = tempColor.a;
 
-		tempColor2
-				.set((r + r1 + r2 + r3) / 4f, (g + g1 + g2 + g3) / 4f, (b + b1 + b2 + b3) / 4f, (a + a1 + a2 + a3) / 4f);
+		tempColor2.set((r + r1 + r2 + r3) / 4f, (g + g1 + g2 + g3) / 4f, (b + b1 + b2 + b3) / 4f,
+				(a + a1 + a2 + a3) / 4f);
 
 		return tempColor2;
 	}
@@ -266,7 +266,7 @@ public class LightingEngine {
 				}
 				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
 					terminate = true;
-					
+
 					setToAmbientLight(x, y);
 					break;
 				}
@@ -279,10 +279,10 @@ public class LightingEngine {
 
 		}
 	}
-	
-	private void setToAmbientLight(int x, int y){
-		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, (byte) (lastDayBrightness * 127f),
-				Color.rgb888(daylightColor)));
+
+	private void setToAmbientLight(int x, int y) {
+		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y,
+				(byte) (lastDayBrightness * 127f), Color.rgb888(daylightColor)));
 	}
 
 	public void floodFillLighting(int originx, int originy, int width, int height) {
@@ -315,7 +315,7 @@ public class LightingEngine {
 
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
 		lightingUpdateMethodCalls++;
-		
+
 		if (bright <= 0) {
 			return;
 		}
@@ -337,7 +337,7 @@ public class LightingEngine {
 		mixColors(x, y - 1, color);
 		mixColors(x, y + 1, color);
 		mixColors(x + 1, y, color);
-		
+
 		if ((x - 1 >= 0) && !(getBrightness(x - 1, y) >= bright)) {
 			recursiveLight(x - 1, y, bright, color, false);
 		}
@@ -378,8 +378,8 @@ public class LightingEngine {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 		lightColor[x][y] = color;
 	}
-	
-	private void setIsPartOfSky(boolean b, int x, int y){
+
+	private void setIsPartOfSky(boolean b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 		isPartOfSky[x][y] = b;
 	}
@@ -389,53 +389,53 @@ public class LightingEngine {
 		int y = posy;
 		if (x < 0) x = 0;
 		if (x >= sizex) x = sizex - 1;
-		if(y < 0) y = 0;
-		if(y >= sizey) y = sizey - 1;
-		
+		if (y < 0) y = 0;
+		if (y >= sizey) y = sizey - 1;
+
 		return brightness[x][y];
 	}
 
 	private byte getTempBrightness(int posx, int posy) {
 		int x = posx;
 		int y = posy;
-		if(x < 0) x = 0;
-		if(x >= sizex) x = sizex - 1;
-		if(y < 0) y = 0;
-		if(y >= sizey) y = sizey - 1;
-		
+		if (x < 0) x = 0;
+		if (x >= sizex) x = sizex - 1;
+		if (y < 0) y = 0;
+		if (y >= sizey) y = sizey - 1;
+
 		return tempBrightness[x][y];
 	}
 
 	public int getLightColor(int posx, int posy) {
 		int x = posx;
 		int y = posy;
-		if(x < 0) x = 0;
-		if(x >= sizex) x = sizex - 1;
-		if(y < 0) y = 0;
-		if(y >= sizey) y = sizey - 1;
-		
+		if (x < 0) x = 0;
+		if (x >= sizex) x = sizex - 1;
+		if (y < 0) y = 0;
+		if (y >= sizey) y = sizey - 1;
+
 		return lightColor[x][y];
 	}
 
 	private int getTempLightColor(int posx, int posy) {
 		int x = posx;
 		int y = posy;
-		if(x < 0) x = 0;
-		if(x >= sizex) x = sizex - 1;
-		if(y < 0) y = 0;
-		if(y >= sizey) y = sizey - 1;
-		
+		if (x < 0) x = 0;
+		if (x >= sizex) x = sizex - 1;
+		if (y < 0) y = 0;
+		if (y >= sizey) y = sizey - 1;
+
 		return tempLightColor[x][y];
 	}
-	
+
 	private boolean getIsPartOfSky(int posx, int posy) {
 		int x = posx;
 		int y = posy;
-		if(x < 0) x = 0;
-		if(x >= sizex) x = sizex - 1;
-		if(y < 0) y = 0;
-		if(y >= sizey) y = sizey - 1;
-		
+		if (x < 0) x = 0;
+		if (x >= sizex) x = sizex - 1;
+		if (y < 0) y = 0;
+		if (y >= sizey) y = sizey - 1;
+
 		return isPartOfSky[x][y];
 	}
 

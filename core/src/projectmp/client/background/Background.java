@@ -13,7 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Background {
-	
+
 	public static final float SUN_DISTANCE = (Settings.DEFAULT_HEIGHT / 4) * 3;
 	public static final float MOON_DISTANCE = SUN_DISTANCE;
 
@@ -50,8 +50,8 @@ public class Background {
 		renderTimeOfDayBackgrounds();
 
 		renderCelestialBodies();
-		
-		if(world.getWeather() != null){
+
+		if (world.getWeather() != null) {
 			world.getWeather().renderOverBackground(renderer);
 		}
 	}

@@ -25,10 +25,9 @@ import projectmp.common.tileentity.TileEntity;
 
 import com.esotericsoftware.kryo.Kryo;
 
-
 public class ClassRegistration {
 
-	public static void registerClasses(Kryo kryo){
+	public static void registerClasses(Kryo kryo) {
 		registerPackets(kryo);
 		registerEntities(kryo);
 		registerTileEntities(kryo);
@@ -43,8 +42,8 @@ public class ClassRegistration {
 		kryo.register(ItemStack.class);
 		kryo.register(ItemStack[].class);
 	}
-	
-	private static void registerPackets(Kryo kryo){
+
+	private static void registerPackets(Kryo kryo) {
 		kryo.register(Packet.class);
 		kryo.register(PacketHandshake.class);
 		kryo.register(PacketSendChunk.class);
@@ -62,15 +61,15 @@ public class ClassRegistration {
 		kryo.register(PacketWeather.class);
 		kryo.register(PacketSendTileEntity.class);
 	}
-	
-	private static void registerEntities(Kryo kryo){
+
+	private static void registerEntities(Kryo kryo) {
 		kryo.register(Entity.class);
 		kryo.register(EntityLiving.class);
 		kryo.register(EntityPlayer.class);
 	}
-	
-	private static void registerTileEntities(Kryo kryo){
+
+	private static void registerTileEntities(Kryo kryo) {
 		kryo.register(TileEntity.class);
 	}
-	
+
 }

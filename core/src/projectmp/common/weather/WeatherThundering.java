@@ -5,8 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import projectmp.client.WorldRenderer;
 import projectmp.common.world.World;
 
-
-public class WeatherThundering extends WeatherRain{
+public class WeatherThundering extends WeatherRain {
 
 	public WeatherThundering(int duration, World world) {
 		super(duration, world);
@@ -31,5 +30,5 @@ public class WeatherThundering extends WeatherRain{
 	public void renderHUD(WorldRenderer renderer) {
 		super.renderHUD(renderer);
 	}
-	
+
 }

@@ -6,11 +6,10 @@ import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
-
 public class PacketNewEntity implements Packet {
 
 	public Entity e;
-	
+
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
 	}

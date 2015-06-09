@@ -13,7 +13,7 @@ public class Time {
 	public static final float daytimePercentage = 0.5f;
 	public static final float eveningPercentage = 0.1f;
 	public static final float nighttimePercentage = 0.4f;
-	
+
 	public int days = 0;
 	public int totalTicks = 0;
 	public int currentDayTicks = 0;

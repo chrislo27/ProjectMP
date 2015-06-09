@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Color;
  * 
  *
  */
-public class BlockFoliage extends Block{
+public class BlockFoliage extends Block {
 
 	@Override
 	public void render(WorldRenderer renderer, int x, int y) {
@@ -18,5 +18,5 @@ public class BlockFoliage extends Block{
 		super.render(renderer, x, y);
 		renderer.batch.setColor(c);
 	}
-	
+
 }

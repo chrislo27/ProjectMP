@@ -51,9 +51,8 @@ public class VersionGetter {
 			Main.logger.info("Finished getting version, took "
 					+ (System.currentTimeMillis() - start) + " ms");
 
-			
 			Main.githubVersion = file.toString();
-			
+
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

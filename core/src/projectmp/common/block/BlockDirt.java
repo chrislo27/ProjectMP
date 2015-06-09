@@ -4,7 +4,6 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.world.World;
 
-
 public class BlockDirt extends Block {
-	
+
 }

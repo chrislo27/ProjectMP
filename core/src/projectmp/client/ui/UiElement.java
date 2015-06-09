@@ -8,7 +8,7 @@ public abstract class UiElement {
 	protected int y;
 	protected int width;
 	protected int height;
-	
+
 	public abstract void render(Main main);
 
 	public abstract boolean visible();
@@ -28,7 +28,6 @@ public abstract class UiElement {
 	public int getHeight() {
 		return height;
 	}
-	
 
 	/**
 	 * 
@@ -41,7 +40,7 @@ public abstract class UiElement {
 	 * @return true if handled
 	 */
 	public abstract boolean onRightClick();
-	
+
 	public boolean onKeyTyped(char key) {
 		return false;
 	}

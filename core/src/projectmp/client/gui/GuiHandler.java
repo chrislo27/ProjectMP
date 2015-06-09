@@ -6,9 +6,8 @@ import projectmp.common.util.sidedictation.SideOnly;
 @SideOnly(Side.CLIENT)
 public class GuiHandler {
 
-	
-	protected GuiHandler(){
-		
+	protected GuiHandler() {
+
 	}
-	
+
 }

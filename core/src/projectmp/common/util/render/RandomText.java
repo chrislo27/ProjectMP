@@ -13,7 +13,8 @@ public class RandomText {
 			float height = main.font.getBounds(text).height;
 			for (int i = 0; i < maxrender; i++) {
 				if (MathUtils.random(1, chance) != 1) continue;
-				main.drawCentered(main.font, 
+				main.drawCentered(
+						main.font,
 						text,
 						MathUtils.random(1, Settings.DEFAULT_WIDTH - 1),
 						MathUtils.random(Math.round(height),

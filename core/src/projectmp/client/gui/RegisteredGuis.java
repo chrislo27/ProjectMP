@@ -7,7 +7,7 @@ import projectmp.common.util.sidedictation.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RegisteredGuis {
-	
+
 	private static RegisteredGuis instance;
 
 	private RegisteredGuis() {
@@ -20,12 +20,11 @@ public class RegisteredGuis {
 		}
 		return instance;
 	}
-	
+
 	private HashMap<String, GuiHandler> map = new HashMap<String, GuiHandler>();
 
 	private void loadResources() {
-		
-		
+
 	}
-	
+
 }

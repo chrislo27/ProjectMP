@@ -46,7 +46,7 @@ public final class WorldNBTIO {
 		TagCompound idmap = BlockIDMap.generateBlockIDMap();
 		BlockIDMap.instance().setMap(idmap);
 		compound.setTag(idmap);
-		
+
 		// chunks
 		TagCompound chunksList = new TagCompound("Chunks");
 		for (int x = 0; x < world.getWidthInChunks(); x++) {
@@ -64,8 +64,8 @@ public final class WorldNBTIO {
 
 		for (int i = 0; i < world.entities.size; i++) {
 			Entity e = world.entities.get(i);
-			
-			if(e instanceof Unsaveable) continue;
+
+			if (e instanceof Unsaveable) continue;
 
 			TagCompound entTag = new TagCompound("Entity");
 
@@ -98,7 +98,7 @@ public final class WorldNBTIO {
 			world.sizey = tag.getInteger("WorldHeight");
 			world.time.setTotalTime(tag.getInteger("WorldTime"));
 			world.seed = tag.getLong("WorldSeed");
-			
+
 			BlockIDMap.instance().setMap(tag.getCompound(BlockIDMap.COMPOUND_TAG_NAME));
 		} catch (UnexpectedTagTypeException | TagNotFoundException ex) {
 			sendToErrorScreen(world.main, "An error occured while reading tags from world file", ex);
@@ -129,11 +129,12 @@ public final class WorldNBTIO {
 		for (TagCompound comp : entitiesList) {
 			Entity e = null;
 			String entityType = null;
-			
+
 			try {
 				entityType = comp.getString("EntityType");
 			} catch (TagNotFoundException | UnexpectedTagTypeException ex) {
-				sendToErrorScreen(world.main, "Failed to re-create entity because the entity type tag wasn't found", ex);
+				sendToErrorScreen(world.main,
+						"Failed to re-create entity because the entity type tag wasn't found", ex);
 				nbtStream.close();
 				return world;
 			}

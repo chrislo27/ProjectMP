@@ -10,8 +10,8 @@ public class Difficulty {
 	public Difficulty(int id) {
 		this.id = id;
 	}
-	
-	public Difficulty setDmgMultiplier(float d){
+
+	public Difficulty setDmgMultiplier(float d) {
 		damageMultiplier = d;
 		return this;
 	}
@@ -19,7 +19,7 @@ public class Difficulty {
 	public static final int EASY_ID = 0;
 	public static final int NORMAL_ID = 1;
 	public static final int HARD_ID = 2;
-	
+
 	private static HashMap<Integer, Difficulty> difficulties = null;
 
 	public static HashMap<Integer, Difficulty> get() {

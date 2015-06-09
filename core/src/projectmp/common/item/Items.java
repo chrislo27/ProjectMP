@@ -26,7 +26,7 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-		
+
 	}
 
 	public void put(String key, Item value) {

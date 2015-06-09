@@ -30,9 +30,9 @@ public class FadeIn implements Transition {
 		main.batch.setColor(color.r, color.g, color.b, 1 - timeleft);
 		main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Gdx.graphics.getHeight());
 		main.batch.setColor(Color.WHITE);
-		if (timeleft > 0){
+		if (timeleft > 0) {
 			timeleft -= Gdx.graphics.getRawDeltaTime();
-			if(timeleft < 0) timeleft = 0;
+			if (timeleft < 0) timeleft = 0;
 		}
 	}
 

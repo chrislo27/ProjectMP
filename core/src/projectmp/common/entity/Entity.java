@@ -18,7 +18,7 @@ import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagFloat;
 import com.evilco.mc.nbt.tag.TagLong;
 
-public abstract class Entity implements Sizeable, CanBeSavedToNBT{
+public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 
 	public transient World world;
 	public float x = 0;
@@ -34,9 +34,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 	public float sizey = 1;
 	public float velox = 0;
 	public float veloy = 0;
-	
+
 	public long uuid = MathUtils.random(Long.MIN_VALUE, Long.MAX_VALUE);
-	
+
 	/**
 	 * collides with blocks
 	 */
@@ -52,21 +52,21 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 	 * velocity*forceTransfer to this entity (and stop)
 	 */
 	public float forceTransfer = 0f;
-	
+
 	public float dragCoefficient = 1;
 	public float gravityCoefficient = 1;
 	public float bounceCoefficient = 0;
-	
+
 	public float accspeed = 1.5f; // acceleration blocks/sec
 	public float maxspeed = 1.5f; // speed cap blocks/sec
-	
+
 	/**
 	 * used for deserialization
 	 */
-	public Entity(){
+	public Entity() {
 		prepare();
 	}
-	
+
 	public Entity(World w, float posx, float posy) {
 		world = w;
 		x = posx;
@@ -75,21 +75,21 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 		visualY = y;
 		lastPacketX = x;
 		lastPacketY = y;
-		if(world != null) uuid = world.getNewUniqueUUID();
+		if (world != null) uuid = world.getNewUniqueUUID();
 		prepare();
 	}
-	
+
 	/**
 	 * called on creation
 	 */
 	public abstract void prepare();
-	
+
 	/**
 	 * you MUST adhere to the batch's color!
 	 * @param renderer
 	 */
 	public abstract void render(WorldRenderer renderer);
-	
+
 	/**
 	 * called every render update BEFORE rendering on client only
 	 */
@@ -107,31 +107,31 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 		}
 	}
 
-	public void positionUpdate(float newx, float newy){
+	public void positionUpdate(float newx, float newy) {
 		lastPacketX = x;
 		lastPacketY = y;
 		x = newx;
 		y = newy;
 		shouldPredictFuture = false;
 	}
-	
-	public boolean hasMovedLastTick(){
-		if(lastTickX == x && lastTickY == y) return false;
-		
+
+	public boolean hasMovedLastTick() {
+		if (lastTickX == x && lastTickY == y) return false;
+
 		return true;
 	}
-	
+
 	/**
 	 * called every tick, before rendering
 	 */
 	public void tickUpdate() {
 		movementAndCollision();
 	}
-	
-	public void movementAndCollision(){
+
+	public void movementAndCollision() {
 		lastTickX = x;
 		lastTickY = y;
-		
+
 		float drag = world.drag * getLowestDrag() * dragCoefficient;
 		if (velox > 0) {
 			velox -= drag / Main.TICKS;
@@ -312,9 +312,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 			}
 		}
 	}
-	
+
 	@Override
-	public void writeToNBT(TagCompound tag){
+	public void writeToNBT(TagCompound tag) {
 		tag.setTag(new TagFloat("PosX", x));
 		tag.setTag(new TagFloat("PosY", y));
 		tag.setTag(new TagFloat("VeloX", velox));
@@ -323,9 +323,10 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 		tag.setTag(new TagFloat("SizeX", sizex));
 		tag.setTag(new TagFloat("SizeY", sizey));
 	}
-	
+
 	@Override
-	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
+			UnexpectedTagTypeException {
 		uuid = tag.getLong("UUID");
 
 		x = tag.getFloat("PosX");
@@ -342,7 +343,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 		return (MathHelper.intersects(x, y, sizex, sizey, other.x, other.y, other.sizex,
 				other.sizey));
 	}
-	
+
 	public void onCollideLeft() {
 
 	}
@@ -374,7 +375,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 	public void onCollideEntityDown(Entity e) {
 
 	}
-	
+
 	public Coordinate collidingAnyBlock() {
 		Coordinate c = null;
 
@@ -616,7 +617,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT{
 
 		return null;
 	}
-	
+
 	public void accelerate(float x, float y, boolean limitSpeed) {
 		if (x > 0) {
 			velox += (x + (world.drag * Gdx.graphics.getDeltaTime()))

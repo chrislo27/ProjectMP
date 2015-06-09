@@ -16,7 +16,7 @@ public abstract class Updateable implements Screen {
 
 	@Override
 	public abstract void render(float delta);
-	
+
 	/**
 	 * updates once a render call only if this screen is active
 	 */
@@ -50,11 +50,11 @@ public abstract class Updateable implements Screen {
 	public int getDebugOffset() {
 		return 0;
 	}
-	
+
 	public void debug(String message) {
 		Main.logger.debug(message);
 	}
-	
+
 	public void debug(String message, Exception exception) {
 		Main.logger.debug(message, exception);
 	}
@@ -62,7 +62,7 @@ public abstract class Updateable implements Screen {
 	public void info(String message) {
 		Main.logger.info(message);
 	}
-	
+
 	public void info(String message, Exception exception) {
 		Main.logger.info(message, exception);
 	}
@@ -74,7 +74,7 @@ public abstract class Updateable implements Screen {
 	public void error(String message, Throwable exception) {
 		Main.logger.error(message, exception);
 	}
-	
+
 	public void warn(String message) {
 		Main.logger.warn(message);
 	}
@@ -82,6 +82,5 @@ public abstract class Updateable implements Screen {
 	public void warn(String message, Throwable exception) {
 		Main.logger.warn(message, exception);
 	}
-	
 
 }

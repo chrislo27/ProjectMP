@@ -29,7 +29,7 @@ import com.esotericsoftware.kryonet.Server;
 public class ServerLogic {
 
 	public boolean isSingleplayer = false;
-	
+
 	public Main main;
 	public Server server;
 
@@ -38,7 +38,7 @@ public class ServerLogic {
 	public int maxplayers = 2;
 
 	public HashMap<String, Inventory> playerInventories = new HashMap<String, Inventory>();
-	
+
 	private PacketPositionUpdate positionUpdate = new PacketPositionUpdate();
 	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();
 	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
@@ -49,39 +49,40 @@ public class ServerLogic {
 		server = main.server;
 
 		world = new ServerWorld(main, 1024, 512, true, System.nanoTime(), this);
-		new Thread(){
-			
+		new Thread() {
+
 			@Override
-			public void run(){
+			public void run() {
 				long ms = System.currentTimeMillis();
 				Main.logger.debug("beginning generation");
 				world.setSendingUpdates(false);
 				world.generate();
 				world.setSendingUpdates(true);
-				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms) + " ms");
+				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms)
+						+ " ms");
 				world.lightingEngine.updateLighting(0, 0, world.sizex, world.sizey);
 				Main.logger.debug("Lighting update for entire world on init took "
 						+ (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms");
-				
-//				try {
-//					byte[] worldBytes = WorldSavingLoading.loadWorld(new File("saves/save0/world.dat"));
-//					world = (ServerWorld) WorldNBTIO.decode(world, worldBytes);
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-				
+
+				//				try {
+				//					byte[] worldBytes = WorldSavingLoading.loadWorld(new File("saves/save0/world.dat"));
+				//					world = (ServerWorld) WorldNBTIO.decode(world, worldBytes);
+				//				} catch (IOException e) {
+				//					e.printStackTrace();
+				//				}
+
 				try {
 					new File("saves/save0/").mkdirs();
 					File f = new File("saves/save0/world.dat");
 					f.createNewFile();
-					
+
 					byte[] worldBytes = WorldNBTIO.encode(world);
 					WorldSavingLoading.saveWorld(WorldNBTIO.encode(world), f);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}
-			
+
 		}.start();
 	}
 
@@ -89,10 +90,11 @@ public class ServerLogic {
 		world.tickUpdate();
 
 		if (server.getConnections().length > 0 && world.entities.size > 0) {
-			if(positionUpdate.entityid.length < world.entities.size || Math.abs(positionUpdate.entityid.length - world.entities.size) >= 32){
+			if (positionUpdate.entityid.length < world.entities.size
+					|| Math.abs(positionUpdate.entityid.length - world.entities.size) >= 32) {
 				positionUpdate.resetTables(world.entities.size);
 			}
-			
+
 			boolean shouldSend = false;
 			int iter = 0;
 			for (Entity e : world.entities) {
@@ -106,40 +108,41 @@ public class ServerLogic {
 
 				iter++;
 			}
-			
-			if(shouldSend) server.sendToAllUDP(positionUpdate);
+
+			if (shouldSend) server.sendToAllUDP(positionUpdate);
 		}
 	}
 
 	public void sendEntireWorld(Connection connection) {
-		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16) + Math.max(1, world.sizey / 16));
-		
-		for(int x = 0; x < world.getWidthInChunks(); x++){
-			for(int y = 0; y < world.getHeightInChunks(); y++){
+		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16)
+				+ Math.max(1, world.sizey / 16));
+
+		for (int x = 0; x < world.getWidthInChunks(); x++) {
+			for (int y = 0; y < world.getHeightInChunks(); y++) {
 				PacketSendChunk packet = new PacketSendChunk();
-				
+
 				packet.originx = x * Chunk.CHUNK_SIZE;
 				packet.originy = y * Chunk.CHUNK_SIZE;
-				
-				for(int j = 0; j < Chunk.CHUNK_SIZE; j++){
-					for(int k = 0; k < Chunk.CHUNK_SIZE; k++){
+
+				for (int j = 0; j < Chunk.CHUNK_SIZE; j++) {
+					for (int k = 0; k < Chunk.CHUNK_SIZE; k++) {
 						Chunk currentChunk = world.getChunk(x, y);
-						
+
 						packet.blocks[j][k] = Blocks.instance().getKey(currentChunk.getBlock(j, k));
 						packet.meta[j][k] = currentChunk.getMeta(j, k);
 					}
 				}
-				
+
 				queue.add(packet);
 			}
 		}
-		
+
 		connection.sendTCP(new PacketBeginChunkTransfer().setPercentage(1.0f / queue.size));
-		
+
 		connection.addListener(new ChunkQueueSender(queue, connection));
 	}
-	
-	public void sendEntities(Connection connection){
+
+	public void sendEntities(Connection connection) {
 		if (world.entities.size > 0) {
 			PacketEntities packet = new PacketEntities();
 			packet.entities = new Entity[world.entities.size];
@@ -179,18 +182,18 @@ public class ServerLogic {
 
 		return null;
 	}
-	
-	protected void removePlayer(String name){
+
+	protected void removePlayer(String name) {
 		EntityPlayer p = getPlayerByName(name);
-		
-		if(p != null){
+
+		if (p != null) {
 			removeEntity.uuid = p.uuid;
 			server.sendToAllTCP(removeEntity);
-			
+
 			world.entities.removeValue(p, false);
 		}
-		
+
 		playerInventories.remove(name);
 	}
-	
+
 }

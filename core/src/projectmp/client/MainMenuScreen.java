@@ -23,13 +23,13 @@ public strictfp class MainMenuScreen extends Updateable {
 			@Override
 			public boolean onLeftClick() {
 				int port = Utils.findFreePort();
-				
+
 				main.setScreen(Main.CONNECTING);
-				
+
 				main.attemptBindPort(port);
 				Main.CONNECTING.connectTo("localhost", port);
 				main.serverLogic.isSingleplayer = true;
-				
+
 				return true;
 			}
 		});
@@ -43,8 +43,8 @@ public strictfp class MainMenuScreen extends Updateable {
 			}
 		});
 		container.elements.add(new SettingsButton(5, 5));
-		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37, Gdx.graphics
-				.getHeight() - 37) {
+		container.elements.add(new BackButton(Settings.DEFAULT_WIDTH - 37,
+				Gdx.graphics.getHeight() - 37) {
 
 			@Override
 			public boolean onLeftClick() {
@@ -64,8 +64,8 @@ public strictfp class MainMenuScreen extends Updateable {
 
 		main.font.setColor(Color.WHITE);
 		main.font.setScale(2.5f);
-		main.drawCentered(main.font, Translator.getMsg("gamename").toUpperCase(), Settings.DEFAULT_WIDTH / 2,
-				Main.convertY(200));
+		main.drawCentered(main.font, Translator.getMsg("gamename").toUpperCase(),
+				Settings.DEFAULT_WIDTH / 2, Main.convertY(200));
 		main.font.setScale(1);
 
 		main.drawInverse(main.font, Main.version, Settings.DEFAULT_WIDTH - 5, 20);
@@ -73,19 +73,20 @@ public strictfp class MainMenuScreen extends Updateable {
 			main.drawInverse(main.font, Translator.getMsg("menu.checkingversion"),
 					Settings.DEFAULT_WIDTH - 5, 35);
 		} else {
-			if(Main.githubVersion.equals(Main.version)){
+			if (Main.githubVersion.equals(Main.version)) {
 				main.font.setColor(0, 1, 0, 1);
-				main.drawInverse(main.font, Translator.getMsg("menu.uptodate"), Settings.DEFAULT_WIDTH - 5,
-						35);
-				main.font.setColor(1, 1, 1, 1);
-			}else{
-				main.font.setColor(1, 0, 0, 1);
-				main.drawInverse(main.font, Translator.getMsg("menu.newversion") + Main.githubVersion,
+				main.drawInverse(main.font, Translator.getMsg("menu.uptodate"),
 						Settings.DEFAULT_WIDTH - 5, 35);
+				main.font.setColor(1, 1, 1, 1);
+			} else {
+				main.font.setColor(1, 0, 0, 1);
+				main.drawInverse(main.font, Translator.getMsg("menu.newversion")
+						+ Main.githubVersion, Settings.DEFAULT_WIDTH - 5, 35);
 				main.font.setColor(1, 1, 1, 1);
 			}
 		}
-		main.drawInverse(main.font, Translator.getMsg("menu.player") + Main.username, Settings.DEFAULT_WIDTH - 5, 50);
+		main.drawInverse(main.font, Translator.getMsg("menu.player") + Main.username,
+				Settings.DEFAULT_WIDTH - 5, 50);
 		container.render(main);
 		main.font.setColor(Color.WHITE);
 		main.batch.setColor(1, 1, 1, 1);
@@ -104,7 +105,7 @@ public strictfp class MainMenuScreen extends Updateable {
 
 	@Override
 	public void show() {
-		
+
 	}
 
 	@Override

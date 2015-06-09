@@ -9,11 +9,11 @@ import projectmp.common.Settings;
  * 
  *
  */
-public class ErrorScreen extends MessageScreen{
+public class ErrorScreen extends MessageScreen {
 
 	public ErrorScreen(Main m) {
 		super(m);
-		
+
 		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, 128, 160, 32,
 				"menu.backmainmenu") {
 

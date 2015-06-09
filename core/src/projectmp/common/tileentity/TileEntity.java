@@ -4,16 +4,15 @@ import com.evilco.mc.nbt.tag.TagCompound;
 
 import projectmp.common.io.CanBeSavedToNBT;
 
-
-public abstract class TileEntity implements CanBeSavedToNBT{
+public abstract class TileEntity implements CanBeSavedToNBT {
 
 	protected int x = 0;
 	protected int y = 0;
-	
-	public TileEntity(){
-		
+
+	public TileEntity() {
+
 	}
-	
+
 	@Override
 	public void writeToNBT(TagCompound tag) {
 	}
@@ -21,16 +20,16 @@ public abstract class TileEntity implements CanBeSavedToNBT{
 	@Override
 	public void readFromNBT(TagCompound tag) {
 	}
-	
-	public int getX(){
+
+	public int getX() {
 		return x;
 	}
-	
-	public int getY(){
+
+	public int getY() {
 		return y;
 	}
-	
-	public TileEntity setLocation(int x, int y){
+
+	public TileEntity setLocation(int x, int y) {
 		this.x = x;
 		this.y = y;
 		return this;

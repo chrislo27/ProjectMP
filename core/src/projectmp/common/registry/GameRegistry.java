@@ -11,13 +11,12 @@ import projectmp.common.weather.WeatherHail;
 import projectmp.common.weather.WeatherRain;
 import projectmp.common.weather.WeatherThundering;
 
-
 public class GameRegistry {
 
-	static{
+	static {
 		GameRegistry.instance();
 	}
-	
+
 	private static GameRegistry instance;
 
 	private GameRegistry() {
@@ -34,17 +33,17 @@ public class GameRegistry {
 	private RegistryMap<TileEntity> tileEntityRegistry = new RegistryMap<>();
 	private RegistryMap<Entity> entityRegistry = new RegistryMap<>();
 	private RegistryMap<Weather> weatherRegistry = new RegistryMap<>();
-	
+
 	private void loadResources() {
 		// built-in game objects to be registered here
 		// mods can have their own registry and call the static methods at runtime
-		
+
 		// entities
 		registerEntity(EntityLiving.class, "entityLiving");
 		registerEntity(EntityPlayer.class, "player");
-		
+
 		// tile entities
-		
+
 		// weather types
 		registerWeather(WeatherDustStorm.class, "dustStorm");
 		registerWeather(WeatherFog.class, "fog");
@@ -52,29 +51,29 @@ public class GameRegistry {
 		registerWeather(WeatherRain.class, "rain");
 		registerWeather(WeatherThundering.class, "thundering");
 	}
-	
-	public static void registerTileEntity(Class<? extends TileEntity> clazz, String name){
+
+	public static void registerTileEntity(Class<? extends TileEntity> clazz, String name) {
 		instance().tileEntityRegistry.register(clazz, name);
 	}
-	
-	public static void registerEntity(Class<? extends Entity> clazz, String name){
+
+	public static void registerEntity(Class<? extends Entity> clazz, String name) {
 		instance().entityRegistry.register(clazz, name);
 	}
-	
-	public static void registerWeather(Class<? extends Weather> clazz, String name){
+
+	public static void registerWeather(Class<? extends Weather> clazz, String name) {
 		instance().weatherRegistry.register(clazz, name);
 	}
-	
-	public static RegistryMap<TileEntity> getTileEntityRegistry(){
+
+	public static RegistryMap<TileEntity> getTileEntityRegistry() {
 		return instance().tileEntityRegistry;
 	}
-	
-	public static RegistryMap<Entity> getEntityRegistry(){
+
+	public static RegistryMap<Entity> getEntityRegistry() {
 		return instance().entityRegistry;
 	}
-	
-	public static RegistryMap<Weather> getWeatherRegistry(){
+
+	public static RegistryMap<Weather> getWeatherRegistry() {
 		return instance().weatherRegistry;
 	}
-	
+
 }

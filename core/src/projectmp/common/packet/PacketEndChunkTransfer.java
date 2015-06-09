@@ -6,7 +6,6 @@ import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
-
 public class PacketEndChunkTransfer implements Packet {
 
 	@Override

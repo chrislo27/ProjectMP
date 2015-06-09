@@ -83,13 +83,13 @@ public class ClientLogic implements Disposable {
 				}
 			} else {
 				main.client.close();
-				
-				if(main.serverLogic.isSingleplayer){
+
+				if (main.serverLogic.isSingleplayer) {
 					main.serverLogic.isSingleplayer = false;
 					main.server.close();
-					
+
 					main.setScreen(Main.MAINMENU);
-				}else{
+				} else {
 					Main.ERRORMSG.setMessage(Translator.instance().getMsg("menu.msg.disconnected")
 							+ Translator.instance().getMsg("menu.msg.connectionlost"));
 					main.setScreen(Main.ERRORMSG);
@@ -150,7 +150,9 @@ public class ClientLogic implements Disposable {
 							5, Main.convertY(starting + 135));
 			main.font.draw(main.batch, "weather: "
 					+ (world.getWeather() == null ? null : world.getWeather().getClass()
-							.getSimpleName() + ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5, Main.convertY(starting + 150));
+							.getSimpleName()
+							+ ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5,
+					Main.convertY(starting + 150));
 		}
 	}
 

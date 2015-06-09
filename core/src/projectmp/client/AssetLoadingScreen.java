@@ -28,7 +28,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		main.manager.update((int) (1000f / Main.MAX_FPS));
 		do {
 			if (main.manager.getProgress() >= 1f) {
-				if(!waitedAFrame){
+				if (!waitedAFrame) {
 					waitedAFrame = true;
 					break;
 				}
@@ -36,11 +36,11 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 				for (String s : main.manager.getAssetNames()) {
 					// System.out.println(s);
 				}
-				
-				for(Block b : Blocks.instance().getBlockList()){
+
+				for (Block b : Blocks.instance().getBlockList()) {
 					b.loadAnimations();
 				}
-				
+
 				Main.logger.info("Finished loading all managed assets, took "
 						+ (System.currentTimeMillis() - startms) + " ms");
 
@@ -68,26 +68,27 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 					Gdx.graphics.getHeight() / 2 - 35);
 		}
 		String percent = String.format("%.0f", (main.manager.getProgress() * 100f)) + "%";
-		main.drawTextBg(main.font, percent, Settings.DEFAULT_WIDTH / 2
-				- (main.font.getBounds(percent).width / 2), Gdx.graphics.getHeight() / 2 - 60);
+		main.drawTextBg(main.font, percent,
+				Settings.DEFAULT_WIDTH / 2 - (main.font.getBounds(percent).width / 2),
+				Gdx.graphics.getHeight() / 2 - 60);
 
-//		if(Gdx.input.isKeyJustPressed(Keys.S)){
-//			Texture tex = new Texture("images/blocks/portal/portal.png");
-//			for(int i = 0; i < 32; i++){
-//				Main.logger.debug("begin spiral " + (i + 1));
-//				main.batch.setColor(1, 1, 1, 1);
-//				Utils.drawRotated(main.batch, tex, 0 - (World.tilesizex / 2f),
-//						(0) - (World.tilesizey / 2f),
-//						tex.getWidth(), tex.getHeight(), i * 11.25f, true);
-//				main.batch.flush();
-//				Main.logger.debug("begin spiral screenshot" + (i + 1));
-//				Pixmap pixmap = ScreenshotFactory.getScreenshot(0, 0, 64, 64, true);
-//	            PixmapIO.writePNG(new FileHandle("spiral/number" + (i + 1) + ".png"), pixmap);
-//	            pixmap.dispose();
-//				Main.logger.debug("end spiral " + (i + 1));
-//			}
-//		}
-		
+		//		if(Gdx.input.isKeyJustPressed(Keys.S)){
+		//			Texture tex = new Texture("images/blocks/portal/portal.png");
+		//			for(int i = 0; i < 32; i++){
+		//				Main.logger.debug("begin spiral " + (i + 1));
+		//				main.batch.setColor(1, 1, 1, 1);
+		//				Utils.drawRotated(main.batch, tex, 0 - (World.tilesizex / 2f),
+		//						(0) - (World.tilesizey / 2f),
+		//						tex.getWidth(), tex.getHeight(), i * 11.25f, true);
+		//				main.batch.flush();
+		//				Main.logger.debug("begin spiral screenshot" + (i + 1));
+		//				Pixmap pixmap = ScreenshotFactory.getScreenshot(0, 0, 64, 64, true);
+		//	            PixmapIO.writePNG(new FileHandle("spiral/number" + (i + 1) + ".png"), pixmap);
+		//	            pixmap.dispose();
+		//				Main.logger.debug("end spiral " + (i + 1));
+		//			}
+		//		}
+
 		main.batch.end();
 	}
 

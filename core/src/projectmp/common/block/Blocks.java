@@ -29,8 +29,9 @@ public class Blocks {
 
 	private void loadResources() {
 		put(defaultBlock, new BlockEmpty());
-		put("stone", new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight()
-				.addAnimation(Block.singleBlockTexture("images/blocks/stone.png")));
+		put("stone",
+				new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight()
+						.addAnimation(Block.singleBlockTexture("images/blocks/stone.png")));
 		put("dirt",
 				new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight()
 						.addAnimation(Block.singleBlockTexture("images/blocks/dirt.png")));
@@ -38,7 +39,8 @@ public class Blocks {
 				new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
 						.addAnimation(Block.singleBlockTexture("images/blocks/grass.png"))
 						.addAnimation(Block.singleBlockTexture("images/blocks/dirt.png")));
-		put("tall_grass", new BlockTallGrass().addAnimation(Block.singleBlockTexture("images/blocks/tall_grass.png")));
+		put("tall_grass", new BlockTallGrass().addAnimation(Block
+				.singleBlockTexture("images/blocks/tall_grass.png")));
 	}
 
 	public void put(String key, Block value) {

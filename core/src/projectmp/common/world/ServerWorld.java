@@ -60,7 +60,7 @@ public class ServerWorld extends World {
 			weatherpacket.weatherType = GameRegistry.getWeatherRegistry().getKey(
 					getWeather().getClass());
 		}
-		
+
 		logic.server.sendToAllTCP(weatherpacket);
 	}
 
@@ -84,18 +84,18 @@ public class ServerWorld extends World {
 		super.setMeta(m, x, y);
 		if (getMeta(x, y) != old) sendBlockUpdatePacket(x, y);
 	}
-	
+
 	@Override
-	public void setTileEntity(TileEntity te, int x, int y){
+	public void setTileEntity(TileEntity te, int x, int y) {
 		super.setTileEntity(te, x, y);
 		sendTileEntityUpdate(x, y);
 	}
-	
-	private void sendTileEntityUpdate(int x, int y){
+
+	private void sendTileEntityUpdate(int x, int y) {
 		tepacket.te = getTileEntity(x, y);
 		tepacket.x = x;
 		tepacket.y = y;
-		
+
 		logic.server.sendToAllTCP(tepacket);
 	}
 

@@ -7,16 +7,17 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 
 public class ServerListener extends Listener {
-	
+
 	ServerLogic logic;
-	
-	public ServerListener(ServerLogic s){
+
+	public ServerListener(ServerLogic s) {
 		logic = s;
 	}
 
 	@Override
 	public void connected(Connection connection) {
-		Main.logger.info(connection.toString() + " (" + connection.getRemoteAddressTCP().toString() + ") connected");
+		Main.logger.info(connection.toString() + " (" + connection.getRemoteAddressTCP().toString()
+				+ ") connected");
 	}
 
 	@Override

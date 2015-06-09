@@ -30,9 +30,9 @@ public class MessageScreen extends Updateable {
 		main.batch.begin();
 
 		float width = (Settings.DEFAULT_WIDTH / 3f) * 2f;
-		main.font.drawWrapped(main.batch, getRenderMessage(), (Settings.DEFAULT_WIDTH - width) / 2f,
-				Main.convertY((Settings.DEFAULT_HEIGHT / 3f)), width,
-				HAlignment.CENTER);
+		main.font.drawWrapped(main.batch, getRenderMessage(),
+				(Settings.DEFAULT_WIDTH - width) / 2f,
+				Main.convertY((Settings.DEFAULT_HEIGHT / 3f)), width, HAlignment.CENTER);
 
 		container.render(main);
 		main.font.setColor(Color.WHITE);
@@ -40,12 +40,12 @@ public class MessageScreen extends Updateable {
 
 		main.batch.end();
 	}
-	
-	public String getMessage(){
+
+	public String getMessage() {
 		return message;
 	}
-	
-	public String getRenderMessage(){
+
+	public String getRenderMessage() {
 		return message;
 	}
 

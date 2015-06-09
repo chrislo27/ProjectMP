@@ -47,7 +47,8 @@ public class TextBox extends Button {
 				setFocus(false);
 			}
 		}
-		if ((Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.ESCAPE)) && clicked) {
+		if ((Gdx.input.isKeyJustPressed(Keys.ENTER) || Gdx.input.isKeyJustPressed(Keys.ESCAPE))
+				&& clicked) {
 			setFocus(false);
 		} else if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE) && clicked) {
 			if (text.length() > 0) {
@@ -101,10 +102,11 @@ public class TextBox extends Button {
 	@Override
 	public boolean onKeyTyped(char key) {
 		if (!clicked) return false;
-		if(Character.isSurrogate(key)) return false;
-		
+		if (Character.isSurrogate(key)) return false;
+
 		if ((allowLetters && Character.isLetter(key)) || (allowDigits && Character.isDigit(key))
-				|| (allowSpaces && Character.isWhitespace(key)) || allowSpecial || key == '.' || key == ',') {
+				|| (allowSpaces && Character.isWhitespace(key)) || allowSpecial || key == '.'
+				|| key == ',') {
 			text += key;
 		}
 		return true;

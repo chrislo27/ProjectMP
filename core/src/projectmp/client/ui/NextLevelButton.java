@@ -2,9 +2,8 @@ package projectmp.client.ui;
 
 import projectmp.common.Main;
 
+public abstract class NextLevelButton extends Button {
 
-public abstract class NextLevelButton extends Button{
-	
 	public NextLevelButton(int x, int y) {
 		super(x, y, 48, 48, null);
 	}
@@ -16,7 +15,7 @@ public abstract class NextLevelButton extends Button{
 
 	@Override
 	public abstract boolean onLeftClick();
-	
+
 	@Override
 	public boolean onRightClick() {
 		return false;

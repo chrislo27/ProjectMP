@@ -47,11 +47,11 @@ public class Button extends UiElement {
 		imageRender(main, "guibg");
 		renderText(main, Translator.getMsg(text), this.width);
 	}
-	
-	protected void renderText(Main main, String text, float width){
+
+	protected void renderText(Main main, String text, float width) {
 		main.font.setColor(Color.BLACK);
-		
-		if(main.font.getBounds(text).width + 6 > width){
+
+		if (main.font.getBounds(text).width + 6 > width) {
 			main.font.setScale(width / (main.font.getBounds(text).width + 6));
 		}
 		main.drawCentered(main.font, text, x + (width / 2),

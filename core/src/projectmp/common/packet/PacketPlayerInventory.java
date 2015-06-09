@@ -12,24 +12,24 @@ import com.esotericsoftware.kryonet.Connection;
  * 
  *
  */
-public class PacketPlayerInventory implements Packet{
+public class PacketPlayerInventory implements Packet {
 
 	String username;
 	Inventory inv;
-	
+
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
-		if(username == null) return;
-		if(inv == null) return;
-		
-		if(logic.playerInventories.containsKey(username)){
+		if (username == null) return;
+		if (inv == null) return;
+
+		if (logic.playerInventories.containsKey(username)) {
 			logic.playerInventories.put(username, inv);
 		}
 	}
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		if(!username.equals(Main.username)) return;
+		if (!username.equals(Main.username)) return;
 		logic.playerInventory = inv;
 	}
 

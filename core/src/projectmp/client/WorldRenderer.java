@@ -136,10 +136,17 @@ public class WorldRenderer implements Disposable {
 					EntityPlayer p = (EntityPlayer) world.entities.get(i);
 
 					// culling
-					if(!MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
-					convertWorldX(p.visualX), convertWorldY(p.visualY, world.entities.get(i).sizey * World.tilesizey), p.sizex
-							* World.tilesizex, p.sizey * World.tilesizey)) continue;
-					
+					if (!MathHelper
+							.intersects(
+									0,
+									0,
+									Settings.DEFAULT_WIDTH,
+									Settings.DEFAULT_HEIGHT,
+									convertWorldX(p.visualX),
+									convertWorldY(p.visualY, world.entities.get(i).sizey
+											* World.tilesizey), p.sizex * World.tilesizex, p.sizey
+											* World.tilesizey)) continue;
+
 					batch.setColor(1, 1, 1, 0.25f);
 					world.main.drawTextBg(world.main.font, p.username, convertWorldX(p.visualX
 							+ (p.sizex / 2))

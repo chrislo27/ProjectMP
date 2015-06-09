@@ -16,17 +16,17 @@ import com.esotericsoftware.kryonet.Connection;
 public class PacketPlayerPosUpdate implements Packet {
 
 	private static final PacketPositionUpdate playerPosPacket = new PacketPositionUpdate();
-	
+
 	public String username;
 	public float x, y;
 	public float velox, veloy;
-	
+
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
-		if(username == null) return;
-		if(logic.getConnectionIDByName(username) != connection.getID()) return;
-		if(logic.getPlayerByName(username) == null) return;
-		
+		if (username == null) return;
+		if (logic.getConnectionIDByName(username) != connection.getID()) return;
+		if (logic.getPlayerByName(username) == null) return;
+
 		EntityPlayer p = logic.getPlayerByName(username);
 		p.x = x;
 		p.y = y;
@@ -36,8 +36,8 @@ public class PacketPlayerPosUpdate implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		if(username.equals(Main.username)){
-			if(logic.getPlayer() != null){
+		if (username.equals(Main.username)) {
+			if (logic.getPlayer() != null) {
 				logic.getPlayer().velox = velox;
 				logic.getPlayer().veloy = veloy;
 				logic.getPlayer().positionUpdate(x, y);

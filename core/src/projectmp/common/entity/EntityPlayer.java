@@ -12,14 +12,14 @@ import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagString;
 
-public class EntityPlayer extends EntityLiving implements Unsaveable{
+public class EntityPlayer extends EntityLiving implements Unsaveable {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
 
-	public EntityPlayer(){
+	public EntityPlayer() {
 		super();
 	}
-	
+
 	public EntityPlayer(World w, float posx, float posy) {
 		super(w, posx, posy);
 	}
@@ -35,21 +35,23 @@ public class EntityPlayer extends EntityLiving implements Unsaveable{
 
 	@Override
 	public void render(WorldRenderer renderer) {
-		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class), renderer.convertWorldX(visualX),
+		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class),
+				renderer.convertWorldX(visualX),
 				renderer.convertWorldY(visualY, World.tilesizey * sizey));
 	}
-	
+
 	@Override
-	public void writeToNBT(TagCompound tag){
+	public void writeToNBT(TagCompound tag) {
 		super.writeToNBT(tag);
-		
+
 		tag.setTag(new TagString("Username", username));
 	}
-	
+
 	@Override
-	public void readFromNBT(TagCompound tag) throws TagNotFoundException, UnexpectedTagTypeException{
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
+			UnexpectedTagTypeException {
 		super.readFromNBT(tag);
-		
+
 		username = NBTUtils.getStringWithDef(tag, "Username", this.username);
 	}
 
