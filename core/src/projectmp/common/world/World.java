@@ -61,6 +61,14 @@ public class World {
 
 	private Weather weather = null;
 
+	/**
+	 * 
+	 * @param main Main instance
+	 * @param x width
+	 * @param y height
+	 * @param server true = server-side
+	 * @param seed seed
+	 */
 	public World(Main main, int x, int y, boolean server, long seed) {
 		this.main = main;
 		batch = main.batch;
