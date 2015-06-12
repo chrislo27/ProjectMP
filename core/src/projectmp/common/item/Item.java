@@ -3,6 +3,8 @@ package projectmp.common.item;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
+import projectmp.common.entity.Entity;
+import projectmp.common.world.World;
 
 public class Item extends TexturedObject {
 
@@ -12,6 +14,18 @@ public class Item extends TexturedObject {
 		name = unlocalizedname;
 	}
 
+	public void onUseStart(World world, Entity user){
+		
+	}
+	
+	public void onUsing(World world, Entity user){
+		
+	}
+	
+	public void onUseEnd(World world, Entity user){
+		
+	}
+	
 	@Override
 	public Item addAnimation(LoopingAnimation a) {
 		super.addAnimation(a);
