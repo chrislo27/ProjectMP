@@ -1,4 +1,4 @@
-package projectmp.common.inventory;
+package projectmp.client.gui;
 
 import projectmp.common.world.World;
 
