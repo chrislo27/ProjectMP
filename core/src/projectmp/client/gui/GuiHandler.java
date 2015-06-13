@@ -65,8 +65,10 @@ public class GuiHandler {
 					if (selectedSlot == -1) {
 						selectedSlot = i;
 					} else {
+						if(slot != slots.get(selectedSlot)){
+							// TODO swap contents
+						}
 						selectedSlot = -1;
-						// TODO swap contents
 					}
 					break;
 				}
