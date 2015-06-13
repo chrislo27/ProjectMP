@@ -55,6 +55,8 @@ public class GuiHandler {
 
 	public void handleInput(WorldRenderer renderer) {
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			boolean alreadySelected = selectedSlot != -1;
+			
 			for (int i = 0; i < slots.size; i++) {
 				Slot slot = slots.get(i);
 
@@ -67,6 +69,11 @@ public class GuiHandler {
 					}
 					break;
 				}
+			}
+			
+			// if someone clicks outside to deselect
+			if(selectedSlot != -1 && alreadySelected){
+				selectedSlot = -1;
 			}
 		}
 	}
