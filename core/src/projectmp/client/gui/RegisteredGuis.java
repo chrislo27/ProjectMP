@@ -24,7 +24,7 @@ public class RegisteredGuis {
 	private HashMap<String, GuiHandler> map = new HashMap<String, GuiHandler>();
 
 	private void loadResources() {
-
+		register("test", new TestGui());
 	}
 	
 	public void register(String name, GuiHandler gui){

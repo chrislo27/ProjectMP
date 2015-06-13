@@ -1,5 +1,6 @@
 package projectmp.client;
 
+import projectmp.client.gui.RegisteredGuis;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
@@ -175,6 +176,8 @@ public class WorldRenderer implements Disposable {
 
 		// TODO render hotbar
 
+		RegisteredGuis.instance().get("test").render(this);
+		
 		batch.end();
 	}
 

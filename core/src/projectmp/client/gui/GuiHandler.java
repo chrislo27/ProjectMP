@@ -1,12 +1,14 @@
 package projectmp.client.gui;
 
 import projectmp.client.WorldRenderer;
+import projectmp.client.gui.Slot.SlotState;
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.inventory.Slot;
 import projectmp.common.util.sidedictation.Side;
 import projectmp.common.util.sidedictation.SideOnly;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
@@ -14,19 +16,65 @@ import com.badlogic.gdx.utils.Array;
 public class GuiHandler {
 
 	Array<Slot> slots = new Array<>();
-	
+
+	int selectedSlot = -1;
+
 	public GuiHandler() {
 
 	}
-	
-	public void render(WorldRenderer renderer){
-		
+
+	public void render(WorldRenderer renderer) {
+		handleInput(renderer);
+
+		SpriteBatch batch = renderer.batch;
+
+		renderDarkOverlay(batch);
+
+		for (int i = 0; i < slots.size; i++) {
+			Slot slot = slots.get(i);
+
+			slot.render(renderer, calculateSlotState(slot));
+		}
 	}
-	
-	public void renderDarkOverlay(SpriteBatch batch){
+
+	protected int calculateSlotState(Slot slot) {
+		int state = SlotState.NONE;
+
+		if (slot.isMouseOver()) {
+			state |= SlotState.MOUSE_OVER;
+		}
+
+		if (selectedSlot >= 0) {
+			if (slots.get(selectedSlot) == slot) {
+				state |= SlotState.SELECTED;
+			}
+		}
+
+		return state;
+	}
+
+	public void handleInput(WorldRenderer renderer) {
+		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+			for (int i = 0; i < slots.size; i++) {
+				Slot slot = slots.get(i);
+
+				if (slot.isMouseOver()) {
+					if (selectedSlot == -1) {
+						selectedSlot = i;
+					} else {
+						selectedSlot = -1;
+						// TODO swap contents
+					}
+					break;
+				}
+			}
+		}
+	}
+
+	public void renderDarkOverlay(SpriteBatch batch) {
 		float oldColor = batch.getColor().toFloatBits();
-		
-		batch.setColor(0, 0, 0, 0f);
+
+		batch.setColor(0, 0, 0, 0.25f);
 		Main.fillRect(batch, 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(oldColor);
 	}
