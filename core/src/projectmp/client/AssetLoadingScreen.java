@@ -52,14 +52,14 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 		main.batch.begin();
 		main.batch.setColor(1, 1, 1, 1);
-		main.fillRect(Settings.DEFAULT_WIDTH / 2 - 128, Gdx.graphics.getHeight() / 2 - 10,
+		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 128, Gdx.graphics.getHeight() / 2 - 10,
 				256 * main.manager.getProgress(), 20);
 
-		main.fillRect(Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 260, 1);
-		main.fillRect(Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 + 11, 260, 1);
+		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 260, 1);
+		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 + 11, 260, 1);
 
-		main.fillRect(Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
-		main.fillRect(Settings.DEFAULT_WIDTH / 2 + 132, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
+		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
+		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 + 132, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
 
 		if (main.manager.getAssetNames().size > 0) {
 			main.drawTextBg(main.font, output.getLastMsg(),

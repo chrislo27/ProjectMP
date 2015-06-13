@@ -92,18 +92,18 @@ public class Eat implements Transition {
 				if (useOutline) {
 					if (traversed[x][y]) {
 						main.batch.setColor(dark);
-						main.fillRect(x * (tilewidthpx),
+						Main.fillRect(main.batch, x * (tilewidthpx),
 								Main.convertY(y * (tileheightpx) + (tileheightpx)), (tilewidthpx),
 								(tileheightpx));
 					} else if (!traversed[x][y] && filledAdjacent(x, y)) {
 						main.batch.setColor(outline);
-						main.fillRect(x * (tilewidthpx),
+						Main.fillRect(main.batch, x * (tilewidthpx),
 								Main.convertY(y * (tileheightpx) + (tileheightpx)), (tilewidthpx),
 								(tileheightpx));
 					}
 				} else {
 					if (traversed[x][y]) {
-						main.fillRect(x * (tilewidthpx),
+						Main.fillRect(main.batch, x * (tilewidthpx),
 								Main.convertY(y * (tileheightpx) + (tileheightpx)), (tilewidthpx),
 								(tileheightpx));
 					}
