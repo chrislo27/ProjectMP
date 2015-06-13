@@ -7,6 +7,7 @@ public class TestGui extends GuiHandler{
 		super();
 		
 		slots.add(new Slot(0, 64, 64));
+		slots.add(new Slot(0, 128, 64));
 	}
 	
 }
