@@ -4,6 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.client.gui.Slot.SlotState;
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
 import projectmp.common.util.sidedictation.SideOnly;
 
@@ -54,7 +55,7 @@ public class GuiHandler {
 	}
 
 	public void handleInput(WorldRenderer renderer) {
-		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
+		if (Utils.isButtonJustPressed(Buttons.LEFT)) {
 			boolean alreadySelected = selectedSlot != -1;
 			
 			for (int i = 0; i < slots.size; i++) {

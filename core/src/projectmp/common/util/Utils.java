@@ -2,11 +2,13 @@ package projectmp.common.util;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
@@ -14,6 +16,8 @@ public class Utils {
 
 	private Utils() {
 	}
+	
+	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
 
 	public static <T> boolean addToArray(T[] array, T toadd) {
 		for (int i = 0; i < array.length; i++) {
@@ -174,5 +178,23 @@ public class Utils {
 			r += s;
 		}
 		return r;
+	}
+	
+	public static boolean isButtonJustPressed(int button){
+		if(!pressedButtons.containsKey(button)){
+			pressedButtons.put(button, false);
+		}
+		
+		if(Gdx.input.isButtonPressed(button)){
+			if(!pressedButtons.get(button)){
+				pressedButtons.put(button, true);
+				
+				return true;
+			}
+		}else{
+			pressedButtons.put(button, false);
+		}
+		
+		return false;
 	}
 }
