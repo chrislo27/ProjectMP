@@ -23,7 +23,7 @@ public class BlockTallGrass extends Block {
 		TextureRegion region = getAnimation(getCurrentRenderingIndex(renderer.world, 0, 0))
 				.getCurrentFrame();
 		int idx = 0;
-		float wave = (MathHelper.clampNumberFromTime(System.currentTimeMillis(), 3f)) * 32;
+		float wave = (MathHelper.clampNumberFromTime(System.currentTimeMillis(), 4f + (4f * (y / renderer.world.sizey)))) * 32;
 		float offsetx = wave + renderer.world.getMeta(x, y);
 
 		renderer.batch.setColor(0f, 175f / 255f, 17f / 255f, 1);
