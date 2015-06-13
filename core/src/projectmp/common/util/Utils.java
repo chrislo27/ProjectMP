@@ -181,14 +181,10 @@ public class Utils {
 	}
 	
 	public static boolean isButtonJustPressed(int button){
-		if(!pressedButtons.containsKey(button)){
-			pressedButtons.put(button, false);
-		}
-		
 		if(Gdx.input.isButtonPressed(button)){
-			if(!pressedButtons.get(button)){
+			if (pressedButtons.get(button) == null || !pressedButtons.get(button)) {
 				pressedButtons.put(button, true);
-				
+
 				return true;
 			}
 		}else{
