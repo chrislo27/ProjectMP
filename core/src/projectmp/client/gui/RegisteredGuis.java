@@ -26,5 +26,13 @@ public class RegisteredGuis {
 	private void loadResources() {
 
 	}
+	
+	public void register(String name, GuiHandler gui){
+		map.put(name, gui);
+	}
+	
+	public GuiHandler get(String name){
+		return map.get(name);
+	}
 
 }
