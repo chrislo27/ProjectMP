@@ -14,7 +14,7 @@ public enum TimeOfDay {
 		@Override
 		public void renderBackground(Batch batch, World world) {
 			batch.setColor(0.4f, 0.4f, 0.6f, batch.getColor().a);
-			world.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+			world.main.fillRect(batch, 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 			batch.setColor(1, 1, 1, 1);
 		}
 	},
@@ -24,7 +24,7 @@ public enum TimeOfDay {
 		@Override
 		public void renderBackground(Batch batch, World world) {
 			batch.setColor(1, 137f / 255f, 41f / 255f, batch.getColor().a);
-			world.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+			world.main.fillRect(batch, 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 			batch.setColor(1, 1, 1, 1);
 		}
 	},

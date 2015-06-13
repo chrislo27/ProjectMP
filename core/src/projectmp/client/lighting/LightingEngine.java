@@ -141,7 +141,7 @@ public class LightingEngine {
 
 				if (!Settings.smoothLighting) {
 					batch.setColor(setTempColor(x, y));
-					main.fillRect(renderer.convertWorldX(x),
+					main.fillRect(batch, renderer.convertWorldX(x),
 							renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
 							World.tilesizey);
 					continue;

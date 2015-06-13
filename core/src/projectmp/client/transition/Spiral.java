@@ -47,7 +47,7 @@ public class Spiral implements Transition {
 		main.batch.setColor(color);
 		for (int x = 0; x < tilewidth; x++) {
 			for (int y = 0; y < tileheight; y++) {
-				if (traversed[x][y]) main.fillRect(x * (tilewidth),
+				if (traversed[x][y]) main.fillRect(main.batch, x * (tilewidth),
 						Main.convertY(y * (tileheight) + (tileheight)), (tilewidth), (tileheight));
 			}
 		}

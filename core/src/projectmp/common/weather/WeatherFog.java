@@ -14,7 +14,7 @@ public class WeatherFog extends Weather {
 	public void renderOverBackground(WorldRenderer renderer) {
 		renderer.batch.setColor(232f / 255f, 232f / 255f, 232f / 255f,
 				0.5f * getFadeCoefficient(5f));
-		renderer.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		renderer.main.fillRect(renderer.batch, 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		renderer.batch.setColor(1, 1, 1, 1);
 	}
 
@@ -26,7 +26,7 @@ public class WeatherFog extends Weather {
 	public void renderOnWorld(WorldRenderer renderer) {
 		renderer.batch.setColor(232f / 255f, 232f / 255f, 232f / 255f,
 				0.75f * getFadeCoefficient(5f));
-		renderer.main.fillRect(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		renderer.main.fillRect(renderer.batch, 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		renderer.batch.setColor(1, 1, 1, 1);
 	}
 

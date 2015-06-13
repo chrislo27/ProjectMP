@@ -65,20 +65,18 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Colors;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Blending;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -738,7 +736,7 @@ public class Main extends Game implements Consumer {
 		return random;
 	}
 
-	public void fillRect(float x, float y, float width, float height) {
+	public static void fillRect(Batch batch, float x, float y, float width, float height) {
 		batch.draw(filltex, x, y, width, height);
 	}
 
@@ -900,7 +898,7 @@ public class Main extends Game implements Consumer {
 
 	public void drawTextBg(BitmapFont font, String text, float x, float y) {
 		batch.setColor(0, 0, 0, batch.getColor().a * 0.6f);
-		fillRect(x, y, font.getBounds(text).width + 2, 17);
+		fillRect(batch, x, y, font.getBounds(text).width + 2, 17);
 		font.draw(batch, text, x + 1, y + 15);
 		batch.setColor(1, 1, 1, 1);
 	}
