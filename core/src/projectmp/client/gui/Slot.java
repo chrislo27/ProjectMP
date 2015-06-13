@@ -27,8 +27,17 @@ public class Slot {
 	int width = World.tilesizex;
 	int height = World.tilesizey;
 	int slotNum = -1;
+	int invIndex = 0;
 
-	public Slot(int slotNumber, int x, int y) {
+	/**
+	 * 
+	 * @param inventory the inventory it corresponds to, 0 is player inventory usually
+	 * @param slotNumber the slot in the inventory (the array index)
+	 * @param x
+	 * @param y y origin is bottom left
+	 */
+	public Slot(int inventory, int slotNumber, int x, int y) {
+		invIndex = inventory;
 		slotNum = slotNumber;
 		posx = x;
 		posy = y;
