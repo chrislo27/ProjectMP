@@ -130,6 +130,7 @@ public class ServerLogic {
 
 						packet.blocks[j][k] = Blocks.instance().getKey(currentChunk.getBlock(j, k));
 						packet.meta[j][k] = currentChunk.getMeta(j, k);
+						packet.tileEntities[j][k] = currentChunk.getTileEntity(j, k);
 					}
 				}
 
