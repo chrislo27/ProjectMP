@@ -30,7 +30,7 @@ public class Slot {
 
 	/**
 	 * 
-	 * @param inventory the inventory it corresponds to, 0 is player inventory usually
+	 * @param inventory the inventory it corresponds to, 0 is player inventory usually, -1 is mouse
 	 * @param slotNumber the slot in the inventory (the array index)
 	 * @param x
 	 * @param y y origin is bottom left

@@ -20,5 +20,9 @@ public class ItemStack {
 	public Item getItem() {
 		return Items.instance().getItem(item);
 	}
+	
+	public int getAmount(){
+		return quantity;
+	}
 
 }
