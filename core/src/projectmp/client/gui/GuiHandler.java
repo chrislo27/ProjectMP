@@ -18,8 +18,6 @@ public class GuiHandler {
 
 	Array<Slot> slots = new Array<>();
 
-	int selectedSlot = -1;
-
 	public GuiHandler() {
 
 	}
@@ -45,39 +43,12 @@ public class GuiHandler {
 			state |= SlotState.MOUSE_OVER;
 		}
 
-		if (selectedSlot >= 0) {
-			if (slots.get(selectedSlot) == slot) {
-				state |= SlotState.SELECTED;
-			}
-		}
-
 		return state;
 	}
 
 	public void handleInput(WorldRenderer renderer) {
 		if (Utils.isButtonJustPressed(Buttons.LEFT)) {
-			boolean alreadySelected = selectedSlot != -1;
 			
-			for (int i = 0; i < slots.size; i++) {
-				Slot slot = slots.get(i);
-
-				if (slot.isMouseOver()) {
-					if (selectedSlot == -1) {
-						selectedSlot = i;
-					} else {
-						if(slot != slots.get(selectedSlot)){
-							// TODO swap contents
-						}
-						selectedSlot = -1;
-					}
-					break;
-				}
-			}
-			
-			// if someone clicks outside to deselect
-			if(selectedSlot != -1 && alreadySelected){
-				selectedSlot = -1;
-			}
 		}
 	}
 

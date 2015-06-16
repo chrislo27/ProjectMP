@@ -16,7 +16,6 @@ public class Slot {
 
 		public static final int NONE = 0b0;
 		public static final int MOUSE_OVER = 0b10;
-		public static final int SELECTED = 0b100;
 
 		private SlotState() {
 		}
@@ -47,12 +46,6 @@ public class Slot {
 		SpriteBatch batch = renderer.batch;
 
 		batch.setColor(1, 1, 1, 1);
-		// make outline blue if selected
-		if ((slotState & SlotState.SELECTED) == SlotState.SELECTED) {
-			float coefficient = MathHelper.clampNumberFromTime(System.currentTimeMillis(), 1f) + 0.5f;
-			batch.setColor(coefficient * (50f / 255f), coefficient * (133f / 255f), coefficient
-					* (217f / 255f), 1f);
-		}
 		batch.draw(renderer.main.manager.get(AssetMap.get("invslot"), Texture.class), posx,
 				posy, width, height);
 		batch.setColor(1, 1, 1, 1);
