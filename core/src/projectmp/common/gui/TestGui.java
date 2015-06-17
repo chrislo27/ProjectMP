@@ -1,4 +1,4 @@
-package projectmp.client.gui;
+package projectmp.common.gui;
 
 
 public class TestGui extends GuiHandler{

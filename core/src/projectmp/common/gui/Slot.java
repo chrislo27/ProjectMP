@@ -1,4 +1,4 @@
-package projectmp.client.gui;
+package projectmp.common.gui;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;

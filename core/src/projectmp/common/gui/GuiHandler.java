@@ -1,9 +1,9 @@
-package projectmp.client.gui;
+package projectmp.common.gui;
 
 import projectmp.client.WorldRenderer;
-import projectmp.client.gui.Slot.SlotState;
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.gui.Slot.SlotState;
 import projectmp.common.inventory.ItemStack;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
