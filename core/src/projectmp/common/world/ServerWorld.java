@@ -39,6 +39,17 @@ public class ServerWorld extends World {
 		if (time.totalTicks % (Main.TICKS * 5) == 0) {
 			sendTimeUpdate();
 		}
+		
+		for(int x = 0; x < sizex; x++){
+			for(int y = 0; y < sizey; y++){
+				if(getTileEntity(x, y) != null){
+					if(getTileEntity(x, y).isDirty()){
+						sendTileEntityUpdate(x, y);
+						getTileEntity(x, y).setDirty(false);
+					}
+				}
+			}
+		}
 	}
 
 	public void sendTimeUpdate() {

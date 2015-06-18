@@ -6,6 +6,8 @@ import projectmp.common.io.CanBeSavedToNBT;
 
 public abstract class TileEntity implements CanBeSavedToNBT {
 
+	private transient boolean isMarkedDirty = false;
+	
 	protected int x = 0;
 	protected int y = 0;
 
@@ -33,6 +35,18 @@ public abstract class TileEntity implements CanBeSavedToNBT {
 		this.x = x;
 		this.y = y;
 		return this;
+	}
+	
+	public void markDirty(){
+		isMarkedDirty = true;
+	}
+	
+	public boolean isDirty(){
+		return isMarkedDirty;
+	}
+	
+	public void setDirty(boolean b){
+		isMarkedDirty = b;
 	}
 
 }
