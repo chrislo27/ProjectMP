@@ -28,7 +28,7 @@ public class Container {
 	 */
 	public Container(InventoryPlayer player, TileEntity te){
 		if(!(te instanceof IInventory)){
-			throw new IllegalArgumentException("Tile entity passed in container constructor must implement IInventory");
+			throw new IllegalArgumentException("Tile entity passed in Container constructor must implement IInventory");
 		}
 		tileEntity = te;
 	}
