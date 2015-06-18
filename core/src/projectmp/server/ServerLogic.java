@@ -1,7 +1,6 @@
 package projectmp.server;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -10,7 +9,7 @@ import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
@@ -37,7 +36,7 @@ public class ServerLogic {
 
 	public int maxplayers = 2;
 
-	public HashMap<String, Inventory> playerInventories = new HashMap<String, Inventory>();
+	public HashMap<String, InventoryPlayer> playerInventories = new HashMap<>();
 
 	private PacketPositionUpdate positionUpdate = new PacketPositionUpdate();
 	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();

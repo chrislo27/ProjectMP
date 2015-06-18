@@ -1,4 +1,4 @@
-package projectmp.common.gui;
+package projectmp.common.inventory.gui;
 
 
 public class TestGui extends GuiHandler{

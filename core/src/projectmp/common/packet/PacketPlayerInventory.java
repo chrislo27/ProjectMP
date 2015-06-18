@@ -2,7 +2,7 @@ package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
-import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -15,7 +15,7 @@ import com.esotericsoftware.kryonet.Connection;
 public class PacketPlayerInventory implements Packet {
 
 	String username;
-	Inventory inv;
+	InventoryPlayer inv;
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {

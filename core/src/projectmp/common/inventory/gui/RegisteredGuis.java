@@ -1,4 +1,4 @@
-package projectmp.common.gui;
+package projectmp.common.inventory.gui;
 
 import java.util.HashMap;
 

@@ -4,6 +4,7 @@ import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.world.World;
 import projectmp.server.ServerLogic;
 
@@ -78,7 +79,7 @@ public class PacketHandshake implements Packet {
 
 			logic.playerInventories.remove(username);
 			logic.playerInventories.put(username,
-					new Inventory().setMaxCapacity(Inventory.PLAYER_SLOTS));
+					new InventoryPlayer().setMaxCapacity(Inventory.PLAYER_SLOTS));
 			PacketPlayerInventory inv = new PacketPlayerInventory();
 			inv.username = username;
 			inv.inv = logic.playerInventories.get(username);

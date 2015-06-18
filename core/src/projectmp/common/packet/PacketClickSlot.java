@@ -9,6 +9,9 @@ import com.esotericsoftware.kryonet.Connection;
 public class PacketClickSlot implements Packet{
 
 	public String guiId = null;
+	/**
+	 * The slot in the GuiHandler
+	 */
 	public int slotId = -999; // -1 is reserved for mouse cursor
 	
 	@Override

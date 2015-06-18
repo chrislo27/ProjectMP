@@ -1,14 +1,15 @@
-package projectmp.common.gui;
+package projectmp.common.inventory.gui;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.gui.Slot.SlotState;
 import projectmp.common.inventory.ItemStack;
+import projectmp.common.inventory.gui.Slot.SlotState;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
 import projectmp.common.util.sidedictation.SideOnly;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
@@ -16,8 +17,6 @@ import com.badlogic.gdx.utils.Array;
 public class GuiHandler {
 
 	Array<Slot> slots = new Array<>();
-	
-	protected ItemStack mouseItem = new ItemStack(null, 0);
 
 	public GuiHandler() {
 
@@ -35,12 +34,6 @@ public class GuiHandler {
 
 			slot.render(renderer, calculateSlotState(slot));
 		}
-		
-		if(mouseItem != null){
-			if(mouseItem.getItem() != null && mouseItem.getAmount() > 0){
-				
-			}
-		}
 	}
 
 	protected int calculateSlotState(Slot slot) {
@@ -48,6 +41,9 @@ public class GuiHandler {
 
 		if (slot.isMouseOver()) {
 			state |= SlotState.MOUSE_OVER;
+			if(Gdx.input.isButtonPressed(Buttons.LEFT)){
+				state |= SlotState.LEFT_MOUSE_BUTTON_CLICKED;
+			}
 		}
 
 		return state;

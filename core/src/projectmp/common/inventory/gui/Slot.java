@@ -1,4 +1,4 @@
-package projectmp.common.gui;
+package projectmp.common.inventory.gui;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
@@ -16,6 +16,7 @@ public class Slot {
 
 		public static final int NONE = 0b0;
 		public static final int MOUSE_OVER = 0b10;
+		public static final int LEFT_MOUSE_BUTTON_CLICKED = 0b100;
 
 		private SlotState() {
 		}
