@@ -13,7 +13,6 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 
-@SideOnly(Side.CLIENT)
 public class GuiHandler {
 
 	Array<Slot> slots = new Array<>();
