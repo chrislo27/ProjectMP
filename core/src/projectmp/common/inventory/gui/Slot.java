@@ -3,8 +3,9 @@ package projectmp.common.inventory.gui;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.inventory.Inventory;
+import projectmp.common.tileentity.IInventory;
 import projectmp.common.util.AssetMap;
-import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -27,17 +28,21 @@ public class Slot {
 	int width = World.tilesizex;
 	int height = World.tilesizey;
 	int slotNum = -1;
-	int invIndex = 0;
+	Inventory inventory;
 
+	public Slot(IInventory inv, int slotNumber, int x, int y){
+		this(inv.getInventoryObject(), slotNumber, x, y);
+	}
+	
 	/**
 	 * 
-	 * @param inventory the inventory it corresponds to, 0 is player inventory usually, -1 is mouse
+	 * @param inventory the inventory it corresponds to
 	 * @param slotNumber the slot in the inventory (the array index)
 	 * @param x
 	 * @param y y origin is bottom left
 	 */
-	public Slot(int inventory, int slotNumber, int x, int y) {
-		invIndex = inventory;
+	public Slot(Inventory inventory, int slotNumber, int x, int y) {
+		this.inventory = inventory;
 		slotNum = slotNumber;
 		posx = x;
 		posy = y;
