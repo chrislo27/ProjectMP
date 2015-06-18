@@ -12,25 +12,15 @@ import com.badlogic.gdx.utils.Array;
  * <br>
  * This is re-instantiated whenever a player opens an inventory on both client (in the Gui class) and server.
  * <br>
- * All sub-classes should add slots in their constructor.
+ * All sub-classes should add slots in their constructor and bind the tile entity (if needed).
  *
  */
 public class Container {
 
-	protected TileEntity tileEntity;
-	
 	public Array<Slot> slots = new Array<>();
 	
-	/**
-	 * THE TILE ENTITY MUST IMPLEMENT IINVENTORY
-	 * @param player The player's inventory
-	 * @param te TileEntity that implements IInventory
-	 */
-	public Container(InventoryPlayer player, TileEntity te){
-		if(!(te instanceof IInventory)){
-			throw new IllegalArgumentException("Tile entity passed in Container constructor must implement IInventory");
-		}
-		tileEntity = te;
+	public Container(){
+		
 	}
 	
 }
