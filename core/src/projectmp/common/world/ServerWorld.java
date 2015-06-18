@@ -9,7 +9,7 @@ import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketUpdateHealth;
 import projectmp.common.packet.PacketWeather;
-import projectmp.common.registry.GameRegistry;
+import projectmp.common.registry.WeatherRegistry;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.weather.Weather;
 import projectmp.server.ServerLogic;
@@ -57,7 +57,7 @@ public class ServerWorld extends World {
 		if (getWeather() == null) {
 			weatherpacket.weatherType = null;
 		} else {
-			weatherpacket.weatherType = GameRegistry.getWeatherRegistry().getKey(
+			weatherpacket.weatherType = WeatherRegistry.instance().getWeatherRegistry().getKey(
 					getWeather().getClass());
 		}
 

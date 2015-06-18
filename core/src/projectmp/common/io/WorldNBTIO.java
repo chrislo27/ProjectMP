@@ -6,10 +6,9 @@ import java.io.IOException;
 import java.util.List;
 
 import projectmp.common.Main;
-import projectmp.common.block.Blocks;
 import projectmp.common.chunk.BlockIDMap;
 import projectmp.common.entity.Entity;
-import projectmp.common.registry.GameRegistry;
+import projectmp.common.registry.EntityRegistry;
 import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -69,7 +68,7 @@ public final class WorldNBTIO {
 
 			TagCompound entTag = new TagCompound("Entity");
 
-			entTag.setTag(new TagString("EntityType", GameRegistry.getEntityRegistry().getKey(
+			entTag.setTag(new TagString("EntityType", EntityRegistry.instance().getEntityRegistry().getKey(
 					e.getClass())));
 			e.writeToNBT(entTag);
 
@@ -140,7 +139,7 @@ public final class WorldNBTIO {
 			}
 
 			try {
-				e = GameRegistry.getEntityRegistry().getValue(entityType).newInstance();
+				e = EntityRegistry.instance().getEntityRegistry().getValue(entityType).newInstance();
 			} catch (InstantiationException ex) {
 				sendToErrorScreen(world.main, "Failed to re-create entity of type " + entityType
 						+ " because instantiating failed while reading world file", ex);

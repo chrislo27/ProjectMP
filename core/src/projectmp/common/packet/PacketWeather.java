@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
-import projectmp.common.registry.GameRegistry;
+import projectmp.common.registry.WeatherRegistry;
 import projectmp.common.world.World;
 import projectmp.server.ServerLogic;
 
@@ -26,7 +26,7 @@ public class PacketWeather implements Packet {
 			logic.world.setWeather(null);
 		} else {
 			try {
-				logic.world.setWeather(GameRegistry.getWeatherRegistry().getValue(weatherType)
+				logic.world.setWeather(WeatherRegistry.instance().getWeatherRegistry().getValue(weatherType)
 						.getConstructor(int.class, World.class)
 						.newInstance(weatherDuration, logic.world));
 				logic.world.getWeather().setTimeRemaining(weatherTimeRemaining);
