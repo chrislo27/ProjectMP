@@ -8,7 +8,7 @@ import projectmp.common.tileentity.TileEntity;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * A container connects the player's inventory and a tile entity to a GUI. It has the slot instances.
+ * A container connects the player's inventory and a tile entity's inventory to a GUI. It has the slot instances.
  * <br>
  * This is re-instantiated whenever a player opens an inventory.
  * <br>
