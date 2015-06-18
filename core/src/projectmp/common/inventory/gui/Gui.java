@@ -3,7 +3,7 @@ package projectmp.common.inventory.gui;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.inventory.ItemStack;
+import projectmp.common.inventory.container.Container;
 import projectmp.common.inventory.gui.Slot.SlotState;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
@@ -12,14 +12,21 @@ import projectmp.common.util.sidedictation.SideOnly;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.Array;
 
-public class GuiHandler {
+/**
+ * A Gui is the graphical interface for a client. It handles rendering and input only.
+ * <br>
+ * It essentially connects the Container object to the player. As a result, it is client-only.
+ * 
+ *
+ */
+@SideOnly(Side.CLIENT)
+public class Gui {
 
-	Array<Slot> slots = new Array<>();
-
-	public GuiHandler() {
-
+	protected Container container;
+	
+	public Gui(Container container) {
+		this.container = container;
 	}
 
 	public void render(WorldRenderer renderer) {
@@ -29,10 +36,11 @@ public class GuiHandler {
 
 		renderDarkOverlay(batch);
 
-		for (int i = 0; i < slots.size; i++) {
-			Slot slot = slots.get(i);
-
-			slot.render(renderer, calculateSlotState(slot));
+		for(int i = 0; i < container.slots.size; i++){
+			Slot slot = container.slots.get(i);
+			int slotState = calculateSlotState(slot);
+			
+			slot.render(renderer, slotState);
 		}
 	}
 

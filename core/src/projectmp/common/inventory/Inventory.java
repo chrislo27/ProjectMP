@@ -5,6 +5,11 @@ import projectmp.common.util.MathHelper;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
+/**
+ * contains ItemStacks, do not confuse with IInventory
+ * 
+ *
+ */
 public class Inventory {
 
 	public static final int PLAYER_SLOTS = 10;

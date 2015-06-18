@@ -1,6 +1,11 @@
 package projectmp.common.tileentity;
 
-public interface TileEntityProvider {
+/**
+ * Blocks implement this
+ * 
+ *
+ */
+public interface ITileEntityProvider {
 
 	public TileEntity createNewTileEntity(int x, int y);
 
