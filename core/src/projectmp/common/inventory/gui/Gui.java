@@ -34,7 +34,7 @@ public class Gui {
 
 		SpriteBatch batch = renderer.batch;
 
-		renderDarkOverlay(batch);
+		renderDarkBackground(batch);
 
 		for(int i = 0; i < container.slots.size; i++){
 			Slot slot = container.slots.get(i);
@@ -63,7 +63,7 @@ public class Gui {
 		}
 	}
 
-	public void renderDarkOverlay(SpriteBatch batch) {
+	public void renderDarkBackground(SpriteBatch batch) {
 		float oldColor = batch.getColor().toFloatBits();
 
 		batch.setColor(0, 0, 0, 0.25f);
