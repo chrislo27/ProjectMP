@@ -3,6 +3,7 @@ package projectmp.common.inventory.gui;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.inventory.ItemStack;
 import projectmp.common.inventory.container.Container;
 import projectmp.common.inventory.gui.Slot.SlotState;
 import projectmp.common.util.Utils;
@@ -24,6 +25,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Gui {
 
 	protected Container container;
+	
+	protected ItemStack mouseSlot = new ItemStack(null, 0);
 	
 	public Gui(Container container) {
 		this.container = container;
