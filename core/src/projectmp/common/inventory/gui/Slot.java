@@ -29,10 +29,6 @@ public class Slot {
 	int height = World.tilesizey;
 	int slotNum = -1;
 	Inventory inventory;
-
-	public Slot(IInventory inv, int slotNumber, int x, int y){
-		this(inv.getInventoryObject(), slotNumber, x, y);
-	}
 	
 	/**
 	 * 

@@ -4,8 +4,8 @@ import projectmp.client.ClientLogic;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.inventory.ItemStack;
-import projectmp.common.inventory.container.Container;
+import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Slot.SlotState;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
@@ -14,21 +14,23 @@ import projectmp.common.util.sidedictation.SideOnly;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 
 /**
- * A Gui is the graphical interface for a client. It handles rendering and input only.
- * <br>
- * It essentially connects the Container object to the client's screen. As a result, it is client-only.
+ * A Gui is the graphical interface for a client. 
  * 
  *
  */
 @SideOnly(Side.CLIENT)
 public class Gui {
 
-	protected Container container;
+	Array<Slot> slots = new Array<Slot>();
+	protected InventoryPlayer playerInv;
+	protected Inventory otherInv;
 	
-	public Gui(Container container) {
-		this.container = container;
+	public Gui(InventoryPlayer player, Inventory other) {
+		playerInv = player;
+		otherInv = other;
 	}
 
 	public void render(WorldRenderer renderer, ClientLogic logic) {
@@ -38,8 +40,8 @@ public class Gui {
 
 		renderDarkBackground(batch);
 
-		for(int i = 0; i < container.slots.size; i++){
-			Slot slot = container.slots.get(i);
+		for(int i = 0; i < slots.size; i++){
+			Slot slot = slots.get(i);
 			int slotState = calculateSlotState(slot);
 			
 			slot.render(renderer, slotState);
