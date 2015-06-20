@@ -8,7 +8,7 @@ import projectmp.common.weather.WeatherRain;
 import projectmp.common.weather.WeatherThundering;
 
 
-public class WeatherRegistry {
+public class WeatherRegistry extends RegistryBase<Weather>{
 	
 	private static WeatherRegistry instance;
 
@@ -22,23 +22,13 @@ public class WeatherRegistry {
 		}
 		return instance;
 	}
-	
-	private RegistryMap<Weather> weatherRegistry = new RegistryMap<>();
 
 	private void loadResources() {
-		registerWeather(WeatherDustStorm.class, "dustStorm");
-		registerWeather(WeatherFog.class, "fog");
-		registerWeather(WeatherHail.class, "hail");
-		registerWeather(WeatherRain.class, "rain");
-		registerWeather(WeatherThundering.class, "thundering");
-	}
-	
-	public void registerWeather(Class<? extends Weather> clazz, String name) {
-		weatherRegistry.register(clazz, name);
-	}
-	
-	public RegistryMap<Weather> getWeatherRegistry() {
-		return weatherRegistry;
+		register(WeatherDustStorm.class, "dustStorm");
+		register(WeatherFog.class, "fog");
+		register(WeatherHail.class, "hail");
+		register(WeatherRain.class, "rain");
+		register(WeatherThundering.class, "thundering");
 	}
 	
 }

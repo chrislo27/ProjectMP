@@ -26,7 +26,7 @@ public class PacketWeather implements Packet {
 			logic.world.setWeather(null);
 		} else {
 			try {
-				logic.world.setWeather(WeatherRegistry.instance().getWeatherRegistry().getValue(weatherType)
+				logic.world.setWeather(WeatherRegistry.instance().getRegistry().getValue(weatherType)
 						.getConstructor(int.class, World.class)
 						.newInstance(weatherDuration, logic.world));
 				logic.world.getWeather().setTimeRemaining(weatherTimeRemaining);

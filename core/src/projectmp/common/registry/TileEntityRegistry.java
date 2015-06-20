@@ -3,7 +3,7 @@ package projectmp.common.registry;
 import projectmp.common.tileentity.TileEntity;
 
 
-public class TileEntityRegistry {
+public class TileEntityRegistry extends RegistryBase<TileEntity>{
 
 	private static TileEntityRegistry instance;
 
@@ -17,19 +17,9 @@ public class TileEntityRegistry {
 		}
 		return instance;
 	}
-
-	private RegistryMap<TileEntity> tileEntityRegistry = new RegistryMap<>();
 	
 	private void loadResources() {
 
-	}
-
-	public void registerTileEntity(Class<? extends TileEntity> clazz, String name) {
-		tileEntityRegistry.register(clazz, name);
-	}
-
-	public RegistryMap<TileEntity> getTileEntityRegistry() {
-		return tileEntityRegistry;
 	}
 
 }

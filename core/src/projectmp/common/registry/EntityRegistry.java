@@ -5,7 +5,7 @@ import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 
 
-public class EntityRegistry {
+public class EntityRegistry extends RegistryBase<Entity>{
 
 	private static EntityRegistry instance;
 
@@ -19,20 +19,10 @@ public class EntityRegistry {
 		}
 		return instance;
 	}
-
-	private RegistryMap<Entity> entityRegistry = new RegistryMap<>();
 	
 	private void loadResources() {
-		registerEntity(EntityLiving.class, "entityLiving");
-		registerEntity(EntityPlayer.class, "player");
-	}
-	
-	public void registerEntity(Class<? extends Entity> clazz, String name) {
-		entityRegistry.register(clazz, name);
-	}
-	
-	public RegistryMap<Entity> getEntityRegistry() {
-		return entityRegistry;
+		register(EntityLiving.class, "entityLiving");
+		register(EntityPlayer.class, "player");
 	}
 	
 }

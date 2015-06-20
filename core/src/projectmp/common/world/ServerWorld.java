@@ -68,7 +68,7 @@ public class ServerWorld extends World {
 		if (getWeather() == null) {
 			weatherpacket.weatherType = null;
 		} else {
-			weatherpacket.weatherType = WeatherRegistry.instance().getWeatherRegistry().getKey(
+			weatherpacket.weatherType = WeatherRegistry.instance().getRegistry().getKey(
 					getWeather().getClass());
 		}
 

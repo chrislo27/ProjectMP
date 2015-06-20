@@ -68,7 +68,7 @@ public final class WorldNBTIO {
 
 			TagCompound entTag = new TagCompound("Entity");
 
-			entTag.setTag(new TagString("EntityType", EntityRegistry.instance().getEntityRegistry().getKey(
+			entTag.setTag(new TagString("EntityType", EntityRegistry.instance().getRegistry().getKey(
 					e.getClass())));
 			e.writeToNBT(entTag);
 
@@ -139,7 +139,7 @@ public final class WorldNBTIO {
 			}
 
 			try {
-				e = EntityRegistry.instance().getEntityRegistry().getValue(entityType).newInstance();
+				e = EntityRegistry.instance().getRegistry().getValue(entityType).newInstance();
 			} catch (InstantiationException ex) {
 				sendToErrorScreen(world.main, "Failed to re-create entity of type " + entityType
 						+ " because instantiating failed while reading world file", ex);
