@@ -68,6 +68,8 @@ public class ClassRegistration {
 
 	private static void registerTileEntities(Kryo kryo) {
 		kryo.register(TileEntity.class);
+		kryo.register(TileEntity[].class);
+		kryo.register(TileEntity[][].class);
 	}
 
 }
