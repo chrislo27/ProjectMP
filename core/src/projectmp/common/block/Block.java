@@ -25,8 +25,24 @@ public class Block extends TexturedObject {
 		return new LoopingAnimation(1, 1, path, false);
 	}
 
+	/**
+	 * Triggered every tick.
+	 * @param world
+	 * @param x
+	 * @param y
+	 */
 	public void tickUpdate(World world, int x, int y) {
 
+	}
+	
+	/**
+	 * Triggered when the player clicks on it (right click; lc is for item use).
+	 * @param world
+	 * @param x
+	 * @param y
+	 */
+	public void onActivate(World world, int x, int y){
+		
 	}
 
 	/**
