@@ -152,10 +152,13 @@ public class Main extends Game implements Consumer {
 	public ServerLogic serverLogic;
 
 	public static final int TICKS = 20;
+	public static final int TICKS_NANO = 1000000000 / TICKS;
 	public static final int MAX_FPS = 60;
 	private int[] lastFPS = new int[5];
-	private float deltaUntilTick = 0;
+	private long nanoUntilTick = TICKS_NANO;
+	private long lastKnownNano = System.nanoTime();
 	private float totalSeconds = 0f;
+	private long totalTicksElapsed = 0;
 
 	public static Gears gears;
 
@@ -360,14 +363,19 @@ public class Main extends Game implements Consumer {
 
 	@Override
 	public void render() {
-		deltaUntilTick += Gdx.graphics.getDeltaTime();
+		totalSeconds += Gdx.graphics.getDeltaTime();
+		nanoUntilTick += (System.nanoTime() - lastKnownNano);
+		lastKnownNano = System.nanoTime();
 
 		try {
-			while (deltaUntilTick >= (1.0f / TICKS)) {
+			// ticks
+			while (nanoUntilTick >= TICKS_NANO) {
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
 				tickUpdate();
-				deltaUntilTick -= (1.0f / TICKS);
+				nanoUntilTick -= TICKS_NANO;
 			}
+			
+			// render updates
 			if (getScreen() != null) {
 				((Updateable) getScreen()).renderUpdate();
 			}
@@ -441,8 +449,6 @@ public class Main extends Game implements Consumer {
 			}
 			lastFPS[0] = Gdx.graphics.getFramesPerSecond();
 		}
-
-		totalSeconds += Gdx.graphics.getDeltaTime();
 
 		warpshader.begin();
 		warpshader.setUniformf(warpshader.getUniformLocation("time"), totalSeconds);
