@@ -17,7 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 /**
  * A Gui is the graphical interface for a client. It handles rendering and input only.
  * <br>
- * It essentially connects the Container object to the player. As a result, it is client-only.
+ * It essentially connects the Container object to the client's screen. As a result, it is client-only.
  * 
  *
  */
