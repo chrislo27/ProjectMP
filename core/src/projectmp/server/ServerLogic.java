@@ -36,8 +36,6 @@ public class ServerLogic {
 
 	public int maxplayers = 2;
 
-	public HashMap<String, InventoryPlayer> playerInventories = new HashMap<>();
-
 	private PacketPositionUpdate positionUpdate = new PacketPositionUpdate();
 	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();
 	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
@@ -192,8 +190,6 @@ public class ServerLogic {
 
 			world.entities.removeValue(p, false);
 		}
-
-		playerInventories.remove(name);
 	}
 
 }

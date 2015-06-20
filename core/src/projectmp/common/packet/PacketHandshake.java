@@ -77,14 +77,6 @@ public class PacketHandshake implements Packet {
 			// update the time (for everyone)
 			logic.world.sendTimeUpdate();
 
-			logic.playerInventories.remove(username);
-			logic.playerInventories.put(username,
-					new InventoryPlayer().setMaxCapacity(Inventory.PLAYER_SLOTS));
-			PacketPlayerInventory inv = new PacketPlayerInventory();
-			inv.username = username;
-			inv.inv = logic.playerInventories.get(username);
-			logic.server.sendToTCP(connection.getID(), inv);
-
 			Main.logger.info("Finished handshake for " + username + " ("
 					+ connection.getRemoteAddressTCP().toString() + ", conn. name is "
 					+ connection.toString() + ")");

@@ -1,5 +1,6 @@
 package projectmp.common.inventory.gui;
 
+import projectmp.client.ClientLogic;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
@@ -26,13 +27,11 @@ public class Gui {
 
 	protected Container container;
 	
-	protected ItemStack mouseSlot = new ItemStack(null, 0);
-	
 	public Gui(Container container) {
 		this.container = container;
 	}
 
-	public void render(WorldRenderer renderer) {
+	public void render(WorldRenderer renderer, ClientLogic logic) {
 		handleInput(renderer);
 
 		SpriteBatch batch = renderer.batch;

@@ -12,7 +12,6 @@ import projectmp.common.packet.PacketEndChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketHandshake;
 import projectmp.common.packet.PacketNewEntity;
-import projectmp.common.packet.PacketPlayerInventory;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
@@ -57,7 +56,6 @@ public class ClassRegistration {
 		kryo.register(PacketEndChunkTransfer.class);
 		kryo.register(PacketTimeUpdate.class);
 		kryo.register(PacketSendPlayerInv.class);
-		kryo.register(PacketPlayerInventory.class);
 		kryo.register(PacketWeather.class);
 		kryo.register(PacketSendTileEntity.class);
 	}
