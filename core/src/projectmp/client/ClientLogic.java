@@ -5,7 +5,7 @@ import projectmp.common.Settings;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.world.World;
 
@@ -29,7 +29,7 @@ public class ClientLogic implements Disposable {
 
 	private int playerIndex = -1;
 
-	public Inventory playerInventory = null;
+	public InventoryPlayer playerInventory = null;
 
 	public ClientLogic(Main main) {
 		this.main = main;
