@@ -1,6 +1,6 @@
 package projectmp.common.registry;
 
-import projectmp.common.registry.instantiator.ClassMap;
+import projectmp.common.registry.classmap.ClassMap;
 import projectmp.common.weather.Weather;
 import projectmp.common.weather.WeatherDustStorm;
 import projectmp.common.weather.WeatherFog;

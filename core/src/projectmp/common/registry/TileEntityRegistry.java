@@ -1,7 +1,7 @@
 package projectmp.common.registry;
 
 import projectmp.common.entity.Entity;
-import projectmp.common.registry.instantiator.ClassMap;
+import projectmp.common.registry.classmap.ClassMap;
 import projectmp.common.tileentity.TileEntity;
 
 

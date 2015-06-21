@@ -1,4 +1,4 @@
-package projectmp.common.registry.instantiator;
+package projectmp.common.registry.classmap;
 
 import java.util.HashMap;
 

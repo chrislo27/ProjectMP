@@ -3,7 +3,7 @@ package projectmp.common.registry;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.registry.instantiator.ClassMap;
+import projectmp.common.registry.classmap.ClassMap;
 
 
 public class EntityRegistry{
