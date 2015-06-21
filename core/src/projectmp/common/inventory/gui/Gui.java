@@ -26,11 +26,9 @@ public class Gui {
 
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
-	protected Inventory otherInv;
 	
-	public Gui(InventoryPlayer player, Inventory other) {
+	public Gui(InventoryPlayer player) {
 		playerInv = player;
-		otherInv = other;
 	}
 
 	public void render(WorldRenderer renderer, ClientLogic logic) {

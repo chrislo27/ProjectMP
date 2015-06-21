@@ -173,7 +173,11 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 
-		// TODO render hotbar
+		if(logic.getCurrentGui() != null){
+			logic.getCurrentGui().render(this, logic);
+		}else{
+			// TODO render hotbar
+		}
 		
 		batch.end();
 	}

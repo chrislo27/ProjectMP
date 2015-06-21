@@ -6,6 +6,7 @@ import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.inventory.gui.Gui;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.world.World;
 
@@ -30,6 +31,8 @@ public class ClientLogic implements Disposable {
 	private int playerIndex = -1;
 
 	public InventoryPlayer playerInventory = null;
+	
+	private Gui currentGui = null;
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -203,6 +206,14 @@ public class ClientLogic implements Disposable {
 		}
 	}
 
+	public Gui getCurrentGui(){
+		return currentGui;
+	}
+	
+	public void setCurrentGui(Gui g){
+		currentGui = g;
+	}
+	
 	@Override
 	public void dispose() {
 		renderer.dispose();

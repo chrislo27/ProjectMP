@@ -52,6 +52,13 @@ public class Slot {
 				posy, width, height);
 		batch.setColor(1, 1, 1, 1);
 
+		// lighten if mouse button is down
+		if ((slotState & SlotState.LEFT_MOUSE_BUTTON_CLICKED) == SlotState.LEFT_MOUSE_BUTTON_CLICKED) {
+			batch.setColor(1, 1, 1, 0.25f);
+			Main.fillRect(batch, posx, posy, width, height);
+			batch.setColor(1, 1, 1, 1);
+		}
+		
 		// lighten if mouse is over, this should be LAST
 		if ((slotState & SlotState.MOUSE_OVER) == SlotState.MOUSE_OVER) {
 			batch.setColor(1, 1, 1, 0.25f);
