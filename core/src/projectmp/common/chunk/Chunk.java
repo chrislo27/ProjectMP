@@ -8,7 +8,7 @@ import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.io.CanBeSavedToNBT;
-import projectmp.common.registry.instantiator.TileEntityRegistry;
+import projectmp.common.registry.TileEntityRegistry;
 import projectmp.common.tileentity.TileEntity;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -89,7 +89,7 @@ public class Chunk implements CanBeSavedToNBT {
 					TagCompound teTag = new TagCompound("TileEntity_" + x + "," + y);
 
 					teTag.setTag(new TagByteArray("Location", new byte[] { (byte) x, (byte) y }));
-					teTag.setTag(new TagString("Type", TileEntityRegistry.instance().getRegistry().getKey(
+					teTag.setTag(new TagString("Type", TileEntityRegistry.instance().getTileEntityKey(
 							tileEntities[x][y].getClass())));
 
 					tileEntities[x][y].writeToNBT(teTag);
@@ -151,7 +151,7 @@ public class Chunk implements CanBeSavedToNBT {
 			String teType = null;
 			try {
 				teType = tileEntityComp.getString("Type");
-				te = TileEntityRegistry.instance().getRegistry().getValue(teType).newInstance()
+				te = TileEntityRegistry.instance().getTileEntityClass(teType).newInstance()
 						.setLocation(teLocX, teLocY);
 			} catch (InstantiationException | IllegalAccessException | UnexpectedTagTypeException
 					| TagNotFoundException e) {

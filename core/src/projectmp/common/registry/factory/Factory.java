@@ -5,13 +5,13 @@ import java.util.HashMap;
 import com.badlogic.gdx.utils.Array;
 
 /**
- * Factories are singleton objects that use Blueprints to create objects out of String keys.
+ * Factories use Blueprints to create objects out of String keys.
  * <br>
  * They are designed in such a way that they can have external (modded) blueprints added to them.
  * 
  *
  */
-public abstract class Factory<T> {
+public final class Factory<T> {
 
 	private Array<Blueprint> blueprints = new Array<>();
 	
@@ -37,6 +37,12 @@ public abstract class Factory<T> {
 		}
 		
 		return null;
+	}
+	
+	public static interface Blueprint<T>{
+		
+		public T manufacture(String key);
+		
 	}
 	
 }

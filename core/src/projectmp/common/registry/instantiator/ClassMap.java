@@ -2,7 +2,13 @@ package projectmp.common.registry.instantiator;
 
 import java.util.HashMap;
 
-public class RegistryMap<T> {
+/**
+ * Class maps match a class to a string key. They are generally used for re-instantiation.
+ * 
+ *
+ * @param <T>
+ */
+public final class ClassMap<T> {
 
 	private HashMap<String, Class<? extends T>> keyToValue = new HashMap<>();
 	private HashMap<Class<? extends T>, String> valueToKey = new HashMap<>();
