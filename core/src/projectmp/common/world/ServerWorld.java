@@ -9,7 +9,7 @@ import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketUpdateHealth;
 import projectmp.common.packet.PacketWeather;
-import projectmp.common.registry.WeatherRegistry;
+import projectmp.common.registry.instantiator.WeatherRegistry;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.weather.Weather;
 import projectmp.server.ServerLogic;

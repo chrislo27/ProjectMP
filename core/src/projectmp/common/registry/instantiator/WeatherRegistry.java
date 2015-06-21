@@ -1,4 +1,4 @@
-package projectmp.common.registry;
+package projectmp.common.registry.instantiator;
 
 import projectmp.common.weather.Weather;
 import projectmp.common.weather.WeatherDustStorm;

@@ -1,4 +1,4 @@
-package projectmp.common.registry;
+package projectmp.common.registry.instantiator;
 
 /**
  * Registries pair a class and a string key for future instantiation.

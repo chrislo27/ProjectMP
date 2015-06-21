@@ -8,7 +8,7 @@ import projectmp.common.Main;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.io.CanBeSavedToNBT;
-import projectmp.common.registry.TileEntityRegistry;
+import projectmp.common.registry.instantiator.TileEntityRegistry;
 import projectmp.common.tileentity.TileEntity;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;

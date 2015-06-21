@@ -1,4 +1,4 @@
-package projectmp.common.registry;
+package projectmp.common.registry.instantiator;
 
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;

@@ -1,4 +1,4 @@
-package projectmp.common.factory;
+package projectmp.common.registry.factory;
 
 import java.util.HashMap;
 

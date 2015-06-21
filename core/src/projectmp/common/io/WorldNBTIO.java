@@ -8,7 +8,7 @@ import java.util.List;
 import projectmp.common.Main;
 import projectmp.common.chunk.BlockIDMap;
 import projectmp.common.entity.Entity;
-import projectmp.common.registry.EntityRegistry;
+import projectmp.common.registry.instantiator.EntityRegistry;
 import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;

@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
-import projectmp.common.registry.WeatherRegistry;
+import projectmp.common.registry.instantiator.WeatherRegistry;
 import projectmp.common.world.World;
 import projectmp.server.ServerLogic;
 
