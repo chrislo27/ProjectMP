@@ -2,6 +2,7 @@ package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.error.InvalidPacketException;
+import projectmp.common.registry.GuiRegistry;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -30,6 +31,7 @@ public class PacketGuiState implements Packet{
 				throw new InvalidPacketException("guiId in " + this.getClass().getSimpleName() + " cannot be null");
 			}
 			
+			logic.setCurrentGui(GuiRegistry.instance().createNewGuiObject(guiId));
 		}
 	}
 	
