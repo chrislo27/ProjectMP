@@ -193,4 +193,22 @@ public class Utils {
 		
 		return false;
 	}
+	
+	/**
+	 * packets 2 ints into a long
+	 * @param ms most significant 32 bits
+	 * @param ls least significant 32 bits
+	 * @return
+	 */
+	public static long packLong(int ms, int ls){
+		return ((long) ms << 32) | (ls & 0xFFFFFFFFL);
+	}
+	
+	public static int unpackLongUpper(long l){
+		return (int) (l >> 32);
+	}
+	
+	public static int unpackLongLower(long l){
+		return (int) l;
+	}
 }
