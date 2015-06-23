@@ -73,8 +73,12 @@ public abstract class Gui {
 		batch.setColor(oldColor);
 	}
 	
-	public abstract void onGuiOpen(WorldRenderer renderer, ClientLogic logic);
+	public void onGuiOpen(WorldRenderer renderer, ClientLogic logic){
+		
+	}
 	
-	public abstract void onGuiClose(WorldRenderer renderer, ClientLogic logic);
+	public void onGuiClose(WorldRenderer renderer, ClientLogic logic){
+		
+	}
 
 }
