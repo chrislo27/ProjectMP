@@ -32,5 +32,13 @@ public class Inventory {
 
 		return this;
 	}
+	
+	public ItemStack getSlot(int slot){
+		return items[slot];
+	}
+	
+	public void setSlot(int slot, ItemStack stack){
+		items[slot] = stack;
+	}
 
 }

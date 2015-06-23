@@ -24,5 +24,11 @@ public class ItemStack {
 	public int getAmount(){
 		return quantity;
 	}
+	
+	public ItemStack copy(){
+		ItemStack i = new ItemStack(item, quantity);
+		
+		return i;
+	}
 
 }

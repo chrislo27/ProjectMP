@@ -4,8 +4,8 @@ import projectmp.client.ClientLogic;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.inventory.ItemStack;
 import projectmp.common.inventory.gui.Slot.SlotState;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
@@ -26,6 +26,8 @@ public abstract class Gui {
 
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
+	
+	protected ItemStack mouseStack = new ItemStack(null, 0);
 	
 	public Gui(InventoryPlayer player) {
 		playerInv = player;
@@ -61,7 +63,19 @@ public abstract class Gui {
 
 	public void handleInput(WorldRenderer renderer) {
 		if (Utils.isButtonJustPressed(Buttons.LEFT)) {
-			
+			for(int i = 0; i < slots.size; i++){
+				Slot slot = slots.get(i);
+				
+				if(slot.isMouseOver()){
+					ItemStack tempMouse = mouseStack.copy();
+					int slotNumber = slot.slotNum;
+					
+					mouseStack = slot.inventory.getSlot(slotNumber);
+					slot.inventory.setSlot(slotNumber, tempMouse);
+					
+					break;
+				}
+			}
 		}
 	}
 
@@ -78,6 +92,10 @@ public abstract class Gui {
 	}
 	
 	public void onGuiClose(WorldRenderer renderer, ClientLogic logic){
+		
+	}
+	
+	public void addPlayerInventory(){
 		
 	}
 

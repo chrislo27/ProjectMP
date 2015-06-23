@@ -16,6 +16,8 @@ public class PacketGuiState implements Packet{
 
 	public boolean shouldOpen = true;
 	public String guiId = null;
+	public int x;
+	public int y;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -31,7 +33,7 @@ public class PacketGuiState implements Packet{
 				throw new InvalidPacketException("guiId in " + this.getClass().getSimpleName() + " cannot be null");
 			}
 			
-			logic.setCurrentGui(GuiRegistry.instance().createNewGuiObject(guiId));
+			logic.setCurrentGui(GuiRegistry.instance().createNewGuiObject(guiId, logic.world, logic.playerInventory, x, y));
 		}
 	}
 	
