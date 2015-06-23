@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.Array;
  *
  */
 @SideOnly(Side.CLIENT)
-public class Gui {
+public abstract class Gui {
 
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
@@ -72,5 +72,9 @@ public class Gui {
 		Main.fillRect(batch, 0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(oldColor);
 	}
+	
+	public abstract void onGuiOpen(WorldRenderer renderer, ClientLogic logic);
+	
+	public abstract void onGuiClose(WorldRenderer renderer, ClientLogic logic);
 
 }

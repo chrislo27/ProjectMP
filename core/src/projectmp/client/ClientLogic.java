@@ -211,7 +211,15 @@ public class ClientLogic implements Disposable {
 	}
 	
 	public void setCurrentGui(Gui g){
+		if(g == null && currentGui != null){
+			currentGui.onGuiClose(renderer, this);
+		}
+		
 		currentGui = g;
+		
+		if(currentGui != null){
+			currentGui.onGuiOpen(renderer, this);
+		}
 	}
 	
 	@Override
