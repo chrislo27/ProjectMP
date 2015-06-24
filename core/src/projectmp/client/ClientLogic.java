@@ -106,6 +106,7 @@ public class ClientLogic implements Disposable {
 		centerCameraOnPlayer();
 
 		renderer.renderWorld();
+		renderer.renderPlayerNames();
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
 	}

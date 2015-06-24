@@ -135,6 +135,27 @@ public class WorldRenderer implements Disposable {
 	public void renderHUD() {
 		batch.begin();
 
+		// render weather
+		if (world.getWeather() != null) {
+			world.getWeather().renderHUD(this);
+		}
+
+		// render vignette
+		batch.setColor(0, 0, 0, 0.1f);
+		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0,
+				Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		batch.setColor(1, 1, 1, 1);
+
+		if (logic.getCurrentGui() != null) {
+			logic.getCurrentGui().render(this, logic);
+		} else {
+			// TODO render hotbar
+		}
+
+		batch.end();
+	}
+
+	public void renderPlayerNames() {
 		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
 		for (int i = 0; i < world.entities.size; i++) {
@@ -162,25 +183,6 @@ public class WorldRenderer implements Disposable {
 				}
 			}
 		}
-
-		// render weather
-		if (world.getWeather() != null) {
-			world.getWeather().renderHUD(this);
-		}
-
-		// render vignette
-		batch.setColor(0, 0, 0, 0.1f);
-		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0,
-				Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
-		batch.setColor(1, 1, 1, 1);
-
-		if(logic.getCurrentGui() != null){
-			logic.getCurrentGui().render(this, logic);
-		}else{
-			// TODO render hotbar
-		}
-		
-		batch.end();
 	}
 
 	public void tickUpdate() {
