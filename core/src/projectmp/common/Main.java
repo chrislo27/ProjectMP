@@ -191,11 +191,11 @@ public class Main extends Game implements Consumer {
 		manager = new AssetManager();
 
 		FreeTypeFontGenerator ttfGenerator = new FreeTypeFontGenerator(
-				Gdx.files.internal("fonts/default.ttf"));
+				Gdx.files.internal("fonts/minecraft.ttf"));
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
-		ttfParam.magFilter = TextureFilter.Linear;
-		ttfParam.minFilter = TextureFilter.Linear;
-		ttfParam.size = 14; // 14 for my font, 16 for Osaka font
+		ttfParam.magFilter = TextureFilter.Nearest;
+		ttfParam.minFilter = TextureFilter.Nearest;
+		ttfParam.size = 16; // 14 for my font, 16 for Osaka font/minecraft font
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
 		font.setMarkupEnabled(true);
