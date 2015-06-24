@@ -11,9 +11,12 @@ import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
+import com.bitfire.postprocessing.PostProcessor;
+import com.bitfire.postprocessing.effects.Bloom;
 import com.esotericsoftware.kryonet.Client;
 
 public class ClientLogic implements Disposable {
@@ -33,12 +36,17 @@ public class ClientLogic implements Disposable {
 	public InventoryPlayer playerInventory = null;
 	
 	private Gui currentGui = null;
+	
+	public PostProcessor postProcessor;
 
 	public ClientLogic(Main main) {
 		this.main = main;
 		client = main.client;
 
 		renderer = new WorldRenderer(main, world, this);
+		
+		postProcessor = new PostProcessor(false, false, Gdx.app.getType() == ApplicationType.Desktop);
+		postProcessor.addEffect(new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f), (int) (Settings.DEFAULT_HEIGHT * 0.25f)));
 	}
 
 	public EntityPlayer getPlayer() {
@@ -105,8 +113,12 @@ public class ClientLogic implements Disposable {
 	public void render() {
 		centerCameraOnPlayer();
 
+		postProcessor.capture();
 		renderer.renderWorld();
+		postProcessor.render();
+		
 		renderer.renderPlayerNames();
+		
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
 	}
