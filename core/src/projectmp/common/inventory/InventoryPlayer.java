@@ -2,8 +2,8 @@ package projectmp.common.inventory;
 
 
 public class InventoryPlayer extends Inventory{
-
-	ItemStack mouseStack = new ItemStack(null, 0);
+	
+	
 	
 	public InventoryPlayer(){
 		
