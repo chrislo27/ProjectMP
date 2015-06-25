@@ -8,17 +8,32 @@ public class ItemStack {
 	String item;
 	int quantity = 1;
 
+	/**
+	 * No-arg constructor that makes an empty ItemStack
+	 */
+	public ItemStack(){
+		this(null, 0);
+	}
+	
 	public ItemStack(String i, int amount) {
 		item = i;
 		quantity = amount;
 	}
 
 	/**
-	 * Convienence method to get the item from the stored string
+	 * Method to get the item from the stored string
 	 * @return
 	 */
 	public Item getItem() {
 		return Items.instance().getItem(item);
+	}
+	
+	/**
+	 * returns the actual string stored
+	 * @return
+	 */
+	public String getItemString(){
+		return item;
 	}
 	
 	public int getAmount(){

@@ -1,8 +1,12 @@
 package projectmp.common.registry;
 
+import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
+import projectmp.common.inventory.gui.GuiPlayerInventory;
 import projectmp.common.inventory.gui.GuiTest;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.utils.Array;
@@ -42,13 +46,34 @@ public class GuiRegistry {
 		return null;
 	}
 	
+	public Inventory getInventory(String id, World world, int x, int y){
+		Inventory inv = null;
+		for(int i = 0; i < handlers.size; i++){
+			if((inv = handlers.get(i).getInventoryObject(id, world, x, y)) != null) return inv;
+		}
+		
+		return null;
+	}
+	
 	private static class GuiHandler implements IGuiHandler{
 
 		@Override
 		public Gui getGuiObject(String id, World world, InventoryPlayer player, int x, int y) {
 			switch(id){
+			case("playerInv"):
+				return new GuiPlayerInventory(player, id, x, y);
 			case("testGuiDoNotTouchBuleah"):
-				return new GuiTest(player);
+				return new GuiTest(player, id, x, y);
+			default:
+				return null;
+			}
+		}
+
+		@Override
+		public Inventory getInventoryObject(String id, World world, int x, int y) {
+			switch(id){
+			case("playerInv"):
+				return ((EntityPlayer) (world.getEntityByUUID(Utils.packLong(x, y)))).getInventoryObject();
 			default:
 				return null;
 			}

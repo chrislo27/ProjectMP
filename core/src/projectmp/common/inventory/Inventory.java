@@ -40,5 +40,15 @@ public class Inventory {
 	public void setSlot(int slot, ItemStack stack){
 		items[slot] = stack;
 	}
+	
+	/**
+	 * makes the slots with the capacity
+	 */
+	public void initSlots(){
+		items = new ItemStack[maxCapacity];
+		for(int i = 0; i < maxCapacity; i++){
+			items[i] = new ItemStack();
+		}
+	}
 
 }

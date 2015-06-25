@@ -4,6 +4,7 @@ import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.ItemStack;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
@@ -17,6 +18,7 @@ import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSendTileEntity;
+import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketWeather;
 import projectmp.common.tileentity.TileEntity;
@@ -29,6 +31,7 @@ public class ClassRegistration {
 		registerPackets(kryo);
 		registerEntities(kryo);
 		registerTileEntities(kryo);
+		registerInventories(kryo);
 		kryo.register(Entity[].class);
 		kryo.register(String[][].class);
 		kryo.register(int[][].class);
@@ -36,7 +39,6 @@ public class ClassRegistration {
 		kryo.register(int[].class);
 		kryo.register(long[].class);
 		kryo.register(float[].class);
-		kryo.register(Inventory.class);
 		kryo.register(ItemStack.class);
 		kryo.register(ItemStack[].class);
 	}
@@ -56,6 +58,7 @@ public class ClassRegistration {
 		kryo.register(PacketTimeUpdate.class);
 		kryo.register(PacketWeather.class);
 		kryo.register(PacketSendTileEntity.class);
+		kryo.register(PacketSwapSlot.class);
 	}
 
 	private static void registerEntities(Kryo kryo) {
@@ -68,6 +71,11 @@ public class ClassRegistration {
 		kryo.register(TileEntity.class);
 		kryo.register(TileEntity[].class);
 		kryo.register(TileEntity[][].class);
+	}
+	
+	private static void registerInventories(Kryo kryo){
+		kryo.register(Inventory.class);
+		kryo.register(InventoryPlayer.class);
 	}
 
 }

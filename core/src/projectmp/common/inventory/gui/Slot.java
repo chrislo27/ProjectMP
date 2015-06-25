@@ -64,6 +64,10 @@ public class Slot {
 			batch.setColor(1, 1, 1, 0.25f);
 			Main.fillRect(batch, posx, posy, width, height);
 			batch.setColor(1, 1, 1, 1);
+			
+			renderer.logic.main.font.draw(batch,
+					"slotStack: " + inventory.getSlot(slotNum).getItemString() + " x" + inventory.getSlot(slotNum).getAmount(),
+					Main.getInputX(), Main.convertY(Main.getInputY() + 64));
 		}
 	}
 

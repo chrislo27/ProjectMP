@@ -1,7 +1,9 @@
 package projectmp.common.entity;
 
 import projectmp.client.WorldRenderer;
-import projectmp.common.io.Unsaveable;
+import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.NBTUtils;
 import projectmp.common.world.World;
@@ -12,9 +14,10 @@ import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagString;
 
-public class EntityPlayer extends EntityLiving implements Unsaveable {
+public class EntityPlayer extends EntityLiving implements HasInventory {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
+	private InventoryPlayer inventory = new InventoryPlayer();
 
 	public EntityPlayer() {
 		super();
@@ -53,6 +56,11 @@ public class EntityPlayer extends EntityLiving implements Unsaveable {
 		super.readFromNBT(tag);
 
 		username = NBTUtils.getStringWithDef(tag, "Username", this.username);
+	}
+
+	@Override
+	public Inventory getInventoryObject() {
+		return inventory;
 	}
 
 }

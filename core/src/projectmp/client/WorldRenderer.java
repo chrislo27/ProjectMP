@@ -4,8 +4,11 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.MathHelper;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -101,7 +104,7 @@ public class WorldRenderer implements Disposable {
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		/* --------------------------------------------------------------------- */
-		
+
 		// render background
 		batch.begin();
 		batch.setColor(1, 1, 1, 1);
@@ -111,7 +114,7 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 
 		// mask lighting buffer onto world buffer and render
-		
+
 		batch.begin();
 
 		// draw the world buffer as-is
@@ -128,12 +131,19 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
 		batch.flush();
-		
+
 		batch.end();
 
 	}
 
 	public void renderHUD() {
+		if (Gdx.input.isKeyJustPressed(Keys.E)) {
+			logic.setCurrentGui(GuiRegistry.instance().createNewGuiObject("playerInv", logic.world,
+					(InventoryPlayer) logic.getPlayer().getInventoryObject(),
+					Utils.unpackLongUpper(logic.getPlayer().uuid),
+					Utils.unpackLongLower(logic.getPlayer().uuid)));
+		}
+
 		batch.begin();
 
 		// render weather

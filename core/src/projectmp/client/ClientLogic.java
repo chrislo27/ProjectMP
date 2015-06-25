@@ -6,8 +6,10 @@ import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.inventory.ItemStack;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.packet.PacketPlayerPosUpdate;
+import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -27,12 +29,12 @@ public class ClientLogic implements Disposable {
 	public WorldRenderer renderer;
 
 	private PacketPlayerPosUpdate playerUpdate = new PacketPlayerPosUpdate();
+	private PacketSwapSlot swapSlot = new PacketSwapSlot();
 
 	private int playerIndex = -1;
-
-	public InventoryPlayer playerInventory = null;
 	
 	private Gui currentGui = null;
+	public ItemStack mouseStack = new ItemStack(null, 0);
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -228,6 +230,10 @@ public class ClientLogic implements Disposable {
 	@Override
 	public void dispose() {
 		renderer.dispose();
+	}
+	
+	public PacketSwapSlot getSwapSlotPacket(){
+		return swapSlot;
 	}
 
 }

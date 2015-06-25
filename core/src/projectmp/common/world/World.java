@@ -171,6 +171,16 @@ public class World {
 		}
 		return id;
 	}
+	
+	public Entity getEntityByUUID(long uuid){
+		for (int i = 0; i < entities.size; i++) {
+			if (entities.get(i).uuid == uuid) {
+				return entities.get(i);
+			}
+		}
+		
+		return null;
+	}
 
 	public void generate() {
 		float hillCoeff = 8f;

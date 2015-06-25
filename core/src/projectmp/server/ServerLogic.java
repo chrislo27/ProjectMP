@@ -2,14 +2,12 @@ package projectmp.server;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
@@ -19,6 +17,7 @@ import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
+import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.world.ServerWorld;
 
 import com.badlogic.gdx.utils.Array;
@@ -40,6 +39,7 @@ public class ServerLogic {
 	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();
 	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
 	private PacketNewEntity newEntity = new PacketNewEntity();
+	private PacketSwapSlot swapSlot = new PacketSwapSlot();
 
 	public ServerLogic(Main m) {
 		main = m;
@@ -190,6 +190,10 @@ public class ServerLogic {
 
 			world.entities.removeValue(p, false);
 		}
+	}
+	
+	public PacketSwapSlot getSwapSlotPacket(){
+		return swapSlot;
 	}
 
 }
