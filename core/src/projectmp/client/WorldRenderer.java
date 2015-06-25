@@ -9,6 +9,7 @@ import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -100,8 +101,6 @@ public class WorldRenderer implements Disposable {
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
 		/* --------------------------------------------------------------------- */
-
-		//logic.postProcessor.capture();
 		
 		// render background
 		batch.begin();
@@ -129,10 +128,8 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
 		batch.flush();
-
-		batch.end();
 		
-		//logic.postProcessor.render();
+		batch.end();
 
 	}
 
