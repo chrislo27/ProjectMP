@@ -137,13 +137,6 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderHUD() {
-		if (Gdx.input.isKeyJustPressed(Keys.E)) {
-			logic.setCurrentGui(GuiRegistry.instance().createNewGuiObject("playerInv", logic.world,
-					(InventoryPlayer) logic.getPlayer().getInventoryObject(),
-					Utils.unpackLongUpper(logic.getPlayer().uuid),
-					Utils.unpackLongLower(logic.getPlayer().uuid)));
-		}
-
 		batch.begin();
 
 		// render weather

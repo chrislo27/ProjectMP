@@ -10,6 +10,8 @@ import projectmp.common.inventory.ItemStack;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketSwapSlot;
+import projectmp.common.registry.GuiRegistry;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -195,19 +197,11 @@ public class ClientLogic implements Disposable {
 			getPlayer().jump();
 		}
 
-		if (Gdx.input.isKeyJustPressed(Keys.L)) {
-			int prex = (int) MathUtils.clamp(((renderer.camera.camerax / World.tilesizex) - 10),
-					0f, world.sizex);
-			int prey = (int) MathUtils.clamp(((renderer.camera.cameray / World.tilesizey) - 10),
-					0f, world.sizey);
-			int postx = (int) MathUtils.clamp((renderer.camera.camerax / World.tilesizex) + 20
-					+ (Settings.DEFAULT_WIDTH / World.tilesizex), 0f, world.sizex);
-			int posty = (int) MathUtils.clamp((renderer.camera.cameray / World.tilesizey) + 20
-					+ (Settings.DEFAULT_HEIGHT / World.tilesizex), 0f, world.sizey);
-
-			world.lightingEngine.resetLighting(prex, prey, postx, posty);
-
-			world.lightingEngine.floodFillLighting(prex, prey, postx, posty);
+		if (Gdx.input.isKeyJustPressed(Keys.E)) {
+			setCurrentGui(GuiRegistry.instance().createNewGuiObject("playerInv", world,
+					(InventoryPlayer) getPlayer().getInventoryObject(),
+					Utils.unpackLongUpper(getPlayer().uuid),
+					Utils.unpackLongLower(getPlayer().uuid)));
 		}
 	}
 
