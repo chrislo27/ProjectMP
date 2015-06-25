@@ -12,6 +12,7 @@ import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketEntities;
+import projectmp.common.packet.PacketGuiState;
 import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
@@ -40,6 +41,7 @@ public class ServerLogic {
 	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
 	private PacketNewEntity newEntity = new PacketNewEntity();
 	private PacketSwapSlot swapSlot = new PacketSwapSlot();
+	private PacketGuiState guiStatePacket = new PacketGuiState();
 
 	public ServerLogic(Main m) {
 		main = m;
@@ -194,6 +196,23 @@ public class ServerLogic {
 	
 	public PacketSwapSlot getSwapSlotPacket(){
 		return swapSlot;
+	}
+	
+	public void sendGuiState(EntityPlayer player, String guiId, int x, int y, boolean shouldOpen){
+		guiStatePacket.guiId = guiId;
+		guiStatePacket.shouldOpen = shouldOpen;
+		guiStatePacket.x = x;
+		guiStatePacket.y = y;
+		
+		server.sendToTCP(getConnectionIDByName(player.username), guiStatePacket);
+	}
+	
+	public void openGui(EntityPlayer player, String guiId, int x, int y){
+		sendGuiState(player, guiId, x, y, true);
+	}
+	
+	public void closeGui(EntityPlayer player, String guiId, int x, int y){
+		sendGuiState(player, guiId, x, y, false);
 	}
 
 }

@@ -4,10 +4,8 @@ import projectmp.client.WorldRenderer;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.TexturedObject;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.world.World;
-
-import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.Disposable;
 
 public class Block extends TexturedObject {
 
@@ -41,7 +39,7 @@ public class Block extends TexturedObject {
 	 * @param x
 	 * @param y
 	 */
-	public void onActivate(World world, int x, int y){
+	public void onActivate(World world, int x, int y, EntityPlayer player){
 		
 	}
 
