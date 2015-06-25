@@ -16,7 +16,8 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
@@ -37,12 +38,15 @@ public class ClientLogic implements Disposable {
 	
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
+	
+	private FrameBuffer guiBuffer;
 
 	public ClientLogic(Main main) {
 		this.main = main;
 		client = main.client;
 
 		renderer = new WorldRenderer(main, world, this);
+		guiBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, false);
 	}
 
 	public EntityPlayer getPlayer() {
@@ -227,11 +231,14 @@ public class ClientLogic implements Disposable {
 		if(currentGui != null){
 			currentGui.onGuiOpen(renderer, this);
 		}
+		
+		Gdx.input.setCursorCatched(false);
 	}
 	
 	@Override
 	public void dispose() {
 		renderer.dispose();
+		guiBuffer.dispose();
 	}
 	
 	public PacketSwapSlot getSwapSlotPacket(){

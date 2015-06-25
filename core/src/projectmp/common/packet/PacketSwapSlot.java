@@ -7,6 +7,7 @@ import projectmp.common.inventory.ItemStack;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.server.ServerLogic;
 
+import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 
 /**
@@ -64,6 +65,8 @@ public class PacketSwapSlot implements Packet {
 		inv.setSlot(slotToSwap, logic.mouseStack.copy());
 		// so set the mouse to the swapped item
 		logic.mouseStack = mouseStack.copy();
+		
+		Gdx.input.setCursorCatched(!logic.mouseStack.isNothing());
 	}
 
 }

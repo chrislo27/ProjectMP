@@ -4,6 +4,7 @@ import projectmp.client.ClientLogic;
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.Translator;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.ItemStack;
 import projectmp.common.inventory.gui.Slot.SlotState;
@@ -11,6 +12,7 @@ import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
 import projectmp.common.util.sidedictation.SideOnly;
+import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
@@ -32,6 +34,8 @@ public abstract class Gui {
 	protected int inventoryX;
 	protected int inventoryY;
 
+	protected String unlocalizedName = null;
+
 	public Gui(InventoryPlayer player, String id, int invx, int invy) {
 		playerInv = player;
 		inventoryId = id;
@@ -40,11 +44,21 @@ public abstract class Gui {
 	}
 
 	public void render(WorldRenderer renderer, ClientLogic logic) {
-		handleInput(renderer);
-
 		SpriteBatch batch = renderer.batch;
 
+		handleInput(renderer);
+
 		renderDarkBackground(batch);
+
+		if (unlocalizedName != null) {
+			renderer.main.font.setColor(1, 1, 1, 1);
+			renderer.main.font.draw(
+					batch,
+					Translator.getMsg("inventory." + unlocalizedName + ".name"),
+					32,
+					Main.convertY(64 - (renderer.main.font.getBounds(Translator.getMsg("inventory."
+							+ unlocalizedName + ".name")).height) - 4));
+		}
 
 		for (int i = 0; i < slots.size; i++) {
 			Slot slot = slots.get(i);
@@ -53,9 +67,36 @@ public abstract class Gui {
 			slot.render(renderer, slotState);
 		}
 
-		logic.main.font.draw(batch,
-				"mouseStack: " + logic.mouseStack.getItemString() + " x" + logic.mouseStack.getAmount(),
-				Main.getInputX(), Main.convertY(Main.getInputY() + 32));
+		if (logic.mouseStack.isNothing()) {
+			for (int i = 0; i < slots.size; i++) {
+				Slot slot = slots.get(i);
+
+				if (slot.isMouseOver()) {
+					if (slot.inventory.getSlot(slot.slotNum).isNothing()) continue;
+
+					renderer.main.drawTextBg(
+							renderer.main.font,
+							Translator.getMsg("item."
+									+ slot.inventory.getSlot(slot.slotNum).getItemString()
+									+ ".name")
+									+ " x" + slot.inventory.getSlot(slot.slotNum).getAmount(),
+							Main.getInputX(), Main.convertY(Main.getInputY() + 48));
+
+					break;
+				}
+			}
+		} else {
+			logic.mouseStack.getItem().render(renderer, Main.getInputX(),
+					Main.convertY(Main.getInputY() + World.tilesizey * 2), World.tilesizex * 2, World.tilesizey * 2,
+					logic.mouseStack);
+			// draw number if > 1
+			if (logic.mouseStack.getAmount() > 1) {
+				float textHeight = renderer.main.font.getBounds("" + logic.mouseStack.getAmount()).height;
+				renderer.main.drawInverse(renderer.main.font, "" + logic.mouseStack.getAmount(),
+						Main.getInputX() + World.tilesizex * 2, Main.convertY(Main.getInputY())
+								+ textHeight - World.tilesizey * 2);
+			}
+		}
 	}
 
 	protected int calculateSlotState(Slot slot) {
@@ -77,7 +118,6 @@ public abstract class Gui {
 				Slot slot = slots.get(i);
 
 				if (slot.isMouseOver()) {
-
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
 					packet.mouseStack = renderer.logic.mouseStack;
@@ -113,10 +153,15 @@ public abstract class Gui {
 
 	public void addPlayerInventory() {
 		Slot template = new Slot(null, -1, 0, 0);
-		
+
 		for (int i = 0; i < 9; i++) {
-			slots.add(new Slot(this.playerInv, i, (template.width * 2) + (i * template.width) + (i * 4), Settings.DEFAULT_HEIGHT - (template.height * 2)));
+			slots.add(new Slot(this.playerInv, i, (template.width / 2) + (i * template.width)
+					+ (i * 4), Settings.DEFAULT_HEIGHT - (template.height * 2)));
 		}
+	}
+
+	public void setUnlocalizedName(String s) {
+		unlocalizedName = s;
 	}
 
 }

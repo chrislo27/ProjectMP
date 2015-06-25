@@ -29,7 +29,7 @@ public class Slot {
 	int height = World.tilesizey * 2;
 	int slotNum = -1;
 	Inventory inventory;
-	
+
 	/**
 	 * 
 	 * @param inventory the inventory it corresponds to
@@ -48,35 +48,34 @@ public class Slot {
 		SpriteBatch batch = renderer.batch;
 
 		batch.setColor(1, 1, 1, 1);
-		batch.draw(renderer.main.manager.get(AssetMap.get("invslot"), Texture.class), posx,
-				posy, width, height);
+		batch.draw(renderer.main.manager.get(AssetMap.get("invslot"), Texture.class), posx, posy,
+				width, height);
 		batch.setColor(1, 1, 1, 1);
+		
 		// draw icon
 		ItemStack stack = inventory.getSlot(slotNum);
-		if(stack.getItem() != null){
+		if (stack.getItem() != null) {
 			stack.getItem().render(renderer, posx, posy, width, height, stack);
 			// draw number if > 1
-			if(stack.getAmount() > 1){
+			if (stack.getAmount() > 1) {
 				float textHeight = renderer.main.font.getBounds("" + stack.getAmount()).height;
-				renderer.main.drawInverse(renderer.main.font, "" + stack.getAmount(), posx + width, posy + textHeight);
+				renderer.main.drawInverse(renderer.main.font, "" + stack.getAmount(), posx + width,
+						posy + textHeight);
 			}
 		}
+		
 		// lighten if mouse button is down
 		if ((slotState & SlotState.LEFT_MOUSE_BUTTON_CLICKED) == SlotState.LEFT_MOUSE_BUTTON_CLICKED) {
 			batch.setColor(1, 1, 1, 0.25f);
 			Main.fillRect(batch, posx, posy, width, height);
 			batch.setColor(1, 1, 1, 1);
 		}
-		
+
 		// lighten if mouse is over, this should be LAST
 		if ((slotState & SlotState.MOUSE_OVER) == SlotState.MOUSE_OVER) {
 			batch.setColor(1, 1, 1, 0.25f);
 			Main.fillRect(batch, posx, posy, width, height);
 			batch.setColor(1, 1, 1, 1);
-			
-			renderer.logic.main.font.draw(batch,
-					"slotStack: " + inventory.getSlot(slotNum).getItemString() + " x" + inventory.getSlot(slotNum).getAmount(),
-					Main.getInputX(), Main.convertY(Main.getInputY() + 64));
 		}
 	}
 
