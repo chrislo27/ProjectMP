@@ -123,10 +123,6 @@ public class ClientLogic implements Disposable {
 		for (Entity e : world.entities) {
 			e.clientRenderUpdate();
 		}
-
-		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			main.client.close();
-		}
 	}
 
 	public void renderDebug(int starting) {
@@ -202,6 +198,14 @@ public class ClientLogic implements Disposable {
 					(InventoryPlayer) getPlayer().getInventoryObject(),
 					Utils.unpackLongUpper(getPlayer().uuid),
 					Utils.unpackLongLower(getPlayer().uuid)));
+		}
+		
+		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
+			if(getCurrentGui() != null){
+				setCurrentGui(null);
+			}else{
+				main.client.close();
+			}
 		}
 	}
 
