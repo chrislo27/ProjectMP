@@ -101,6 +101,8 @@ public class WorldRenderer implements Disposable {
 
 		/* --------------------------------------------------------------------- */
 
+		//logic.postProcessor.capture();
+		
 		// render background
 		batch.begin();
 		batch.setColor(1, 1, 1, 1);
@@ -110,7 +112,7 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 
 		// mask lighting buffer onto world buffer and render
-
+		
 		batch.begin();
 
 		// draw the world buffer as-is
@@ -129,6 +131,8 @@ public class WorldRenderer implements Disposable {
 		batch.flush();
 
 		batch.end();
+		
+		//logic.postProcessor.render();
 
 	}
 

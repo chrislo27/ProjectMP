@@ -45,7 +45,7 @@ public class ClientLogic implements Disposable {
 
 		renderer = new WorldRenderer(main, world, this);
 		
-		postProcessor = new PostProcessor(false, false, Gdx.app.getType() == ApplicationType.Desktop);
+		postProcessor = new PostProcessor(false, true, Gdx.app.getType() == ApplicationType.Desktop);
 		postProcessor.addEffect(new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f), (int) (Settings.DEFAULT_HEIGHT * 0.25f)));
 	}
 
@@ -113,9 +113,7 @@ public class ClientLogic implements Disposable {
 	public void render() {
 		centerCameraOnPlayer();
 
-		postProcessor.capture();
 		renderer.renderWorld();
-		postProcessor.render();
 		
 		renderer.renderPlayerNames();
 		
