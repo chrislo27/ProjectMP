@@ -77,13 +77,11 @@ public abstract class Gui {
 				Slot slot = slots.get(i);
 
 				if (slot.isMouseOver()) {
-					ItemStack tempMouse = renderer.logic.mouseStack.copy();
-					int slotNumber = slot.slotNum;
 
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
 					packet.mouseStack = renderer.logic.mouseStack;
-					packet.slotToSwap = slotNumber;
+					packet.slotToSwap = slot.slotNum;
 					// things to identify the inventory
 					packet.invId = inventoryId;
 					packet.invX = inventoryX;
