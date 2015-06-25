@@ -36,9 +36,6 @@ public class PacketSwapSlot implements Packet {
 		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY);
 
 		if (inv == null) return;
-		
-		Main.logger.debug("Slot: " + slotToSwap + ", stack: " + mouseStack + ", invId, X, Y: " + invId + ", " + invX + ", " + invY);
-		Main.logger.debug("inv: " + inv);
 
 		// copy the old slot
 		ItemStack old = inv.getSlot(slotToSwap).copy();
