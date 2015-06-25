@@ -45,5 +45,9 @@ public class ItemStack {
 		
 		return i;
 	}
+	
+	public boolean isNothing(){
+		return item == null || quantity <= 0;
+	}
 
 }
