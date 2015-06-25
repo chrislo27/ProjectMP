@@ -1,6 +1,7 @@
 package projectmp.common.util.render;
 
 import projectmp.common.Main;
+import projectmp.common.Settings;
 import projectmp.common.util.MathHelper;
 
 import com.badlogic.gdx.Gdx;
@@ -44,8 +45,8 @@ public class PostProcessing {
 		batch.setShader(null);
 		buffer.end();
 
-		batch.draw(buffer.getColorBufferTexture(), 0, Gdx.graphics.getHeight(), buffer.getWidth(),
-				-buffer.getHeight());
+		batch.draw(buffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT, Settings.DEFAULT_WIDTH,
+				-Settings.DEFAULT_HEIGHT);
 		batch.flush();
 	}
 
