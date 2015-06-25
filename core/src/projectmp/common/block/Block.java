@@ -5,6 +5,7 @@ import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.TexturedObject;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.util.sidedictation.Side;
 import projectmp.common.world.World;
 
 public class Block extends TexturedObject {
@@ -24,7 +25,7 @@ public class Block extends TexturedObject {
 	}
 
 	/**
-	 * Triggered every tick.
+	 * Triggered every tick on both server and client.
 	 * @param world
 	 * @param x
 	 * @param y
@@ -34,7 +35,7 @@ public class Block extends TexturedObject {
 	}
 	
 	/**
-	 * Triggered when the player clicks on it (right click; lc is for item use).
+	 * Triggered when the player clicks on it (right click; lc is for item use). This method is triggered on both server and client.
 	 * @param world
 	 * @param x
 	 * @param y

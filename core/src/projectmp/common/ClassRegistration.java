@@ -8,10 +8,12 @@ import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.ItemStack;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
+import projectmp.common.packet.PacketBlockActivate;
 import projectmp.common.packet.PacketBlockUpdate;
 import projectmp.common.packet.PacketEndChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketHandshake;
+import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
@@ -59,6 +61,8 @@ public class ClassRegistration {
 		kryo.register(PacketWeather.class);
 		kryo.register(PacketSendTileEntity.class);
 		kryo.register(PacketSwapSlot.class);
+		kryo.register(PacketBlockActivate.class);
+		kryo.register(PacketItemUse.class);
 	}
 
 	private static void registerEntities(Kryo kryo) {
