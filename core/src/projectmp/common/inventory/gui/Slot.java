@@ -4,7 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.inventory.Inventory;
-import projectmp.common.tileentity.IInventory;
+import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
