@@ -9,7 +9,7 @@ public class InventoryPlayer extends Inventory{
 		setMaxCapacity(9);
 		initSlots();
 		
-		setSlot(0, new ItemStack("cow", 999));
+		setSlot(0, new ItemStack("testItem", 999));
 	}
 	
 	@Override

@@ -194,10 +194,14 @@ public class ClientLogic implements Disposable {
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
-			setCurrentGui(GuiRegistry.instance().createNewGuiObject("playerInv", world,
-					(InventoryPlayer) getPlayer().getInventoryObject(),
-					Utils.unpackLongUpper(getPlayer().uuid),
-					Utils.unpackLongLower(getPlayer().uuid)));
+			if(getCurrentGui() == null){
+				setCurrentGui(GuiRegistry.instance().createNewGuiObject("playerInv", world,
+						(InventoryPlayer) getPlayer().getInventoryObject(),
+						Utils.unpackLongUpper(getPlayer().uuid),
+						Utils.unpackLongLower(getPlayer().uuid)));
+			}else{
+				setCurrentGui(null);
+			}
 		}
 		
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {

@@ -596,7 +596,6 @@ public class Main extends Game implements Consumer {
 
 		// misc
 		manager.load(AssetMap.add("vignette", "images/ui/vignette.png"), Texture.class);
-		manager.load(AssetMap.add("glintsquare", "images/item/glintsquare.png"), Texture.class);
 		manager.load(AssetMap.add("voidend", "images/voidend.png"), Texture.class);
 		manager.load(AssetMap.add("circlegradient", "images/circlegradient.png"), Texture.class);
 		manager.load(AssetMap.add("stunhalo", "images/stunhalo.png"), Texture.class);
@@ -625,7 +624,7 @@ public class Main extends Game implements Consumer {
 
 		// animations
 		animations.put("shine",
-				new LoopingAnimation(0.1f, 20, "images/item/shine/shine.png", false));
+				new LoopingAnimation(0.1f, 20, "images/items/shine/shine.png", false));
 		animations.put("fire-hud", new LoopingAnimation(0.05f, 8, "images/ui/fire-hudnomiddle.png",
 				true).setRegionTile(864, 468).setVertical(false));
 

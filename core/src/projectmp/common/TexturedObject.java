@@ -38,5 +38,9 @@ public class TexturedObject implements Disposable {
 			if (animations.get(i) != null) animations.get(i).dispose();
 		}
 	}
+	
+	public static LoopingAnimation singleBlockTexture(String path) {
+		return new LoopingAnimation(1, 1, path, false);
+	}
 
 }

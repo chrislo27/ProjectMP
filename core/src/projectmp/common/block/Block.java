@@ -20,10 +20,6 @@ public class Block extends TexturedObject {
 
 	}
 
-	public static LoopingAnimation singleBlockTexture(String path) {
-		return new LoopingAnimation(1, 1, path, false);
-	}
-
 	/**
 	 * Triggered every tick on both server and client.
 	 * @param world

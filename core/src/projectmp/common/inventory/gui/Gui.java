@@ -112,8 +112,10 @@ public abstract class Gui {
 	}
 
 	public void addPlayerInventory() {
+		Slot template = new Slot(null, -1, 0, 0);
+		
 		for (int i = 0; i < 9; i++) {
-			slots.add(new Slot(this.playerInv, i, 64 + (i * 32), Settings.DEFAULT_HEIGHT - 64));
+			slots.add(new Slot(this.playerInv, i, (template.width * 2) + (i * template.width) + (i * 4), Settings.DEFAULT_HEIGHT - (template.height * 2)));
 		}
 	}
 

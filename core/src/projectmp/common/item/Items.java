@@ -2,6 +2,7 @@ package projectmp.common.item;
 
 import java.util.HashMap;
 
+import projectmp.common.TexturedObject;
 import projectmp.common.block.Block.BlockFaces;
 
 import com.badlogic.gdx.utils.Array;
@@ -26,7 +27,7 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-
+		put("testItem", new ItemTest("testItem").addAnimation(Item.singleBlockTexture("images/items/mininglaser.png")));
 	}
 
 	public void put(String key, Item value) {

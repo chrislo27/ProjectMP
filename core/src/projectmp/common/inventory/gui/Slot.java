@@ -4,7 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.inventory.Inventory;
-import projectmp.common.tileentity.HasInventory;
+import projectmp.common.inventory.ItemStack;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
@@ -25,8 +25,8 @@ public class Slot {
 
 	int posx = 0;
 	int posy = 0;
-	int width = World.tilesizex;
-	int height = World.tilesizey;
+	int width = World.tilesizex * 2;
+	int height = World.tilesizey * 2;
 	int slotNum = -1;
 	Inventory inventory;
 	
@@ -51,7 +51,16 @@ public class Slot {
 		batch.draw(renderer.main.manager.get(AssetMap.get("invslot"), Texture.class), posx,
 				posy, width, height);
 		batch.setColor(1, 1, 1, 1);
-
+		// draw icon
+		ItemStack stack = inventory.getSlot(slotNum);
+		if(stack.getItem() != null){
+			stack.getItem().render(renderer, posx, posy, width, height, stack);
+			// draw number if > 1
+			if(stack.getAmount() > 1){
+				float textHeight = renderer.main.font.getBounds("" + stack.getAmount()).height;
+				renderer.main.drawInverse(renderer.main.font, "" + stack.getAmount(), posx + width, posy + textHeight);
+			}
+		}
 		// lighten if mouse button is down
 		if ((slotState & SlotState.LEFT_MOUSE_BUTTON_CLICKED) == SlotState.LEFT_MOUSE_BUTTON_CLICKED) {
 			batch.setColor(1, 1, 1, 0.25f);

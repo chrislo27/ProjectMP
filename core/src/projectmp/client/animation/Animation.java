@@ -68,7 +68,7 @@ public abstract class Animation implements Disposable {
 			frames[0].getTexture().dispose();
 			return;
 		}
-		for (int i = frames.length - 1; i > -1; i--) {
+		for (int i = 0; i < frames.length; i++) {
 			frames[i].getTexture().dispose();
 		}
 	}

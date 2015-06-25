@@ -4,6 +4,8 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
+import projectmp.common.item.Item;
+import projectmp.common.item.Items;
 import projectmp.common.util.AssetLogger;
 
 import com.badlogic.gdx.Gdx;
@@ -32,13 +34,13 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 					waitedAFrame = true;
 					break;
 				}
-				// finished
-				for (String s : main.manager.getAssetNames()) {
-					// System.out.println(s);
-				}
 
 				for (Block b : Blocks.instance().getBlockList()) {
 					b.loadAnimations();
+				}
+				
+				for(Item i : Items.instance().getItemList()){
+					i.loadAnimations();
 				}
 
 				Main.logger.info("Finished loading all managed assets, took "
