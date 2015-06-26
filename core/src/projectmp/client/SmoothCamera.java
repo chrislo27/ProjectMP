@@ -87,7 +87,7 @@ public class SmoothCamera {
 	}
 
 	public void centerY(float y) {
-		wantedy = y - (Gdx.graphics.getHeight() / 2f);
+		wantedy = y - (Settings.DEFAULT_HEIGHT / 2f);
 		if (shakeTime > 0) wantedy += MathUtils.random(
 				-Math.round((shakeIntensity * World.tilesizex) * 10),
 				Math.round(shakeIntensity * World.tilesizey * 10)) / 10f;

@@ -47,7 +47,6 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderWorld() {
-		camera.update();
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -130,8 +129,7 @@ public class WorldRenderer implements Disposable {
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
-		batch.flush();
-
+		
 		batch.end();
 
 	}

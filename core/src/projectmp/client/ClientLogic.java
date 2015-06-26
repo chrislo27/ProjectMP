@@ -109,8 +109,8 @@ public class ClientLogic implements Disposable {
 	}
 
 	public void render() {
-		centerCameraOnPlayer();
-
+		centerCameraOnPlayerAndUpdate();
+		
 		renderer.renderWorld();
 		
 		renderer.renderPlayerNames();
@@ -161,13 +161,12 @@ public class ClientLogic implements Disposable {
 							.getSimpleName()
 							+ ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5,
 					Main.convertY(starting + 150));
-			main.font
-			.draw(main.batch,
-					"accountedSky: "
-							+ world.lightingEngine.getSkyLightFromTOD(world.lightingEngine.getSkyLight(
-									((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
-									((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)))),
-					5, Main.convertY(starting + 165));
+			main.font.draw(main.batch, "cam x, y: " + renderer.camera.camerax + ", "
+					+ renderer.camera.cameray, 5, Main.convertY(starting + 165));
+			main.font.draw(main.batch, "cam wanted x, y: " + renderer.camera.wantedx + ", "
+					+ renderer.camera.wantedy, 5, Main.convertY(starting + 180));
+			main.font.draw(main.batch, "cam velo x, y: " + renderer.camera.velox + ", "
+					+ renderer.camera.veloy, 5, Main.convertY(starting + 195));
 		}
 	}
 
@@ -179,12 +178,11 @@ public class ClientLogic implements Disposable {
 		playerUpdate.veloy = getPlayer().veloy;
 	}
 
-	public void centerCameraOnPlayer() {
+	public void centerCameraOnPlayerAndUpdate() {
 		if (getPlayer() != null) {
 			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
 					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);
 
-			renderer.camera.clamp();
 			renderer.camera.update();
 		}
 	}
@@ -211,6 +209,9 @@ public class ClientLogic implements Disposable {
 		}
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			getPlayer().jump();
+		}
+		if(Gdx.input.isKeyPressed(Keys.DOWN)){
+			
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
