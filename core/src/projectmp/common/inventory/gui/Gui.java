@@ -87,8 +87,8 @@ public abstract class Gui {
 			}
 		} else {
 			logic.mouseStack.getItem().render(renderer, Main.getInputX(),
-					Main.convertY(Main.getInputY() + World.tilesizey * 2), World.tilesizex * 2, World.tilesizey * 2,
-					logic.mouseStack);
+					Main.convertY(Main.getInputY() + World.tilesizey * 2), World.tilesizex * 2,
+					World.tilesizey * 2, logic.mouseStack);
 			// draw number if > 1
 			if (logic.mouseStack.getAmount() > 1) {
 				float textHeight = renderer.main.font.getBounds("" + logic.mouseStack.getAmount()).height;
@@ -120,12 +120,46 @@ public abstract class Gui {
 				if (slot.isMouseOver()) {
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
-					packet.mouseStack = renderer.logic.mouseStack;
-					packet.slotToSwap = slot.slotNum;
 					// things to identify the inventory
 					packet.invId = inventoryId;
 					packet.invX = inventoryX;
 					packet.invY = inventoryY;
+
+					// swap stacks
+					packet.mouseStack = renderer.logic.mouseStack;
+					packet.slotToSwap = slot.slotNum;
+
+					renderer.logic.client.sendTCP(packet);
+
+					break;
+				}
+			}
+		} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) {
+			for (int i = 0; i < slots.size; i++) {
+				Slot slot = slots.get(i);
+
+				if (slot.isMouseOver()) {
+					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
+
+					// things to identify the inventory
+					packet.invId = inventoryId;
+					packet.invX = inventoryX;
+					packet.invY = inventoryY;
+
+					if (renderer.logic.mouseStack.isNothing()) {
+						// split stack in half, giving bigger half to mouse
+						
+					} else {
+						// if the slot is the same or empty put ONE in if under max stack amount
+						if (slot.inventory.getSlot(slot.slotNum).equalsIgnoreAmount(
+								renderer.logic.mouseStack)
+								|| slot.inventory.getSlot(slot.slotNum).isNothing()) {
+
+						}else{ // else swap like left click
+							packet.mouseStack = renderer.logic.mouseStack;
+							packet.slotToSwap = slot.slotNum;
+						}
+					}
 
 					renderer.logic.client.sendTCP(packet);
 
@@ -133,6 +167,7 @@ public abstract class Gui {
 				}
 			}
 		}
+
 	}
 
 	public void renderDarkBackground(SpriteBatch batch) {

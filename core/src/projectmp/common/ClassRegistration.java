@@ -20,6 +20,7 @@ import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSendTileEntity;
+import projectmp.common.packet.PacketSlotChanged;
 import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketWeather;
@@ -60,6 +61,7 @@ public class ClassRegistration {
 		kryo.register(PacketTimeUpdate.class);
 		kryo.register(PacketWeather.class);
 		kryo.register(PacketSendTileEntity.class);
+		kryo.register(PacketSlotChanged.class);
 		kryo.register(PacketSwapSlot.class);
 		kryo.register(PacketBlockActivate.class);
 		kryo.register(PacketItemUse.class);

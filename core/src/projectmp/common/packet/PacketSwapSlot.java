@@ -15,22 +15,12 @@ import com.esotericsoftware.kryonet.Connection;
  * 
  *
  */
-public class PacketSwapSlot implements Packet {
+public class PacketSwapSlot extends PacketSlotChanged {
 
-	public int slotToSwap = -1;
 	/**
 	 * this is the client's mouse stack OR the server's old "swapped" item
 	 */
 	public ItemStack mouseStack = null;
-
-	/**
-	 * used to determine what inventory it's referring to
-	 */
-	public String invId;
-	/**
-	 * used to determine what inventory it's referring to
-	 */
-	public int invX, invY;
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -53,6 +43,15 @@ public class PacketSwapSlot implements Packet {
 		packet.invY = this.invY;
 
 		logic.server.sendToTCP(connection.getID(), packet);
+		
+		PacketSlotChanged changed = logic.getSlotChangedPacket();
+		changed.changedItem = mouseStack;
+		changed.slotToSwap = slotToSwap;
+		changed.invId = invId;
+		changed.invX = invX;
+		changed.invY = invY;
+		
+		logic.server.sendToAllExceptTCP(connection.getID(), changed);
 	}
 
 	@Override

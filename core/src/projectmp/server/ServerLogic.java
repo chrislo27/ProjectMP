@@ -18,6 +18,7 @@ import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
+import projectmp.common.packet.PacketSlotChanged;
 import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.world.ServerWorld;
 
@@ -42,6 +43,7 @@ public class ServerLogic {
 	private PacketNewEntity newEntity = new PacketNewEntity();
 	private PacketSwapSlot swapSlot = new PacketSwapSlot();
 	private PacketGuiState guiStatePacket = new PacketGuiState();
+	private PacketSlotChanged slotChanged = new PacketSlotChanged();
 
 	public ServerLogic(Main m) {
 		main = m;
@@ -213,6 +215,10 @@ public class ServerLogic {
 	
 	public void closeGui(EntityPlayer player, String guiId, int x, int y){
 		sendGuiState(player, guiId, x, y, false);
+	}
+	
+	public PacketSlotChanged getSlotChangedPacket(){
+		return slotChanged;
 	}
 
 }

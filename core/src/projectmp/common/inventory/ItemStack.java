@@ -49,5 +49,13 @@ public class ItemStack {
 	public boolean isNothing(){
 		return item == null || quantity <= 0;
 	}
+	
+	public boolean equalsIgnoreAmount(ItemStack other){
+		if(other.getItem() == this.getItem()){
+			return true;
+		}
+		
+		return false;
+	}
 
 }
