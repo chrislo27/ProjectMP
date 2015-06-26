@@ -4,7 +4,9 @@ import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
+import projectmp.common.inventory.gui.GuiChessBoard;
 import projectmp.common.inventory.gui.GuiPlayerInventory;
+import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
@@ -60,7 +62,9 @@ public class GuiRegistry {
 		public Gui getGuiObject(String id, World world, InventoryPlayer player, int x, int y) {
 			switch(id){
 			case("playerInv"):
-				return new GuiPlayerInventory(player, id, x, y);
+				return new GuiPlayerInventory(world, player, id, x, y);
+			case("chessboard"):
+				return new GuiChessBoard(world, player, id, x, y);
 			default:
 				return null;
 			}
@@ -71,6 +75,8 @@ public class GuiRegistry {
 			switch(id){
 			case("playerInv"):
 				return ((EntityPlayer) (world.getEntityByUUID(Utils.packLong(x, y)))).getInventoryObject();
+			case("chessboard"):
+				return ((HasInventory) (world.getBlock(x, y))).getInventoryObject();
 			default:
 				return null;
 			}

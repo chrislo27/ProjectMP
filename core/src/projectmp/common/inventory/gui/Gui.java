@@ -27,20 +27,24 @@ import com.badlogic.gdx.utils.Array;
 @SideOnly(Side.CLIENT)
 public abstract class Gui {
 
+	public static final Slot TEMPLATE_SLOT = new Slot(null, -1, 0, 0);
+	
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
 
 	protected String inventoryId;
 	protected int inventoryX;
 	protected int inventoryY;
+	protected World world;
 
 	protected String unlocalizedName = null;
 
-	public Gui(InventoryPlayer player, String id, int invx, int invy) {
+	public Gui(World world, InventoryPlayer player, String id, int invx, int invy) {
 		playerInv = player;
 		inventoryId = id;
 		inventoryX = invx;
 		inventoryY = invy;
+		this.world = world;
 	}
 
 	public void render(WorldRenderer renderer, ClientLogic logic) {
@@ -104,8 +108,8 @@ public abstract class Gui {
 
 		if (slot.isMouseOver()) {
 			state |= SlotState.MOUSE_OVER;
-			if (Gdx.input.isButtonPressed(Buttons.LEFT)) {
-				state |= SlotState.LEFT_MOUSE_BUTTON_CLICKED;
+			if (Gdx.input.isButtonPressed(Buttons.LEFT) || Gdx.input.isButtonPressed(Buttons.RIGHT)) {
+				state |= SlotState.MOUSE_BUTTON_CLICKED;
 			}
 		}
 
@@ -182,11 +186,9 @@ public abstract class Gui {
 	}
 
 	public void addPlayerInventory() {
-		Slot template = new Slot(null, -1, 0, 0);
-
 		for (int i = 0; i < 9; i++) {
-			slots.add(new Slot(this.playerInv, i, (template.width / 2) + (i * template.width)
-					+ (i * 4), Settings.DEFAULT_HEIGHT - (template.height * 2)));
+			slots.add(new Slot(this.playerInv, i, (TEMPLATE_SLOT.width / 2) + (i * TEMPLATE_SLOT.width)
+					+ (i * 4), Settings.DEFAULT_HEIGHT - (TEMPLATE_SLOT.height * 2)));
 		}
 	}
 

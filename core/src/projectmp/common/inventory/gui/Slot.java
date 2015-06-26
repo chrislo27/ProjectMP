@@ -17,7 +17,8 @@ public class Slot {
 
 		public static final int NONE = 0b0;
 		public static final int MOUSE_OVER = 0b10;
-		public static final int LEFT_MOUSE_BUTTON_CLICKED = 0b100;
+		public static final int MOUSE_BUTTON_CLICKED = 0b100;
+		public static final int DARKEN = 0b1000;
 
 		private SlotState() {
 		}
@@ -65,8 +66,15 @@ public class Slot {
 		}
 		
 		// lighten if mouse button is down
-		if ((slotState & SlotState.LEFT_MOUSE_BUTTON_CLICKED) == SlotState.LEFT_MOUSE_BUTTON_CLICKED) {
+		if ((slotState & SlotState.MOUSE_BUTTON_CLICKED) == SlotState.MOUSE_BUTTON_CLICKED) {
 			batch.setColor(1, 1, 1, 0.25f);
+			Main.fillRect(batch, posx, posy, width, height);
+			batch.setColor(1, 1, 1, 1);
+		}
+		
+		// darken
+		if ((slotState & SlotState.DARKEN) == SlotState.DARKEN) {
+			batch.setColor(0, 0, 0, 0.333f);
 			Main.fillRect(batch, posx, posy, width, height);
 			batch.setColor(1, 1, 1, 1);
 		}
