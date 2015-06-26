@@ -11,6 +11,7 @@ import projectmp.common.world.World;
 public class Item extends TexturedObject {
 
 	String name = "unnamed";
+	int maxStackable = 1;
 
 	public Item(String unlocalizedname) {
 		name = unlocalizedname;
@@ -32,6 +33,11 @@ public class Item extends TexturedObject {
 	public Item addAnimation(LoopingAnimation a) {
 		super.addAnimation(a);
 
+		return this;
+	}
+	
+	public Item setMaxStack(int i){
+		maxStackable = i;
 		return this;
 	}
 
