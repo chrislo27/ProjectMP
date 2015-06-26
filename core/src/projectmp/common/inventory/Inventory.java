@@ -13,8 +13,6 @@ import com.badlogic.gdx.utils.Array;
  */
 public class Inventory {
 
-	public static final int PLAYER_SLOTS = 10;
-
 	ItemStack[] items = new ItemStack[1];
 	int maxCapacity = 1;
 	

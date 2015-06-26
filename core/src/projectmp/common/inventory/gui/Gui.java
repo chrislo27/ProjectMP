@@ -177,10 +177,12 @@ public abstract class Gui {
 	}
 
 	public void addPlayerInventory() {
-		for (int i = 0; i < 9; i++) {
+		for (int i = 0; i < InventoryPlayer.MAX_INV_CAPACITY; i++) {
+			int x = i % 9;
+			int y = i / 9;
 			slots.add(new Slot(this.playerInv, i, (TEMPLATE_SLOT.width / 2)
-					+ (i * TEMPLATE_SLOT.width) + (i * 4), Settings.DEFAULT_HEIGHT
-					- (TEMPLATE_SLOT.height * 2)));
+					+ (x * TEMPLATE_SLOT.width) + (x * 4), Settings.DEFAULT_HEIGHT
+					- (TEMPLATE_SLOT.height * 2) - (y * 4) - (y * TEMPLATE_SLOT.height)));
 		}
 	}
 

@@ -21,8 +21,8 @@ public class GuiChessboard extends Gui{
 		
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
-				slots.add(new Slot(inv, y * 8 + x, (TEMPLATE_SLOT.width / 2) + (x * TEMPLATE_SLOT.width)
-						+ (x * 4), (int) (Settings.DEFAULT_HEIGHT - (TEMPLATE_SLOT.height * 3.5f) - (y * 4) - (y * TEMPLATE_SLOT.height))));
+				slots.add(new Slot(inv, y * 8 + x, (int) ((TEMPLATE_SLOT.width * 11f) + (x * TEMPLATE_SLOT.width)
+						+ (x * 4)), (int) (Settings.DEFAULT_HEIGHT - (TEMPLATE_SLOT.height * 3.5f) - (y * 4) - (y * TEMPLATE_SLOT.height))));
 			}
 		}
 	}
