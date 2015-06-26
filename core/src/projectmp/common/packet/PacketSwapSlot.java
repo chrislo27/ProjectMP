@@ -5,6 +5,7 @@ import projectmp.common.Main;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.ItemStack;
 import projectmp.common.registry.GuiRegistry;
+import projectmp.common.util.Utils;
 import projectmp.server.ServerLogic;
 
 import com.badlogic.gdx.Gdx;
@@ -65,7 +66,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 		// so set the mouse to the swapped item
 		logic.mouseStack = mouseStack.copy();
 		
-		Gdx.input.setCursorCatched(!logic.mouseStack.isNothing());
+		Utils.setCursorVisibility(logic.mouseStack.isNothing());
 	}
 
 }

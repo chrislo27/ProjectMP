@@ -19,6 +19,18 @@ public class Utils {
 	
 	private static HashMap<Integer, Boolean> pressedButtons = new HashMap<>();
 
+	public static void setCursorVisibility(boolean visible){
+		if(visible){
+			int x = Gdx.input.getX();
+			int y = Gdx.input.getY();
+			
+			Gdx.input.setCursorCatched(false);
+			Gdx.input.setCursorPosition(x, y);
+		}else{
+			Gdx.input.setCursorCatched(true);
+		}
+	}
+	
 	public static <T> boolean addToArray(T[] array, T toadd) {
 		for (int i = 0; i < array.length; i++) {
 			if (array[i] == null) {
