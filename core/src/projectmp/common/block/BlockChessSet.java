@@ -17,8 +17,7 @@ public class BlockChessSet extends BlockContainer {
 	@Override
 	public void onActivate(World world, int x, int y, EntityPlayer player) {
 		if (world.isServer == false) {
-			world.main.clientLogic.setCurrentGui(GuiRegistry.instance().createNewGuiObject(
-					"chessboard", world, (InventoryPlayer) player.getInventoryObject(), x, y));
+			world.main.clientLogic.openGui("chessboard", x, y);
 		}
 	}
 

@@ -193,7 +193,6 @@ public class ClientLogic implements Disposable {
 				
 			}else if(Utils.isButtonJustPressed(Buttons.RIGHT)){
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
-				
 			}
 		}
 		
@@ -209,10 +208,8 @@ public class ClientLogic implements Disposable {
 
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
 			if(getCurrentGui() == null){
-				setCurrentGui(GuiRegistry.instance().createNewGuiObject("playerInv", world,
-						(InventoryPlayer) getPlayer().getInventoryObject(),
-						Utils.unpackLongUpper(getPlayer().uuid),
-						Utils.unpackLongLower(getPlayer().uuid)));
+				openGui("playerInv", Utils.unpackLongUpper(getPlayer().uuid),
+						Utils.unpackLongLower(getPlayer().uuid));
 			}else{
 				setCurrentGui(null);
 			}
@@ -243,6 +240,12 @@ public class ClientLogic implements Disposable {
 		}
 		
 		Gdx.input.setCursorCatched(false);
+	}
+	
+	public void openGui(String id, int x, int y){
+		setCurrentGui(GuiRegistry.instance().createNewGuiObject(id, world,
+						(InventoryPlayer) getPlayer().getInventoryObject(),
+						x, y));
 	}
 	
 	@Override
