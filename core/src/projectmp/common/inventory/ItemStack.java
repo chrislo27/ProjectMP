@@ -48,10 +48,6 @@ public class ItemStack {
 		item = i;
 	}
 	
-	public void setItem(Item i){
-		item = Items.instance().getKey(i);
-	}
-	
 	/**
 	 * makes a deep copy
 	 * @return

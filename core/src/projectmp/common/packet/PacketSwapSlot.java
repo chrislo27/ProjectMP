@@ -6,9 +6,12 @@ import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.ItemStack;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
+import projectmp.common.util.sidedictation.Side;
+import projectmp.common.util.sidedictation.SideOnly;
 import projectmp.server.ServerLogic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.esotericsoftware.kryonet.Connection;
 
 /**
@@ -23,36 +26,20 @@ public class PacketSwapSlot extends PacketSlotChanged {
 	 */
 	public ItemStack mouseStack = null;
 
+	@SideOnly(Side.SERVER)
+	public int buttonUsed = Buttons.LEFT;
+
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
 		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY);
 
 		if (inv == null) return;
 
-		// copy the old slot
-		ItemStack old = inv.getSlot(slotToSwap).copy();
-
-		// replace the slot with the client's mouse stack
-		inv.setSlot(slotToSwap, (mouseStack == null ? new ItemStack(null, 0) : mouseStack));
-
-		// prepare a new packet to send to the client
-		PacketSwapSlot packet = logic.getSwapSlotPacket();
-		packet.slotToSwap = this.slotToSwap;
-		packet.mouseStack = old;
-		packet.invId = this.invId;
-		packet.invX = this.invX;
-		packet.invY = this.invY;
-
-		logic.server.sendToTCP(connection.getID(), packet);
-		
-		PacketSlotChanged changed = logic.getSlotChangedPacket();
-		changed.changedItem = mouseStack;
-		changed.slotToSwap = slotToSwap;
-		changed.invId = invId;
-		changed.invX = invX;
-		changed.invY = invY;
-		
-		logic.server.sendToAllExceptTCP(connection.getID(), changed);
+		if (buttonUsed == Buttons.LEFT) {
+			leftClickFunctionality(connection, logic, inv);
+		} else if (buttonUsed == Buttons.RIGHT) {
+			rightClickFunctionality(connection, logic, inv);
+		}
 	}
 
 	@Override
@@ -60,13 +47,124 @@ public class PacketSwapSlot extends PacketSlotChanged {
 		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY);
 
 		if (inv == null) return;
-		
-		// the inventory's slot is now the mouse
-		inv.setSlot(slotToSwap, logic.mouseStack.copy());
-		// so set the mouse to the swapped item
+
+		// set the mouse stack
 		logic.mouseStack = mouseStack.copy();
-		
+
 		Utils.setCursorVisibility(logic.mouseStack.isNothing());
+	}
+
+	@SideOnly(Side.SERVER)
+	private void leftClickFunctionality(Connection connection, ServerLogic logic, Inventory inv) {
+		ItemStack inventorySlot = inv.getSlot(slotToSwap);
+		ItemStack newMouseStack = mouseStack; // this should never retain
+		
+		if(!inventorySlot.equalsIgnoreAmount(mouseStack)){
+			// if they differ, totally swap the contents
+			
+			// copy the old slot which will now be the mouse stack
+			newMouseStack = inventorySlot.copy();
+
+			// replace the slot with the client's mouse stack
+			inv.setSlot(slotToSwap, mouseStack);
+			
+			// resetting inventorySlot is needed to update correctly
+			inventorySlot = inv.getSlot(slotToSwap);
+		}else{
+			// they're the same, so try to stack it together as much as possible
+			
+			// get how much we can put/shove inside the slot
+			int shoveableRemaining = inventorySlot.getItem().getMaxStack() - inventorySlot.getAmount();
+			
+			// we can put the rest of the mouse stack in the slot, easy
+			if(mouseStack.getAmount() <= shoveableRemaining){
+				inventorySlot.setAmount(inventorySlot.getAmount() + mouseStack.getAmount());
+				
+				mouseStack.setAmount(0);
+				mouseStack.setItem(null);
+			}else{
+				// there's too much in the mouse so transfer as much as possible
+				
+				inventorySlot.setAmount(inventorySlot.getItem().getMaxStack());
+				
+				mouseStack.setAmount(mouseStack.getAmount() - shoveableRemaining);
+			}
+			
+			newMouseStack = mouseStack;
+		}
+
+		// prepare a packet to send to the client to change the client's mouse stack
+		PacketSwapSlot packet = logic.getSwapSlotPacket();
+		packet.slotToSwap = this.slotToSwap;
+		packet.mouseStack = newMouseStack;
+		packet.invId = this.invId;
+		packet.invX = this.invX;
+		packet.invY = this.invY;
+
+		logic.server.sendToTCP(connection.getID(), packet);
+		
+		updateOtherClients(logic, inventorySlot);
+	}
+
+	@SideOnly(Side.SERVER)
+	private void rightClickFunctionality(Connection connection, ServerLogic logic, Inventory inv) {
+		ItemStack inventorySlot = inv.getSlot(slotToSwap);
+
+		// take half of the slot
+		if (mouseStack.isNothing() && !inventorySlot.isNothing()) {
+			int originalAmount = inventorySlot.getAmount();
+
+			mouseStack.setItem(inventorySlot.getItemString());
+			mouseStack.setAmount((originalAmount / 2) + (originalAmount % 2)); // take the bigger half if applicable
+
+			inventorySlot.setAmount(originalAmount / 2); // takes the smaller half
+
+			// prepare a packet to send to the client to refresh the mouse stack
+			PacketSwapSlot packet = logic.getSwapSlotPacket();
+			packet.slotToSwap = this.slotToSwap;
+			packet.mouseStack = mouseStack;
+			packet.invId = this.invId;
+			packet.invX = this.invX;
+			packet.invY = this.invY;
+
+			logic.server.sendToTCP(connection.getID(), packet);
+		}else if (!inventorySlot.isNothing() && !inventorySlot.equalsIgnoreAmount(mouseStack)) { // right clicking over different item; simply replace like left click
+			// replace like left click
+			leftClickFunctionality(connection, logic, inv);
+			return;
+		} else if (inventorySlot.isNothing() || inventorySlot.equalsIgnoreAmount(mouseStack)) { // the slot is empty/same, add one to it
+			// check if the item capacity is maxed out
+			if (!inventorySlot.isNothing() && inventorySlot.equalsIgnoreAmount(mouseStack)) {
+				if (inventorySlot.getAmount() >= inventorySlot.getItem().getMaxStack()) return;
+			}
+
+			// add one to the slot
+			inventorySlot.setItem(mouseStack.getItemString()); // this takes care of nothing slot
+			inventorySlot.setAmount(inventorySlot.getAmount() + 1);
+
+			// remove one from mouse stack
+			mouseStack.setAmount(mouseStack.getAmount() - 1);
+
+			// if mouse amt is 0 set to item to null
+			if (mouseStack.isNothing()) {
+				mouseStack.setItem(null);
+			}
+		}
+		
+		updateOtherClients(logic, inventorySlot);
+	}
+
+	@SideOnly(Side.SERVER)
+	private void updateOtherClients(ServerLogic logic, ItemStack changedItem) {
+		// update the other clients of the change
+		PacketSlotChanged changed = logic.getSlotChangedPacket();
+		changed.changedItem = changedItem;
+		changed.slotToSwap = slotToSwap;
+		changed.invId = invId;
+		changed.invX = invX;
+		changed.invY = invY;
+
+		logic.server.sendToAllTCP(changed);
 	}
 
 }

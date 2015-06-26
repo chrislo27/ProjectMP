@@ -60,4 +60,8 @@ public class Item extends TexturedObject {
 		return 0;
 	}
 
+	public int getMaxStack() {
+		return maxStackable;
+	}
+
 }

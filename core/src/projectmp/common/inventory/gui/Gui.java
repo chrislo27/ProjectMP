@@ -125,6 +125,9 @@ public abstract class Gui {
 					packet.invX = inventoryX;
 					packet.invY = inventoryY;
 
+					// the button used
+					packet.buttonUsed = Buttons.LEFT;
+					
 					// swap stacks
 					packet.mouseStack = renderer.logic.mouseStack;
 					packet.slotToSwap = slot.slotNum;
@@ -145,21 +148,13 @@ public abstract class Gui {
 					packet.invId = inventoryId;
 					packet.invX = inventoryX;
 					packet.invY = inventoryY;
+					
+					// the button used
+					packet.buttonUsed = Buttons.RIGHT;
 
-					if (renderer.logic.mouseStack.isNothing()) {
-						// split stack in half, giving bigger half to mouse
-						
-					} else {
-						// if the slot is the same or empty put ONE in if under max stack amount
-						if (slot.inventory.getSlot(slot.slotNum).equalsIgnoreAmount(
-								renderer.logic.mouseStack)
-								|| slot.inventory.getSlot(slot.slotNum).isNothing()) {
-
-						}else{ // else swap like left click
-							packet.mouseStack = renderer.logic.mouseStack;
-							packet.slotToSwap = slot.slotNum;
-						}
-					}
+					// stacks and slot (server handles actual logic)
+					packet.mouseStack = renderer.logic.mouseStack;
+					packet.slotToSwap = slot.slotNum;
 
 					renderer.logic.client.sendTCP(packet);
 
