@@ -6,6 +6,7 @@ import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.NBTUtils;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Texture;
@@ -17,7 +18,7 @@ import com.evilco.mc.nbt.tag.TagString;
 public class EntityPlayer extends EntityLiving implements HasInventory {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
-	private InventoryPlayer inventory = new InventoryPlayer();
+	private InventoryPlayer inventory;
 
 	public EntityPlayer() {
 		super();
@@ -34,6 +35,8 @@ public class EntityPlayer extends EntityLiving implements HasInventory {
 		this.sizex = 1f;
 		this.sizey = 1f;
 		this.hasEntityCollision = true;
+		
+		inventory = new InventoryPlayer("playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
 	}
 
 	@Override

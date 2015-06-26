@@ -11,7 +11,7 @@ public class BlockChessSet extends BlockContainer {
 
 	@Override
 	public TileEntity createNewTileEntity(int x, int y) {
-		return new TileEntityChessboard();
+		return new TileEntityChessboard(x, y);
 	}
 
 	@Override

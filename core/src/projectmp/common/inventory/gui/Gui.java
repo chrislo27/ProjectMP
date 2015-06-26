@@ -32,18 +32,12 @@ public abstract class Gui {
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
 
-	protected String inventoryId;
-	protected int inventoryX;
-	protected int inventoryY;
 	protected World world;
 
 	protected String unlocalizedName = null;
 
-	public Gui(World world, InventoryPlayer player, String id, int invx, int invy) {
+	public Gui(World world, InventoryPlayer player) {
 		playerInv = player;
-		inventoryId = id;
-		inventoryX = invx;
-		inventoryY = invy;
 		this.world = world;
 	}
 
@@ -125,9 +119,9 @@ public abstract class Gui {
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
 					// things to identify the inventory
-					packet.invId = inventoryId;
-					packet.invX = inventoryX;
-					packet.invY = inventoryY;
+					packet.invId = slot.inventory.invId;
+					packet.invX = slot.inventory.invX;
+					packet.invY = slot.inventory.invY;
 
 					// the button used
 					packet.buttonUsed = Buttons.LEFT;
@@ -149,9 +143,9 @@ public abstract class Gui {
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
 					// things to identify the inventory
-					packet.invId = inventoryId;
-					packet.invX = inventoryX;
-					packet.invY = inventoryY;
+					packet.invId = slot.inventory.invId;
+					packet.invX = slot.inventory.invX;
+					packet.invY = slot.inventory.invY;
 					
 					// the button used
 					packet.buttonUsed = Buttons.RIGHT;

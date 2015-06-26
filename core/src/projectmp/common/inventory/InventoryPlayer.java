@@ -6,6 +6,12 @@ import projectmp.common.inventory.itemstack.ItemStack;
 public class InventoryPlayer extends Inventory{
 	
 	public InventoryPlayer(){
+		super();
+	}
+	
+	public InventoryPlayer(String id, int x, int y){
+		super(id, x, y);
+		
 		setMaxCapacity(9);
 		initSlots();
 		

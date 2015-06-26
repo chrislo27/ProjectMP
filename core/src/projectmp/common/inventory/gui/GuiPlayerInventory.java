@@ -6,8 +6,8 @@ import projectmp.common.world.World;
 
 public class GuiPlayerInventory extends Gui{
 
-	public GuiPlayerInventory(World world, InventoryPlayer player, String id, int invx, int invy) {
-		super(world, player, id, invx, invy);
+	public GuiPlayerInventory(World world, InventoryPlayer player) {
+		super(world, player);
 		addPlayerInventory();
 		setUnlocalizedName("playerInv");
 	}

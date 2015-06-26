@@ -9,11 +9,19 @@ public class TileEntityChessboard extends TileEntity implements HasInventory{
 	InventoryChessboard inv;
 	
 	public TileEntityChessboard(){
-		inv = new InventoryChessboard();
+		super();
+	}
+	
+	public TileEntityChessboard(int x, int y){
+		super(x, y);
 	}
 
 	@Override
 	public Inventory getInventoryObject() {
+		if(inv == null){
+			inv = new InventoryChessboard("chessboard", x, y);
+		}
+		
 		return inv;
 	}
 	

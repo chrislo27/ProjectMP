@@ -63,7 +63,7 @@ public class GuiRegistry {
 		public Gui getGuiObject(String id, World world, InventoryPlayer player, int x, int y) {
 			switch(id){
 			case("playerInv"):
-				return new GuiPlayerInventory(world, player, id, x, y);
+				return new GuiPlayerInventory(world, player);
 			case("chessboard"):
 				return new GuiChessboard(world, player, id, x, y);
 			default:

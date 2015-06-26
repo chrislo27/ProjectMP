@@ -12,7 +12,7 @@ import projectmp.common.world.World;
 public class GuiChessboard extends Gui{
 
 	public GuiChessboard(World world, InventoryPlayer player, String id, int invx, int invy) {
-		super(world, player, id, invx, invy);
+		super(world, player);
 		
 		addPlayerInventory();
 		setUnlocalizedName("chessboard");

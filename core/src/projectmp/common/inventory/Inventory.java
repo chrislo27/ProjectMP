@@ -17,7 +17,17 @@ public class Inventory {
 
 	ItemStack[] items = new ItemStack[1];
 	int maxCapacity = 1;
+	
+	public String invId = null;
+	public int invX = 0;
+	public int invY = 0;
 
+	public Inventory(String id, int x, int y){
+		invId = id;
+		invX = x;
+		invY = y;;
+	}
+	
 	public Inventory() {
 
 	}
