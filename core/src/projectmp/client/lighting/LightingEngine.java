@@ -18,40 +18,41 @@ import com.badlogic.gdx.utils.Pools;
 public class LightingEngine {
 
 	public static final float TRANSITION_MULTIPLIER_SECS = 2.5f;
+	/**
+	 * The shadow base colour (default black)
+	 */
+	public static final Color SHADOW_BASE_COLOR = new Color(0, 0, 0, 1);
 
+	// the essentials
 	private World world;
 	private Main main;
 	private int sizex = 1;
 	private int sizey = 1;
 
-	private byte[][] brightness;
-	private byte[][] tempBrightness;
-	/**
-	 * rgb888
-	 */
-	private int[][] lightColor;
-	private int[][] tempLightColor;
-
-	private boolean[][] isPartOfSky;
-
-	private TimeOfDay lastTOD = TimeOfDay.DAYTIME;
+	// ToD and transitions
 	public float lastDayBrightness = TimeOfDay.DAYTIME.lightLevel / 127f;
-	private Color daylightColor = new Color(0, 0, 0, 1);
-	private final Color shadowColor = new Color(0, 0, 0, 1);
-	private Color tempColor = new Color();
-	private Color tempColor2 = new Color();
-	private Color tempColor3 = new Color();
-	private Color tempColor4 = new Color();
-	private Color tempColor5 = new Color();
-	private Color tempColor6 = new Color();
-	private Color tempColor7 = new Color();
+	/**
+	 * This is the time of day colour with transitions
+	 */
+	public Color timeOfDayColor = new Color(TimeOfDay.DAYTIME.color);
+	
+	// reused color objects
+	private Color mixingColor0 = new Color();
+	private Color mixingColor1 = new Color();
+	private Color skyLightTransition = new Color();
+	
+	// all the light data
+	private byte[][] skyLighting;
+	private LightTiles lightData;
+	
+	// the lighting renderer
+	private LightingRenderer lightingRenderer;
 
+	// everything related to lighting updates
 	private int lastUpdateLengthNano = 0;
-
 	private boolean isUpdateScheduled = false;
 	private float lastUpdateCamX = 0;
 	private float lastUpdateCamY = 0;
-
 	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 256);
 	private Array<LightingUpdate> lightingUpdates = new Array<LightingUpdate>(256);
 
@@ -66,45 +67,25 @@ public class LightingEngine {
 		sizex = world.sizex;
 		sizey = world.sizey;
 
-		brightness = new byte[sizex][sizey];
-		tempBrightness = new byte[sizex][sizey];
-		lightColor = new int[sizex][sizey];
-		tempLightColor = new int[sizex][sizey];
-		isPartOfSky = new boolean[sizex][sizey];
-
-		for (int x = 0; x < sizex; x++) {
-			for (int y = 0; y < sizey; y++) {
-				lightColor[x][y] = Color.rgb888(0, 0, 0);
-			}
-		}
-
-		copyToTemp();
+		lightingRenderer = new LightingRenderer(this);
+		
+		skyLighting = new byte[sizex][sizey];
+		lightData = new LightTiles(sizex, sizey);
 	}
 
 	/**
 	 * call NOT between batch begin/end
 	 */
 	public void render(WorldRenderer renderer, SpriteBatch batch) {
-		if (lastTOD != world.time.getCurrentTimeOfDay()) scheduleLightingUpdate();
-		lastTOD = world.time.getCurrentTimeOfDay();
+		float magicDeltaAssist = Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS;
+		TimeOfDay currentTOD = world.time.getCurrentTimeOfDay();
+		Color.rgb888ToColor(skyLightTransition, currentTOD.color);
 
-		if ((int) (lastDayBrightness * 127) != world.time.getCurrentTimeOfDay().lightLevel) {
-			byte byteform = (byte) (lastDayBrightness * 127);
-
-			lastDayBrightness += ((world.time.getCurrentTimeOfDay().lightLevel / 127f) - lastDayBrightness)
-					* Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS;
-
-			Color.rgb888ToColor(tempColor, world.time.getCurrentTimeOfDay().color);
-			daylightColor.lerp(tempColor, Gdx.graphics.getDeltaTime() / TRANSITION_MULTIPLIER_SECS);
-
-			//			if(Math.abs((world.worldTime.getCurrentTimeOfDay().lightLevel - ((int) (lastDayBrightness * 127)))) <= 1){
-			//				// forcefully set the colour and brightness when it's "close enough"
-			//				lastDayBrightness = (world.worldTime.getCurrentTimeOfDay().lightLevel / 127f);
-			//				Color.rgb888ToColor(daylightColor, world.worldTime.getCurrentTimeOfDay().color);
-			//			}
-
-			if ((byte) (lastDayBrightness * 127) != byteform) scheduleLightingUpdate();
-		}
+		lastDayBrightness += ((currentTOD.lightLevel / 127f) - lastDayBrightness)
+				* magicDeltaAssist;
+		timeOfDayColor.r += ((skyLightTransition).r - timeOfDayColor.r) * magicDeltaAssist;
+		timeOfDayColor.g += ((skyLightTransition).g - timeOfDayColor.g) * magicDeltaAssist;
+		timeOfDayColor.b += ((skyLightTransition).b - timeOfDayColor.b) * magicDeltaAssist;
 
 		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH
 				- (World.tilesizex * 2)) {
@@ -134,40 +115,19 @@ public class LightingEngine {
 			isUpdateScheduled = false;
 		}
 
-		batch.begin();
-
-		for (int x = renderer.getCullStartX(2); x < renderer.getCullEndX(2); x++) {
-			for (int y = renderer.getCullStartY(2); y < renderer.getCullEndY(2); y++) {
-
-				if (!Settings.smoothLighting) {
-					batch.setColor(setTempColor(x, y));
-					Main.fillRect(batch, renderer.convertWorldX(x),
-							renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
-							World.tilesizey);
-					continue;
-				}
-
-				main.drawGradient(batch, renderer.convertWorldX(x),
-						renderer.convertWorldY(y, World.tilesizey), World.tilesizex,
-						World.tilesizey,
-						tempColor3.set(setAveragedColors(x, y, x - 1, y + 1, x - 1, y, x, y + 1)),
-						tempColor4.set(setAveragedColors(x, y, x + 1, y + 1, x + 1, y, x, y + 1)),
-						tempColor5.set(setAveragedColors(x, y, x + 1, y - 1, x + 1, y, x, y - 1)),
-						tempColor6.set(setAveragedColors(x, y, x - 1, y - 1, x - 1, y, x, y - 1)));
-			}
-		}
-
-		batch.end();
-		batch.setColor(1, 1, 1, 1);
+		lightingRenderer.render(renderer, batch);
 	}
 
 	public void updateLighting(int prex, int prey, int postx, int posty) {
 		long nano = System.nanoTime();
 
-		resetLighting(prex, prey, postx, posty);
+		// reset the lighting and calculate the sky lights
+		resetLightingAndCalcSky(prex, prey, postx, posty);
 
-		floodFillLighting(prex, prey, postx, posty);
+		// do all the lighting updates
+		doLightingUpdates(prex, prey, postx, posty);
 
+		// free the lighting updates
 		while (lightingUpdates.size > 0) {
 			LightingUpdate l = lightingUpdates.pop();
 			lightingUpdatePool.free(l);
@@ -176,75 +136,7 @@ public class LightingEngine {
 		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
-	private Color setTempColor(int x, int y) {
-		Color.rgb888ToColor(tempColor, getLightColor(x, y));
-
-		tempColor.set(tempColor.lerp(shadowColor, calcAlpha(x, y)));
-
-		return tempColor.set(tempColor.r, tempColor.g, tempColor.b, calcAlpha(x, y));
-	}
-
-	private Color setAveragedColors(int startx, int starty, int x1, int y1, int x2, int y2, int x3,
-			int y3) {
-		float r, g, b, a;
-		float r1, g1, b1, a1;
-		float r2, g2, b2, a2;
-		float r3, g3, b3, a3;
-
-		setTempColor(startx, starty);
-		r = tempColor.r;
-		g = tempColor.g;
-		b = tempColor.b;
-		a = tempColor.a;
-
-		setTempColor(x1, y1);
-		r1 = tempColor.r;
-		g1 = tempColor.g;
-		b1 = tempColor.b;
-		a1 = tempColor.a;
-
-		setTempColor(x2, y2);
-		r2 = tempColor.r;
-		g2 = tempColor.g;
-		b2 = tempColor.b;
-		a2 = tempColor.a;
-
-		setTempColor(x3, y3);
-		r3 = tempColor.r;
-		g3 = tempColor.g;
-		b3 = tempColor.b;
-		a3 = tempColor.a;
-
-		tempColor2.set((r + r1 + r2 + r3) / 4f, (g + g1 + g2 + g3) / 4f, (b + b1 + b2 + b3) / 4f,
-				(a + a1 + a2 + a3) / 4f);
-
-		return tempColor2;
-	}
-
-	private Color setToAmbient(int x, int y) {
-		return tempColor.set(daylightColor.r, daylightColor.g, daylightColor.b, calcAlpha(x, y));
-	}
-
-	public float calcAlpha(int x, int y) {
-		byte brightness = getBrightness(x, y);
-
-		float alpha = (1 - ((brightness / 127f)));
-
-		float threshold = 0.7f;
-		if (alpha >= threshold) {
-			float remainder = alpha - threshold;
-			remainder = (remainder) * (1 / (1 - threshold));
-
-			return remainder + (1f - threshold);
-		} else {
-			float remainder = alpha - (1 - threshold);
-			remainder = (remainder) * (1 / (1 - remainder));
-
-			return remainder * (1 - threshold);
-		}
-	}
-
-	public void resetLighting(int originx, int originy, int width, int height) {
+	public void resetLightingAndCalcSky(int originx, int originy, int width, int height) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
@@ -252,46 +144,37 @@ public class LightingEngine {
 
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
+				// reset all
+				skyLighting[x][y] = 0;
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
-				setIsPartOfSky(false, x, y);
 			}
 
 			int y = 0;
 			boolean terminate = false;
 			while (!terminate) {
-				if (y >= sizey) {
-					terminate = true;
-					break;
-				}
-				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)) {
+				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP) || y >= sizey) {
 					terminate = true;
 
-					setToAmbientLight(x, y);
+					// scatter the light at the bottom
+					recursiveSky(x, y, (byte) 127, true);
+					
 					break;
 				}
 
-				setBrightness((byte) (lastDayBrightness * 127f), x, y);
-				setLightColor(Color.rgb888(daylightColor), x, y);
-				setIsPartOfSky(true, x, y);
+				// set as sky lighting
+				skyLighting[x][y] = 127;
 				y++;
 			}
 
 		}
 	}
 
-	private void setToAmbientLight(int x, int y) {
-		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y,
-				(byte) (lastDayBrightness * 127f), Color.rgb888(daylightColor)));
-	}
-
-	public void floodFillLighting(int originx, int originy, int width, int height) {
+	public void doLightingUpdates(int originx, int originy, int width, int height) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-
-		copyToTemp();
 
 		lightingUpdateMethodCalls = 0;
 
@@ -303,19 +186,53 @@ public class LightingEngine {
 			recursiveLight(l.x, l.y, l.brightness, l.color, true);
 		}
 	}
+	
+	private void recursiveSky(int x, int y, byte bright, boolean source){
+		if (bright <= 0) {
+			return;
+		}
+		if (skyLighting[x][y] >= bright && !source) {
+			return;
+		}
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) {
+			return;
+		}
 
-	private void copyToTemp() {
-		for (int x = 0; x < sizex; x++) {
-			for (int y = 0; y < sizey; y++) {
-				tempBrightness[x][y] = brightness[x][y];
-				tempLightColor[x][y] = lightColor[x][y];
-			}
+		skyLighting[x][y] = bright;
+
+		bright = (byte) MathUtils.clamp(bright
+				- (world.getBlock(x, y).lightSubtraction(world, x, y) * 127), 0, 127);
+
+		if (bright <= 0) return;
+
+		if ((x - 1 >= 0) && !(getBrightness(x - 1, y) >= bright)) {
+			recursiveSky(x - 1, y, bright, false);
+		}
+		if ((y - 1 >= 0) && !(getBrightness(x, y - 1) >= bright)) {
+			recursiveSky(x, y - 1, bright, false);
+		}
+		if ((x + 1 < sizex) && !(getBrightness(x + 1, y) >= bright)) {
+			recursiveSky(x + 1, y, bright, false);
+		}
+		if ((y + 1 < sizey) && !(getBrightness(x, y + 1) >= bright)) {
+			recursiveSky(x, y + 1, bright, false);
 		}
 	}
 
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
 		lightingUpdateMethodCalls++;
 
+		// brightness <= 0, return
+		// brightness >= bright and not a source, return
+		// out of bounds, return
+		
+		// set block brightness to bright
+		
+		// subtract bright from block's opacity
+		// if bright <= 0 return
+		// mix neighbours colours
+		// recursion
+		
 		if (bright <= 0) {
 			return;
 		}
@@ -353,11 +270,11 @@ public class LightingEngine {
 	}
 
 	private void mixColors(int x, int y, int color) {
-		Color.rgb888ToColor(tempColor, color);
-		Color.rgb888ToColor(tempColor2, getLightColor(x, y));
+		Color.rgb888ToColor(mixingColor0, color);
+		Color.rgb888ToColor(mixingColor1, getLightColor(x, y));
 
-		Color parameter = tempColor;
-		Color atPosition = tempColor2;
+		Color parameter = mixingColor0;
+		Color atPosition = mixingColor1;
 
 		atPosition.lerp(parameter, 0.5f);
 		setLightColor(Color.rgb888(atPosition), x, y);
@@ -371,17 +288,14 @@ public class LightingEngine {
 
 	public void setBrightness(byte l, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		brightness[x][y] = l;
+		
+		lightData.brightness[x][y] = l;
 	}
 
 	public void setLightColor(int color, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		lightColor[x][y] = color;
-	}
-
-	private void setIsPartOfSky(boolean b, int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		isPartOfSky[x][y] = b;
+		
+		lightData.color[x][y] = color;
 	}
 
 	public byte getBrightness(int posx, int posy) {
@@ -392,18 +306,7 @@ public class LightingEngine {
 		if (y < 0) y = 0;
 		if (y >= sizey) y = sizey - 1;
 
-		return brightness[x][y];
-	}
-
-	private byte getTempBrightness(int posx, int posy) {
-		int x = posx;
-		int y = posy;
-		if (x < 0) x = 0;
-		if (x >= sizex) x = sizex - 1;
-		if (y < 0) y = 0;
-		if (y >= sizey) y = sizey - 1;
-
-		return tempBrightness[x][y];
+		return lightData.brightness[x][y];
 	}
 
 	public int getLightColor(int posx, int posy) {
@@ -414,31 +317,32 @@ public class LightingEngine {
 		if (y < 0) y = 0;
 		if (y >= sizey) y = sizey - 1;
 
-		return lightColor[x][y];
+		return lightData.color[x][y];
 	}
-
-	private int getTempLightColor(int posx, int posy) {
+	
+	public byte getSkyLight(int posx, int posy){
 		int x = posx;
 		int y = posy;
 		if (x < 0) x = 0;
 		if (x >= sizex) x = sizex - 1;
 		if (y < 0) y = 0;
 		if (y >= sizey) y = sizey - 1;
-
-		return tempLightColor[x][y];
+		
+		return skyLighting[x][y];
+	}
+	
+	/**
+	 * accounts for current time of day light with transition
+	 * @param posx
+	 * @param posy
+	 * @return float but clamped to 0-127
+	 */
+	public float getSkyLightFromTOD(byte light){
+		return  MathUtils.clamp(light * lastDayBrightness, 0f, 127f);
 	}
 
-	private boolean getIsPartOfSky(int posx, int posy) {
-		int x = posx;
-		int y = posy;
-		if (x < 0) x = 0;
-		if (x >= sizex) x = sizex - 1;
-		if (y < 0) y = 0;
-		if (y >= sizey) y = sizey - 1;
-
-		return isPartOfSky[x][y];
-	}
-
+	// update related things below
+	
 	public int getLastUpdateLength() {
 		return lastUpdateLengthNano;
 	}

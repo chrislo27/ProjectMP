@@ -161,6 +161,13 @@ public class ClientLogic implements Disposable {
 							.getSimpleName()
 							+ ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5,
 					Main.convertY(starting + 150));
+			main.font
+			.draw(main.batch,
+					"accountedSky: "
+							+ world.lightingEngine.getSkyLightFromTOD(world.lightingEngine.getSkyLight(
+									((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
+									((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)))),
+					5, Main.convertY(starting + 165));
 		}
 	}
 
