@@ -52,7 +52,14 @@ public class Slot {
 		batch.draw(renderer.main.manager.get(AssetMap.get("invslot"), Texture.class), posx, posy,
 				width, height);
 		batch.setColor(1, 1, 1, 1);
-		
+
+		// darken
+		if ((slotState & SlotState.DARKEN) == SlotState.DARKEN) {
+			batch.setColor(0, 0, 0, 0.333f);
+			Main.fillRect(batch, posx, posy, width, height);
+			batch.setColor(1, 1, 1, 1);
+		}
+
 		// draw icon
 		ItemStack stack = inventory.getSlot(slotNum);
 		if (stack.getItem() != null) {
@@ -64,17 +71,10 @@ public class Slot {
 						posy + textHeight);
 			}
 		}
-		
+
 		// lighten if mouse button is down
 		if ((slotState & SlotState.MOUSE_BUTTON_CLICKED) == SlotState.MOUSE_BUTTON_CLICKED) {
 			batch.setColor(1, 1, 1, 0.25f);
-			Main.fillRect(batch, posx, posy, width, height);
-			batch.setColor(1, 1, 1, 1);
-		}
-		
-		// darken
-		if ((slotState & SlotState.DARKEN) == SlotState.DARKEN) {
-			batch.setColor(0, 0, 0, 0.333f);
 			Main.fillRect(batch, posx, posy, width, height);
 			batch.setColor(1, 1, 1, 1);
 		}
