@@ -21,13 +21,9 @@ public class Utils {
 
 	public static void setCursorVisibility(boolean visible){
 		if(visible){
-			int x = Gdx.input.getX();
-			int y = Gdx.input.getY();
-			
-			Gdx.input.setCursorCatched(false);
-			Gdx.input.setCursorPosition(x, y);
+			Gdx.input.setCursorImage(null, 0, 0);
 		}else{
-			Gdx.input.setCursorCatched(true);
+			Gdx.input.setCursorImage(Main.clearPixmap, 1, 1);
 		}
 	}
 	

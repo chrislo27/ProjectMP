@@ -124,6 +124,7 @@ public class Main extends Game implements Consumer {
 
 	public static Texture filltex;
 	public static TextureRegion filltexRegion;
+	public static Pixmap clearPixmap;
 
 	public ShaderProgram maskshader;
 	public ShaderProgram blueprintshader;
@@ -211,7 +212,10 @@ public class Main extends Game implements Consumer {
 		filltex = new Texture(pix);
 		pix.dispose();
 		filltexRegion = new TextureRegion(filltex);
-
+		clearPixmap = new Pixmap(8, 8, Format.RGBA8888);
+		clearPixmap.setColor(0, 0, 0, 0);
+		clearPixmap.fill();
+		
 		shapes = new ShapeRenderer();
 
 		client = new Client(16384, 4096);
@@ -318,6 +322,7 @@ public class Main extends Game implements Consumer {
 		meshShader.dispose();
 		shapes.dispose();
 		clientLogic.dispose();
+		clearPixmap.dispose();
 
 		Iterator it = animations.entrySet().iterator();
 		while (it.hasNext()) {
