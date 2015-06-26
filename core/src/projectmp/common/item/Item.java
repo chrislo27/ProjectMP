@@ -11,7 +11,7 @@ import projectmp.common.world.World;
 public class Item extends TexturedObject {
 
 	String name = "unnamed";
-	int maxStackable = 1;
+	int maxStackable = 512;
 
 	public Item(String unlocalizedname) {
 		name = unlocalizedname;
