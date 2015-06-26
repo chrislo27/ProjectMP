@@ -2,7 +2,7 @@ package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.inventory.Inventory;
-import projectmp.common.inventory.ItemStack;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.server.ServerLogic;
 

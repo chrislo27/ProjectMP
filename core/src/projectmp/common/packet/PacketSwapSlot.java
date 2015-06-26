@@ -3,7 +3,7 @@ package projectmp.common.packet;
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.inventory.Inventory;
-import projectmp.common.inventory.ItemStack;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;

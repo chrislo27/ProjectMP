@@ -5,7 +5,7 @@ import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
-import projectmp.common.inventory.ItemStack;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketBlockActivate;

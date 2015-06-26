@@ -1,4 +1,4 @@
-package projectmp.common.inventory;
+package projectmp.common.inventory.itemstack;
 
 import projectmp.common.item.Item;
 import projectmp.common.item.Items;

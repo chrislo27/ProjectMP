@@ -1,5 +1,6 @@
 package projectmp.common.inventory;
 
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.util.MathHelper;
 
 import com.badlogic.gdx.math.MathUtils;

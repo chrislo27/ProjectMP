@@ -1,5 +1,7 @@
 package projectmp.common.inventory;
 
+import projectmp.common.inventory.itemstack.ItemStack;
+
 
 public class InventoryPlayer extends Inventory{
 	

@@ -5,7 +5,7 @@ import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
-import projectmp.common.inventory.ItemStack;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.world.World;
 
 public class Item extends TexturedObject {
