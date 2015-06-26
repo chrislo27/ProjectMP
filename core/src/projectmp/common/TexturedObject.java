@@ -39,7 +39,7 @@ public class TexturedObject implements Disposable {
 		}
 	}
 	
-	public static LoopingAnimation singleBlockTexture(String path) {
+	public static LoopingAnimation singleTexture(String path) {
 		return new LoopingAnimation(1, 1, path, false);
 	}
 

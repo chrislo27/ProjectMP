@@ -31,17 +31,17 @@ public class Blocks {
 		put(defaultBlock, new BlockEmpty());
 		put("stone",
 				new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.singleBlockTexture("images/blocks/stone.png")));
+						.addAnimation(Block.singleTexture("images/blocks/stone.png")));
 		put("dirt",
 				new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.singleBlockTexture("images/blocks/dirt.png")));
+						.addAnimation(Block.singleTexture("images/blocks/dirt.png")));
 		put("grass",
 				new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.singleBlockTexture("images/blocks/grass.png"))
-						.addAnimation(Block.singleBlockTexture("images/blocks/dirt.png")));
+						.addAnimation(Block.singleTexture("images/blocks/grass.png"))
+						.addAnimation(Block.singleTexture("images/blocks/dirt.png")));
 		put("tall_grass", new BlockTallGrass().addAnimation(Block
-				.singleBlockTexture("images/blocks/tall_grass.png")));
-		put("chess_set", new BlockChessSet().addAnimation(Block.singleBlockTexture("images/items/asteroidfirer.png")));
+				.singleTexture("images/blocks/tall_grass.png")));
+		put("chess_set", new BlockChessSet().addAnimation(Block.singleTexture("images/items/asteroidfirer.png")));
 	}
 
 	public void put(String key, Block value) {

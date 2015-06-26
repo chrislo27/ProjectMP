@@ -27,7 +27,9 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-		put("testItem", new ItemTest("testItem").addAnimation(Item.singleBlockTexture("images/items/mininglaser.png")));
+		put("testItem", new ItemTest("testItem").addAnimation(Item.singleTexture("images/items/mininglaser.png")));
+		put("chessPieceWhite", new ItemChessPiece("chessWhite"));
+		put("chessPieceBlack", new ItemChessPiece("chessBlack"));
 	}
 
 	public void put(String key, Item value) {
