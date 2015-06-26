@@ -9,7 +9,6 @@ public class GuiPlayerInventory extends Gui{
 	public GuiPlayerInventory(World world, InventoryPlayer player) {
 		super(world, player);
 		addPlayerInventory();
-		setUnlocalizedName("playerInv");
 	}
 
 }
