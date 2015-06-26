@@ -31,17 +31,17 @@ public class PostProcessing {
 			int width, int height) {
 		buffer.begin();
 		batch.setShader(blurshader);
-		blurshader.setUniformf("radius", (float) radius);
+		blurshader.setUniformf("radius", radius);
 		blurshader.setUniformf("dir", 1f, 0f);
 		batch.draw(buffer.getColorBufferTexture(), x, y, drawWidth, drawHeight, u, v, width,
-				height, false, true);
+				height, false, false);
 		batch.flush();
 		buffer.end();
 
 		buffer.begin();
 		blurshader.setUniformf("dir", 0f, 1f);
 		batch.draw(buffer.getColorBufferTexture(), x, y, drawWidth, drawHeight, u, v, width,
-				height, false, true);
+				height, false, false);
 		batch.setShader(null);
 		buffer.end();
 

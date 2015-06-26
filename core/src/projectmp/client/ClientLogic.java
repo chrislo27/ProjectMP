@@ -38,15 +38,12 @@ public class ClientLogic implements Disposable {
 	
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
-	
-	private FrameBuffer guiBuffer;
 
 	public ClientLogic(Main main) {
 		this.main = main;
 		client = main.client;
 
 		renderer = new WorldRenderer(main, world, this);
-		guiBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, false);
 	}
 
 	public EntityPlayer getPlayer() {
@@ -238,7 +235,6 @@ public class ClientLogic implements Disposable {
 	@Override
 	public void dispose() {
 		renderer.dispose();
-		guiBuffer.dispose();
 	}
 	
 	public PacketSwapSlot getSwapSlotPacket(){

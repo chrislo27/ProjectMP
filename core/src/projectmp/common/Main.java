@@ -249,7 +249,7 @@ public class Main extends Game implements Consumer {
 		blurshader = new ShaderProgram(Shaders.VERTBLUR, Shaders.FRAGBLUR);
 		blurshader.begin();
 		blurshader.setUniformf("dir", 1f, 0f);
-		blurshader.setUniformf("resolution", Gdx.graphics.getWidth());
+		blurshader.setUniformf("resolution", Settings.DEFAULT_WIDTH);
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
 
