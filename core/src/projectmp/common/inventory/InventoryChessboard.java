@@ -12,7 +12,7 @@ public class InventoryChessboard extends Inventory{
 	
 	public InventoryChessboard(String id, int x, int y){
 		super(id, x, y);
-		setMaxCapacity(64);
+		setMaxCapacity(64 + 32); // chessboard + captured spaces
 		initSlots();
 	}
 	

@@ -34,7 +34,7 @@ public abstract class Gui {
 
 	protected World world;
 
-	protected String unlocalizedName = null;
+	private boolean shouldRenderPlayerInvTitle = true;
 
 	public Gui(World world, InventoryPlayer player) {
 		playerInv = player;
@@ -48,15 +48,8 @@ public abstract class Gui {
 
 		renderDarkBackground(batch);
 
-		if (unlocalizedName != null) {
-			renderer.main.font.setColor(1, 1, 1, 1);
-			renderer.main.font.draw(
-					batch,
-					Translator.getMsg("inventory." + unlocalizedName + ".name"),
-					32,
-					Main.convertY(64 - (renderer.main.font.getBounds(Translator.getMsg("inventory."
-							+ unlocalizedName + ".name")).height) - 4));
-		}
+		if (shouldRenderPlayerInvTitle) renderContainerTitle(renderer,
+				Translator.getMsg("inventory.playerInv.name"), 32, 64);
 
 		for (int i = 0; i < slots.size; i++) {
 			Slot slot = slots.get(i);
@@ -186,8 +179,20 @@ public abstract class Gui {
 		}
 	}
 
-	public void setUnlocalizedName(String s) {
-		unlocalizedName = s;
+	/**
+	 * Render a container title. Text origin is top left, coordinate origin is TOP left. Font height included.
+	 * @param title
+	 * @param x
+	 * @param y
+	 */
+	public void renderContainerTitle(WorldRenderer renderer, String title, float x, float y) {
+		renderer.main.font.setColor(1, 1, 1, 1);
+		renderer.main.font.draw(renderer.batch, title, x,
+				Main.convertY(y - (renderer.main.font.getBounds(title).height) - 4));
+	}
+	
+	public void setShouldRenderPlayerInvTitle(boolean b){
+		shouldRenderPlayerInvTitle = b;
 	}
 
 }
