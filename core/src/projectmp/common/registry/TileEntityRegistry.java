@@ -1,8 +1,8 @@
 package projectmp.common.registry;
 
-import projectmp.common.entity.Entity;
 import projectmp.common.registry.classmap.ClassMap;
 import projectmp.common.tileentity.TileEntity;
+import projectmp.common.tileentity.TileEntityChessboard;
 
 
 
@@ -24,7 +24,7 @@ public class TileEntityRegistry {
 	private ClassMap<TileEntity> tileEntityClassMap = new ClassMap<>();
 	
 	private void loadResources() {
-		
+		registerTileEntity(TileEntityChessboard.class, "chessboard");
 	}
 	
 	public void registerTileEntity(Class<? extends TileEntity> clazz, String key){

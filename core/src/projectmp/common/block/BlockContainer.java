@@ -1,6 +1,8 @@
 package projectmp.common.block;
 
+import projectmp.common.tileentity.ITileEntityProvider;
 
-public class BlockContainer extends Block{
 
+public abstract class BlockContainer extends Block implements ITileEntityProvider{
+	
 }

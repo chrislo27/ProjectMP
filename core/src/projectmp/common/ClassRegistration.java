@@ -4,6 +4,7 @@ import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryChessboard;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.packet.Packet;
@@ -25,6 +26,7 @@ import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketWeather;
 import projectmp.common.tileentity.TileEntity;
+import projectmp.common.tileentity.TileEntityChessboard;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -77,11 +79,13 @@ public class ClassRegistration {
 		kryo.register(TileEntity.class);
 		kryo.register(TileEntity[].class);
 		kryo.register(TileEntity[][].class);
+		kryo.register(TileEntityChessboard.class);
 	}
 	
 	private static void registerInventories(Kryo kryo){
 		kryo.register(Inventory.class);
 		kryo.register(InventoryPlayer.class);
+		kryo.register(InventoryChessboard.class);
 	}
 
 }

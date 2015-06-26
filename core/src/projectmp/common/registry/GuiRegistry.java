@@ -2,9 +2,10 @@ package projectmp.common.registry;
 
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
+import projectmp.common.inventory.InventoryChessboard;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
-import projectmp.common.inventory.gui.GuiChessBoard;
+import projectmp.common.inventory.gui.GuiChessboard;
 import projectmp.common.inventory.gui.GuiPlayerInventory;
 import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.Utils;
@@ -64,7 +65,7 @@ public class GuiRegistry {
 			case("playerInv"):
 				return new GuiPlayerInventory(world, player, id, x, y);
 			case("chessboard"):
-				return new GuiChessBoard(world, player, id, x, y);
+				return new GuiChessboard(world, player, id, x, y);
 			default:
 				return null;
 			}
@@ -76,7 +77,7 @@ public class GuiRegistry {
 			case("playerInv"):
 				return ((EntityPlayer) (world.getEntityByUUID(Utils.packLong(x, y)))).getInventoryObject();
 			case("chessboard"):
-				return ((HasInventory) (world.getBlock(x, y))).getInventoryObject();
+				return (InventoryChessboard) (((HasInventory) (world.getTileEntity(x, y))).getInventoryObject());
 			default:
 				return null;
 			}

@@ -9,6 +9,7 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
+import projectmp.common.tileentity.ITileEntityProvider;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.util.Particle;
 import projectmp.common.util.ParticlePool;
@@ -198,7 +199,7 @@ public class World {
 				setBlock(Blocks.instance().getBlock("dirt"), i, y);
 			}
 			setBlock(Blocks.instance().getBlock("grass"), i, actualHeight + (sizey / 16));
-			setBlock(Blocks.instance().getBlock("tall_grass"), i, actualHeight + (sizey / 16) - 1);
+			setBlock(Blocks.instance().getBlock(i == sizex / 2 ? "chess_set" : "tall_grass"), i, actualHeight + (sizey / 16) - 1);
 
 			for (int y = endOfDirt; y < sizey; y++) {
 				setBlock(Blocks.instance().getBlock("stone"), i, y);
@@ -338,6 +339,12 @@ public class World {
 	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
 
+		TileEntity te = getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
+		
+		if(te == null && getBlock(x, y) instanceof ITileEntityProvider){
+			setTileEntity(((ITileEntityProvider) (getBlock(x, y))).createNewTileEntity(x, y), x, y);
+		}
+		
 		return getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
 	}
 

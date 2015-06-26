@@ -15,6 +15,7 @@ import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
@@ -184,6 +185,18 @@ public class ClientLogic implements Disposable {
 	private void playerInput() {
 		if (getPlayer() == null || !main.client.isConnected()) return;
 
+		if(getCurrentGui() == null){
+			int x = getBlockXCursor();
+			int y = getBlockYCursor();
+			
+			if(Utils.isButtonJustPressed(Buttons.LEFT)){
+				
+			}else if(Utils.isButtonJustPressed(Buttons.RIGHT)){
+				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
+				
+			}
+		}
+		
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			getPlayer().moveLeft();
 		}
@@ -239,6 +252,14 @@ public class ClientLogic implements Disposable {
 	
 	public PacketSwapSlot getSwapSlotPacket(){
 		return swapSlot;
+	}
+	
+	public int getBlockXCursor(){
+		return ((int) ((Main.getInputX() + main.clientLogic.renderer.camera.camerax) / World.tilesizex));
+	}
+	
+	public int getBlockYCursor(){
+		return ((int) ((Main.getInputY() + main.clientLogic.renderer.camera.cameray) / World.tilesizey));
 	}
 
 }

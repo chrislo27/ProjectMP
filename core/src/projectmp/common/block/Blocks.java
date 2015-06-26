@@ -41,6 +41,7 @@ public class Blocks {
 						.addAnimation(Block.singleBlockTexture("images/blocks/dirt.png")));
 		put("tall_grass", new BlockTallGrass().addAnimation(Block
 				.singleBlockTexture("images/blocks/tall_grass.png")));
+		put("chess_set", new BlockChessSet().addAnimation(Block.singleBlockTexture("images/items/asteroidfirer.png")));
 	}
 
 	public void put(String key, Block value) {
