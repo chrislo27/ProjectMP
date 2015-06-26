@@ -40,6 +40,22 @@ public class ItemStack {
 		return quantity;
 	}
 	
+	public void setAmount(int i){
+		quantity = i;
+	}
+	
+	public void setItem(String i){
+		item = i;
+	}
+	
+	public void setItem(Item i){
+		item = Items.instance().getKey(i);
+	}
+	
+	/**
+	 * makes a deep copy
+	 * @return
+	 */
 	public ItemStack copy(){
 		ItemStack i = new ItemStack(item, quantity);
 		
