@@ -88,9 +88,9 @@ public class Slot {
 	}
 
 	public boolean isMouseOver() {
-		if (Main.getInputX() >= posx && Main.getInputX() <= (posx) + (width)) {
+		if (Main.getInputX() >= posx && Main.getInputX() < (posx) + (width)) {
 			if (Settings.DEFAULT_HEIGHT - Main.getInputY() >= posy
-					&& Settings.DEFAULT_HEIGHT - Main.getInputY() <= (posy) + (height)) {
+					&& Settings.DEFAULT_HEIGHT - Main.getInputY() < (posy) + (height)) {
 				return true;
 			}
 		}
