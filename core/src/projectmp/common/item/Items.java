@@ -27,9 +27,24 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-		put("testItem", new ItemTest("testItem").addAnimation(Item.singleTexture("images/items/mininglaser.png")));
-		put("chessPieceWhite", new ItemChessPiece("chessWhite"));
-		put("chessPieceBlack", new ItemChessPiece("chessBlack"));
+		put("testItem", new ItemTest("testItem").addAnimation(Item
+				.singleTexture("images/items/mininglaser.png")));
+		put("chessWhite",
+				new ItemChessPiece("chessWhite")
+						.addAnimation(Item.singleTexture("images/items/chess/white/pawn.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/white/knight.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/white/bishop.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/white/rook.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/white/queen.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/white/king.png")));
+		put("chessBlack",
+				new ItemChessPiece("chessBlack")
+						.addAnimation(Item.singleTexture("images/items/chess/black/pawn.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/black/knight.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/black/bishop.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/black/rook.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/black/queen.png"))
+						.addAnimation(Item.singleTexture("images/items/chess/black/king.png")));
 	}
 
 	public void put(String key, Item value) {

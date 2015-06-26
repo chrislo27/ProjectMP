@@ -28,7 +28,7 @@ import com.badlogic.gdx.utils.Array;
 public abstract class Gui {
 
 	public static final Slot TEMPLATE_SLOT = new Slot(null, -1, 0, 0);
-	
+
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
 
@@ -68,16 +68,13 @@ public abstract class Gui {
 		if (logic.mouseStack.isNothing()) {
 			for (int i = 0; i < slots.size; i++) {
 				Slot slot = slots.get(i);
+				ItemStack stack = slot.inventory.getSlot(slot.slotNum);
 
 				if (slot.isMouseOver()) {
-					if (slot.inventory.getSlot(slot.slotNum).isNothing()) continue;
+					if (stack.isNothing()) continue;
 
-					renderer.main.drawTextBg(
-							renderer.main.font,
-							Translator.getMsg("item."
-									+ slot.inventory.getSlot(slot.slotNum).getItemString()
-									+ ".name")
-									+ " x" + slot.inventory.getSlot(slot.slotNum).getAmount(),
+					renderer.main.drawTextBg(renderer.main.font,
+							stack.getItem().getLocalizedName(stack) + " x" + stack.getAmount(),
 							Main.getInputX(), Main.convertY(Main.getInputY() + 48));
 
 					break;
@@ -125,7 +122,7 @@ public abstract class Gui {
 
 					// the button used
 					packet.buttonUsed = Buttons.LEFT;
-					
+
 					// swap stacks
 					packet.mouseStack = renderer.logic.mouseStack;
 					packet.slotToSwap = slot.slotNum;
@@ -146,7 +143,7 @@ public abstract class Gui {
 					packet.invId = slot.inventory.invId;
 					packet.invX = slot.inventory.invX;
 					packet.invY = slot.inventory.invY;
-					
+
 					// the button used
 					packet.buttonUsed = Buttons.RIGHT;
 
@@ -181,8 +178,9 @@ public abstract class Gui {
 
 	public void addPlayerInventory() {
 		for (int i = 0; i < 9; i++) {
-			slots.add(new Slot(this.playerInv, i, (TEMPLATE_SLOT.width / 2) + (i * TEMPLATE_SLOT.width)
-					+ (i * 4), Settings.DEFAULT_HEIGHT - (TEMPLATE_SLOT.height * 2)));
+			slots.add(new Slot(this.playerInv, i, (TEMPLATE_SLOT.width / 2)
+					+ (i * TEMPLATE_SLOT.width) + (i * 4), Settings.DEFAULT_HEIGHT
+					- (TEMPLATE_SLOT.height * 2)));
 		}
 	}
 

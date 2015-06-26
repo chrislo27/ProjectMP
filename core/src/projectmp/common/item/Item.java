@@ -41,8 +41,8 @@ public class Item extends TexturedObject {
 		return this;
 	}
 
-	public String getLocalizedName() {
-		return Translator.instance().getMsg("item." + name);
+	public String getLocalizedName(ItemStack stack) {
+		return Translator.instance().getMsg("item." + name + ".name");
 	}
 	
 	public void render(WorldRenderer renderer, int x, int y, int width, int height, ItemStack stack){
