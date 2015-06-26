@@ -5,7 +5,6 @@ import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.inventory.gui.GuiPlayerInventory;
-import projectmp.common.inventory.gui.GuiTest;
 import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
@@ -62,8 +61,6 @@ public class GuiRegistry {
 			switch(id){
 			case("playerInv"):
 				return new GuiPlayerInventory(player, id, x, y);
-			case("testGuiDoNotTouchBuleah"):
-				return new GuiTest(player, id, x, y);
 			default:
 				return null;
 			}
