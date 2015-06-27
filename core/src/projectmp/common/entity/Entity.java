@@ -1,5 +1,7 @@
 package projectmp.common.entity;
 
+import java.util.ArrayList;
+
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
@@ -395,7 +397,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	}
 
 	public Entity getEntityCollidingUp() {
-		for (Entity e : world.getQuadArea(this)) {
+		ArrayList<Entity> quadArea = world.getQuadArea(this);
+		for (int i = 0; i < quadArea.size(); i++) {
+			Entity e = quadArea.get(i);
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (x * World.tilesizex + sizex * World.tilesizex)) > ((int) (e.x * World.tilesizex))
 						&& ((int) (x * World.tilesizex)) < ((int) (e.x * World.tilesizex + e.sizex
@@ -412,7 +416,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	}
 
 	public Entity getEntityCollidingDown() {
-		for (Entity e : world.getQuadArea(this)) {
+		ArrayList<Entity> quadArea = world.getQuadArea(this);
+		for (int i = 0; i < quadArea.size(); i++) {
+			Entity e = quadArea.get(i);
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (x * World.tilesizex + sizex * World.tilesizex)) > ((int) (e.x * World.tilesizex))
 						&& ((int) (x * World.tilesizex)) < ((int) (e.x * World.tilesizex + e.sizex
@@ -429,7 +435,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	}
 
 	public Entity getEntityCollidingLeft() {
-		for (Entity e : world.getQuadArea(this)) {
+		ArrayList<Entity> quadArea = world.getQuadArea(this);
+		for (int i = 0; i < quadArea.size(); i++) {
+			Entity e = quadArea.get(i);
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (y * World.tilesizey + sizey * World.tilesizey)) > ((int) (e.y * World.tilesizey))
 						&& ((int) (y * World.tilesizey)) < ((int) (e.y * World.tilesizey + e.sizey
@@ -446,7 +454,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	}
 
 	public Entity getEntityCollidingRight() {
-		for (Entity e : world.getQuadArea(this)) {
+		ArrayList<Entity> quadArea = world.getQuadArea(this);
+		for (int i = 0; i < quadArea.size(); i++) {
+			Entity e = quadArea.get(i);
 			if (e != this && e.hasEntityCollision) {
 				if (((int) (y * World.tilesizey + sizey * World.tilesizey)) > ((int) (e.y * World.tilesizey))
 						&& ((int) (y * World.tilesizey)) < ((int) (e.y * World.tilesizey + e.sizey
@@ -607,7 +617,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 
 	public Entity entityColliding() {
 		if (!hasEntityCollision) return null;
-		for (Entity e : world.getQuadArea(this)) {
+		ArrayList<Entity> quadArea = world.getQuadArea(this);
+		for (int i = 0; i < quadArea.size(); i++) {
+			Entity e = quadArea.get(i);
 			if (intersectingOther(e)) {
 				if (!e.hasEntityCollision) continue;
 				if (e == this) continue;
