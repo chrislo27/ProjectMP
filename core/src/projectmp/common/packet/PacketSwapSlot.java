@@ -58,51 +58,43 @@ public class PacketSwapSlot extends PacketSlotChanged {
 	private void leftClickFunctionality(Connection connection, ServerLogic logic, Inventory inv) {
 		ItemStack inventorySlot = inv.getSlot(slotToSwap);
 		ItemStack newMouseStack = mouseStack; // this should never retain
-		
-		if(!inventorySlot.equalsIgnoreAmount(mouseStack)){
+
+		if (!inventorySlot.equalsIgnoreAmount(mouseStack)) {
 			// if they differ, totally swap the contents
-			
+
 			// copy the old slot which will now be the mouse stack
 			newMouseStack = inventorySlot.copy();
 
 			// replace the slot with the client's mouse stack
 			inv.setSlot(slotToSwap, mouseStack);
-			
+
 			// resetting inventorySlot is needed to update correctly
 			inventorySlot = inv.getSlot(slotToSwap);
-		}else{
+		} else {
 			// they're the same, so try to stack it together as much as possible
-			
+
 			// get how much we can put/shove inside the slot
-			int shoveableRemaining = inventorySlot.getItem().getMaxStack() - inventorySlot.getAmount();
-			
+			int shoveableRemaining = inventorySlot.getItem().getMaxStack()
+					- inventorySlot.getAmount();
+
 			// we can put the rest of the mouse stack in the slot, easy
-			if(mouseStack.getAmount() <= shoveableRemaining){
+			if (mouseStack.getAmount() <= shoveableRemaining) {
 				inventorySlot.setAmount(inventorySlot.getAmount() + mouseStack.getAmount());
-				
+
 				mouseStack.setAmount(0);
 				mouseStack.setItem(null);
-			}else{
+			} else {
 				// there's too much in the mouse so transfer as much as possible
-				
+
 				inventorySlot.setAmount(inventorySlot.getItem().getMaxStack());
-				
+
 				mouseStack.setAmount(mouseStack.getAmount() - shoveableRemaining);
 			}
-			
+
 			newMouseStack = mouseStack;
 		}
 
-		// prepare a packet to send to the client to change the client's mouse stack
-		PacketSwapSlot packet = logic.getSwapSlotPacket();
-		packet.slotToSwap = this.slotToSwap;
-		packet.mouseStack = newMouseStack;
-		packet.invId = this.invId;
-		packet.invX = this.invX;
-		packet.invY = this.invY;
-
-		logic.server.sendToTCP(connection.getID(), packet);
-		
+		updateMouseStack(logic, connection, newMouseStack);
 		updateOtherClients(logic, inventorySlot);
 	}
 
@@ -118,17 +110,10 @@ public class PacketSwapSlot extends PacketSlotChanged {
 			mouseStack.setAmount((originalAmount / 2) + (originalAmount % 2)); // take the bigger half if applicable
 
 			inventorySlot.setAmount(originalAmount / 2); // takes the smaller half
-
-			// prepare a packet to send to the client to refresh the mouse stack
-			PacketSwapSlot packet = logic.getSwapSlotPacket();
-			packet.slotToSwap = this.slotToSwap;
-			packet.mouseStack = mouseStack;
-			packet.invId = this.invId;
-			packet.invX = this.invX;
-			packet.invY = this.invY;
-
-			logic.server.sendToTCP(connection.getID(), packet);
-		}else if (!inventorySlot.isNothing() && !inventorySlot.equalsIgnoreAmount(mouseStack)) { // right clicking over different item; simply replace like left click
+			if(inventorySlot.isNothing()){
+				inventorySlot.setItem(null);
+			}
+		} else if (!inventorySlot.isNothing() && !inventorySlot.equalsIgnoreAmount(mouseStack)) { // right clicking over different item; simply replace like left click
 			// replace like left click
 			leftClickFunctionality(connection, logic, inv);
 			return;
@@ -150,7 +135,8 @@ public class PacketSwapSlot extends PacketSlotChanged {
 				mouseStack.setItem(null);
 			}
 		}
-		
+
+		updateMouseStack(logic, connection, mouseStack);
 		updateOtherClients(logic, inventorySlot);
 	}
 
@@ -165,6 +151,19 @@ public class PacketSwapSlot extends PacketSlotChanged {
 		changed.invY = invY;
 
 		logic.server.sendToAllTCP(changed);
+	}
+
+	@SideOnly(Side.SERVER)
+	private void updateMouseStack(ServerLogic logic, Connection connection, ItemStack mouseStack) {
+		// prepare a packet to send to the client to refresh the mouse stack
+		PacketSwapSlot packet = logic.getSwapSlotPacket();
+		packet.slotToSwap = this.slotToSwap;
+		packet.mouseStack = mouseStack;
+		packet.invId = this.invId;
+		packet.invX = this.invX;
+		packet.invY = this.invY;
+
+		logic.server.sendToTCP(connection.getID(), packet);
 	}
 
 }

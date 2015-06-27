@@ -116,7 +116,6 @@ public abstract class Gui {
 					// the button used
 					packet.buttonUsed = Buttons.LEFT;
 
-					// swap stacks
 					packet.mouseStack = renderer.logic.mouseStack;
 					packet.slotToSwap = slot.slotNum;
 
