@@ -57,6 +57,9 @@ public class GuiChessboard extends Gui{
 		if(slot.slotNum % 2 != ((slot.slotNum / 8) % 2) && slot.inventory instanceof InventoryChessboard && (slot.slotNum < 64)){
 			state |= SlotState.DARKEN;
 		}
+		if(slot.slotNum >= 64 && slot.slotNum < 80 && slot.inventory instanceof InventoryChessboard){
+			state |= SlotState.DARKEN;
+		}
 		
 		return state;
 	}
