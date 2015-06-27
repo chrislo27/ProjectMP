@@ -41,7 +41,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 
 	@Override
 	public void render(WorldRenderer renderer) {
-		world.batch.draw(world.main.manager.get(AssetMap.get("airwhoosh"), Texture.class),
+		world.batch.draw(world.main.manager.get(AssetMap.get("playerGears"), Texture.class),
 				renderer.convertWorldX(visualX),
 				renderer.convertWorldY(visualY, World.tilesizey * sizey));
 	}
