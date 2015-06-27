@@ -15,7 +15,7 @@ import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagString;
 
-public class EntityPlayer extends EntityLiving implements HasInventory {
+public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsChunk {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
 	private InventoryPlayer inventory;

@@ -10,6 +10,7 @@ import projectmp.common.block.Blocks;
 import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.registry.TileEntityRegistry;
 import projectmp.common.tileentity.TileEntity;
+import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
@@ -39,6 +40,21 @@ public class Chunk implements CanBeSavedToNBT {
 				blocks[x][y] = Blocks.defaultBlock();
 				metadata[x][y] = 0;
 				tileEntities[x][y] = null;
+			}
+		}
+	}
+	
+	public void tickUpdate(World world){
+		for (int x = 0; x < CHUNK_SIZE; x++) {
+			for (int y = CHUNK_SIZE - 1; y >= 0; y--) {
+				getBlock(x, y).tickUpdate(world, x, y);
+				if(getTileEntity(x, y) != null){
+					getTileEntity(x, y).tickUpdate(world, x, y);
+					if(getTileEntity(x, y).isDirty() && world.isServer){
+						world.sendTileEntityUpdate(x, y);
+						getTileEntity(x, y).setDirty(false);
+					}
+				}
 			}
 		}
 	}

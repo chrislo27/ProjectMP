@@ -9,6 +9,7 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.ILoadsChunk;
 import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.tileentity.ITileEntityProvider;
 import projectmp.common.tileentity.TileEntity;
@@ -43,6 +44,7 @@ public class World {
 	public int sizex;
 	public int sizey;
 	Chunk[][] chunks;
+	private int[][] loadedChunks;
 
 	public transient LightingEngine lightingEngine;
 
@@ -62,7 +64,7 @@ public class World {
 	public Background background = new Background(this);
 
 	private Weather weather = null;
-	
+
 	private PacketSendTileEntity tepacket = new PacketSendTileEntity();
 
 	/**
@@ -86,6 +88,7 @@ public class World {
 	public void prepare() {
 		// set up chunks
 		chunks = new Chunk[getWidthInChunks()][getHeightInChunks()];
+		loadedChunks = new int[getWidthInChunks()][getHeightInChunks()];
 
 		// fill in chunks
 		for (int x = 0; x < getWidthInChunks(); x++) {
@@ -113,15 +116,13 @@ public class World {
 	public void tickUpdate() {
 		time.tickUpdate();
 
-		for (int x = 0; x < sizex; x++) {
-			for (int y = sizey - 1; y > 0; y--) {
-				getBlock(x, y).tickUpdate(this, x, y);
-				if(getTileEntity(x, y) != null){
-					getTileEntity(x, y).tickUpdate(this, x, y);
-					if(getTileEntity(x, y).isDirty() && isServer){
-						sendTileEntityUpdate(x, y);
-						getTileEntity(x, y).setDirty(false);
-					}
+		// tick update loaded chunks
+		for (int x = 0; x < getWidthInChunks(); x++) {
+			for (int y = 0; y < getHeightInChunks(); y++) {
+				if (isChunkLoaded(x, y)) {
+					getChunk(x, y).tickUpdate(this);
+					
+					loadedChunks[x][y]--;
 				}
 			}
 		}
@@ -131,6 +132,16 @@ public class World {
 				Entity e = entities.get(i);
 				e.tickUpdate();
 
+				if(e instanceof ILoadsChunk){
+					int cx = getChunkX((int) e.x);
+					int cy = getChunkY((int) e.y);
+					
+					for(int x = cx - 3; x < cx + 3; x++){
+						for(int y = cy - 3; y < cy + 3; y++){
+							loadChunk(x, y, Main.TICKS);
+						}
+					}
+				}
 			}
 
 			if (particles.size > 0) {
@@ -340,8 +351,8 @@ public class World {
 
 		getChunkBlockIsIn(x, y).setBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		lightingEngine.scheduleLightingUpdate();
-		
-		if(b instanceof ITileEntityProvider){
+
+		if (b instanceof ITileEntityProvider) {
 			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
 		}
 	}
@@ -357,8 +368,20 @@ public class World {
 
 		getChunkBlockIsIn(x, y).setTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
-	
-	protected void sendTileEntityUpdate(int x, int y) {
+
+	public boolean isChunkLoaded(int x, int y) {
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return false;
+
+		return loadedChunks[x][y] > 0;
+	}
+
+	public void loadChunk(int x, int y, int length) {
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
+
+		loadedChunks[x][y] = length;
+	}
+
+	public void sendTileEntityUpdate(int x, int y) {
 		tepacket.te = getTileEntity(x, y);
 		tepacket.x = x;
 		tepacket.y = y;
