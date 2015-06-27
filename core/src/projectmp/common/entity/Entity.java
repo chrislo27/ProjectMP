@@ -644,25 +644,25 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 
 	public void moveUp() {
 		if (getBlockCollidingUp() == null && veloy > -maxspeed) {
-			accelerate(0, -accspeed * Gdx.graphics.getDeltaTime(), true);
+			accelerate(0, -accspeed / Main.TICKS, true);
 		}
 	}
 
 	public void moveDown() {
 		if (getBlockCollidingDown() == null && veloy < maxspeed) {
-			accelerate(0, accspeed * Gdx.graphics.getDeltaTime(), true);
+			accelerate(0, accspeed / Main.TICKS, true);
 		}
 	}
 
 	public void moveLeft() {
 		if (getBlockCollidingLeft() == null && velox > -maxspeed) {
-			accelerate(-accspeed * Gdx.graphics.getDeltaTime(), 0, true);
+			accelerate(-accspeed / Main.TICKS, 0, true);
 		}
 	}
 
 	public void moveRight() {
 		if (getBlockCollidingRight() == null && velox < maxspeed) {
-			accelerate(accspeed * Gdx.graphics.getDeltaTime(), 0, true);
+			accelerate(accspeed / Main.TICKS, 0, true);
 		}
 	}
 

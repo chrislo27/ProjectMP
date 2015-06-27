@@ -75,6 +75,8 @@ public class ClientLogic implements Disposable {
 	}
 
 	public void tickUpdate() {
+		playerInputTickUpdate();
+		
 		renderer.tickUpdate();
 		world.tickUpdate();
 
@@ -120,7 +122,7 @@ public class ClientLogic implements Disposable {
 	}
 
 	public void renderUpdate() {
-		playerInput();
+		playerInputRenderUpdate();
 
 		for (Entity e : world.entities) {
 			e.clientRenderUpdate();
@@ -192,7 +194,7 @@ public class ClientLogic implements Disposable {
 		}
 	}
 
-	private void playerInput() {
+	private void playerInputRenderUpdate() {
 		if (getPlayer() == null || !main.client.isConnected()) return;
 
 		if (getCurrentGui() == null) {
@@ -204,19 +206,6 @@ public class ClientLogic implements Disposable {
 			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) {
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 			}
-		}
-
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
-			getPlayer().moveLeft();
-		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
-			getPlayer().moveRight();
-		}
-		if (Gdx.input.isKeyPressed(Keys.UP)) {
-			getPlayer().jump();
-		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
-
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
@@ -234,6 +223,21 @@ public class ClientLogic implements Disposable {
 			} else {
 				main.client.close();
 			}
+		}
+	}
+	
+	private void playerInputTickUpdate(){
+		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+			getPlayer().moveLeft();
+		}
+		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+			getPlayer().moveRight();
+		}
+		if (Gdx.input.isKeyPressed(Keys.UP)) {
+			getPlayer().jump();
+		}
+		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+
 		}
 	}
 
