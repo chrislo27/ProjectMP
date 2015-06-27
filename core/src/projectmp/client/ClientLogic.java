@@ -39,6 +39,8 @@ public class ClientLogic implements Disposable {
 	
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
+	
+	private float lastCamX = 0;
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -167,6 +169,11 @@ public class ClientLogic implements Disposable {
 			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5, Main.convertY(starting + 210));
 			main.font.draw(main.batch, "cam velox: " + renderer.camera.velox, 5, Main.convertY(starting + 225));
 			main.font.draw(main.batch, "cam veloy: " + renderer.camera.velox, 5, Main.convertY(starting + 240));
+			main.font.draw(main.batch, "cam x RoC: " + (renderer.camera.camerax - lastCamX), 5, Main.convertY(starting + 255));
+			
+			if(Gdx.input.isKeyPressed(Keys.R)){
+				Main.logger.debug("camX RoC: " + (renderer.camera.camerax - lastCamX));
+			}
 		}
 	}
 
@@ -183,6 +190,8 @@ public class ClientLogic implements Disposable {
 			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
 					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);
 
+			lastCamX = renderer.camera.camerax;
+			
 			renderer.camera.update();
 		}
 	}
