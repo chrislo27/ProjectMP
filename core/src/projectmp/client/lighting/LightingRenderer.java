@@ -70,10 +70,10 @@ public class LightingRenderer {
 		// set tempColor to the block color
 		Color.rgb888ToColor(tempColor, engine.getLightColor(x, y));
 
-		// lerp the base shadow with the colour of time of day based on the sky brightness (max 0.5 lerp)
+		// lerp the base shadow with the colour of time of day based on the sky brightness
 		shadowColorHelper.set(LightingEngine.SHADOW_BASE_COLOR);
 		shadowColorHelper.lerp(engine.timeOfDayColor,
-				(engine.getSkyLightFromTOD(engine.getSkyLight(x, y)) / 127f) / 2);
+				(engine.getSkyLightFromTOD(engine.getSkyLight(x, y)) / 127f));
 
 		// lerp between shadow and actual based on alpha which is based on brightness (sky and block)
 		tempColor.lerp(shadowColorHelper, calcAlpha(x, y));
