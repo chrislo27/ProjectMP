@@ -113,6 +113,7 @@ public class World {
 		for (int x = 0; x < sizex; x++) {
 			for (int y = sizey - 1; y > 0; y--) {
 				getBlock(x, y).tickUpdate(this, x, y);
+				
 			}
 		}
 
@@ -307,50 +308,28 @@ public class World {
 		return blocky / Chunk.CHUNK_SIZE;
 	}
 
-	/**
-	 * returns the block IN THE CHUNK the block is at (x % chunk_size)
-	 * @param x
-	 * @return
-	 */
-	public int getBlockXInChunk(int x) {
-		if (x < 0 || x >= sizex) return -1;
-
-		return x % Chunk.CHUNK_SIZE;
-	}
-
-	/**
-	 * returns the block IN THE CHUNK the block is at (y % chunk_size)
-	 * @param y
-	 * @return
-	 */
-	public int getBlockYInChunk(int y) {
-		if (y < 0 || y >= sizex) return -1;
-
-		return y % Chunk.CHUNK_SIZE;
-	}
-
 	public Block getBlock(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Blocks.defaultBlock();
 
-		return getChunkBlockIsIn(x, y).getBlock(getBlockXInChunk(x), getBlockYInChunk(y));
+		return getChunkBlockIsIn(x, y).getBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public int getMeta(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return 0;
 
-		return getChunkBlockIsIn(x, y).getMeta(getBlockXInChunk(x), getBlockYInChunk(y));
+		return getChunkBlockIsIn(x, y).getMeta(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
 
-		return getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
+		return getChunkBlockIsIn(x, y).getTileEntity(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setBlock(b, getBlockXInChunk(x), getBlockYInChunk(y));
+		getChunkBlockIsIn(x, y).setBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		lightingEngine.scheduleLightingUpdate();
 		
 		if(b instanceof ITileEntityProvider){
@@ -361,13 +340,13 @@ public class World {
 	public void setMeta(int m, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setMeta(m, getBlockXInChunk(x), getBlockYInChunk(y));
+		getChunkBlockIsIn(x, y).setMeta(m, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public void setTileEntity(TileEntity te, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setTileEntity(te, getBlockXInChunk(x), getBlockYInChunk(y));
+		getChunkBlockIsIn(x, y).setTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 }
