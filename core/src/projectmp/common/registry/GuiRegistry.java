@@ -7,6 +7,7 @@ import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.inventory.gui.GuiChessboard;
 import projectmp.common.inventory.gui.GuiPlayerInventory;
+import projectmp.common.registry.handler.IGuiHandler;
 import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.Utils;
 import projectmp.common.world.World;

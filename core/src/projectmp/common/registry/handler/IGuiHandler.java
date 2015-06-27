@@ -1,4 +1,4 @@
-package projectmp.common.registry;
+package projectmp.common.registry.handler;
 
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
