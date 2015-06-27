@@ -118,7 +118,7 @@ public class World {
 				getBlock(x, y).tickUpdate(this, x, y);
 				if(getTileEntity(x, y) != null){
 					getTileEntity(x, y).tickUpdate(this, x, y);
-					if(getTileEntity(x, y).isDirty()){
+					if(getTileEntity(x, y).isDirty() && isServer){
 						sendTileEntityUpdate(x, y);
 						getTileEntity(x, y).setDirty(false);
 					}
