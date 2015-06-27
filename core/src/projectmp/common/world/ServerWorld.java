@@ -41,7 +41,7 @@ public class ServerWorld extends World {
 		}
 		
 		for(int x = 0; x < sizex; x++){
-			for(int y = 0; y < sizey; y++){
+			for(int y = sizey - 1; y > 0; y--){
 				if(getTileEntity(x, y) != null){
 					if(getTileEntity(x, y).isDirty()){
 						sendTileEntityUpdate(x, y);
