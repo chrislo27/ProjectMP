@@ -4,15 +4,12 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.inventory.InventoryPlayer;
-import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.MathHelper;
-import projectmp.common.util.Utils;
+import projectmp.common.util.Particle;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
@@ -93,6 +90,12 @@ public class WorldRenderer implements Disposable {
 
 				e.render(this);
 			}
+		}
+		
+		for(int i = 0; i < world.particles.size; i++){
+			Particle p = world.particles.get(i);
+			
+			p.render(world, main);
 		}
 
 		batch.setColor(1, 1, 1, 1);
