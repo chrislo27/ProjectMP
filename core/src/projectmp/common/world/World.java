@@ -122,21 +122,25 @@ public class World {
 				e.tickUpdate();
 
 			}
-			Particle item;
-			for (int i = particles.size; --i >= 0;) {
-				item = particles.get(i);
-				// remove immediately since server doesn't need particles
-				particles.removeIndex(i);
-				ParticlePool.instance().getPool().free(item);
-			}
 
-		} else {
-			Particle item;
-			for (int i = particles.size; --i >= 0;) {
-				item = particles.get(i);
-				if (item.lifetime <= 0) {
+			if (particles.size > 0) {
+				Particle item;
+				for (int i = particles.size; --i >= 0;) {
+					item = particles.get(i);
+					// remove immediately since server doesn't need particles
 					particles.removeIndex(i);
 					ParticlePool.instance().getPool().free(item);
+				}
+			}
+		} else {
+			if (particles.size > 0) {
+				Particle item;
+				for (int i = particles.size; --i >= 0;) {
+					item = particles.get(i);
+					if (item.lifetime <= 0) {
+						particles.removeIndex(i);
+						ParticlePool.instance().getPool().free(item);
+					}
 				}
 			}
 		}
@@ -172,14 +176,14 @@ public class World {
 		}
 		return id;
 	}
-	
-	public Entity getEntityByUUID(long uuid){
+
+	public Entity getEntityByUUID(long uuid) {
 		for (int i = 0; i < entities.size; i++) {
 			if (entities.get(i).uuid == uuid) {
 				return entities.get(i);
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -199,7 +203,8 @@ public class World {
 				setBlock(Blocks.instance().getBlock("dirt"), i, y);
 			}
 			setBlock(Blocks.instance().getBlock("grass"), i, actualHeight + (sizey / 16));
-			setBlock(Blocks.instance().getBlock(i == sizex / 2 ? "chess_set" : "tall_grass"), i, actualHeight + (sizey / 16) - 1);
+			setBlock(Blocks.instance().getBlock(i == sizex / 2 ? "chess_set" : "tall_grass"), i,
+					actualHeight + (sizey / 16) - 1);
 
 			for (int y = endOfDirt; y < sizey; y++) {
 				setBlock(Blocks.instance().getBlock("stone"), i, y);
@@ -339,12 +344,13 @@ public class World {
 	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
 
-		TileEntity te = getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
-		
-		if(te == null && getBlock(x, y) instanceof ITileEntityProvider){
+		TileEntity te = getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x),
+				getBlockYInChunk(y));
+
+		if (te == null && getBlock(x, y) instanceof ITileEntityProvider) {
 			setTileEntity(((ITileEntityProvider) (getBlock(x, y))).createNewTileEntity(x, y), x, y);
 		}
-		
+
 		return getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
 	}
 
