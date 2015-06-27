@@ -33,11 +33,9 @@ public class NetworkingRegistry {
 	}
 	
 	/**
-	 * registers all the things into the given Kryo instance and gives it back
-	 * @param kryo
-	 * @return
+	 * registers all the things into the given Kryo instance
 	 */
-	public Kryo registerIntoKryo(Kryo kryo){
+	public void registerClasses(Kryo kryo){
 		INetworkHandler handler = null;
 		
 		for(int i = 0; i < handlers.size; i++){
@@ -45,8 +43,6 @@ public class NetworkingRegistry {
 			
 			handler.registerClasses(kryo);
 		}
-		
-		return kryo;
 	}
 	
 }

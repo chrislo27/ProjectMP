@@ -222,12 +222,12 @@ public class Main extends Game implements Consumer {
 
 		client = new Client(16384, 4096);
 		client.addListener(new ClientListener(this));
-		NetworkingRegistry.instance().registerIntoKryo(client.getKryo());
+		NetworkingRegistry.instance().registerClasses(client.getKryo());
 		client.start();
 		clientLogic = new ClientLogic(this);
 
 		server = new Server(32768, 4096);
-		NetworkingRegistry.instance().registerIntoKryo(server.getKryo());
+		NetworkingRegistry.instance().registerClasses(server.getKryo());
 		server.start();
 		serverLogic = new ServerLogic(this);
 		server.addListener(new ServerListener(serverLogic));
