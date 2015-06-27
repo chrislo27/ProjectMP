@@ -36,7 +36,7 @@ public class ServerWorld extends World {
 	@Override
 	public void tickUpdate() {
 		super.tickUpdate();
-		if (time.totalTicks % (Main.TICKS * 5) == 0) {
+		if (time.totalTicks % (Main.TICKS * 5) == 0 && logic.server.getConnections().length > 0) {
 			sendTimeUpdate();
 		}
 		

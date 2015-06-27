@@ -344,13 +344,6 @@ public class World {
 	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
 
-		TileEntity te = getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x),
-				getBlockYInChunk(y));
-
-		if (te == null && getBlock(x, y) instanceof ITileEntityProvider) {
-			setTileEntity(((ITileEntityProvider) (getBlock(x, y))).createNewTileEntity(x, y), x, y);
-		}
-
 		return getChunkBlockIsIn(x, y).getTileEntity(getBlockXInChunk(x), getBlockYInChunk(y));
 	}
 
@@ -359,6 +352,10 @@ public class World {
 
 		getChunkBlockIsIn(x, y).setBlock(b, getBlockXInChunk(x), getBlockYInChunk(y));
 		lightingEngine.scheduleLightingUpdate();
+		
+		if(b instanceof ITileEntityProvider){
+			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
+		}
 	}
 
 	public void setMeta(int m, int x, int y) {
