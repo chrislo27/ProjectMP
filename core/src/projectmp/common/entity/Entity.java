@@ -94,8 +94,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * called every render update BEFORE rendering on client only
 	 */
 	public void clientRenderUpdate() {
-		visualX += ((x - visualX) * Gdx.graphics.getDeltaTime() * Main.TICKS);
-		visualY += ((y - visualY) * Gdx.graphics.getDeltaTime() * Main.TICKS);
+		visualX += ((x - visualX) / Main.TICKS);
+		visualY += ((y - visualY) / Main.TICKS);
 
 		if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
 		if (Math.abs(y - visualY) <= World.tileparty) visualY = y;

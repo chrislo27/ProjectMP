@@ -83,7 +83,7 @@ public class ClientLogic implements Disposable {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 
-				// send a movement update if the player moved last tick OR if it's time to send a packet (every 2.5 sec)
+				// send a movement update if the player moved last tick OR if it's time to send a packet
 				if (getPlayer().hasMovedLastTick()
 						|| (world.time.totalTicks
 								% ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
@@ -169,10 +169,8 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 195));
 			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5,
 					Main.convertY(starting + 210));
-			main.font.draw(main.batch, "cam velox: " + renderer.camera.velox, 5,
-					Main.convertY(starting + 225));
-			main.font.draw(main.batch, "cam veloy: " + renderer.camera.velox, 5,
-					Main.convertY(starting + 240));
+			main.font.draw(main.batch, "lastPacketX: " + getPlayer().lastPacketX, 5, Main.convertY(starting + 225));
+			main.font.draw(main.batch, "lastPacketY: " + getPlayer().lastPacketY, 5, Main.convertY(starting + 240));
 		}
 	}
 

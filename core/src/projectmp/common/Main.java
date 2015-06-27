@@ -152,7 +152,7 @@ public class Main extends Game implements Consumer {
 	public Server server;
 	public ServerLogic serverLogic;
 
-	public static final int TICKS = 20;
+	public static final int TICKS = 5;
 	public static final int TICKS_NANO = 1000000000 / TICKS;
 	public static final int MAX_FPS = 60;
 	private int[] lastFPS = new int[5];
