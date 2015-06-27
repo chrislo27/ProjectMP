@@ -161,12 +161,12 @@ public class ClientLogic implements Disposable {
 							.getSimpleName()
 							+ ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5,
 					Main.convertY(starting + 150));
-			main.font.draw(main.batch, "cam x, y: " + renderer.camera.camerax + ", "
-					+ renderer.camera.cameray, 5, Main.convertY(starting + 165));
-			main.font.draw(main.batch, "cam wanted x, y: " + renderer.camera.wantedx + ", "
-					+ renderer.camera.wantedy, 5, Main.convertY(starting + 180));
-			main.font.draw(main.batch, "cam velo x, y: " + renderer.camera.velox + ", "
-					+ renderer.camera.veloy, 5, Main.convertY(starting + 195));
+			main.font.draw(main.batch, "cam x: " + renderer.camera.camerax, 5, Main.convertY(starting + 165));
+			main.font.draw(main.batch, "cam y: " + renderer.camera.camerax, 5, Main.convertY(starting + 180));
+			main.font.draw(main.batch, "cam wantedx: " + renderer.camera.wantedx, 5, Main.convertY(starting + 195));
+			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5, Main.convertY(starting + 210));
+			main.font.draw(main.batch, "cam velox: " + renderer.camera.velox, 5, Main.convertY(starting + 225));
+			main.font.draw(main.batch, "cam veloy: " + renderer.camera.velox, 5, Main.convertY(starting + 240));
 		}
 	}
 
