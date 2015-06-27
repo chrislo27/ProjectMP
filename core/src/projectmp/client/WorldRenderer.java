@@ -161,6 +161,8 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderPlayerNames() {
+		batch.begin();
+		
 		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
 		for (int i = 0; i < world.entities.size; i++) {
@@ -188,6 +190,8 @@ public class WorldRenderer implements Disposable {
 				}
 			}
 		}
+		
+		batch.end();
 	}
 
 	public void tickUpdate() {
