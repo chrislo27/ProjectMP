@@ -45,22 +45,30 @@ public class SmoothCamera {
 		shakeFades = fades;
 	}
 
-	public void update() {
+	public void tickUpdate() {
 		if (Math.abs(wantedx - camerax) > 0.005f) {
-			velox = (float) ((SPEED) * ((wantedx - camerax)));
-			camerax += velox * Gdx.graphics.getDeltaTime();
+			velox = SPEED * (wantedx - camerax);
 		} else {
 			velox = 0;
 			camerax = wantedx;
 		}
 		if (Math.abs(wantedy - cameray) > 0.005f) {
-			veloy = (float) ((SPEED) * ((wantedy - cameray)));
-			cameray += veloy * Gdx.graphics.getDeltaTime();
+			veloy = SPEED * (wantedy - cameray);
 		} else {
 			veloy = 0;
 			cameray = wantedy;
 		}
+
 		clamp();
+	}
+
+	public void update() {
+		camerax += velox * Gdx.graphics.getDeltaTime();
+
+		cameray += veloy * Gdx.graphics.getDeltaTime();
+
+		clamp();
+
 		if (shakeTime > 0) {
 			shakeTime -= Gdx.graphics.getDeltaTime();
 			if (shakeTime < 0) {

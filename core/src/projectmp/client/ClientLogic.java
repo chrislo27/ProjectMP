@@ -36,12 +36,10 @@ public class ClientLogic implements Disposable {
 	private PacketSwapSlot swapSlot = new PacketSwapSlot();
 
 	private int playerIndex = -1;
-	
+
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
 	
-	private float lastCamX = 0;
-
 	public ClientLogic(Main main) {
 		this.main = main;
 		client = main.client;
@@ -112,11 +110,11 @@ public class ClientLogic implements Disposable {
 
 	public void render() {
 		centerCameraOnPlayerAndUpdate();
-		
+
 		renderer.renderWorld();
-		
+
 		renderer.renderPlayerNames();
-		
+
 		main.batch.setProjectionMatrix(main.camera.combined);
 		renderer.renderHUD();
 	}
@@ -163,17 +161,18 @@ public class ClientLogic implements Disposable {
 							.getSimpleName()
 							+ ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5,
 					Main.convertY(starting + 150));
-			main.font.draw(main.batch, "cam x: " + renderer.camera.camerax, 5, Main.convertY(starting + 165));
-			main.font.draw(main.batch, "cam y: " + renderer.camera.camerax, 5, Main.convertY(starting + 180));
-			main.font.draw(main.batch, "cam wantedx: " + renderer.camera.wantedx, 5, Main.convertY(starting + 195));
-			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5, Main.convertY(starting + 210));
-			main.font.draw(main.batch, "cam velox: " + renderer.camera.velox, 5, Main.convertY(starting + 225));
-			main.font.draw(main.batch, "cam veloy: " + renderer.camera.velox, 5, Main.convertY(starting + 240));
-			main.font.draw(main.batch, "cam x RoC: " + (renderer.camera.camerax - lastCamX), 5, Main.convertY(starting + 255));
-			
-			if(Gdx.input.isKeyPressed(Keys.R)){
-				Main.logger.debug("camX RoC: " + (renderer.camera.camerax - lastCamX));
-			}
+			main.font.draw(main.batch, "cam x: " + renderer.camera.camerax, 5,
+					Main.convertY(starting + 165));
+			main.font.draw(main.batch, "cam y: " + renderer.camera.camerax, 5,
+					Main.convertY(starting + 180));
+			main.font.draw(main.batch, "cam wantedx: " + renderer.camera.wantedx, 5,
+					Main.convertY(starting + 195));
+			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5,
+					Main.convertY(starting + 210));
+			main.font.draw(main.batch, "cam velox: " + renderer.camera.velox, 5,
+					Main.convertY(starting + 225));
+			main.font.draw(main.batch, "cam veloy: " + renderer.camera.velox, 5,
+					Main.convertY(starting + 240));
 		}
 	}
 
@@ -187,11 +186,10 @@ public class ClientLogic implements Disposable {
 
 	public void centerCameraOnPlayerAndUpdate() {
 		if (getPlayer() != null) {
-			renderer.camera.centerOn((getPlayer().x + getPlayer().sizex / 2f) * World.tilesizex,
-					(getPlayer().y + getPlayer().sizey / 2f) * World.tilesizey);
+			renderer.camera.centerOn((getPlayer().visualX + getPlayer().sizex / 2f)
+					* World.tilesizex, (getPlayer().visualY + getPlayer().sizey / 2f)
+					* World.tilesizey);
 
-			lastCamX = renderer.camera.camerax;
-			
 			renderer.camera.update();
 		}
 	}
@@ -199,17 +197,17 @@ public class ClientLogic implements Disposable {
 	private void playerInput() {
 		if (getPlayer() == null || !main.client.isConnected()) return;
 
-		if(getCurrentGui() == null){
+		if (getCurrentGui() == null) {
 			int x = getBlockXCursor();
 			int y = getBlockYCursor();
-			
-			if(Utils.isButtonJustPressed(Buttons.LEFT)){
-				
-			}else if(Utils.isButtonJustPressed(Buttons.RIGHT)){
+
+			if (Utils.isButtonJustPressed(Buttons.LEFT)) {
+
+			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) {
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 			}
 		}
-		
+
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
 			getPlayer().moveLeft();
 		}
@@ -219,66 +217,65 @@ public class ClientLogic implements Disposable {
 		if (Gdx.input.isKeyPressed(Keys.UP)) {
 			getPlayer().jump();
 		}
-		if(Gdx.input.isKeyPressed(Keys.DOWN)){
-			
+		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+
 		}
 
 		if (Gdx.input.isKeyJustPressed(Keys.E)) {
-			if(getCurrentGui() == null){
+			if (getCurrentGui() == null) {
 				openGui("playerInv", Utils.unpackLongUpper(getPlayer().uuid),
 						Utils.unpackLongLower(getPlayer().uuid));
-			}else{
+			} else {
 				setCurrentGui(null);
 			}
 		}
-		
+
 		if (Gdx.input.isKeyJustPressed(Keys.ESCAPE)) {
-			if(getCurrentGui() != null){
+			if (getCurrentGui() != null) {
 				setCurrentGui(null);
-			}else{
+			} else {
 				main.client.close();
 			}
 		}
 	}
 
-	public Gui getCurrentGui(){
+	public Gui getCurrentGui() {
 		return currentGui;
 	}
-	
-	public void setCurrentGui(Gui g){
-		if(g == null && currentGui != null){
+
+	public void setCurrentGui(Gui g) {
+		if (g == null && currentGui != null) {
 			currentGui.onGuiClose(renderer, this);
 		}
-		
+
 		currentGui = g;
-		
-		if(currentGui != null){
+
+		if (currentGui != null) {
 			currentGui.onGuiOpen(renderer, this);
 		}
-		
+
 		Gdx.input.setCursorCatched(false);
 	}
-	
-	public void openGui(String id, int x, int y){
+
+	public void openGui(String id, int x, int y) {
 		setCurrentGui(GuiRegistry.instance().createNewGuiObject(id, world,
-						(InventoryPlayer) getPlayer().getInventoryObject(),
-						x, y));
+				(InventoryPlayer) getPlayer().getInventoryObject(), x, y));
 	}
-	
+
 	@Override
 	public void dispose() {
 		renderer.dispose();
 	}
-	
-	public PacketSwapSlot getSwapSlotPacket(){
+
+	public PacketSwapSlot getSwapSlotPacket() {
 		return swapSlot;
 	}
-	
-	public int getBlockXCursor(){
+
+	public int getBlockXCursor() {
 		return ((int) ((Main.getInputX() + main.clientLogic.renderer.camera.camerax) / World.tilesizex));
 	}
-	
-	public int getBlockYCursor(){
+
+	public int getBlockYCursor() {
 		return ((int) ((Main.getInputY() + main.clientLogic.renderer.camera.cameray) / World.tilesizey));
 	}
 

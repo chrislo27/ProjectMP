@@ -188,7 +188,7 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void tickUpdate() {
-
+		camera.tickUpdate();
 	}
 
 	protected void changeWorld(World w) {
