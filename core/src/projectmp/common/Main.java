@@ -39,6 +39,7 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.item.Item;
 import projectmp.common.item.Items;
+import projectmp.common.registry.NetworkingRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
 import projectmp.common.util.CaptureStream.Consumer;
@@ -221,12 +222,12 @@ public class Main extends Game implements Consumer {
 
 		client = new Client(16384, 4096);
 		client.addListener(new ClientListener(this));
-		ClassRegistration.registerClasses(client.getKryo());
+		NetworkingRegistry.instance().registerIntoKryo(client.getKryo());
 		client.start();
 		clientLogic = new ClientLogic(this);
 
 		server = new Server(32768, 4096);
-		ClassRegistration.registerClasses(server.getKryo());
+		NetworkingRegistry.instance().registerIntoKryo(server.getKryo());
 		server.start();
 		serverLogic = new ServerLogic(this);
 		server.addListener(new ServerListener(serverLogic));
