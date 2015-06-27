@@ -160,6 +160,7 @@ public class Main extends Game implements Consumer {
 	private long lastKnownNano = System.nanoTime();
 	private float totalSeconds = 0f;
 	private long totalTicksElapsed = 0;
+	private long lastTickDurationNano = 0;
 
 	public static Gears gears;
 
@@ -375,8 +376,14 @@ public class Main extends Game implements Consumer {
 		try {
 			// ticks
 			while (nanoUntilTick >= TICKS_NANO) {
+				long nano = System.nanoTime();
+				
 				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
+				
 				tickUpdate();
+				
+				lastTickDurationNano = System.nanoTime() - nano;
+				
 				nanoUntilTick -= TICKS_NANO;
 			}
 			
@@ -432,8 +439,7 @@ public class Main extends Game implements Consumer {
 			font.draw(
 					batch,
 					"(avg of " + lastFPS.length + " sec: " + String.format("%.1f", getAvgFPS())
-							+ ") " + Arrays.toString(lastFPS) + ", delta "
-							+ Gdx.graphics.getDeltaTime(),
+							+ ") " + Arrays.toString(lastFPS),
 					5 + font.getSpaceWidth()
 							+ (font.getBounds("FPS: " + Gdx.graphics.getFramesPerSecond()).width),
 					Settings.DEFAULT_HEIGHT - 5);
@@ -472,24 +478,25 @@ public class Main extends Game implements Consumer {
 				.getUsedMemory();
 		font.setColor(Color.WHITE);
 		font.draw(batch, "version: " + Main.version
-				+ (githubVersion == null ? "" : "; github: " + Main.githubVersion), 5,
+				+ (githubVersion == null ? "" : "; latest: " + Main.githubVersion), 5,
 				Main.convertY(30 + offset));
-		font.draw(batch, "Memory: "
+		font.draw(batch, "memory: "
 				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
 				+ NumberFormat.getInstance().format(MemoryUtils.getMaxMemory()) + " KB (max "
 				+ NumberFormat.getInstance().format(getMostMemory) + " KB) ", 5,
 				Main.convertY(45 + offset));
-		font.draw(batch, "Available cores: " + MemoryUtils.getCores(), 5,
+		font.draw(batch, "OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores() + " cores", 5,
 				Main.convertY(60 + offset));
-		font.draw(batch, "OS: " + System.getProperty("os.name"), 5, Main.convertY(75 + offset));
+		font.draw(batch, "tickDuration: " + (lastTickDurationNano / 1000000f) + " ms", 5, Main.convertY(75 + offset));
+		font.draw(batch, "delta: " + Gdx.graphics.getDeltaTime(), 5, Main.convertY(90 + offset));
 		if (getScreen() != null) {
 			font.draw(batch, "state: " + getScreen().getClass().getSimpleName(), 5,
-					Main.convertY(90 + offset));
+					Main.convertY(105 + offset));
 		} else {
-			font.draw(batch, "state: null", 5, Main.convertY(90 + offset));
+			font.draw(batch, "state: null", 5, Main.convertY(105 + offset));
 		}
 
-		return 75 + 30 + offset;
+		return 30 + offset + 105;
 	}
 
 	public void inputUpdate() {
