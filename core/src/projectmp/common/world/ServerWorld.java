@@ -21,7 +21,6 @@ public class ServerWorld extends World {
 	private PacketTimeUpdate timepacket = new PacketTimeUpdate();
 	private PacketUpdateHealth healthpacket = new PacketUpdateHealth();
 	private PacketWeather weatherpacket = new PacketWeather();
-	private PacketSendTileEntity tepacket = new PacketSendTileEntity();
 	boolean shouldSendUpdates = true;
 
 	public ServerWorld(Main main, int x, int y, boolean server, long seed, ServerLogic l) {
@@ -38,17 +37,6 @@ public class ServerWorld extends World {
 		super.tickUpdate();
 		if (time.totalTicks % (Main.TICKS * 5) == 0 && logic.server.getConnections().length > 0) {
 			sendTimeUpdate();
-		}
-		
-		for(int x = 0; x < sizex; x++){
-			for(int y = sizey - 1; y > 0; y--){
-				if(getTileEntity(x, y) != null){
-					if(getTileEntity(x, y).isDirty()){
-						sendTileEntityUpdate(x, y);
-						getTileEntity(x, y).setDirty(false);
-					}
-				}
-			}
 		}
 	}
 
@@ -100,14 +88,6 @@ public class ServerWorld extends World {
 	public void setTileEntity(TileEntity te, int x, int y) {
 		super.setTileEntity(te, x, y);
 		sendTileEntityUpdate(x, y);
-	}
-
-	private void sendTileEntityUpdate(int x, int y) {
-		tepacket.te = getTileEntity(x, y);
-		tepacket.x = x;
-		tepacket.y = y;
-
-		logic.server.sendToAllTCP(tepacket);
 	}
 
 	private void sendBlockUpdatePacket(int x, int y) {

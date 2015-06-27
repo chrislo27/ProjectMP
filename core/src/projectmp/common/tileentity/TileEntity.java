@@ -1,8 +1,9 @@
 package projectmp.common.tileentity;
 
-import com.evilco.mc.nbt.tag.TagCompound;
-
 import projectmp.common.io.CanBeSavedToNBT;
+import projectmp.common.world.World;
+
+import com.evilco.mc.nbt.tag.TagCompound;
 
 public abstract class TileEntity implements CanBeSavedToNBT {
 
@@ -18,6 +19,10 @@ public abstract class TileEntity implements CanBeSavedToNBT {
 	public TileEntity(int x, int y){
 		this.x = x;
 		this.y = y;
+	}
+	
+	public void tickUpdate(World world, int x, int y){
+		
 	}
 
 	@Override

@@ -9,6 +9,7 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
+import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.tileentity.ITileEntityProvider;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.util.Particle;
@@ -61,6 +62,8 @@ public class World {
 	public Background background = new Background(this);
 
 	private Weather weather = null;
+	
+	private PacketSendTileEntity tepacket = new PacketSendTileEntity();
 
 	/**
 	 * 
@@ -113,7 +116,13 @@ public class World {
 		for (int x = 0; x < sizex; x++) {
 			for (int y = sizey - 1; y > 0; y--) {
 				getBlock(x, y).tickUpdate(this, x, y);
-				
+				if(getTileEntity(x, y) != null){
+					getTileEntity(x, y).tickUpdate(this, x, y);
+					if(getTileEntity(x, y).isDirty()){
+						sendTileEntityUpdate(x, y);
+						getTileEntity(x, y).setDirty(false);
+					}
+				}
 			}
 		}
 
@@ -347,6 +356,14 @@ public class World {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
 		getChunkBlockIsIn(x, y).setTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+	}
+	
+	protected void sendTileEntityUpdate(int x, int y) {
+		tepacket.te = getTileEntity(x, y);
+		tepacket.x = x;
+		tepacket.y = y;
+
+		main.server.sendToAllTCP(tepacket);
 	}
 
 }
