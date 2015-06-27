@@ -157,10 +157,11 @@ public class Main extends Game implements Consumer {
 	public static final int MAX_FPS = 60;
 	private int[] lastFPS = new int[5];
 	private long nanoUntilTick = TICKS_NANO;
-	private long lastKnownNano = System.nanoTime();
 	private float totalSeconds = 0f;
-	private long totalTicksElapsed = 0;
-	private long lastTickDurationNano = 0;
+	long totalTicksElapsed = 0;
+	long lastTickDurationNano = 0;
+	
+	private Ticker ticker;
 
 	public static Gears gears;
 
@@ -216,7 +217,7 @@ public class Main extends Game implements Consumer {
 		clearPixmap = new Pixmap(8, 8, Format.RGBA8888);
 		clearPixmap.setColor(0, 0, 0, 0);
 		clearPixmap.fill();
-		
+
 		shapes = new ShapeRenderer();
 
 		client = new Client(16384, 4096);
@@ -280,6 +281,10 @@ public class Main extends Game implements Consumer {
 				VersionGetter.instance().getVersionFromServer();
 			}
 		}.start();
+		
+		ticker = new Ticker(this);
+		ticker.setDaemon(true);
+		ticker.start();
 
 		// set resolution/fullscreen according to settings
 		if (Gdx.graphics.getWidth() != Settings.actualWidth
@@ -370,23 +375,8 @@ public class Main extends Game implements Consumer {
 	@Override
 	public void render() {
 		totalSeconds += Gdx.graphics.getDeltaTime();
-		nanoUntilTick += (System.nanoTime() - lastKnownNano);
-		lastKnownNano = System.nanoTime();
 
 		try {
-			// ticks
-			while (nanoUntilTick >= TICKS_NANO) {
-				long nano = System.nanoTime();
-				
-				if (getScreen() != null) ((Updateable) getScreen()).tickUpdate();
-				
-				tickUpdate();
-				
-				lastTickDurationNano = System.nanoTime() - nano;
-				
-				nanoUntilTick -= TICKS_NANO;
-			}
-			
 			// render updates
 			if (getScreen() != null) {
 				((Updateable) getScreen()).renderUpdate();
@@ -485,9 +475,10 @@ public class Main extends Game implements Consumer {
 				+ NumberFormat.getInstance().format(MemoryUtils.getMaxMemory()) + " KB (max "
 				+ NumberFormat.getInstance().format(getMostMemory) + " KB) ", 5,
 				Main.convertY(45 + offset));
-		font.draw(batch, "OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores() + " cores", 5,
-				Main.convertY(60 + offset));
-		font.draw(batch, "tickDuration: " + (lastTickDurationNano / 1000000f) + " ms", 5, Main.convertY(75 + offset));
+		font.draw(batch, "OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores()
+				+ " cores", 5, Main.convertY(60 + offset));
+		font.draw(batch, "tickDuration: " + (lastTickDurationNano / 1000000f) + " ms", 5,
+				Main.convertY(75 + offset));
 		font.draw(batch, "delta: " + Gdx.graphics.getDeltaTime(), 5, Main.convertY(90 + offset));
 		if (getScreen() != null) {
 			font.draw(batch, "state: " + getScreen().getClass().getSimpleName(), 5,
@@ -635,8 +626,8 @@ public class Main extends Game implements Consumer {
 		gears = new Gears(this);
 
 		// animations
-		animations.put("shine",
-				new LoopingAnimation(0.1f, 20, "images/items/shine/shine.png", false));
+		animations.put("shine", new LoopingAnimation(0.1f, 20, "images/items/shine/shine.png",
+				false));
 		animations.put("fire-hud", new LoopingAnimation(0.05f, 8, "images/ui/fire-hudnomiddle.png",
 				true).setRegionTile(864, 468).setVertical(false));
 
