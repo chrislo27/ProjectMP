@@ -171,8 +171,10 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 195));
 			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5,
 					Main.convertY(starting + 210));
-			main.font.draw(main.batch, "lastPacketX: " + getPlayer().lastPacketX, 5, Main.convertY(starting + 225));
-			main.font.draw(main.batch, "lastPacketY: " + getPlayer().lastPacketY, 5, Main.convertY(starting + 240));
+			main.font.draw(main.batch, "visualX: " + getPlayer().visualX, 5, Main.convertY(starting + 225));
+			main.font.draw(main.batch, "visualY: " + getPlayer().visualY, 5, Main.convertY(starting + 240));
+			main.font.draw(main.batch, "lerpVeloX: " + getPlayer().lerpVeloX, 5, Main.convertY(starting + 255));
+			main.font.draw(main.batch, "lerpVeloY: " + getPlayer().lerpVeloY, 5, Main.convertY(starting + 270));
 		}
 	}
 

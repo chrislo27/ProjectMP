@@ -11,6 +11,7 @@ import projectmp.common.util.Sizeable;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.MathUtils;
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
@@ -25,11 +26,30 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public float y = 0;
 	public float visualX = x;
 	public float visualY = y;
-	public transient float lastPacketX = x;
-	public transient float lastPacketY = y;
-	public transient float lastTickX = x;
-	public transient float lastTickY = y;
+	/**
+	 * used to calculate if the server should send a movement packet
+	 */
+	public transient float lastTickX, lastTickY;
+
+	// interpolation stuff START
+
+	/**
+	 * used to initiate start of interpolation
+	 * <br>
+	 * this is matched against the real XY, if it differs it's time to lerp
+	 */
+	public transient float lastKnownX, lastKnownY;
+	/**
+	 * interpolation velocity, second based
+	 */
+	public transient float lerpVeloX, lerpVeloY;
+	/**
+	 * extrapolation or not
+	 */
 	private transient boolean shouldPredictFuture = false;
+
+	// interpolation stuff END
+
 	public float sizex = 1;
 	public float sizey = 1;
 	public float velox = 0;
@@ -65,6 +85,11 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public Entity() {
 		prepare();
+
+		visualX = x;
+		visualY = y;
+		lastKnownX = x;
+		lastKnownY = y;
 	}
 
 	public Entity(World w, float posx, float posy) {
@@ -73,8 +98,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		y = posy;
 		visualX = x;
 		visualY = y;
-		lastPacketX = x;
-		lastPacketY = y;
+		lastKnownX = x;
+		lastKnownY = y;
 		if (world != null) uuid = world.getNewUniqueUUID();
 		prepare();
 	}
@@ -91,25 +116,58 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public abstract void render(WorldRenderer renderer);
 
 	/**
-	 * called every render update BEFORE rendering on client only
+	 * called every render update BEFORE rendering on client only, used for interpolation
 	 */
 	public void clientRenderUpdate() {
-		visualX += ((x - visualX) / Main.TICKS);
-		visualY += ((y - visualY) / Main.TICKS);
+		// how lerp works
+		// estimates a velocity based on how many frames are between ticks
+		// if the estimate is right, by the time the next tick comes it should be close enough to make it smooth to the new velocity
+		
+		// see if we need lerping if the last known XY differs from the current XY
+		if (lastKnownX != x) {
+			// calculate full difference, velocity here is in a second
+			float delta = x - visualX;
 
-		if (Math.abs(x - visualX) <= World.tilepartx) visualX = x;
-		if (Math.abs(y - visualY) <= World.tileparty) visualY = y;
+			// convert velocity to per tick rather than per second
+			delta *= Main.TICKS;
 
+			lerpVeloX = delta;
+			lastKnownX = x;
+		}
+
+		// same with Y axis
+		if (lastKnownY != y) {
+			float delta = y - visualY;
+			delta *= Main.TICKS;
+			lerpVeloY = delta;
+			lastKnownY = y;
+		}
+
+		// update visual position
+		visualX += lerpVeloX * Gdx.graphics.getDeltaTime();
+		visualY += lerpVeloY * Gdx.graphics.getDeltaTime();
+
+		// close enough factor
+		if ((Math.abs(x - visualX) <= World.tilepartx && lerpVeloX != 0)) {
+			visualX = x;
+			lerpVeloX = 0;
+			lastKnownX = x;
+		}
+		if ((Math.abs(y - visualY) <= World.tileparty && lerpVeloY != 0)) {
+			visualY = y;
+			lerpVeloY = 0;
+			lastKnownY = y;
+		}
+
+		// extrapolation
 		if (visualX == x && visualY == y) shouldPredictFuture = true;
-		if (shouldPredictFuture) {
+		if (shouldPredictFuture) { // has no effect if velocity is 0 (eg hit a wall)
 			visualX += (velox * Gdx.graphics.getDeltaTime() / Main.TICKS);
 			visualY += (veloy * Gdx.graphics.getDeltaTime() / Main.TICKS);
 		}
 	}
 
 	public void positionUpdate(float newx, float newy) {
-		lastPacketX = x;
-		lastPacketY = y;
 		x = newx;
 		y = newy;
 		shouldPredictFuture = false;
