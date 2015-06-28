@@ -45,7 +45,8 @@ public class SmoothCamera {
 		shakeFades = fades;
 	}
 
-	public void tickUpdate() {
+	public void update() {
+
 		if (Math.abs(wantedx - camerax) > 0.005f) {
 			velox = SPEED * (wantedx - camerax);
 		} else {
@@ -60,9 +61,7 @@ public class SmoothCamera {
 		}
 
 		clamp();
-	}
 
-	public void update() {
 		camerax += velox * Gdx.graphics.getDeltaTime();
 
 		cameray += veloy * Gdx.graphics.getDeltaTime();
