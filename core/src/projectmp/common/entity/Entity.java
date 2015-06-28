@@ -181,12 +181,14 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	
 	private boolean isLerpXOvershooting() {
 		if (lerpVeloX != 0) {
-			if (lerpVeloX > 0) { // positive
-				if (x - visualX < -lerpVeloX / Main.TICKS) {
+			// if distance between visual and real is the opposite sign compared to lerp velo
+			if (lerpVeloX > 0) { // positive velocity
+				// if the distance is negative
+				if (x - visualX < 0) {
 					return true;
 				}
 			} else {
-				if (x - visualX > -lerpVeloX / Main.TICKS) {
+				if (x - visualX > 0) {
 					return true;
 				}
 			}
@@ -197,12 +199,12 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 
 	private boolean isLerpYOvershooting() {
 		if (lerpVeloY != 0) {
-			if (lerpVeloY > 0) { // positive
-				if (y - visualY < -lerpVeloY / Main.TICKS) {
+			if (lerpVeloY > 0) {
+				if (y - visualY < 0) {
 					return true;
 				}
 			} else {
-				if (y - visualY > -lerpVeloY / Main.TICKS) {
+				if (y - visualY > 0) {
 					return true;
 				}
 			}
