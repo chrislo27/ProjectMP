@@ -147,13 +147,13 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		visualX += lerpVeloX * Gdx.graphics.getDeltaTime();
 		visualY += lerpVeloY * Gdx.graphics.getDeltaTime();
 
-		// close enough factor
-		if ((Math.abs(x - visualX) <= World.tilepartx && lerpVeloX != 0)) {
+		// close enough factor / overshoot detection
+		if ((Math.abs(x - visualX) <= World.tilepartx && lerpVeloX != 0) || isLerpXOvershooting()) {
 			visualX = x;
 			lerpVeloX = 0;
 			lastKnownX = x;
 		}
-		if ((Math.abs(y - visualY) <= World.tileparty && lerpVeloY != 0)) {
+		if ((Math.abs(y - visualY) <= World.tileparty && lerpVeloY != 0) || isLerpYOvershooting()) {
 			visualY = y;
 			lerpVeloY = 0;
 			lastKnownY = y;
@@ -177,6 +177,38 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		if (lastTickX == x && lastTickY == y) return false;
 
 		return true;
+	}
+	
+	private boolean isLerpXOvershooting() {
+		if (lerpVeloX != 0) {
+			if (lerpVeloX > 0) { // positive
+				if (x - visualX < -lerpVeloX / Main.TICKS) {
+					return true;
+				}
+			} else {
+				if (x - visualX > -lerpVeloX / Main.TICKS) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+
+	private boolean isLerpYOvershooting() {
+		if (lerpVeloY != 0) {
+			if (lerpVeloY > 0) { // positive
+				if (y - visualY < -lerpVeloY / Main.TICKS) {
+					return true;
+				}
+			} else {
+				if (y - visualY > -lerpVeloY / Main.TICKS) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
 	}
 
 	/**
