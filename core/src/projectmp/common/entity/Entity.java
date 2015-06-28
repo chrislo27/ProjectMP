@@ -700,27 +700,43 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		accelerate(x, y, false);
 	}
 
-	public void moveUp() {
+	/**
+	 * 
+	 * @param usingTicks if true, this acts as if it were called per tick, otherwise delta time
+	 */
+	public void moveUp(boolean usingTicks) {
 		if (getBlockCollidingUp() == null && veloy > -maxspeed) {
-			accelerate(0, -accspeed / Main.TICKS, true);
+			accelerate(0, -accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), true);
 		}
 	}
 
-	public void moveDown() {
+	/**
+	 * 
+	 * @param usingTicks if true, this acts as if it were called per tick, otherwise delta time
+	 */
+	public void moveDown(boolean usingTicks) {
 		if (getBlockCollidingDown() == null && veloy < maxspeed) {
-			accelerate(0, accspeed / Main.TICKS, true);
+			accelerate(0, accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), true);
 		}
 	}
 
-	public void moveLeft() {
+	/**
+	 * 
+	 * @param usingTicks if true, this acts as if it were called per tick, otherwise delta time
+	 */
+	public void moveLeft(boolean usingTicks) {
 		if (getBlockCollidingLeft() == null && velox > -maxspeed) {
-			accelerate(-accspeed / Main.TICKS, 0, true);
+			accelerate(-accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), 0, true);
 		}
 	}
 
-	public void moveRight() {
+	/**
+	 * 
+	 * @param usingTicks if true, this acts as if it were called per tick, otherwise delta time
+	 */
+	public void moveRight(boolean usingTicks) {
 		if (getBlockCollidingRight() == null && velox < maxspeed) {
-			accelerate(accspeed / Main.TICKS, 0, true);
+			accelerate(accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), 0, true);
 		}
 	}
 
