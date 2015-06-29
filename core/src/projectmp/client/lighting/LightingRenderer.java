@@ -97,17 +97,18 @@ public class LightingRenderer {
 			alpha = (1f - (sky / 127f));
 		}
 		
+		// alpha is brightness inverted (ie: full brightness is 0, darkness is 1)
+		
+		// this is the threshold where it becomes more dark faster
 		float threshold = 0.7f;
-		if (alpha >= threshold) {
-			float remainder = alpha - threshold;
-			remainder = (remainder) * (1 / (1 - threshold));
-
-			return remainder + (1f - threshold);
-		} else {
-			float remainder = alpha - (1 - threshold);
-			remainder = (remainder) * (1 / (1 - remainder));
-
-			return remainder * (1 - threshold);
+		
+		float linear = ((alpha - (1f - threshold)) / threshold);
+		float square = ((float) Math.pow(alpha, 2)) + linear;
+		
+		if (alpha >= threshold) { // should darken faster
+			return square;
+		} else { // should darken slower
+			return linear;
 		}
 	}
 
