@@ -5,6 +5,8 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -101,13 +103,21 @@ public class LightingRenderer {
 		
 		// this is the threshold where it becomes more dark faster
 		float threshold = 0.7f;
+		float thresholdInverse = 1f - threshold;
 		
-		float linear = ((alpha - (1f - threshold)) / threshold);
-		float square = ((float) Math.pow(alpha, 2)) + linear;
+		// simple linear formula
+		float linear = alpha * threshold;
 		
-		if (alpha >= threshold) { // should darken faster
+		// square alpha
+		float square = ((float) Math.pow(alpha, 2));
+		// essentially the same as adding itself multiplied by thresholdInverse
+		square *= (1 * thresholdInverse);
+		// subtract a bit so it doesn't become totally pitch black too early on
+		square -= (thresholdInverse / 2);
+		
+		if (alpha >= threshold) {
 			return square;
-		} else { // should darken slower
+		} else {
 			return linear;
 		}
 	}
