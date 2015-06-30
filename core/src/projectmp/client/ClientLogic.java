@@ -39,7 +39,7 @@ public class ClientLogic implements Disposable {
 
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
-	
+
 	public ClientLogic(Main main) {
 		this.main = main;
 		client = main.client;
@@ -59,7 +59,7 @@ public class ClientLogic implements Disposable {
 		playerIndex = -1;
 		for (int i = 0; i < world.getNumberOfEntities(); i++) {
 			Entity e = world.getEntityByIndex(i);
-			
+
 			if (e instanceof EntityPlayer) {
 				if (((EntityPlayer) e).username.equals(Main.username)) {
 					playerIndex = i;
@@ -126,7 +126,7 @@ public class ClientLogic implements Disposable {
 
 		for (int i = 0; i < world.getNumberOfEntities(); i++) {
 			Entity e = world.getEntityByIndex(i);
-			
+
 			e.clientRenderUpdate();
 		}
 	}
@@ -147,19 +147,15 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 60));
 			main.font.draw(main.batch, "x: " + getPlayer().x, 5, Main.convertY(starting + 75));
 			main.font.draw(main.batch, "y: " + getPlayer().y, 5, Main.convertY(starting + 90));
-			main.font.draw(main.batch, "cursorx: "
-					+ ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)), 5,
+			main.font.draw(main.batch, "cursorx: " + getCursorBlockX(), 5,
 					Main.convertY(starting + 105));
-			main.font.draw(main.batch, "cursory: "
-					+ ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey)), 5,
+			main.font.draw(main.batch, "cursory: " + getCursorBlockY(), 5,
 					Main.convertY(starting + 120));
-			main.font
-					.draw(main.batch,
-							"lightlevel: "
-									+ world.lightingEngine.getBrightness(
-											((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex)),
-											((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey))),
-							5, Main.convertY(starting + 135));
+			main.font.draw(
+					main.batch,
+					"lightlevel: "
+							+ world.lightingEngine.getBrightness(getCursorBlockX(),
+									getCursorBlockY()), 5, Main.convertY(starting + 135));
 			main.font.draw(main.batch, "weather: "
 					+ (world.getWeather() == null ? null : world.getWeather().getClass()
 							.getSimpleName()
@@ -173,10 +169,14 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 195));
 			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5,
 					Main.convertY(starting + 210));
-			main.font.draw(main.batch, "visualX: " + getPlayer().visualX, 5, Main.convertY(starting + 225));
-			main.font.draw(main.batch, "visualY: " + getPlayer().visualY, 5, Main.convertY(starting + 240));
-			main.font.draw(main.batch, "lerpVeloX: " + getPlayer().lerpVeloX, 5, Main.convertY(starting + 255));
-			main.font.draw(main.batch, "lerpVeloY: " + getPlayer().lerpVeloY, 5, Main.convertY(starting + 270));
+			main.font.draw(main.batch, "visualX: " + getPlayer().visualX, 5,
+					Main.convertY(starting + 225));
+			main.font.draw(main.batch, "visualY: " + getPlayer().visualY, 5,
+					Main.convertY(starting + 240));
+			main.font.draw(main.batch, "lerpVeloX: " + getPlayer().lerpVeloX, 5,
+					Main.convertY(starting + 255));
+			main.font.draw(main.batch, "lerpVeloY: " + getPlayer().lerpVeloY, 5,
+					Main.convertY(starting + 270));
 		}
 	}
 
@@ -213,7 +213,7 @@ public class ClientLogic implements Disposable {
 		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
 
 		}
-		
+
 		if (getCurrentGui() == null) {
 			int x = getBlockXCursor();
 			int y = getBlockYCursor();
@@ -241,6 +241,14 @@ public class ClientLogic implements Disposable {
 				main.client.close();
 			}
 		}
+	}
+
+	public int getCursorBlockX() {
+		return ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex));
+	}
+
+	public int getCursorBlockY() {
+		return ((int) ((Main.getInputY() + renderer.camera.cameray) / World.tilesizey));
 	}
 
 	public Gui getCurrentGui() {
