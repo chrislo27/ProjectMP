@@ -12,11 +12,11 @@ import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
-public class PacketHandshake implements Packet {
+import static projectmp.common.packet.handshake.HandshakeRejector.ACCEPTED;
+import static projectmp.common.packet.handshake.HandshakeRejector.REJECTED;
+import static projectmp.common.packet.handshake.HandshakeRejector.REQUEST;
 
-	public static final int ACCEPTED = 1;
-	public static final int REQUEST = 2;
-	public static final int REJECTED = 3;
+public class PacketHandshake implements Packet {
 
 	int state = REQUEST;
 	public String version = "";
@@ -28,12 +28,7 @@ public class PacketHandshake implements Packet {
 	public PacketHandshake() {
 
 	}
-
-	private void reject(String reason, PacketHandshake returner) {
-		returner.state = REJECTED;
-		returner.rejectReason = reason;
-	}
-
+	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
 		PacketHandshake returner = new PacketHandshake();
@@ -42,42 +37,19 @@ public class PacketHandshake implements Packet {
 		returner.worldsizey = logic.world.sizey;
 		returner.seed = logic.world.seed;
 
-		if (!version.equalsIgnoreCase(Main.version)) {
-			reject("Incompatible versions (server is " + Main.version + ")", returner);
-		} else if (username == null || username.equals("")) {
-			reject("Invalid username", returner);
-		} else if (logic.server.getConnections().length > logic.maxplayers) {
-			reject("Max player limit reached (limit: " + logic.maxplayers + ")", returner);
-		}
+		HandshakeRejector.attemptReject(logic, returner, username, version);
 
 		connection.sendTCP(returner);
 
 		if (returner.state == REJECTED) {
+			connection.close();
+			
 			Main.logger.info("Kicking " + connection.toString() + " ("
 					+ connection.getRemoteAddressTCP().toString() + ") for: "
 					+ returner.rejectReason);
-			connection.close();
 			return;
 		} else if (returner.state == ACCEPTED) {
-			// name the connection the player's name
-			connection.setName(username);
-
-			// create the new player entity
-			EntityPlayer newPlayer = new EntityPlayer(logic.world, logic.world.sizex / 2, 0);
-			newPlayer.username = username;
-			logic.world.entities.add(newPlayer);
-
-			// send the entire world, and entities (includes player)
-			logic.sendEntireWorld(connection);
-			logic.sendEntities(connection);
-
-			// tell everyone else about the new player
-			PacketNewEntity everyone = new PacketNewEntity();
-			everyone.e = newPlayer;
-			logic.server.sendToAllExceptTCP(connection.getID(), everyone);
-
-			// update the time (for everyone)
-			logic.world.sendTimeUpdate();
+			HandshakeAcceptor.sendEssentialData(connection, logic, username);
 
 			Main.logger.info("Finished handshake for " + username + " ("
 					+ connection.getRemoteAddressTCP().toString() + ", conn. name is "
