@@ -1,10 +1,12 @@
-package projectmp.common.packet;
+package projectmp.common.packet.handshake;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.packet.Packet;
+import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.world.World;
 import projectmp.server.ServerLogic;
 

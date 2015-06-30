@@ -2,7 +2,7 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Translator;
-import projectmp.common.packet.PacketHandshake;
+import projectmp.common.packet.handshake.PacketHandshake;
 
 public class ConnectingScreen extends MessageScreen {
 

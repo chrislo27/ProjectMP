@@ -13,7 +13,6 @@ import projectmp.common.packet.PacketBlockActivate;
 import projectmp.common.packet.PacketBlockUpdate;
 import projectmp.common.packet.PacketEndChunkTransfer;
 import projectmp.common.packet.PacketEntities;
-import projectmp.common.packet.PacketHandshake;
 import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketPlayerPosUpdate;
@@ -25,6 +24,7 @@ import projectmp.common.packet.PacketSlotChanged;
 import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketWeather;
+import projectmp.common.packet.handshake.PacketHandshake;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.tileentity.TileEntityChessboard;
 
