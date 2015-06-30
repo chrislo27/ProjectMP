@@ -6,6 +6,11 @@ import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
 
+/**
+ * Server uses this to tell other entities to make a new one.
+ * 
+ *
+ */
 public class PacketNewEntity implements Packet {
 
 	public Entity e;
@@ -17,7 +22,7 @@ public class PacketNewEntity implements Packet {
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
 		e.world = logic.world;
-		logic.world.entities.add(e);
+		logic.world.createNewEntity(e);
 	}
 
 }

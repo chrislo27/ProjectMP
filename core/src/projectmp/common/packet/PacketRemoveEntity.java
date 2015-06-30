@@ -11,16 +11,12 @@ public class PacketRemoveEntity implements Packet {
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
+		
 	}
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		for (int i = 0; i < logic.world.entities.size; i++) {
-			if (logic.world.entities.get(i).uuid == uuid) {
-				logic.world.entities.removeIndex(i);
-				return;
-			}
-		}
+		logic.world.removeEntity(uuid);
 	}
 
 }

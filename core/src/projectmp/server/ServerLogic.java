@@ -90,15 +90,17 @@ public class ServerLogic {
 	public void tickUpdate() {
 		world.tickUpdate();
 
-		if (server.getConnections().length > 0 && world.entities.size > 0) {
-			if (positionUpdate.entityid.length < world.entities.size
-					|| Math.abs(positionUpdate.entityid.length - world.entities.size) >= 32) {
-				positionUpdate.resetTables(world.entities.size);
+		if (server.getConnections().length > 0 && world.getNumberOfEntities() > 0) {
+			if (positionUpdate.entityid.length < world.getNumberOfEntities()
+					|| Math.abs(positionUpdate.entityid.length - world.getNumberOfEntities()) >= 32) {
+				positionUpdate.resetTables(world.getNumberOfEntities());
 			}
 
 			boolean shouldSend = false;
 			int iter = 0;
-			for (Entity e : world.entities) {
+			for (int i = 0; i < world.getNumberOfEntities(); i++) {
+				Entity e = world.getEntityByIndex(i);
+				
 				if (!e.hasMovedLastTick()) continue;
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
@@ -145,11 +147,11 @@ public class ServerLogic {
 	}
 
 	public void sendEntities(Connection connection) {
-		if (world.entities.size > 0) {
+		if (world.getNumberOfEntities() > 0) {
 			PacketEntities packet = new PacketEntities();
-			packet.entities = new Entity[world.entities.size];
+			packet.entities = new Entity[world.getNumberOfEntities()];
 			for (int i = 0; i < packet.entities.length; i++) {
-				packet.entities[i] = world.entities.get(i);
+				packet.entities[i] = world.getEntityByIndex(i);
 			}
 
 			connection.sendTCP(packet);
@@ -173,8 +175,8 @@ public class ServerLogic {
 	}
 
 	public EntityPlayer getPlayerByName(String name) {
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (int i = 0; i < world.getNumberOfEntities(); i++) {
+			Entity e = world.getEntityByIndex(i);
 			if (e instanceof EntityPlayer) {
 				if (((EntityPlayer) e).username.equals(name)) {
 					return (EntityPlayer) e;
@@ -189,10 +191,7 @@ public class ServerLogic {
 		EntityPlayer p = getPlayerByName(name);
 
 		if (p != null) {
-			removeEntity.uuid = p.uuid;
-			server.sendToAllTCP(removeEntity);
-
-			world.entities.removeValue(p, false);
+			world.removeEntity(p.uuid);
 		}
 	}
 	

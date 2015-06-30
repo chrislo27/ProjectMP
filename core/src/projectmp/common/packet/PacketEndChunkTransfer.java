@@ -15,6 +15,9 @@ public class PacketEndChunkTransfer implements Packet {
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
 		Main.logger.info("Finished receiving chunk data from the server");
+		
+		logic.world.lightingEngine.doLightingUpdates(0, 0, logic.world.sizex, logic.world.sizey);
+		
 		logic.main.setScreen(Main.GAME);
 	}
 

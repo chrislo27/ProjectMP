@@ -1,6 +1,7 @@
 package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
+import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.server.ServerLogic;
 
@@ -29,23 +30,18 @@ public class PacketPositionUpdate implements Packet {
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
 		if (logic.world == null) return;
-
-		for (int i = 0; i < logic.world.entities.size; i++) {
-			for (int key = 0; key < entityid.length; key++) {
-				if (logic.world.entities.get(i).uuid == entityid[key]) {
-					if (logic.world.entities.get(i) instanceof EntityPlayer) {
-						if (logic.getPlayer().uuid == entityid[key]) {
-							// skip own player because that's locked to client
-							continue;
-						}
-					}
-					logic.world.entities.get(i).velox = velox[key];
-					logic.world.entities.get(i).veloy = veloy[key];
-					logic.world.entities.get(i).positionUpdate(x[key], y[key]);
-
-					break;
-				}
-			}
+		
+		for (int key = 0; key < entityid.length; key++) {
+			Entity e = logic.world.getEntityByUUID(entityid[key]);
+			
+			if(e == null) continue;
+			
+			// skip client's player b/c position is client-side
+			if(e instanceof EntityPlayer && entityid[key] == logic.getPlayer().uuid) continue;
+			
+			e.velox = velox[key];
+			e.veloy = veloy[key];
+			e.positionUpdate(x[key], y[key]);
 		}
 	}
 

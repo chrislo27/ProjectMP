@@ -10,6 +10,8 @@ import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.ILoadsChunk;
+import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.tileentity.ITileEntityProvider;
 import projectmp.common.tileentity.TileEntity;
@@ -51,7 +53,7 @@ public class World {
 	public transient boolean isServer = false;
 
 	public Array<Particle> particles;
-	public Array<Entity> entities;
+	protected Array<Entity> entities;
 
 	public QuadTree quadtree;
 	private ArrayList<Entity> quadlist = new ArrayList<Entity>();
@@ -206,6 +208,53 @@ public class World {
 		}
 
 		return null;
+	}
+	
+	public Entity getEntityByIndex(int i){
+		return entities.get(i);
+	}
+	
+	public void createNewEntity(Entity e){
+		if(isServer){
+			PacketNewEntity packet = new PacketNewEntity(); // TODO replace with shared instance
+			packet.e = e;
+			main.server.sendToAllTCP(packet);
+		}else{
+			entities.add(e);
+		}
+	}
+	
+	public void removeEntity(long uuid){
+		if(isServer){
+			PacketRemoveEntity packet = new PacketRemoveEntity(); // TODO replace with shared instance
+			packet.uuid = uuid;
+			main.server.sendToAllTCP(packet);
+		}else{
+			Entity e = getEntityByUUID(uuid);
+			if(e == null) return;
+			entities.removeValue(e, true);
+		}
+	}
+	
+	public long getUUIDFromIndex(int index){
+		Entity e = getEntityByIndex(index);
+		
+		if(e != null){
+			return e.uuid;
+		}else{
+			return Long.MAX_VALUE;
+		}
+	}
+	
+	public int getNumberOfEntities(){
+		return entities.size;
+	}
+	
+	public void clearAllEntities(){
+		for(int i = 0; i < getNumberOfEntities(); i++){
+			long uuid = getUUIDFromIndex(i);
+			removeEntity(uuid);
+		}
 	}
 
 	public void generate() {

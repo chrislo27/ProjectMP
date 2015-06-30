@@ -80,8 +80,8 @@ public class WorldRenderer implements Disposable {
 			}
 		}
 
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (int i = 0; i < world.getNumberOfEntities(); i++) {
+			Entity e = world.getEntityByIndex(i);
 
 			// culling
 			if (MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
@@ -165,10 +165,12 @@ public class WorldRenderer implements Disposable {
 		
 		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
-		for (int i = 0; i < world.entities.size; i++) {
-			if (world.entities.get(i) instanceof EntityPlayer) {
-				if (logic.getPlayer() != world.entities.get(i)) {
-					EntityPlayer p = (EntityPlayer) world.entities.get(i);
+		for (int i = 0; i < world.getNumberOfEntities(); i++) {
+			Entity e = world.getEntityByIndex(i);
+			
+			if (e instanceof EntityPlayer) {
+				if (logic.getPlayer() != e) {
+					EntityPlayer p = (EntityPlayer) e;
 
 					// culling
 					if (!MathHelper
@@ -178,7 +180,7 @@ public class WorldRenderer implements Disposable {
 									Settings.DEFAULT_WIDTH,
 									Settings.DEFAULT_HEIGHT,
 									convertWorldX(p.visualX),
-									convertWorldY(p.visualY, world.entities.get(i).sizey
+									convertWorldY(p.visualY, e.sizey
 											* World.tilesizey), p.sizex * World.tilesizex, p.sizey
 											* World.tilesizey)) continue;
 

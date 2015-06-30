@@ -49,17 +49,19 @@ public class ClientLogic implements Disposable {
 
 	public EntityPlayer getPlayer() {
 		if (world == null) return null;
-		if (world.entities.size == 0) return null;
-		if (playerIndex >= world.entities.size || playerIndex == -1) updatePlayerIndex();
+		if (world.getNumberOfEntities() <= 0) return null;
+		if (playerIndex >= world.getNumberOfEntities() || playerIndex == -1) updatePlayerIndex();
 
-		return (EntityPlayer) world.entities.get(playerIndex);
+		return (EntityPlayer) world.getEntityByIndex(playerIndex);
 	}
 
 	private void updatePlayerIndex() {
 		playerIndex = -1;
-		for (int i = 0; i < world.entities.size; i++) {
-			if (world.entities.get(i) instanceof EntityPlayer) {
-				if (((EntityPlayer) world.entities.get(i)).username.equals(Main.username)) {
+		for (int i = 0; i < world.getNumberOfEntities(); i++) {
+			Entity e = world.getEntityByIndex(i);
+			
+			if (e instanceof EntityPlayer) {
+				if (((EntityPlayer) e).username.equals(Main.username)) {
 					playerIndex = i;
 					return;
 				}
@@ -122,7 +124,9 @@ public class ClientLogic implements Disposable {
 	public void renderUpdate() {
 		playerInput();
 
-		for (Entity e : world.entities) {
+		for (int i = 0; i < world.getNumberOfEntities(); i++) {
+			Entity e = world.getEntityByIndex(i);
+			
 			e.clientRenderUpdate();
 		}
 	}
@@ -131,7 +135,7 @@ public class ClientLogic implements Disposable {
 		main.font.draw(main.batch, "latency: " + main.client.getReturnTripTime() + " ms", 5,
 				Main.convertY(starting));
 		if (world != null) {
-			main.font.draw(main.batch, "entities: " + world.entities.size, 5,
+			main.font.draw(main.batch, "entities: " + world.getNumberOfEntities(), 5,
 					Main.convertY(starting + 15));
 			main.font.draw(main.batch,
 					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f)

@@ -17,9 +17,10 @@ public class PacketEntities implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		logic.world.entities = new Array(entities);
-		for (Entity e : logic.world.entities) {
+		logic.world.clearAllEntities();
+		for (Entity e : entities) {
 			e.world = logic.world;
+			logic.world.createNewEntity(e);
 		}
 	}
 

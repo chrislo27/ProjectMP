@@ -61,8 +61,8 @@ public final class WorldNBTIO {
 
 		TagList entitiesList = new TagList("Entities");
 
-		for (int i = 0; i < world.entities.size; i++) {
-			Entity e = world.entities.get(i);
+		for (int i = 0; i < world.getNumberOfEntities(); i++) {
+			Entity e = world.getEntityByIndex(i);
 
 			if (e instanceof Unsaveable) continue;
 
@@ -158,7 +158,7 @@ public final class WorldNBTIO {
 				try {
 					e.readFromNBT(comp);
 
-					world.entities.add(e);
+					world.createNewEntity(e);
 				} catch (UnexpectedTagTypeException ex) {
 					sendToErrorScreen(
 							world.main,

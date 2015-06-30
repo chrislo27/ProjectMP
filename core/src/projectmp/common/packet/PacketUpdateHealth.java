@@ -1,11 +1,10 @@
 package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
-import projectmp.common.Main;
+import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityLiving;
 import projectmp.server.ServerLogic;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.esotericsoftware.kryonet.Connection;
 
 public class PacketUpdateHealth implements Packet {
@@ -19,14 +18,12 @@ public class PacketUpdateHealth implements Packet {
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		for (int i = 0; i < logic.world.entities.size; i++) {
-			if (logic.world.entities.get(i).uuid == uuid) {
-				if (logic.world.entities.get(i) instanceof EntityLiving) {
-					EntityLiving e = (EntityLiving) logic.world.entities.get(i);
-					e.health = MathUtils.clamp(newhealth, 0, e.maxhealth);
-				}
-			}
-		}
+		Entity e = logic.world.getEntityByUUID(uuid);
+		
+		if(e == null) return;
+		if(!(e instanceof EntityLiving)) return;
+		
+		((EntityLiving) e).health = newhealth;
 	}
 
 }
