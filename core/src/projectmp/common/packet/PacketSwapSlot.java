@@ -4,6 +4,7 @@ import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
 import projectmp.common.util.sidedictation.Side;
@@ -143,7 +144,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 	@SideOnly(Side.SERVER)
 	private void updateOtherClients(ServerLogic logic, ItemStack changedItem) {
 		// update the other clients of the change
-		PacketSlotChanged changed = logic.getSlotChangedPacket();
+		PacketSlotChanged changed = PacketRepository.instance().slotChanged;
 		changed.changedItem = changedItem;
 		changed.slotToSwap = slotToSwap;
 		changed.invId = invId;
@@ -156,7 +157,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 	@SideOnly(Side.SERVER)
 	private void updateMouseStack(ServerLogic logic, Connection connection, ItemStack mouseStack) {
 		// prepare a packet to send to the client to refresh the mouse stack
-		PacketSwapSlot packet = logic.getSwapSlotPacket();
+		PacketSwapSlot packet = PacketRepository.instance().swapSlot;
 		packet.slotToSwap = this.slotToSwap;
 		packet.mouseStack = mouseStack;
 		packet.invId = this.invId;

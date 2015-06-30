@@ -20,6 +20,7 @@ import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSlotChanged;
 import projectmp.common.packet.PacketSwapSlot;
+import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.world.ServerWorld;
 
 import com.badlogic.gdx.utils.Array;
@@ -36,15 +37,7 @@ public class ServerLogic {
 	public ServerWorld world = null;
 
 	public int maxplayers = 2;
-
-	private PacketPositionUpdate positionUpdate = new PacketPositionUpdate();
-	private PacketPlayerPosUpdate updatePlayer = new PacketPlayerPosUpdate();
-	private PacketRemoveEntity removeEntity = new PacketRemoveEntity();
-	private PacketNewEntity newEntity = new PacketNewEntity();
-	private PacketSwapSlot swapSlot = new PacketSwapSlot();
-	private PacketGuiState guiStatePacket = new PacketGuiState();
-	private PacketSlotChanged slotChanged = new PacketSlotChanged();
-
+	
 	public ServerLogic(Main m) {
 		main = m;
 		server = main.server;
@@ -91,6 +84,8 @@ public class ServerLogic {
 		world.tickUpdate();
 
 		if (server.getConnections().length > 0 && world.getNumberOfEntities() > 0) {
+			PacketPositionUpdate positionUpdate = PacketRepository.instance().positionUpdate;
+			
 			if (positionUpdate.entityid.length < world.getNumberOfEntities()
 					|| Math.abs(positionUpdate.entityid.length - world.getNumberOfEntities()) >= 32) {
 				positionUpdate.resetTables(world.getNumberOfEntities());
@@ -195,11 +190,9 @@ public class ServerLogic {
 		}
 	}
 	
-	public PacketSwapSlot getSwapSlotPacket(){
-		return swapSlot;
-	}
-	
 	public void sendGuiState(EntityPlayer player, String guiId, int x, int y, boolean shouldOpen){
+		PacketGuiState guiStatePacket = PacketRepository.instance().guiState;
+		
 		guiStatePacket.guiId = guiId;
 		guiStatePacket.shouldOpen = shouldOpen;
 		guiStatePacket.x = x;
@@ -214,10 +207,6 @@ public class ServerLogic {
 	
 	public void closeGui(EntityPlayer player, String guiId, int x, int y){
 		sendGuiState(player, guiId, x, y, false);
-	}
-	
-	public PacketSlotChanged getSlotChangedPacket(){
-		return slotChanged;
 	}
 
 }

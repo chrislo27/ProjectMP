@@ -13,6 +13,7 @@ import projectmp.common.entity.ILoadsChunk;
 import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendTileEntity;
+import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.tileentity.ITileEntityProvider;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.util.Particle;
@@ -66,8 +67,6 @@ public class World {
 	public Background background = new Background(this);
 
 	private Weather weather = null;
-
-	private PacketSendTileEntity tepacket = new PacketSendTileEntity();
 
 	/**
 	 * 
@@ -216,7 +215,7 @@ public class World {
 	
 	public void createNewEntity(Entity e){
 		if(isServer){
-			PacketNewEntity packet = new PacketNewEntity(); // TODO replace with shared instance
+			PacketNewEntity packet = PacketRepository.instance().newEntity;
 			packet.e = e;
 			main.server.sendToAllTCP(packet);
 		}else{
@@ -226,7 +225,7 @@ public class World {
 	
 	public void removeEntity(long uuid){
 		if(isServer){
-			PacketRemoveEntity packet = new PacketRemoveEntity(); // TODO replace with shared instance
+			PacketRemoveEntity packet = PacketRepository.instance().removeEntity;
 			packet.uuid = uuid;
 			main.server.sendToAllTCP(packet);
 		}else{
@@ -431,6 +430,8 @@ public class World {
 	}
 
 	public void sendTileEntityUpdate(int x, int y) {
+		PacketSendTileEntity tepacket = PacketRepository.instance().sendTileEntity;
+		
 		tepacket.te = getTileEntity(x, y);
 		tepacket.x = x;
 		tepacket.y = y;

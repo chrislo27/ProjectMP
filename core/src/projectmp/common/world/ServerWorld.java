@@ -9,6 +9,7 @@ import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketUpdateHealth;
 import projectmp.common.packet.PacketWeather;
+import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.WeatherRegistry;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.weather.Weather;
@@ -17,10 +18,6 @@ import projectmp.server.ServerLogic;
 public class ServerWorld extends World {
 
 	ServerLogic logic;
-	private PacketBlockUpdate bupacket = new PacketBlockUpdate();
-	private PacketTimeUpdate timepacket = new PacketTimeUpdate();
-	private PacketUpdateHealth healthpacket = new PacketUpdateHealth();
-	private PacketWeather weatherpacket = new PacketWeather();
 	boolean shouldSendUpdates = true;
 
 	public ServerWorld(Main main, int x, int y, long seed, ServerLogic l) {
@@ -41,17 +38,23 @@ public class ServerWorld extends World {
 	}
 
 	public void sendTimeUpdate() {
+		PacketTimeUpdate timepacket = PacketRepository.instance().timeUpdate;
+		
 		timepacket.totalTicks = time.totalTicks;
 		logic.server.sendToAllTCP(timepacket);
 	}
 
 	public void sendHealthUpdate(EntityLiving e) {
+		PacketUpdateHealth healthpacket = PacketRepository.instance().updateHealth;
+		
 		healthpacket.uuid = e.uuid;
 		healthpacket.newhealth = e.health;
 		logic.server.sendToAllTCP(healthpacket);
 	}
 
 	public void sendWeatherPacket() {
+		PacketWeather weatherpacket = PacketRepository.instance().weatherUpdate;
+		
 		weatherpacket.weatherDuration = getWeather().getTotalDuration();
 		if (getWeather() == null) {
 			weatherpacket.weatherType = null;
@@ -92,6 +95,8 @@ public class ServerWorld extends World {
 
 	private void sendBlockUpdatePacket(int x, int y) {
 		if (!shouldSendUpdates) return;
+		PacketBlockUpdate bupacket = PacketRepository.instance().blockUpdate;
+		
 		bupacket.block = Blocks.instance().getKey(getBlock(x, y));
 		bupacket.meta = getMeta(x, y);
 		bupacket.x = x;
