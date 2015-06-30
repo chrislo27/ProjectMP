@@ -340,6 +340,10 @@ public class LightingEngine {
 	public float getSkyLightFromTOD(byte light){
 		return  MathUtils.clamp(light * lastDayBrightness, 0f, 127f);
 	}
+	
+	public LightingRenderer getRenderer(){
+		return lightingRenderer;
+	}
 
 	// update related things below
 	
