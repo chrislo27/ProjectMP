@@ -23,8 +23,8 @@ public class ServerWorld extends World {
 	private PacketWeather weatherpacket = new PacketWeather();
 	boolean shouldSendUpdates = true;
 
-	public ServerWorld(Main main, int x, int y, boolean server, long seed, ServerLogic l) {
-		super(main, x, y, server, seed);
+	public ServerWorld(Main main, int x, int y, long seed, ServerLogic l) {
+		super(main, x, y, true, seed);
 		logic = l;
 	}
 

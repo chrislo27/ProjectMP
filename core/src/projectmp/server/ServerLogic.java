@@ -49,7 +49,7 @@ public class ServerLogic {
 		main = m;
 		server = main.server;
 
-		world = new ServerWorld(main, 1024, 512, true, System.nanoTime(), this);
+		world = new ServerWorld(main, 1024, 512, System.nanoTime(), this);
 		new Thread() {
 
 			@Override
