@@ -148,12 +148,18 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 105));
 			main.font.draw(main.batch, "cursory: " + getCursorBlockY(), 5,
 					Main.convertY(starting + 120));
-			main.font
-					.draw(main.batch,
-							"lightlevel: "
-									+ world.lightingEngine.getActualLighting(
-											getCursorBlockX(), getCursorBlockY()),
-							5, Main.convertY(starting + 135));
+			main.font.draw(
+					main.batch,
+					"light: "
+							+ world.lightingEngine.getActualLighting(getCursorBlockX(),
+									getCursorBlockY())
+							+ ", b: "
+							+ world.lightingEngine.getBrightness(getCursorBlockX(),
+									getCursorBlockY())
+							+ ", s: "
+							+ world.lightingEngine.getSkyLightFromTOD(world.lightingEngine
+									.getSkyLight(getCursorBlockX(), getCursorBlockY())), 5, Main
+							.convertY(starting + 135));
 			main.font.draw(main.batch, "weather: "
 					+ (world.getWeather() == null ? null : world.getWeather().getClass()
 							.getSimpleName()
