@@ -31,14 +31,17 @@ public final class ElectricityFX {
 	 * @param distanceBetweenPoints 
 	 */
 	public static void drawElectricity(SpriteBatch batch, float startX, float startY, float endX,
-			float endY, float maxOffset, float lineThickness, float distanceBetweenPoints) {
+			float endY, float maxOffset, float lineThickness, float distanceBetweenPoints, float color) {
 		float currentX = startX;
 		float currentY = startY;
 		float lastX = startX;
 		float lastY = startY;
 		
+		float oldColor = batch.getPackedColor();
 		int segments = (int) (MathHelper.calcDistance(startX, startY, endX, endY) / distanceBetweenPoints);
 
+		batch.setColor(color);
+		
 		for (int i = 0; i < segments + 1; i++) {
 			currentX = ((endX - startX) / segments) * i + startX;
 			currentY = ((endY - startY) / segments) * i + startY;
@@ -54,6 +57,8 @@ public final class ElectricityFX {
 		}
 
 		drawLine(batch, currentX, currentY, endX, endY, lineThickness);
+		
+		batch.setColor(oldColor);
 	}
 
 	/**
