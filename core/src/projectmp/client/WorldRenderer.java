@@ -7,6 +7,7 @@ import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
+import projectmp.common.util.render.ElectricityFX;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Application.ApplicationType;
@@ -20,6 +21,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.Bloom;
+import com.bitfire.utils.ShaderLoader;
 
 public class WorldRenderer implements Disposable {
 
@@ -31,7 +33,7 @@ public class WorldRenderer implements Disposable {
 
 	private FrameBuffer worldBuffer;
 	private FrameBuffer lightingBuffer;
-	
+
 	private PostProcessor postProcessor;
 
 	public WorldRenderer(Main m, World w, ClientLogic l) {
@@ -46,9 +48,17 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_HEIGHT, false);
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
-		
-		postProcessor = new PostProcessor(false, false, Gdx.app.getType() == ApplicationType.Desktop);
-		postProcessor.addEffect(new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f), (int) (Settings.DEFAULT_HEIGHT * 0.25f)));
+
+		ShaderLoader.BasePath = "postprocessing/";
+		postProcessor = new PostProcessor(false, false,
+				Gdx.app.getType() == ApplicationType.Desktop);
+
+		Bloom bloom = new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f),
+				(int) (Settings.DEFAULT_HEIGHT * 0.25f));
+		// name, blur passes, threshold (gamma), base intensity, base saturation, bloom intensity, bloom saturation
+		// don't touch intensity and saturation
+		bloom.setSettings(new Bloom.Settings("betterbloom", 2, 0.5f, 1f, 0.85f, 1.1f, 0.85f));
+		postProcessor.addEffect(bloom);
 	}
 
 	public void renderWorld() {
@@ -99,10 +109,10 @@ public class WorldRenderer implements Disposable {
 				e.render(this);
 			}
 		}
-		
-		for(int i = 0; i < world.particles.size; i++){
+
+		for (int i = 0; i < world.particles.size; i++) {
 			Particle p = world.particles.get(i);
-			
+
 			p.render(world, main);
 		}
 
@@ -117,7 +127,7 @@ public class WorldRenderer implements Disposable {
 
 		// begin capture for post processing
 		postProcessor.capture();
-		
+
 		// render background
 		batch.begin();
 		batch.setColor(1, 1, 1, 1);
@@ -143,9 +153,9 @@ public class WorldRenderer implements Disposable {
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
-		
+
 		batch.end();
-		
+
 		postProcessor.render();
 
 	}
@@ -175,27 +185,21 @@ public class WorldRenderer implements Disposable {
 
 	public void renderPlayerNames() {
 		batch.begin();
-		
+
 		// render player names
 		world.main.font.setColor(1, 1, 1, 1);
 		for (int i = 0; i < world.getNumberOfEntities(); i++) {
 			Entity e = world.getEntityByIndex(i);
-			
+
 			if (e instanceof EntityPlayer) {
 				if (logic.getPlayer() != e) {
 					EntityPlayer p = (EntityPlayer) e;
 
 					// culling
-					if (!MathHelper
-							.intersects(
-									0,
-									0,
-									Settings.DEFAULT_WIDTH,
-									Settings.DEFAULT_HEIGHT,
-									convertWorldX(p.visualX),
-									convertWorldY(p.visualY, e.sizey
-											* World.tilesizey), p.sizex * World.tilesizex, p.sizey
-											* World.tilesizey)) continue;
+					if (!MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH,
+							Settings.DEFAULT_HEIGHT, convertWorldX(p.visualX),
+							convertWorldY(p.visualY, e.sizey * World.tilesizey), p.sizex
+									* World.tilesizex, p.sizey * World.tilesizey)) continue;
 
 					batch.setColor(1, 1, 1, 0.25f);
 					world.main.drawTextBg(world.main.font, p.username, convertWorldX(p.visualX
@@ -205,12 +209,12 @@ public class WorldRenderer implements Disposable {
 				}
 			}
 		}
-		
+
 		batch.end();
 	}
 
 	public void tickUpdate() {
-		
+
 	}
 
 	protected void changeWorld(World w) {
