@@ -92,7 +92,7 @@ public class LightingRenderer {
 	 * @return
 	 */
 	public float calcAlpha(int x, int y) {
-		float alpha = 1f - engine.getActualLighting(x, y);
+		float alpha = 1f - engine.getActualLighting(x, y) / 127f;
 		
 		// alpha is brightness inverted (ie: full brightness is 0, darkness is 1)
 		
