@@ -1,7 +1,6 @@
 package projectmp.client;
 
 import projectmp.common.Main;
-import projectmp.common.Settings;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
@@ -17,8 +16,6 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
@@ -151,11 +148,12 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 105));
 			main.font.draw(main.batch, "cursory: " + getCursorBlockY(), 5,
 					Main.convertY(starting + 120));
-			main.font.draw(
-					main.batch,
-					"lightlevel: "
-							+ world.lightingEngine.getBrightness(getCursorBlockX(),
-									getCursorBlockY()), 5, Main.convertY(starting + 135));
+			main.font
+					.draw(main.batch,
+							"lightlevel: "
+									+ world.lightingEngine.getBrightness(
+											getCursorBlockX(), getCursorBlockY()),
+							5, Main.convertY(starting + 135));
 			main.font.draw(main.batch, "weather: "
 					+ (world.getWeather() == null ? null : world.getWeather().getClass()
 							.getSimpleName()
