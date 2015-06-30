@@ -111,7 +111,7 @@ public class LightingRenderer {
 		// square alpha
 		float square = ((float) Math.pow(alpha, 2));
 		// essentially the same as adding itself multiplied by thresholdInverse
-		square *= (1 * thresholdInverse);
+		square *= (1 + thresholdInverse);
 		// subtract a bit so it doesn't become totally pitch black too early on
 		square -= (thresholdInverse / 2);
 		
