@@ -92,6 +92,7 @@ public class LightingRenderer {
 	 * @return
 	 */
 	public float calcAlpha(int x, int y) {
+		// calculate instead of using getActualLighting because getActualLighting doesn't use a float
 		float sky = engine.getSkyLightFromTOD(engine.getSkyLight(x, y));
 		float alpha = (1f - ((engine.getBrightness(x, y) / 127f)));
 		

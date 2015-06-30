@@ -151,7 +151,7 @@ public class ClientLogic implements Disposable {
 			main.font
 					.draw(main.batch,
 							"lightlevel: "
-									+ world.lightingEngine.getBrightness(
+									+ world.lightingEngine.getActualLighting(
 											getCursorBlockX(), getCursorBlockY()),
 							5, Main.convertY(starting + 135));
 			main.font.draw(main.batch, "weather: "
