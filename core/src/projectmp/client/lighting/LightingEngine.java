@@ -341,7 +341,7 @@ public class LightingEngine {
 		return  MathUtils.clamp(light * lastDayBrightness, 0f, 127f);
 	}
 	
-	public byte getActualLighting(int posx, int posy){
+	public float getActualLighting(int posx, int posy){
 		int x = posx;
 		int y = posy;
 		if (x < 0) x = 0;
@@ -353,7 +353,7 @@ public class LightingEngine {
 		float sky = getSkyLightFromTOD(getSkyLight(x, y));
 		
 		if(sky > brightness){
-			return (byte) MathUtils.clamp(sky, 0f, 127f);
+			return MathUtils.clamp(sky, 0f, 127f);
 		}else{
 			return brightness;
 		}
