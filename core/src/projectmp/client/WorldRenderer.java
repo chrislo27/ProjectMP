@@ -9,6 +9,7 @@ import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -17,6 +18,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
+import com.bitfire.postprocessing.PostProcessor;
+import com.bitfire.postprocessing.effects.Bloom;
 
 public class WorldRenderer implements Disposable {
 
@@ -28,6 +31,8 @@ public class WorldRenderer implements Disposable {
 
 	private FrameBuffer worldBuffer;
 	private FrameBuffer lightingBuffer;
+	
+	private PostProcessor postProcessor;
 
 	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
@@ -41,6 +46,9 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_HEIGHT, false);
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
+		
+		postProcessor = new PostProcessor(false, false, Gdx.app.getType() == ApplicationType.Desktop);
+		postProcessor.addEffect(new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f), (int) (Settings.DEFAULT_HEIGHT * 0.25f)));
 	}
 
 	public void renderWorld() {
@@ -107,6 +115,9 @@ public class WorldRenderer implements Disposable {
 
 		/* --------------------------------------------------------------------- */
 
+		// begin capture for post processing
+		postProcessor.capture();
+		
 		// render background
 		batch.begin();
 		batch.setColor(1, 1, 1, 1);
@@ -134,6 +145,8 @@ public class WorldRenderer implements Disposable {
 		batch.setShader(null);
 		
 		batch.end();
+		
+		postProcessor.render();
 
 	}
 
