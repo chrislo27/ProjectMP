@@ -116,7 +116,7 @@ public class World {
 
 	public void tickUpdate() {
 		time.tickUpdate();
-
+		
 		// tick update loaded chunks
 		for (int x = 0; x < getWidthInChunks(); x++) {
 			for (int y = 0; y < getHeightInChunks(); y++) {
@@ -128,23 +128,28 @@ public class World {
 			}
 		}
 
-		if (isServer) {
-			for (int i = 0; i < entities.size; i++) {
-				Entity e = entities.get(i);
-				e.tickUpdate();
-
-				if(e instanceof ILoadsChunk){
-					int cx = getChunkX((int) e.x);
-					int cy = getChunkY((int) e.y);
-					
-					for(int x = cx - 3; x < cx + 3; x++){
-						for(int y = cy - 3; y < cy + 3; y++){
-							loadChunk(x, y, Main.TICKS);
-						}
+		for (int i = 0; i < entities.size; i++) {
+			Entity e = entities.get(i);
+			
+			if(e instanceof ILoadsChunk){
+				int cx = getChunkX((int) e.x);
+				int cy = getChunkY((int) e.y);
+				
+				for(int x = cx - 3; x < cx + 3; x++){
+					for(int y = cy - 3; y < cy + 3; y++){
+						loadChunk(x, y, Main.TICKS);
 					}
 				}
 			}
-
+		}
+		
+		if (isServer) {
+			
+			for (int i = 0; i < entities.size; i++) {
+				Entity e = entities.get(i);
+				e.tickUpdate();
+			}
+			
 			if (particles.size > 0) {
 				Particle item;
 				for (int i = particles.size; --i >= 0;) {
