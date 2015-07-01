@@ -1,5 +1,8 @@
 package projectmp.common.block;
 
+import com.badlogic.gdx.graphics.Color;
+
+import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.registry.GuiRegistry;
@@ -19,6 +22,20 @@ public class BlockChessSet extends BlockContainer {
 		if (world.isServer == false) {
 			world.main.clientLogic.openGui("chessboard", x, y);
 		}
+	}
+	
+	@Override
+	public void tickUpdate(World world, int x, int y){
+		super.tickUpdate(world, x, y);
+		
+		if(world.isServer == false){
+			world.lightingEngine.scheduleLightingUpdate();
+		}
+	}
+	
+	@Override
+	public int getLightEmitted(World world, int x, int y){
+		return Color.rgba8888(Main.getRainbow().r, Main.getRainbow().g, Main.getRainbow().b, 1f);
 	}
 
 }
