@@ -14,6 +14,7 @@ public class WorldGettingScreen extends MessageScreen {
 
 	public float percentReceived = 0f;
 	public float percentEach = 0;
+	public boolean isSingleplayer = false;
 
 	public void addPercent() {
 		percentReceived = MathUtils.clamp(percentReceived + percentEach, 0f, 1f);
@@ -26,7 +27,7 @@ public class WorldGettingScreen extends MessageScreen {
 
 	@Override
 	public void show() {
-		setMessage(Translator.instance().getMsg("menu.msg.gettingworld"));
+		setMessage(Translator.instance().getMsg("menu.msg.gettingworld." + (isSingleplayer ? "singleplayer" : "online")));
 	}
 
 	@Override

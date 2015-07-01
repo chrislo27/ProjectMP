@@ -118,7 +118,7 @@ public class ServerLogic {
 		for (int x = 0; x < world.getWidthInChunks(); x++) {
 			for (int y = 0; y < world.getHeightInChunks(); y++) {
 				PacketSendChunk packet = new PacketSendChunk();
-
+				
 				packet.originx = x * Chunk.CHUNK_SIZE;
 				packet.originy = y * Chunk.CHUNK_SIZE;
 
@@ -136,7 +136,7 @@ public class ServerLogic {
 			}
 		}
 
-		connection.sendTCP(new PacketBeginChunkTransfer().setPercentage(1.0f / queue.size));
+		connection.sendTCP(new PacketBeginChunkTransfer().setPercentage(1.0f / queue.size).setSingleplayer(isSingleplayer));
 
 		connection.addListener(new ChunkQueueSender(queue, connection));
 	}
