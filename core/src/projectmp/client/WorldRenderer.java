@@ -7,7 +7,6 @@ import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
-import projectmp.common.util.render.ElectricityFX;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Application.ApplicationType;
@@ -21,6 +20,9 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.Bloom;
+import com.bitfire.postprocessing.effects.CrtMonitor;
+import com.bitfire.postprocessing.effects.Fxaa;
+import com.bitfire.postprocessing.filters.CrtScreen.RgbMode;
 import com.bitfire.utils.ShaderLoader;
 
 public class WorldRenderer implements Disposable {
@@ -49,16 +51,16 @@ public class WorldRenderer implements Disposable {
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
 
-		ShaderLoader.BasePath = "postprocessing/";
 		postProcessor = new PostProcessor(false, false,
 				Gdx.app.getType() == ApplicationType.Desktop);
 
 		Bloom bloom = new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f),
 				(int) (Settings.DEFAULT_HEIGHT * 0.25f));
-		// name, blur passes, threshold (gamma), base intensity, base saturation, bloom intensity, bloom saturation
-		// don't touch intensity and saturation
-		bloom.setSettings(new Bloom.Settings("betterbloom", 2, 0.5f, 1f, 0.85f, 1.1f, 0.85f));
-		postProcessor.addEffect(bloom);
+		bloom.setThreshold(0.5f);
+		//postProcessor.addEffect(bloom);
+		
+		CrtMonitor monitor = new CrtMonitor(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true, true, RgbMode.ChromaticAberrations, 0b111111);
+		//postProcessor.addEffect(monitor);
 	}
 
 	public void renderWorld() {
@@ -253,6 +255,8 @@ public class WorldRenderer implements Disposable {
 	public void dispose() {
 		worldBuffer.dispose();
 		lightingBuffer.dispose();
+		
+		postProcessor.dispose();
 	}
 
 }
