@@ -23,19 +23,5 @@ public class BlockChessSet extends BlockContainer {
 			world.main.clientLogic.openGui("chessboard", x, y);
 		}
 	}
-	
-	@Override
-	public void tickUpdate(World world, int x, int y){
-		super.tickUpdate(world, x, y);
-		
-		if(world.isServer == false){
-			world.lightingEngine.scheduleLightingUpdate();
-		}
-	}
-	
-	@Override
-	public int getLightEmitted(World world, int x, int y){
-		return Color.rgba8888(Main.getRainbow().r, Main.getRainbow().g, Main.getRainbow().b, 1f);
-	}
 
 }
