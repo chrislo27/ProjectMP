@@ -40,6 +40,7 @@ public class LightingEngine {
 	private Color mixingColor0 = new Color();
 	private Color mixingColor1 = new Color();
 	private Color skyLightTransition = new Color();
+	private Color blockCheckingColor = new Color();
 	
 	// all the light data
 	private byte[][] skyLighting;
@@ -175,8 +176,18 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-
+		
 		lightingUpdateMethodCalls = 0;
+		
+		for (int x = originx; x < width; x++) {
+			for (int y = originy; y < height; y++) {
+				blockCheckingColor.set(world.getBlock(x, y).getLightEmitted(world, x, y));
+				
+				if(blockCheckingColor.a > 0){
+					recursiveLight(x, y, (byte) (blockCheckingColor.a * 127f), Color.rgb888(blockCheckingColor), true);
+				}
+			}
+		}
 
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
 			LightingUpdate l = lightingUpdates.get(i);

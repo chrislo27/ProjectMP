@@ -1,5 +1,7 @@
 package projectmp.common.block;
 
+import com.badlogic.gdx.graphics.Color;
+
 import projectmp.client.WorldRenderer;
 import projectmp.client.animation.LoopingAnimation;
 import projectmp.common.TexturedObject;
@@ -38,6 +40,17 @@ public class Block extends TexturedObject {
 	 */
 	public void onActivate(World world, int x, int y, EntityPlayer player){
 		
+	}
+	
+	/**
+	 * Returns a RGBA8888 packed int colour. The alpha determines the brightness.
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public int getLightEmitted(World world, int x, int y){
+		return Color.rgba8888(0, 0, 0, 0);
 	}
 
 	/**
