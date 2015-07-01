@@ -62,7 +62,7 @@ public class WorldRenderer implements Disposable {
 		//postProcessor.addEffect(bloom);
 		
 		CrtMonitor monitor = new CrtMonitor(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true, true, RgbMode.ChromaticAberrations, 0b111111);
-		postProcessor.addEffect(monitor);
+		//postProcessor.addEffect(monitor);
 	}
 
 	public void renderWorld() {
