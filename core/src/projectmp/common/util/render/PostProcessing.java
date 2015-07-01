@@ -17,10 +17,6 @@ import com.bitfire.utils.ShaderLoader;
  *
  */
 public class PostProcessing {
-
-	static{
-		ShaderLoader.BasePath = "postprocessing/";
-	}
 	
 	/**
 	 * gaussian blur on the entire screen

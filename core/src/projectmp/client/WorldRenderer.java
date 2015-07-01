@@ -51,6 +51,8 @@ public class WorldRenderer implements Disposable {
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
 
+		ShaderLoader.BasePath = "postprocessing/";
+		
 		postProcessor = new PostProcessor(false, false,
 				Gdx.app.getType() == ApplicationType.Desktop);
 
@@ -60,7 +62,7 @@ public class WorldRenderer implements Disposable {
 		//postProcessor.addEffect(bloom);
 		
 		CrtMonitor monitor = new CrtMonitor(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true, true, RgbMode.ChromaticAberrations, 0b111111);
-		//postProcessor.addEffect(monitor);
+		postProcessor.addEffect(monitor);
 	}
 
 	public void renderWorld() {
