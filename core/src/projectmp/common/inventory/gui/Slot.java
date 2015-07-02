@@ -5,6 +5,7 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
@@ -49,7 +50,7 @@ public class Slot {
 		SpriteBatch batch = renderer.batch;
 
 		batch.setColor(1, 1, 1, 1);
-		batch.draw(renderer.main.manager.get(AssetMap.get("invslot"), Texture.class), posx, posy,
+		batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("invslot"), Texture.class), posx, posy,
 				width, height);
 		batch.setColor(1, 1, 1, 1);
 

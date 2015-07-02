@@ -3,6 +3,7 @@ package projectmp.client.background;
 import projectmp.client.WorldRenderer;
 import projectmp.client.lighting.LightingEngine;
 import projectmp.common.Settings;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.world.TimeOfDay;
 import projectmp.common.world.World;
@@ -78,7 +79,7 @@ public class Background {
 		batch.setColor(1, 1, 1, 1);
 
 		// sun
-		Texture tex = world.main.manager.get(AssetMap.get("celestialbody_sun"), Texture.class);
+		Texture tex = AssetRegistry.instance().getAssetManager().get(AssetMap.get("celestialbody_sun"), Texture.class);
 		float texCenteredX = ((Settings.DEFAULT_WIDTH / 2) - (tex.getWidth() / 2));
 		float texCenteredY = (0 - (tex.getWidth() / 2));
 		float sunAngle = (360 * (world.time.currentDayTicks * 1f / world.time.ticksPerDay));
@@ -87,7 +88,7 @@ public class Background {
 				+ (SUN_DISTANCE * MathUtils.sinDeg(sunAngle)));
 
 		// moon
-		tex = world.main.manager.get(AssetMap.get("celestialbody_moon"), Texture.class);
+		tex = AssetRegistry.instance().getAssetManager().get(AssetMap.get("celestialbody_moon"), Texture.class);
 		texCenteredX = ((Settings.DEFAULT_WIDTH / 2) - (tex.getWidth() / 2));
 		texCenteredY = (0 - (tex.getWidth() / 2));
 		float moonAngle = sunAngle + 180;

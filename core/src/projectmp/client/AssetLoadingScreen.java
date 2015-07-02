@@ -6,17 +6,18 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.item.Item;
 import projectmp.common.item.Items;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetLogger;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.utils.Logger;
 
 public class AssetLoadingScreen extends MiscLoadingScreen {
 
 	public AssetLoadingScreen(Main m) {
 		super(m);
-		m.manager.setLogger(output);
-
+		AssetRegistry.instance().getAssetManager().setLogger(output);
 	}
 
 	private AssetLogger output = new AssetLogger("assetoutput", Logger.DEBUG);
@@ -27,9 +28,11 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 
 	@Override
 	public void render(float delta) {
-		main.manager.update((int) (1000f / Main.MAX_FPS));
+		AssetManager manager = AssetRegistry.instance().getAssetManager();
+		
+		AssetRegistry.instance().loadManagedAssets(((int) (1000f / Main.MAX_FPS)));
 		do {
-			if (main.manager.getProgress() >= 1f) {
+			if (manager.getProgress() >= 1f) {
 				if (!waitedAFrame) {
 					waitedAFrame = true;
 					break;
@@ -55,7 +58,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		main.batch.begin();
 		main.batch.setColor(1, 1, 1, 1);
 		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 128, Gdx.graphics.getHeight() / 2 - 10,
-				256 * main.manager.getProgress(), 20);
+				256 * manager.getProgress(), 20);
 
 		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 260, 1);
 		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 + 11, 260, 1);
@@ -63,33 +66,16 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 - 130, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
 		Main.fillRect(main.batch, Settings.DEFAULT_WIDTH / 2 + 132, Gdx.graphics.getHeight() / 2 - 12, 1, 24);
 
-		if (main.manager.getAssetNames().size > 0) {
+		if (manager.getAssetNames().size > 0) {
 			main.drawTextBg(main.font, output.getLastMsg(),
 					Settings.DEFAULT_WIDTH / 2
 							- (main.font.getBounds(output.getLastMsg()).width / 2),
 					Gdx.graphics.getHeight() / 2 - 35);
 		}
-		String percent = String.format("%.0f", (main.manager.getProgress() * 100f)) + "%";
+		String percent = String.format("%.0f", (manager.getProgress() * 100f)) + "%";
 		main.drawTextBg(main.font, percent,
 				Settings.DEFAULT_WIDTH / 2 - (main.font.getBounds(percent).width / 2),
 				Gdx.graphics.getHeight() / 2 - 60);
-
-		//		if(Gdx.input.isKeyJustPressed(Keys.S)){
-		//			Texture tex = new Texture("images/blocks/portal/portal.png");
-		//			for(int i = 0; i < 32; i++){
-		//				Main.logger.debug("begin spiral " + (i + 1));
-		//				main.batch.setColor(1, 1, 1, 1);
-		//				Utils.drawRotated(main.batch, tex, 0 - (World.tilesizex / 2f),
-		//						(0) - (World.tilesizey / 2f),
-		//						tex.getWidth(), tex.getHeight(), i * 11.25f, true);
-		//				main.batch.flush();
-		//				Main.logger.debug("begin spiral screenshot" + (i + 1));
-		//				Pixmap pixmap = ScreenshotFactory.getScreenshot(0, 0, 64, 64, true);
-		//	            PixmapIO.writePNG(new FileHandle("spiral/number" + (i + 1) + ".png"), pixmap);
-		//	            pixmap.dispose();
-		//				Main.logger.debug("end spiral " + (i + 1));
-		//			}
-		//		}
 
 		main.batch.end();
 	}

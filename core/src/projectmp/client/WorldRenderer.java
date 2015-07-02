@@ -4,6 +4,7 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
@@ -174,7 +175,7 @@ public class WorldRenderer implements Disposable {
 
 		// render vignette
 		batch.setColor(0, 0, 0, 0.1f);
-		batch.draw(main.manager.get(AssetMap.get("vignette"), Texture.class), 0, 0,
+		batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("vignette"), Texture.class), 0, 0,
 				Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 

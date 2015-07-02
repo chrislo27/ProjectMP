@@ -1,6 +1,7 @@
 package projectmp.client.ui;
 
 import projectmp.common.Main;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetMap;
 
 import com.badlogic.gdx.Gdx;
@@ -31,9 +32,9 @@ public class Slider extends UiElement {
 
 	@Override
 	public void render(Main main) {
-		main.batch.draw(main.manager.get(AssetMap.get("guislider"), Texture.class), x, y, width,
+		main.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("guislider"), Texture.class), x, y, width,
 				height);
-		main.batch.draw(main.manager.get(AssetMap.get("guisliderarrow"), Texture.class), x
+		main.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("guisliderarrow"), Texture.class), x
 				+ ((width - 32) * slider), y, 32, 32);
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {

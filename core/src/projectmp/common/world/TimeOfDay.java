@@ -2,6 +2,7 @@ package projectmp.common.world;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetMap;
 
 import com.badlogic.gdx.graphics.Color;
@@ -34,7 +35,7 @@ public enum TimeOfDay {
 
 		@Override
 		public void renderBackground(Batch batch, World world) {
-			batch.draw(world.main.manager.get(AssetMap.get("starrysky"), Texture.class), 0, 0);
+			batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("starrysky"), Texture.class), 0, 0);
 		}
 	};
 

@@ -2,6 +2,7 @@ package projectmp.common.util;
 
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -162,9 +163,9 @@ public class Particle implements Poolable {
 				} else {
 					Texture t;
 					if (texture.startsWith("real-")) {
-						t = main.manager.get(texture.substring(5), Texture.class);
+						t = AssetRegistry.instance().getAssetManager().get(texture.substring(5), Texture.class);
 					} else {
-						t = main.manager.get(AssetMap.get(texture), Texture.class);
+						t = AssetRegistry.instance().getAssetManager().get(AssetMap.get(texture), Texture.class);
 					}
 
 					main.batch.setColor(tintr, tintg, tintb,

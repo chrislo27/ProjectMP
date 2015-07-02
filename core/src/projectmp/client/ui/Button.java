@@ -2,6 +2,7 @@ package projectmp.client.ui;
 
 import projectmp.common.Main;
 import projectmp.common.Translator;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.AssetMap;
 
 import com.badlogic.gdx.Gdx;
@@ -33,11 +34,11 @@ public class Button extends UiElement {
 	}
 
 	public void imageRender(Main main, String img) {
-		main.batch.draw(main.manager.get(AssetMap.get(img), Texture.class), x, y, width, height);
+		main.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get(img), Texture.class), x, y, width, height);
 		if (UiContainer.mouseIn(this)) {
 			main.batch.setColor(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.42f);
 			main.batch
-					.draw(main.manager.get(AssetMap.get(img), Texture.class), x, y, width, height);
+					.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get(img), Texture.class), x, y, width, height);
 			main.batch.setColor(Color.WHITE);
 		}
 	}

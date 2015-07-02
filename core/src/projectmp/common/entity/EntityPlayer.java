@@ -3,6 +3,7 @@ package projectmp.common.entity;
 import projectmp.client.WorldRenderer;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.registry.AssetRegistry;
 import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.NBTUtils;
@@ -41,7 +42,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 
 	@Override
 	public void render(WorldRenderer renderer) {
-		world.batch.draw(world.main.manager.get(AssetMap.get("playerGears"), Texture.class),
+		world.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("playerGears"), Texture.class),
 				renderer.convertWorldX(visualX),
 				renderer.convertWorldY(visualY, World.tilesizey * sizey));
 	}

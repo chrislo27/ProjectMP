@@ -1,6 +1,7 @@
 package projectmp.common.util.render;
 
 import projectmp.common.Main;
+import projectmp.common.registry.AssetRegistry;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -10,8 +11,8 @@ public class Gears {
 	private Sprite big, small;
 
 	public Gears(Main main) {
-		big = new Sprite(main.textures.get("gear"));
-		small = new Sprite(main.textures.get("gear"));
+		big = new Sprite(AssetRegistry.instance().getUnmanagedTextures().get("gear"));
+		small = new Sprite(AssetRegistry.instance().getUnmanagedTextures().get("gear"));
 
 		reset();
 	}
