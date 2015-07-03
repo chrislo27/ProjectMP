@@ -1,5 +1,6 @@
-package projectmp.client;
+package projectmp.client.settingsscreen;
 
+import projectmp.client.Updateable;
 import projectmp.client.ui.BackButton;
 import projectmp.client.ui.BooleanButton;
 import projectmp.client.ui.Button;
