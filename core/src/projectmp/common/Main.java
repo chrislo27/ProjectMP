@@ -37,6 +37,7 @@ import projectmp.common.block.Blocks;
 import projectmp.common.item.Item;
 import projectmp.common.item.Items;
 import projectmp.common.registry.AssetRegistry;
+import projectmp.common.registry.ErrorLogRegistry;
 import projectmp.common.registry.NetworkingRegistry;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.CaptureStream;
@@ -388,21 +389,13 @@ public class Main extends Game implements Consumer {
 			e.printStackTrace();
 
 			Gdx.files.local("crash/").file().mkdir();
-			String date = new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date());
-			date.trim();
-			FileHandle handle = Gdx.files.local("crash/crash-log_" + date + ".txt");
-			handle.writeString(output.toString(), false);
+			FileHandle handle = Gdx.files.local("crash/crash-log_" + new SimpleDateFormat("yyyy-MM-dd hh-mm-ss").format(new Date()).trim() + ".txt");
+			
+			handle.writeString(ErrorLogRegistry.instance().createErrorLog(output.toString()), false);
 
-			consoletext.setText(output.toString());
 			resetSystemOut();
 			System.out.println("\n\nThe game crashed. There is an error log at " + handle.path()
 					+ " ; please send it to the game developer!\n");
-			try {
-				Thread.sleep(5);
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-			e.printStackTrace();
 
 			Gdx.app.exit();
 			System.exit(1);
