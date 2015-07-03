@@ -259,7 +259,6 @@ public class SettingsScreen extends Updateable {
 			if (r.width == Gdx.graphics.getWidth() && r.height == Gdx.graphics.getHeight()) {
 				aspectRatio.selection = 0;
 				resolutions169.selection = i;
-				Main.logger.debug("16:9 found at " + r.width + "x" + r.height);
 				return;
 			}
 		}
