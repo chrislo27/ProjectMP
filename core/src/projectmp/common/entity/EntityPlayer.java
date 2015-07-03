@@ -34,7 +34,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 		this.maxspeed = 15f;
 		this.accspeed = maxspeed * 5f;
 		this.sizex = 1f;
-		this.sizey = 1f;
+		this.sizey = 2f;
 		this.hasEntityCollision = true;
 		
 		inventory = new InventoryPlayer("playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
