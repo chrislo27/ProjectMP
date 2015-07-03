@@ -22,34 +22,34 @@ public class GeneralSettingsScreen extends SettingsScreen {
 	@Override
 	protected void addGuiElements() {
 		super.addGuiElements();
-		
+
 		usernameBox = new TextBox((Settings.DEFAULT_WIDTH / 2) - 80,
 				Gdx.graphics.getHeight() - 144, 160, 32, "" + Main.username).setAllowDigits(true)
 				.setAllowLetters(true).setAllowSpaces(true).setAllowSpecial(false)
 				.setPasswordMode(false);
-		
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80,
-				Gdx.graphics.getHeight() - 192, 160, 32, "menu.settings.graphics"){
-			
+
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
+				.getHeight() - 192, 160, 32, "menu.settings.graphics") {
+
 			@Override
-			public boolean onLeftClick(){
+			public boolean onLeftClick() {
 				main.setScreen(Main.GRAPHICSSETTINGS);
 				return true;
 			}
 		});
-		
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80,
-				Gdx.graphics.getHeight() - 240, 160, 32, "menu.settings.audio"){
-			
+
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
+				.getHeight() - 240, 160, 32, "menu.settings.audio") {
+
 			@Override
-			public boolean onLeftClick(){
+			public boolean onLeftClick() {
 				main.setScreen(Main.AUDIOSETTINGS);
 				return true;
 			}
 		});
-		
-		debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
-				Settings.DEFAULT_HEIGHT - 332, 160, 32, "menu.settings.debugmode") {
+
+		debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Settings.DEFAULT_HEIGHT - 332,
+				160, 32, "menu.settings.debugmode") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -58,8 +58,7 @@ public class GeneralSettingsScreen extends SettingsScreen {
 				return true;
 			}
 		}.setState(Settings.debug);
-		
-		
+
 		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
 				.getHeight() - 286, 160, 32, "menu.settings.showfps") {
 
@@ -78,12 +77,19 @@ public class GeneralSettingsScreen extends SettingsScreen {
 	@Override
 	public void render(float delta) {
 		super.render(delta);
-		
+
 		main.batch.begin();
 		main.font.setColor(1, 1, 1, 1);
 
 		main.drawInverse(main.font, Translator.getMsg("menu.settings.username"),
 				(Settings.DEFAULT_WIDTH / 2) - 80, Settings.DEFAULT_HEIGHT - 144 + 23);
+
+		main.font.setScale(2);
+		main.font.setColor(1, 1, 1, 1);
+		main.drawCentered(main.font, Translator.getMsg("menu.settings.general"),
+				(Settings.DEFAULT_WIDTH / 2), Settings.DEFAULT_HEIGHT - 32);
+		main.font.setScale(1);
+
 		main.batch.end();
 	}
 
@@ -92,9 +98,9 @@ public class GeneralSettingsScreen extends SettingsScreen {
 		super.renderUpdate();
 		debug.setState(Settings.debug);
 	}
-	
+
 	@Override
-	protected void exitScreen(){
+	protected void exitScreen() {
 		Main.username = usernameBox.text;
 		super.exitScreen();
 	}
@@ -103,5 +109,5 @@ public class GeneralSettingsScreen extends SettingsScreen {
 	public void show() {
 		usernameBox.text = Main.username;
 	}
-	
+
 }

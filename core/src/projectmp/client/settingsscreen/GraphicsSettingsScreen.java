@@ -128,8 +128,16 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 		super.render(delta);
 
 		main.batch.begin();
+		
 		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics"),
 				(Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 232);
+		
+		main.font.setScale(2);
+		main.font.setColor(1, 1, 1, 1);
+		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics"),
+				(Settings.DEFAULT_WIDTH / 2), Settings.DEFAULT_HEIGHT - 32);
+		main.font.setScale(1);
+		
 		main.batch.end();
 	}
 
