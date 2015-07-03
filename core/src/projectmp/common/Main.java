@@ -8,9 +8,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map.Entry;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -30,9 +27,9 @@ import projectmp.client.MessageScreen;
 import projectmp.client.MiscLoadingScreen;
 import projectmp.client.Updateable;
 import projectmp.client.WorldGettingScreen;
-import projectmp.client.animation.Animation;
-import projectmp.client.animation.LoopingAnimation;
-import projectmp.client.settingsscreen.SettingsScreen;
+import projectmp.client.settingsscreen.AudioSettingsScreen;
+import projectmp.client.settingsscreen.GeneralSettingsScreen;
+import projectmp.client.settingsscreen.GraphicsSettingsScreen;
 import projectmp.client.transition.Transition;
 import projectmp.client.transition.TransitionScreen;
 import projectmp.common.block.Block;
@@ -64,7 +61,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -114,13 +110,15 @@ public class Main extends Game implements Consumer {
 	public static MainMenuScreen MAINMENU = null;
 	public static TransitionScreen TRANSITION = null;
 	public static MiscLoadingScreen MISCLOADING = null;
-	public static SettingsScreen SETTINGS = null;
+	public static GeneralSettingsScreen SETTINGS = null;
 	public static MessageScreen MESSAGE = null;
 	public static GameScreen GAME = null;
 	public static ErrorScreen ERRORMSG = null;
 	public static ConnectingScreen CONNECTING = null;
 	public static WorldGettingScreen WORLDGETTING = null;
 	public static DirectConnectScreen DIRECTCONNECT = null;
+	public static AudioSettingsScreen AUDIOSETTINGS = null;
+	public static GraphicsSettingsScreen GRAPHICSSETTINGS = null;
 
 	public static Texture filltex;
 	public static TextureRegion filltexRegion;
@@ -291,13 +289,15 @@ public class Main extends Game implements Consumer {
 		MAINMENU = new MainMenuScreen(this);
 		TRANSITION = new TransitionScreen(this);
 		MISCLOADING = new MiscLoadingScreen(this);
-		SETTINGS = new SettingsScreen(this);
+		SETTINGS = new GeneralSettingsScreen(this);
 		MESSAGE = new MessageScreen(this);
 		GAME = new GameScreen(this);
 		ERRORMSG = new ErrorScreen(this);
 		CONNECTING = new ConnectingScreen(this);
 		WORLDGETTING = new WorldGettingScreen(this);
 		DIRECTCONNECT = new DirectConnectScreen(this);
+		AUDIOSETTINGS = new AudioSettingsScreen(this);
+		GRAPHICSSETTINGS = new GraphicsSettingsScreen(this);
 	}
 
 	@Override
@@ -340,6 +340,8 @@ public class Main extends Game implements Consumer {
 		CONNECTING.dispose();
 		WORLDGETTING.dispose();
 		DIRECTCONNECT.dispose();
+		AUDIOSETTINGS.dispose();
+		GRAPHICSSETTINGS.dispose();
 	}
 
 	private void preRender() {
