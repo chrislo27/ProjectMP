@@ -128,20 +128,7 @@ public class World {
 			}
 		}
 
-		for (int i = 0; i < entities.size; i++) {
-			Entity e = entities.get(i);
-			
-			if(e instanceof ILoadsChunk){
-				int cx = getChunkX((int) e.x);
-				int cy = getChunkY((int) e.y);
-				
-				for(int x = cx - 3; x < cx + 3; x++){
-					for(int y = cy - 3; y < cy + 3; y++){
-						loadChunk(x, y, Main.TICKS);
-					}
-				}
-			}
-		}
+		loadChunksNearLoaders();
 		
 		if (isServer) {
 			
@@ -260,7 +247,28 @@ public class World {
 			removeEntity(uuid);
 		}
 	}
+	
+	/**
+	 * loads the chunks near entities that implement ILoadsChunk
+	 */
+	public void loadChunksNearLoaders(){
+		for (int i = 0; i < entities.size; i++) {
+			Entity e = entities.get(i);
+			
+			if(e instanceof ILoadsChunk){
+				int cx = getChunkX((int) e.x);
+				int cy = getChunkY((int) e.y);
+				
+				for(int x = cx - 3; x < cx + 3; x++){
+					for(int y = cy - 3; y < cy + 3; y++){
+						loadChunk(x, y, Main.TICKS);
+					}
+				}
+			}
+		}
+	}
 
+	// FIXME make generator better
 	public void generate() {
 		float hillCoeff = 8f;
 		float terrainLimit = hillCoeff + (sizey / 8);
