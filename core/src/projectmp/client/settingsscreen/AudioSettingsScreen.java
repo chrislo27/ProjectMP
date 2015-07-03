@@ -36,6 +36,7 @@ public class AudioSettingsScreen extends SettingsScreen{
 		super.render(delta);
 		
 		main.batch.begin();
+		main.font.setColor(1, 1, 1, 1);
 		
 		main.font.draw(main.batch,
 				Translator.getMsg("menu.settings.musicvol", (int) (music.slider * 100)),
@@ -47,7 +48,6 @@ public class AudioSettingsScreen extends SettingsScreen{
 				Settings.DEFAULT_HEIGHT - 240 + 20);
 		
 		main.font.setScale(2);
-		main.font.setColor(1, 1, 1, 1);
 		main.drawCentered(main.font, Translator.getMsg("menu.settings.audio"),
 				(Settings.DEFAULT_WIDTH / 2), Settings.DEFAULT_HEIGHT - 32);
 		main.font.setScale(1);

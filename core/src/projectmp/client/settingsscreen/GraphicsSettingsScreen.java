@@ -101,8 +101,8 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 				return true;
 			}
 		});
-		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
-				.getHeight() - 378, 160, 32, "menu.settings.vignette") {
+		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
+				Settings.DEFAULT_HEIGHT - 334, 160, 32, "menu.settings.vignette") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -111,8 +111,8 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 				return true;
 			}
 		}.setState(Settings.showVignette));
-		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
-				.getHeight() - 424, 160, 32, "menu.settings.smoothlighting") {
+		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
+				Settings.DEFAULT_HEIGHT - 382, 160, 32, "menu.settings.smoothlighting") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -128,16 +128,16 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 		super.render(delta);
 
 		main.batch.begin();
-		
-		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics"),
-				(Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 232);
-		
-		main.font.setScale(2);
 		main.font.setColor(1, 1, 1, 1);
+
+		main.font.setScale(2);
 		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics"),
 				(Settings.DEFAULT_WIDTH / 2), Settings.DEFAULT_HEIGHT - 32);
 		main.font.setScale(1);
-		
+
+		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics.resolution"),
+				(Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 226);
+
 		main.batch.end();
 	}
 
