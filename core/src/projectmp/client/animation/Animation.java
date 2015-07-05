@@ -65,10 +65,14 @@ public abstract class Animation implements Disposable {
 	@Override
 	public void dispose() {
 		if (usesRegion) {
+			if(frames[0] == null) return;
+			if(frames[0].getTexture() == null) return;
 			frames[0].getTexture().dispose();
 			return;
 		}
 		for (int i = 0; i < frames.length; i++) {
+			if(frames[i] == null) continue;
+			if(frames[i].getTexture() == null) continue;
 			frames[i].getTexture().dispose();
 		}
 	}
