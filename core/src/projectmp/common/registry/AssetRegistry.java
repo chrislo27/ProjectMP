@@ -1,7 +1,9 @@
 package projectmp.common.registry;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import projectmp.client.animation.Animation;
 import projectmp.common.registry.handler.IAssetLoader;
@@ -9,7 +11,6 @@ import projectmp.common.registry.handler.StandardAssetLoader;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.GameException;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -34,6 +35,8 @@ public final class AssetRegistry implements Disposable {
 		return instance;
 	}
 
+	private Iterator<Entry<String, Animation>> animationLoadingIterator;
+	
 	private Array<IAssetLoader> loaders = new Array<>();
 
 	private AssetManager manager = new AssetManager();
@@ -65,31 +68,42 @@ public final class AssetRegistry implements Disposable {
 	public void addAssetLoader(IAssetLoader l) {
 		loaders.add(l);
 
-		// add the managed textures to the asset manager
+		// add the managed textures to the asset manager, the unmanaged textures are loaded separately
 		l.addManagedAssets(manager);
+		l.addUnmanagedAnimations(animations);
 	}
 
+	/**
+	 * calls the #update(int) method of the internal AssetManager and also loads an animation from the map if found.
+	 * Therefore, this method will not block for exactly the given milliseconds because it will load some data after the time given.
+	 * @param millis
+	 */
 	public void loadManagedAssets(int millis) {
-		manager.update(millis);
-	}
-
-	public void loadUnmanagedTextures() {
-		// put all the textures from the IAssetLoaders, they will be loaded b/c of how they're created
-		for (IAssetLoader loader : loaders) {
-			loader.addUnmanagedTextures(unmanagedTextures);
+		if(manager.getProgress() < 1) manager.update(millis);
+		
+		createAnimationLoadingIterator();
+		
+		if(animationLoadingIterator.hasNext()){
+			animationLoadingIterator.next().getValue().load();
 		}
 	}
-
-	public void loadAnimations() {
-		// put all the animations from the IAssetLoaders
-		for (IAssetLoader loader : loaders) {
-			loader.addUnmanagedAnimations(animations);
+	
+	public void loadUnmanagedTextures(){
+		for(IAssetLoader l : loaders){
+			l.addUnmanagedTextures(unmanagedTextures);
 		}
-
-		// load the animations
-		for (Entry<String, Animation> entry : animations.entrySet()) {
-			entry.getValue().load();
+	}
+	
+	private void createAnimationLoadingIterator(){
+		if(animationLoadingIterator == null){
+			animationLoadingIterator = animations.entrySet().iterator();
 		}
+	}
+	
+	public boolean finishedLoading(){
+		createAnimationLoadingIterator();
+		
+		return (getAssetManager().getProgress() >= 1 && animationLoadingIterator.hasNext() == false);
 	}
 
 	@Override

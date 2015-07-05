@@ -534,9 +534,6 @@ public class Main extends Game implements Consumer {
 		// load gears instance (used in loading screen)
 		gears = new Gears(this);
 
-		// load animations
-		AssetRegistry.instance().loadAnimations();
-
 		Main.logger.info("Finished loading all unmanaged assets and animations, took "
 				+ (System.currentTimeMillis() - timeTaken) + " ms");
 	}

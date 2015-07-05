@@ -32,7 +32,7 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 		
 		AssetRegistry.instance().loadManagedAssets(((int) (1000f / Main.MAX_FPS)));
 		do {
-			if (manager.getProgress() >= 1f) {
+			if (AssetRegistry.instance().finishedLoading()) {
 				if (!waitedAFrame) {
 					waitedAFrame = true;
 					break;
