@@ -36,7 +36,7 @@ public final class AssetRegistry implements Disposable {
 	}
 
 	private Iterator<Entry<String, Animation>> animationLoadingIterator;
-	
+
 	private Array<IAssetLoader> loaders = new Array<>();
 
 	private AssetManager manager = new AssetManager();
@@ -75,34 +75,45 @@ public final class AssetRegistry implements Disposable {
 
 	/**
 	 * calls the #update(int) method of the internal AssetManager and also loads an animation from the map if found.
-	 * Therefore, this method will not block for exactly the given milliseconds because it will load some data after the time given.
+	 * The amount of time the manager gets is half of the given time (bigger half) unless the animations are done loading. 
+	 * The animations load for half the given time.
+	 * <br>
+	 * It is not guaranteed that the time this method blocks will be exactly the number of milliseconds given in the parameter.
 	 * @param millis
 	 */
-	public void loadManagedAssets(int millis) {
-		if(manager.getProgress() < 1) manager.update(millis);
-		
+	public synchronized void loadManagedAssets(int millis) {
 		createAnimationLoadingIterator();
-		
-		if(animationLoadingIterator.hasNext()){
-			animationLoadingIterator.next().getValue().load();
+
+		int managerTimeShare = (animationLoadingIterator.hasNext() ? (millis / 2 + millis % 2)
+				: millis);
+		int animationTimeShare = (manager.getProgress() >= 1 ? millis : millis - managerTimeShare);
+
+		if (manager.getProgress() < 1) manager.update(managerTimeShare);
+
+		if (animationLoadingIterator.hasNext()) {
+			long time = System.currentTimeMillis();
+			while (true) {
+				if(System.currentTimeMillis() - time >= animationTimeShare) break;
+				animationLoadingIterator.next().getValue().load();
+			}
 		}
 	}
-	
-	public void loadUnmanagedTextures(){
-		for(IAssetLoader l : loaders){
+
+	public void loadUnmanagedTextures() {
+		for (IAssetLoader l : loaders) {
 			l.addUnmanagedTextures(unmanagedTextures);
 		}
 	}
-	
-	private void createAnimationLoadingIterator(){
-		if(animationLoadingIterator == null){
+
+	private void createAnimationLoadingIterator() {
+		if (animationLoadingIterator == null) {
 			animationLoadingIterator = animations.entrySet().iterator();
 		}
 	}
-	
-	public boolean finishedLoading(){
+
+	public boolean finishedLoading() {
 		createAnimationLoadingIterator();
-		
+
 		return (getAssetManager().getProgress() >= 1 && animationLoadingIterator.hasNext() == false);
 	}
 
@@ -118,7 +129,7 @@ public final class AssetRegistry implements Disposable {
 			entry.getValue().dispose();
 		}
 
-		if(missingTexture != null) missingTexture.dispose();
+		if (missingTexture != null) missingTexture.dispose();
 	}
 
 	public static Texture getMissingTexture() {
