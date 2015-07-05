@@ -172,8 +172,6 @@ public class Main extends Game implements Consumer {
 
 	@Override
 	public void create() {
-		defaultShader = SpriteBatch.createDefaultShader();
-		username = Settings.getPreferences().getString("username", getRandomUsername());
 		Gdx.graphics.setTitle(getTitle() + " - " + Splashes.getRandomSplash());
 		redirectSysOut();
 
@@ -186,6 +184,10 @@ public class Main extends Game implements Consumer {
 		camera.setToOrtho(false, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch = new SpriteBatch();
 		batch.enableBlending();
+		
+		defaultShader = SpriteBatch.createDefaultShader();
+		username = Settings.getPreferences().getString("username", getRandomUsername());
+		AssetRegistry.createMissingTexture();
 
 		FreeTypeFontGenerator ttfGenerator = new FreeTypeFontGenerator(
 				Gdx.files.internal("fonts/minecraft.ttf"));
