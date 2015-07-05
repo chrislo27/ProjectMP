@@ -171,11 +171,10 @@ public final class AssetRegistry implements Disposable {
 	 * @return the Texture, searching unmanaged textures first or null if none is found
 	 */
 	public static Texture getTexture(String key) {
-		if (instance().getUnmanagedTextures().containsKey(key)) {
+		if (instance().getUnmanagedTextures().get(key) != null) {
 			return instance().getUnmanagedTextures().get(key);
 		} else {
-			if (!AssetMap.containsKey(key)) return getMissingTexture();
-			if (!instance().getAssetManager().isLoaded(AssetMap.get(key), Texture.class)) return getMissingTexture();
+			if (AssetMap.get(key) == null) return getMissingTexture();
 
 			return instance().getAssetManager().get(AssetMap.get(key), Texture.class);
 		}
