@@ -161,12 +161,8 @@ public class Particle implements Poolable {
 							Main.convertY(y * World.tilesizey));
 					main.font.setColor(Color.WHITE);
 				} else {
-					Texture t;
-					if (texture.startsWith("real-")) {
-						t = AssetRegistry.instance().getAssetManager().get(texture.substring(5), Texture.class);
-					} else {
-						t = AssetRegistry.instance().getAssetManager().get(AssetMap.get(texture), Texture.class);
-					}
+					Texture t = AssetRegistry.getTexture(texture.startsWith("real-") ? texture
+							.substring(5) : texture);
 
 					main.batch.setColor(tintr, tintg, tintb,
 							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));

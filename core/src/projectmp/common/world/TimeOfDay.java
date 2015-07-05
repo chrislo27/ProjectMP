@@ -35,7 +35,7 @@ public enum TimeOfDay {
 
 		@Override
 		public void renderBackground(Batch batch, World world) {
-			batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("starrysky"), Texture.class), 0, 0);
+			batch.draw(AssetRegistry.getTexture("starrysky"), 0, 0);
 		}
 	};
 

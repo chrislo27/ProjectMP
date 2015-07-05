@@ -32,9 +32,9 @@ public class Slider extends UiElement {
 
 	@Override
 	public void render(Main main) {
-		main.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("guislider"), Texture.class), x, y, width,
+		main.batch.draw(AssetRegistry.getTexture("guislider"), x, y, width,
 				height);
-		main.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("guisliderarrow"), Texture.class), x
+		main.batch.draw(AssetRegistry.getTexture("guisliderarrow"), x
 				+ ((width - 32) * slider), y, 32, 32);
 
 		if (Gdx.input.isButtonPressed(Buttons.LEFT)) {

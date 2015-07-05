@@ -79,7 +79,7 @@ public class Background {
 		batch.setColor(1, 1, 1, 1);
 
 		// sun
-		Texture tex = AssetRegistry.instance().getAssetManager().get(AssetMap.get("celestialbody_sun"), Texture.class);
+		Texture tex = AssetRegistry.getTexture("celestialbody_sun");
 		float texCenteredX = ((Settings.DEFAULT_WIDTH / 2) - (tex.getWidth() / 2));
 		float texCenteredY = (0 - (tex.getWidth() / 2));
 		float sunAngle = (360 * (world.time.currentDayTicks * 1f / world.time.ticksPerDay));
@@ -88,7 +88,7 @@ public class Background {
 				+ (SUN_DISTANCE * MathUtils.sinDeg(sunAngle)));
 
 		// moon
-		tex = AssetRegistry.instance().getAssetManager().get(AssetMap.get("celestialbody_moon"), Texture.class);
+		tex = AssetRegistry.getTexture("celestialbody_moon");
 		texCenteredX = ((Settings.DEFAULT_WIDTH / 2) - (tex.getWidth() / 2));
 		texCenteredY = (0 - (tex.getWidth() / 2));
 		float moonAngle = sunAngle + 180;

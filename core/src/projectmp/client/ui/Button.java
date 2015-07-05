@@ -34,11 +34,11 @@ public class Button extends UiElement {
 	}
 
 	public void imageRender(Main main, String img) {
-		main.batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get(img), Texture.class), x, y, width, height);
+		main.batch.draw(AssetRegistry.getTexture(img), x, y, width, height);
 		if (UiContainer.mouseIn(this)) {
 			main.batch.setColor(Color.CYAN.r, Color.CYAN.g, Color.CYAN.b, 0.42f);
 			main.batch
-					.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get(img), Texture.class), x, y, width, height);
+					.draw(AssetRegistry.getTexture(img), x, y, width, height);
 			main.batch.setColor(Color.WHITE);
 		}
 	}

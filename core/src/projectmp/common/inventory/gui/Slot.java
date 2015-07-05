@@ -50,7 +50,7 @@ public class Slot {
 		SpriteBatch batch = renderer.batch;
 
 		batch.setColor(1, 1, 1, 1);
-		batch.draw(AssetRegistry.instance().getAssetManager().get(AssetMap.get("invslot"), Texture.class), posx, posy,
+		batch.draw(AssetRegistry.getTexture("invslot"), posx, posy,
 				width, height);
 		batch.setColor(1, 1, 1, 1);
 
