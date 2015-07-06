@@ -77,8 +77,6 @@ public class StandardAssetLoader implements IAssetLoader {
 
 		// entities
 		manager.load(AssetMap.add("player", "images/entity/player/player.png"), Texture.class);
-		manager.load(AssetMap.add("playerGears", "images/entity/player/Copy of player.png"),
-				Texture.class);
 
 		// misc
 		manager.load(AssetMap.add("vignette", "images/ui/vignette.png"), Texture.class);
