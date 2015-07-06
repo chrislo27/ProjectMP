@@ -11,7 +11,7 @@ import projectmp.common.util.Sizeable;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
@@ -116,13 +116,22 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public abstract void render(WorldRenderer renderer);
 
 	/**
+	 * Draws the texture centered on the entity. 
+	 * It is centered horizontally and the bottom of the texture flush with the bottom of the entity.
+	 */
+	public void drawTextureCentered(WorldRenderer renderer, Texture t) {
+		world.batch.draw(t, renderer.convertWorldX((visualX + (World.tilesizex * sizex / 2))
+				- t.getWidth() / 2), renderer.convertWorldY((visualY + (World.tilesizey * sizey)), 0));
+	}
+
+	/**
 	 * called every render update BEFORE rendering on client only, used for interpolation
 	 */
 	public void clientRenderUpdate() {
 		// how lerp works
 		// estimates a velocity based on how many frames are between ticks
 		// if the estimate is right, by the time the next tick comes it should be close enough to make it smooth to the new velocity
-		
+
 		// see if we need lerping if the last known XY differs from the current XY
 		if (lastKnownX != x) {
 			// calculate full difference, velocity here is in a second
@@ -178,7 +187,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 
 		return true;
 	}
-	
+
 	private boolean isLerpXOvershooting() {
 		if (lerpVeloX != 0) {
 			// if distance between visual and real is the opposite sign compared to lerp velo
@@ -193,7 +202,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -209,7 +218,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -740,7 +749,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public void moveUp(boolean usingTicks) {
 		if (getBlockCollidingUp() == null && veloy > -maxspeed) {
-			accelerate(0, -accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), true);
+			accelerate(0, -accspeed
+					* (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), true);
 		}
 	}
 
@@ -750,7 +760,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public void moveDown(boolean usingTicks) {
 		if (getBlockCollidingDown() == null && veloy < maxspeed) {
-			accelerate(0, accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), true);
+			accelerate(0,
+					accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), true);
 		}
 	}
 
@@ -760,7 +771,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public void moveLeft(boolean usingTicks) {
 		if (getBlockCollidingLeft() == null && velox > -maxspeed) {
-			accelerate(-accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), 0, true);
+			accelerate(-accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()),
+					0, true);
 		}
 	}
 
@@ -770,7 +782,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public void moveRight(boolean usingTicks) {
 		if (getBlockCollidingRight() == null && velox < maxspeed) {
-			accelerate(accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()), 0, true);
+			accelerate(accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()),
+					0, true);
 		}
 	}
 
