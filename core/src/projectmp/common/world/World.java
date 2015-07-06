@@ -116,27 +116,27 @@ public class World {
 
 	public void tickUpdate() {
 		time.tickUpdate();
-		
+
 		// tick update loaded chunks
 		for (int x = 0; x < getWidthInChunks(); x++) {
 			for (int y = 0; y < getHeightInChunks(); y++) {
 				if (isChunkLoaded(x, y)) {
 					getChunk(x, y).tickUpdate(this);
-					
+
 					loadedChunks[x][y]--;
 				}
 			}
 		}
 
 		loadChunksNearLoaders();
-		
+
 		if (isServer) {
-			
+
 			for (int i = 0; i < entities.size; i++) {
 				Entity e = entities.get(i);
 				e.tickUpdate();
 			}
-			
+
 			if (particles.size > 0) {
 				Particle item;
 				for (int i = particles.size; --i >= 0;) {
@@ -200,67 +200,67 @@ public class World {
 
 		return null;
 	}
-	
-	public Entity getEntityByIndex(int i){
+
+	public Entity getEntityByIndex(int i) {
 		return entities.get(i);
 	}
-	
-	public void createNewEntity(Entity e){
-		if(isServer){
+
+	public void createNewEntity(Entity e) {
+		if (isServer) {
 			PacketNewEntity packet = PacketRepository.instance().newEntity;
 			packet.e = e;
 			main.server.sendToAllTCP(packet);
-		}else{
+		} else {
 			entities.add(e);
 		}
 	}
-	
-	public void removeEntity(long uuid){
-		if(isServer){
+
+	public void removeEntity(long uuid) {
+		if (isServer) {
 			PacketRemoveEntity packet = PacketRepository.instance().removeEntity;
 			packet.uuid = uuid;
 			main.server.sendToAllTCP(packet);
-		}else{
+		} else {
 			Entity e = getEntityByUUID(uuid);
-			if(e == null) return;
+			if (e == null) return;
 			entities.removeValue(e, true);
 		}
 	}
-	
-	public long getUUIDFromIndex(int index){
+
+	public long getUUIDFromIndex(int index) {
 		Entity e = getEntityByIndex(index);
-		
-		if(e != null){
+
+		if (e != null) {
 			return e.uuid;
-		}else{
+		} else {
 			return Long.MAX_VALUE;
 		}
 	}
-	
-	public int getNumberOfEntities(){
+
+	public int getNumberOfEntities() {
 		return entities.size;
 	}
-	
-	public void clearAllEntities(){
-		for(int i = 0; i < getNumberOfEntities(); i++){
+
+	public void clearAllEntities() {
+		for (int i = 0; i < getNumberOfEntities(); i++) {
 			long uuid = getUUIDFromIndex(i);
 			removeEntity(uuid);
 		}
 	}
-	
+
 	/**
 	 * loads the chunks near entities that implement ILoadsChunk
 	 */
-	public void loadChunksNearLoaders(){
+	public void loadChunksNearLoaders() {
 		for (int i = 0; i < entities.size; i++) {
 			Entity e = entities.get(i);
-			
-			if(e instanceof ILoadsChunk){
+
+			if (e instanceof ILoadsChunk) {
 				int cx = getChunkX((int) e.x);
 				int cy = getChunkY((int) e.y);
-				
-				for(int x = cx - 3; x < cx + 3; x++){
-					for(int y = cy - 3; y < cy + 3; y++){
+
+				for (int x = cx - 3; x < cx + 3; x++) {
+					for (int y = cy - 3; y < cy + 3; y++) {
 						loadChunk(x, y, Main.TICKS);
 					}
 				}
@@ -436,15 +436,23 @@ public class World {
 		return loadedChunks[x][y] > 0;
 	}
 
-	public void loadChunk(int x, int y, int length) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param length
+	 * @return false if out of bounds, true otherwise
+	 */
+	public boolean loadChunk(int x, int y, int length) {
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return false;
 
 		loadedChunks[x][y] = length;
+		return true;
 	}
 
 	public void sendTileEntityUpdate(int x, int y) {
 		PacketSendTileEntity tepacket = PacketRepository.instance().sendTileEntity;
-		
+
 		tepacket.te = getTileEntity(x, y);
 		tepacket.x = x;
 		tepacket.y = y;
