@@ -278,7 +278,7 @@ public class World {
 		int caveStart = dirtLimit - (sizey / 32);
 
 		for (int i = 0; i < sizex; i++) {
-			float noise = (float) noiseGen.eval(i * 0.15f, -1 * 0.15f);
+			float noise = (float) noiseGen.eval(i * 0.09f, -1 * 0.09f);
 			int actualHeight = Math.round(noise * hillCoeff);
 
 			int topOfDirt = actualHeight + (sizey / 16);
