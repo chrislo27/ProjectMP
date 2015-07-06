@@ -219,8 +219,8 @@ public class ClientLogic implements Disposable {
 		}
 
 		if (getCurrentGui() == null) {
-			int x = getBlockXCursor();
-			int y = getBlockYCursor();
+			int x = getCursorBlockX();
+			int y = getCursorBlockY();
 
 			if (Utils.isButtonJustPressed(Buttons.LEFT)) {
 
@@ -285,14 +285,6 @@ public class ClientLogic implements Disposable {
 
 	public PacketSwapSlot getSwapSlotPacket() {
 		return swapSlot;
-	}
-
-	public int getBlockXCursor() {
-		return ((int) ((Main.getInputX() + main.clientLogic.renderer.camera.camerax) / World.tilesizex));
-	}
-
-	public int getBlockYCursor() {
-		return ((int) ((Main.getInputY() + main.clientLogic.renderer.camera.cameray) / World.tilesizey));
 	}
 
 }
