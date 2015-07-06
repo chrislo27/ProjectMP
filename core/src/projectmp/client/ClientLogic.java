@@ -202,7 +202,7 @@ public class ClientLogic implements Disposable {
 		}
 	}
 
-	private void playerInput() {
+	public void playerInput() {
 		if (getPlayer() == null || !main.client.isConnected()) return;
 
 		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
