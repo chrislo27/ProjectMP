@@ -150,14 +150,14 @@ public final class AssetRegistry implements Disposable {
 
 		// pink
 		pix.setColor(1, 0, 1, 1);
-		pix.drawRectangle(0, 0, pix.getWidth() / 2, pix.getHeight() / 2);
-		pix.drawRectangle(pix.getWidth() / 2, pix.getHeight() / 2, pix.getWidth() / 2,
+		pix.fillRectangle(0, 0, pix.getWidth() / 2, pix.getHeight() / 2);
+		pix.fillRectangle(pix.getWidth() / 2, pix.getHeight() / 2, pix.getWidth() / 2,
 				pix.getHeight() / 2);
 
 		// black
 		pix.setColor(0, 0, 0, 1);
-		pix.drawRectangle(pix.getWidth() / 2, 0, pix.getWidth() / 2, pix.getHeight() / 2);
-		pix.drawRectangle(0, pix.getHeight() / 2, pix.getWidth() / 2, pix.getHeight() / 2);
+		pix.fillRectangle(pix.getWidth() / 2, 0, pix.getWidth() / 2, pix.getHeight() / 2);
+		pix.fillRectangle(0, pix.getHeight() / 2, pix.getWidth() / 2, pix.getHeight() / 2);
 
 		// set to texture
 		instance().missingTexture = new Texture(pix);
