@@ -53,7 +53,7 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_HEIGHT, false);
 
 		ShaderLoader.BasePath = "postprocessing/";
-		
+
 		postProcessor = new PostProcessor(false, false,
 				Gdx.app.getType() == ApplicationType.Desktop);
 
@@ -61,8 +61,9 @@ public class WorldRenderer implements Disposable {
 				(int) (Settings.DEFAULT_HEIGHT * 0.25f));
 		bloom.setThreshold(0.5f);
 		//postProcessor.addEffect(bloom);
-		
-		CrtMonitor monitor = new CrtMonitor(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true, true, RgbMode.ChromaticAberrations, 0b111111);
+
+		CrtMonitor monitor = new CrtMonitor(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true,
+				true, RgbMode.ChromaticAberrations, 0b111111);
 		//postProcessor.addEffect(monitor);
 	}
 
@@ -110,7 +111,20 @@ public class WorldRenderer implements Disposable {
 			if (MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
 					convertWorldX(e.visualX), convertWorldY(e.visualY, 0), e.sizex
 							* World.tilesizex, e.sizey * World.tilesizey)) {
-
+//				if (Settings.debug) {
+//					batch.setColor(1, 1, 1, 1f);
+//					Main.fillRect(batch, convertWorldX(e.visualX),
+//							convertWorldY(e.visualY, World.tilesizey * e.sizey), 4, World.tilesizey * e.sizey);
+//					Main.fillRect(batch, convertWorldX(e.visualX + e.sizex - (World.tilepartx * 4)),
+//							convertWorldY(e.visualY, World.tilesizey * e.sizey), 4, World.tilesizey * e.sizey);
+//					Main.fillRect(batch, convertWorldX(e.visualX),
+//							convertWorldY(e.visualY, World.tilesizey * e.sizey), World.tilesizex
+//									* e.sizex, 4);
+//					Main.fillRect(batch, convertWorldX(e.visualX),
+//							convertWorldY(e.visualY - e.sizey + (World.tileparty * 4), World.tilesizey * e.sizey), World.tilesizex
+//									* e.sizex, 4);
+//					batch.setColor(1, 1, 1, 1);
+//				}
 				e.render(this);
 			}
 		}
@@ -175,8 +189,8 @@ public class WorldRenderer implements Disposable {
 
 		// render vignette
 		batch.setColor(0, 0, 0, 0.1f);
-		batch.draw(AssetRegistry.getTexture("vignette"), 0, 0,
-				Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
+		batch.draw(AssetRegistry.getTexture("vignette"), 0, 0, Settings.DEFAULT_WIDTH,
+				Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 
 		if (logic.getCurrentGui() != null) {
@@ -258,7 +272,7 @@ public class WorldRenderer implements Disposable {
 	public void dispose() {
 		worldBuffer.dispose();
 		lightingBuffer.dispose();
-		
+
 		postProcessor.dispose();
 	}
 
