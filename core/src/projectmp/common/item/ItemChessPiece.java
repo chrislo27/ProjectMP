@@ -27,7 +27,7 @@ public class ItemChessPiece extends Item{
 	
 	@Override
 	public String getLocalizedName(ItemStack stack) {
-		return Translator.instance().getMsg("item." + name + ".name", getCurrentRenderingIndex(stack));
+		return Translator.instance().getMsg("item." + getUnlocalizedName() + ".name", getCurrentRenderingIndex(stack));
 	}
 
 }

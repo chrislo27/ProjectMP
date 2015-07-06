@@ -10,18 +10,23 @@ import projectmp.common.world.World;
 
 public class Item extends TexturedObject {
 
-	String name = "unnamed";
+	String unlocalizedName = "unnamed";
 	int maxStackable = 512;
 
 	public Item(String unlocalizedname) {
 		super("item", unlocalizedname);
-		name = unlocalizedname;
+		this.unlocalizedName = unlocalizedname;
 	}
 
 	public void onUseStart(World world, Entity user){
 		
 	}
 	
+	/**
+	 * called every tick while in use
+	 * @param world
+	 * @param user
+	 */
 	public void onUsing(World world, Entity user){
 		
 	}
@@ -41,9 +46,13 @@ public class Item extends TexturedObject {
 		maxStackable = i;
 		return this;
 	}
+	
+	public String getUnlocalizedName(){
+		return unlocalizedName;
+	}
 
 	public String getLocalizedName(ItemStack stack) {
-		return Translator.instance().getMsg("item." + name + ".name");
+		return Translator.instance().getMsg("item." + getUnlocalizedName() + ".name");
 	}
 	
 	public void render(WorldRenderer renderer, int x, int y, int width, int height, ItemStack stack){

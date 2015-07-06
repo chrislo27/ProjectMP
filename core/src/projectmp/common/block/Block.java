@@ -3,8 +3,10 @@ package projectmp.common.block;
 import projectmp.client.WorldRenderer;
 import projectmp.client.animation.Animation;
 import projectmp.common.TexturedObject;
+import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Color;
@@ -16,9 +18,12 @@ public class Block extends TexturedObject {
 
 	int collision = BlockFaces.NONE;
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
+	
+	protected String unlocalizedName = "unnamed";
 
-	public Block(String identifier) {
-		super("block", identifier);
+	public Block(String unlocalName) {
+		super("block", unlocalName);
+		unlocalizedName = unlocalName;
 	}
 
 	/**
@@ -85,6 +90,14 @@ public class Block extends TexturedObject {
 		super.addAnimations(args);
 		
 		return this;
+	}
+	
+	public String getUnlocalizedName(){
+		return unlocalizedName;
+	}
+	
+	public String getLocalizedName(ItemStack stack){
+		return Translator.instance().getMsg("block." + getUnlocalizedName() + ".name");
 	}
 
 	/**
