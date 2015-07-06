@@ -6,7 +6,7 @@ import projectmp.server.ServerLogic;
 import com.esotericsoftware.kryonet.Connection;
 
 /**
- * used by client to tell server this block was right clicked and should act
+ * used by client to tell server this block was clicked and should act
  * 
  *
  */
