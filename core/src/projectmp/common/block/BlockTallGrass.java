@@ -39,7 +39,7 @@ public class BlockTallGrass extends Block {
 				* World.tilesizex;
 		
 		// when entities run into it
-		float offsetx = wave + (renderer.world.getMeta(x, y) * 10);
+		float offsetx = wave + (renderer.world.getMeta(x, y));
 
 		renderer.batch.setColor(0f, 175f / 255f, 17f / 255f, 1);
 
@@ -78,7 +78,7 @@ public class BlockTallGrass extends Block {
 	@Override
 	public void tickUpdate(World world, int x, int y) {
 		super.tickUpdate(world, x, y);
-
+		
 		if (world.isServer) return;
 
 		if (world.getMeta(x, y) != 0) {
@@ -86,11 +86,11 @@ public class BlockTallGrass extends Block {
 		}
 
 		bounds.x = x;
-		bounds.y = y - 1;
+		bounds.y = y + World.tileparty;
 		bounds.width = 1;
-		bounds.height = 1f;
+		bounds.height = 1f - World.tileparty;
 		ArrayList<Entity> nearby = world.getQuadArea(bounds);
-
+		
 		for (int i = 0; i < nearby.size(); i++) {
 			Entity e = nearby.get(i);
 			if (e.velox == 0) continue;
