@@ -32,6 +32,8 @@ public final class PacketRepository {
 	public PacketSwapSlot swapSlot = new PacketSwapSlot();
 	public PacketSlotChanged slotChanged = new PacketSlotChanged();
 	
+	public PacketBlockActivate blockActivate = new PacketBlockActivate();
+	
 	private void loadResources() {
 
 	}
