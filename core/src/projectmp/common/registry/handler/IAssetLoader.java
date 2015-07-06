@@ -17,7 +17,7 @@ public interface IAssetLoader {
 	public void addManagedAssets(AssetManager manager);
 	
 	/**
-	 * immediately loads unmanaged textures
+	 * Method for adding textures that will be loaded immediately
 	 * @param textures
 	 */
 	public void addUnmanagedTextures(HashMap<String, Texture> textures);
