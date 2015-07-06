@@ -3,6 +3,7 @@ package projectmp.common.block;
 import java.util.ArrayList;
 
 import projectmp.client.WorldRenderer;
+import projectmp.common.Main;
 import projectmp.common.entity.Entity;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;
@@ -18,7 +19,7 @@ public class BlockTallGrass extends Block {
 	}
 
 	private float[] vertices = new float[20];
-	private GrassBoundingBox bounds = new GrassBoundingBox();;
+	private GrassBoundingBox bounds = new GrassBoundingBox();
 
 	@Override
 	public void render(WorldRenderer renderer, int x, int y) {
@@ -26,9 +27,19 @@ public class BlockTallGrass extends Block {
 		TextureRegion region = getAnimation(getCurrentRenderingIndex(renderer.world, 0, 0))
 				.getCurrentFrame();
 		int idx = 0;
-		float wave = (MathHelper.clampNumberFromTime(System.currentTimeMillis(),
-				4f + (4f * (y / renderer.world.sizey)))) * 32;
-		float offsetx = wave + renderer.world.getMeta(x, y);
+
+		float worldQuarter = (renderer.world.sizey / 4f);
+		
+		// wind speed calculated based on y-level
+		float windSpeed = MathUtils.clamp(10f * (y / worldQuarter), 0, 10f);
+		if(y > worldQuarter) windSpeed = 0;
+		
+		// the actual "waviness" of it, there's an x-axis offset on the time
+		float wave = (MathHelper.clampNumberFromTime(System.currentTimeMillis() - (x * 250), windSpeed) - 0.25f)
+				* World.tilesizex;
+		
+		// when entities run into it
+		float offsetx = wave + (renderer.world.getMeta(x, y) * 10);
 
 		renderer.batch.setColor(0f, 175f / 255f, 17f / 255f, 1);
 
@@ -75,16 +86,15 @@ public class BlockTallGrass extends Block {
 		}
 
 		bounds.x = x;
-		bounds.y = y;
+		bounds.y = y - 1;
 		bounds.width = 1;
-		bounds.height = 0.8f;
-		bounds.y += 1 - bounds.height;
+		bounds.height = 1f;
 		ArrayList<Entity> nearby = world.getQuadArea(bounds);
 
 		for (int i = 0; i < nearby.size(); i++) {
 			Entity e = nearby.get(i);
 			if (e.velox == 0) continue;
-
+			
 			if (MathHelper.intersects(bounds.x, bounds.y, bounds.width, bounds.height, e.visualX,
 					e.visualY, e.sizex, e.sizey)) {
 
