@@ -8,6 +8,8 @@ import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;
+import projectmp.common.util.sidedictation.Side;
+import projectmp.common.util.sidedictation.SideOnly;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
@@ -47,6 +49,12 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * extrapolation or not
 	 */
 	private transient boolean shouldPredictFuture = false;
+	
+	/**
+	 * Client-only flag to show which direction the entity is facing
+	 */
+	@SideOnly(Side.CLIENT)
+	public transient boolean facingLeft = false;
 
 	// interpolation stuff END
 
@@ -118,11 +126,23 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	/**
 	 * Draws the texture centered on the entity. 
 	 * It is centered horizontally and the bottom of the texture flush with the bottom of the entity.
+	 * <br>
+	 * Offset values are in pixels.
+	 * <br>
 	 */
-	public void drawTextureCentered(WorldRenderer renderer, Texture t) {
+	public void drawTextureCentered(WorldRenderer renderer, Texture t, float offsetPxX, float offsetPxY, boolean flipHor) {
 		world.batch.draw(t,
-				renderer.convertWorldX(visualX + (sizex / 2)) - t.getWidth()
-						/ 2, renderer.convertWorldY((visualY + (sizey)), 0));
+				(renderer.convertWorldX(visualX + (sizex / 2)) - t.getWidth()
+						/ 2) + offsetPxX + (flipHor ? t.getWidth() : 0), renderer.convertWorldY((visualY + (sizey)), 0) + offsetPxY, t.getWidth() * (flipHor ? -1 : 1), t.getHeight());
+	}
+	
+	/**
+	 * Utility method that's the same as drawTextured centered with 0 offset and flip if facingLeft is true
+	 * @param renderer
+	 * @param t
+	 */
+	public void drawTextureCenteredWithFacing(WorldRenderer renderer, Texture t){
+		drawTextureCentered(renderer, t, 0, 0, facingLeft);
 	}
 
 	/**
@@ -771,6 +791,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * @param usingTicks if true, this acts as if it were called per tick, otherwise delta time
 	 */
 	public void moveLeft(boolean usingTicks) {
+		facingLeft = true;
 		if (getBlockCollidingLeft() == null && velox > -maxspeed) {
 			accelerate(-accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()),
 					0, true);
@@ -782,6 +803,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * @param usingTicks if true, this acts as if it were called per tick, otherwise delta time
 	 */
 	public void moveRight(boolean usingTicks) {
+		facingLeft = false;
 		if (getBlockCollidingRight() == null && velox < maxspeed) {
 			accelerate(accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()),
 					0, true);

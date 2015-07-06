@@ -33,8 +33,8 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 	public void prepare() {
 		this.maxspeed = 15f;
 		this.accspeed = maxspeed * 5f;
-		this.sizex = 1f;
-		this.sizey = 2f;
+		this.sizex = 2f - (4 * World.tilepartx);
+		this.sizey = 2f - (3 * World.tileparty);
 		this.hasEntityCollision = true;
 		
 		inventory = new InventoryPlayer("playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
@@ -42,7 +42,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 
 	@Override
 	public void render(WorldRenderer renderer) {
-		this.drawTextureCentered(renderer, AssetRegistry.getTexture("player"));
+		this.drawTextureCenteredWithFacing(renderer, AssetRegistry.getTexture("player"));
 	}
 
 	@Override
