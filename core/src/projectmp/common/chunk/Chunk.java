@@ -45,8 +45,11 @@ public class Chunk implements CanBeSavedToNBT {
 	}
 	
 	public void tickUpdate(World world){
-		for (int x = 0; x < CHUNK_SIZE; x++) {
-			for (int y = CHUNK_SIZE - 1; y >= 0; y--) {
+		for (int cx = 0; cx < CHUNK_SIZE; cx++) {
+			for (int cy = CHUNK_SIZE - 1; cy >= 0; cy--) {
+				int x = locationX * CHUNK_SIZE + cx;
+				int y = locationY * CHUNK_SIZE + cy;
+				
 				getBlock(x, y).tickUpdate(world, x, y);
 				if(getTileEntity(x, y) != null){
 					getTileEntity(x, y).tickUpdate(world, x, y);
