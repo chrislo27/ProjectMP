@@ -16,8 +16,6 @@ public class InventoryPlayer extends Inventory{
 		
 		setMaxCapacity(MAX_INV_CAPACITY);
 		initSlots();
-		
-		setSlot(0, new ItemStack("testItem", 512));
 	}
 	
 	@Override

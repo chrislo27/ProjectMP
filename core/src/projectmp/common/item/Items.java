@@ -27,8 +27,6 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-		put("testItem", new ItemTest("testItem").addAnimations(Item
-				.newSingleFrame("images/items/mininglaser.png")));
 		put("chessWhite",
 				new ItemChessPiece("chessWhite").addAnimations(
 						Item.newSingleFrame("images/items/chess/white/pawn.png"),
