@@ -117,6 +117,8 @@ public class World {
 	public void tickUpdate() {
 		time.tickUpdate();
 
+		loadChunksNearLoaders();
+		
 		// tick update loaded chunks
 		for (int x = 0; x < getWidthInChunks(); x++) {
 			for (int y = 0; y < getHeightInChunks(); y++) {
@@ -127,8 +129,6 @@ public class World {
 				}
 			}
 		}
-
-		loadChunksNearLoaders();
 
 		if (isServer) {
 
