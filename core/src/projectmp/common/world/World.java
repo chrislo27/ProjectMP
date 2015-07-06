@@ -287,7 +287,7 @@ public class World {
 				setBlock(Blocks.instance().getBlock("dirt"), i, y);
 			}
 			setBlock(Blocks.instance().getBlock("grass"), i, actualHeight + (sizey / 16));
-			setBlock(Blocks.instance().getBlock(i == sizex / 2 ? "chess_set" : "tall_grass"), i,
+			setBlock(Blocks.instance().getBlock("tall_grass"), i,
 					actualHeight + (sizey / 16) - 1);
 
 			for (int y = endOfDirt; y < sizey; y++) {
