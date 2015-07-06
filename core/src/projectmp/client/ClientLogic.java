@@ -223,7 +223,7 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Utils.isButtonJustPressed(Buttons.LEFT)) {
-
+				
 			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) {
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 			}

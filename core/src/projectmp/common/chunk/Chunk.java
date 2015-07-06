@@ -6,12 +6,15 @@ import java.util.Map.Entry;
 
 import projectmp.common.Main;
 import projectmp.common.block.Block;
+import projectmp.common.block.BlockEmpty;
 import projectmp.common.block.Blocks;
 import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.registry.TileEntityRegistry;
 import projectmp.common.tileentity.TileEntity;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
+import com.badlogic.gdx.Input.Buttons;
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.ITag;
@@ -43,19 +46,19 @@ public class Chunk implements CanBeSavedToNBT {
 			}
 		}
 	}
-	
-	public void tickUpdate(World world){
+
+	public void tickUpdate(World world) {
 		for (int cx = 0; cx < CHUNK_SIZE; cx++) {
 			for (int cy = CHUNK_SIZE - 1; cy >= 0; cy--) {
 				int x = locationX * CHUNK_SIZE + cx;
 				int y = locationY * CHUNK_SIZE + cy;
-				
-				getBlock(x, y).tickUpdate(world, x, y);
-				if(getTileEntity(x, y) != null){
-					getTileEntity(x, y).tickUpdate(world, x, y);
-					if(getTileEntity(x, y).isDirty() && world.isServer){
+
+				getBlock(cx, cy).tickUpdate(world, x, y);
+				if (getTileEntity(cx, cy) != null) {
+					getTileEntity(cx, cy).tickUpdate(world, x, y);
+					if (getTileEntity(cx, cy).isDirty() && world.isServer) {
 						world.sendTileEntityUpdate(x, y);
-						getTileEntity(x, y).setDirty(false);
+						getTileEntity(cx, cy).setDirty(false);
 					}
 				}
 			}
@@ -108,8 +111,8 @@ public class Chunk implements CanBeSavedToNBT {
 					TagCompound teTag = new TagCompound("TileEntity_" + x + "," + y);
 
 					teTag.setTag(new TagByteArray("Location", new byte[] { (byte) x, (byte) y }));
-					teTag.setTag(new TagString("Type", TileEntityRegistry.instance().getTileEntityKey(
-							tileEntities[x][y].getClass())));
+					teTag.setTag(new TagString("Type", TileEntityRegistry.instance()
+							.getTileEntityKey(tileEntities[x][y].getClass())));
 
 					tileEntities[x][y].writeToNBT(teTag);
 
