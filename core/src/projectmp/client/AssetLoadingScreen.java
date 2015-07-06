@@ -38,14 +38,6 @@ public class AssetLoadingScreen extends MiscLoadingScreen {
 					break;
 				}
 
-				for (Block b : Blocks.instance().getBlockList()) {
-					b.loadAnimations();
-				}
-				
-				for(Item i : Items.instance().getItemList()){
-					i.loadAnimations();
-				}
-
 				Main.logger.info("Finished loading all managed assets, took "
 						+ (System.currentTimeMillis() - startms) + " ms");
 

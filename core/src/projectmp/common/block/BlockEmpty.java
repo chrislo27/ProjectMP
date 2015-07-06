@@ -6,6 +6,10 @@ import projectmp.common.world.World;
 
 public class BlockEmpty extends Block {
 
+	public BlockEmpty(String identifier) {
+		super(identifier);
+	}
+
 	public static final float DRAG = 0.7f;
 
 	@Override

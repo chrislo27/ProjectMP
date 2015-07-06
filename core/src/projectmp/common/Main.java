@@ -324,13 +324,6 @@ public class Main extends Game implements Consumer {
 		clientLogic.dispose();
 		clearPixmap.dispose();
 
-		for (Block b : Blocks.instance().getBlockList()) {
-			b.dispose();
-		}
-		for (Item i : Items.instance().getItemList()) {
-			i.dispose();
-		}
-
 		// dispose screens
 		ASSETLOADING.dispose();
 		MAINMENU.dispose();

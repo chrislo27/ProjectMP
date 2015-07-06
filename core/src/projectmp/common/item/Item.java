@@ -1,7 +1,7 @@
 package projectmp.common.item;
 
 import projectmp.client.WorldRenderer;
-import projectmp.client.animation.LoopingAnimation;
+import projectmp.client.animation.Animation;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
@@ -14,6 +14,7 @@ public class Item extends TexturedObject {
 	int maxStackable = 512;
 
 	public Item(String unlocalizedname) {
+		super("item", unlocalizedname);
 		name = unlocalizedname;
 	}
 
@@ -30,8 +31,8 @@ public class Item extends TexturedObject {
 	}
 	
 	@Override
-	public Item addAnimation(LoopingAnimation a) {
-		super.addAnimation(a);
+	public Item addAnimations(Animation... args) {
+		super.addAnimations(args);
 
 		return this;
 	}

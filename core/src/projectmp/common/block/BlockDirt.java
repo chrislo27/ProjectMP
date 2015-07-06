@@ -6,4 +6,8 @@ import projectmp.common.world.World;
 
 public class BlockDirt extends Block {
 
+	public BlockDirt(String identifier) {
+		super(identifier);
+	}
+
 }

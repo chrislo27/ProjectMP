@@ -6,4 +6,8 @@ import projectmp.common.world.World;
 
 public class BlockStone extends Block {
 
+	public BlockStone(String identifier) {
+		super(identifier);
+	}
+
 }

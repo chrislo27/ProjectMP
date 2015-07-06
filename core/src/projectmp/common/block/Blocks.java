@@ -28,20 +28,19 @@ public class Blocks {
 	private Array<Block> allBlocks = new Array<Block>();
 
 	private void loadResources() {
-		put(defaultBlock, new BlockEmpty());
-		put("stone",
-				new BlockStone().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.singleTexture("images/blocks/stone.png")));
+		put(defaultBlock, new BlockEmpty("empty"));
+		put("stone", new BlockStone("stone").solidify(BlockFaces.ALL).setOpaqueToLight()
+				.addAnimations(Block.newSingleFrame("images/blocks/stone.png")));
 		put("dirt",
-				new BlockDirt().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.singleTexture("images/blocks/dirt.png")));
+				new BlockDirt("dirt").solidify(BlockFaces.ALL).setOpaqueToLight()
+						.addAnimations(Block.newSingleFrame("images/blocks/dirt.png")));
 		put("grass",
-				new BlockGrass().solidify(BlockFaces.ALL).setOpaqueToLight()
-						.addAnimation(Block.singleTexture("images/blocks/grass.png"))
-						.addAnimation(Block.singleTexture("images/blocks/dirt.png")));
-		put("tall_grass", new BlockTallGrass().addAnimation(Block
-				.singleTexture("images/blocks/tall_grass.png")));
-		put("chess_set", new BlockChessSet().addAnimation(Block.singleTexture("images/items/asteroidfirer.png")));
+				new BlockGrass("grassBlock").solidify(BlockFaces.ALL).setOpaqueToLight()
+						.addAnimations(Block.newSingleFrame("images/blocks/grass.png"), Block.newSingleFrame("images/blocks/dirt.png")));
+		put("tall_grass", new BlockTallGrass("tallGrass").addAnimations(Block
+				.newSingleFrame("images/blocks/tall_grass.png")));
+		put("chess_set", new BlockChessSet("chessboard").addAnimations(Block
+				.newSingleFrame("images/items/asteroidfirer.png")));
 	}
 
 	public void put(String key, Block value) {

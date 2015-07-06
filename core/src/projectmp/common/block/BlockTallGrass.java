@@ -13,6 +13,10 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class BlockTallGrass extends Block {
 
+	public BlockTallGrass(String identifier) {
+		super(identifier);
+	}
+
 	private float[] vertices = new float[20];
 	private GrassBoundingBox bounds = new GrassBoundingBox();;
 

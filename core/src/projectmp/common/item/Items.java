@@ -27,24 +27,24 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-		put("testItem", new ItemTest("testItem").addAnimation(Item
-				.singleTexture("images/items/mininglaser.png")));
+		put("testItem", new ItemTest("testItem").addAnimations(Item
+				.newSingleFrame("images/items/mininglaser.png")));
 		put("chessWhite",
-				new ItemChessPiece("chessWhite")
-						.addAnimation(Item.singleTexture("images/items/chess/white/pawn.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/white/knight.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/white/bishop.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/white/rook.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/white/queen.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/white/king.png")));
+				new ItemChessPiece("chessWhite").addAnimations(
+						Item.newSingleFrame("images/items/chess/white/pawn.png"),
+						Item.newSingleFrame("images/items/chess/white/knight.png"),
+						Item.newSingleFrame("images/items/chess/white/bishop.png"),
+						Item.newSingleFrame("images/items/chess/white/rook.png"),
+						Item.newSingleFrame("images/items/chess/white/queen.png"),
+						Item.newSingleFrame("images/items/chess/white/king.png")));
 		put("chessBlack",
-				new ItemChessPiece("chessBlack")
-						.addAnimation(Item.singleTexture("images/items/chess/black/pawn.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/black/knight.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/black/bishop.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/black/rook.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/black/queen.png"))
-						.addAnimation(Item.singleTexture("images/items/chess/black/king.png")));
+				new ItemChessPiece("chessBlack").addAnimations(
+						Item.newSingleFrame("images/items/chess/black/pawn.png"),
+						Item.newSingleFrame("images/items/chess/black/knight.png"),
+						Item.newSingleFrame("images/items/chess/black/bishop.png"),
+						Item.newSingleFrame("images/items/chess/black/rook.png"),
+						Item.newSingleFrame("images/items/chess/black/queen.png"),
+						Item.newSingleFrame("images/items/chess/black/king.png")));
 	}
 
 	public void put(String key, Item value) {

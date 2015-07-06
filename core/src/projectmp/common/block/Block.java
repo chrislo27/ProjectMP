@@ -1,14 +1,13 @@
 package projectmp.common.block;
 
-import com.badlogic.gdx.graphics.Color;
-
 import projectmp.client.WorldRenderer;
-import projectmp.client.animation.LoopingAnimation;
+import projectmp.client.animation.Animation;
 import projectmp.common.TexturedObject;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.util.sidedictation.Side;
 import projectmp.common.world.World;
+
+import com.badlogic.gdx.graphics.Color;
 
 public class Block extends TexturedObject {
 
@@ -18,8 +17,8 @@ public class Block extends TexturedObject {
 	int collision = BlockFaces.NONE;
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 
-	public Block() {
-
+	public Block(String identifier) {
+		super("block", identifier);
 	}
 
 	/**
@@ -82,8 +81,9 @@ public class Block extends TexturedObject {
 	}
 
 	@Override
-	public Block addAnimation(LoopingAnimation a) {
-		super.addAnimation(a);
+	public Block addAnimations(Animation... args) {
+		super.addAnimations(args);
+		
 		return this;
 	}
 

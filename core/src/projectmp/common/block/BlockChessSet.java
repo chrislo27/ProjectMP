@@ -12,6 +12,10 @@ import projectmp.common.world.World;
 
 public class BlockChessSet extends BlockContainer {
 
+	public BlockChessSet(String identifier) {
+		super(identifier);
+	}
+
 	@Override
 	public TileEntity createNewTileEntity(int x, int y) {
 		return new TileEntityChessboard(x, y);

@@ -11,6 +11,10 @@ import com.badlogic.gdx.graphics.Color;
  */
 public class BlockFoliage extends Block {
 
+	public BlockFoliage(String identifier) {
+		super(identifier);
+	}
+
 	@Override
 	public void render(WorldRenderer renderer, int x, int y) {
 		Color c = renderer.batch.getColor();
