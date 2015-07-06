@@ -394,25 +394,25 @@ public class World {
 	public Block getBlock(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Blocks.defaultBlock();
 
-		return getChunkBlockIsIn(x, y).getBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		return getChunkBlockIsIn(x, y).getChunkBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public int getMeta(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return 0;
 
-		return getChunkBlockIsIn(x, y).getMeta(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		return getChunkBlockIsIn(x, y).getChunkMeta(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
 
-		return getChunkBlockIsIn(x, y).getTileEntity(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		return getChunkBlockIsIn(x, y).getChunkTileEntity(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		getChunkBlockIsIn(x, y).setChunkBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		lightingEngine.scheduleLightingUpdate();
 
 		if (b instanceof ITileEntityProvider) {
@@ -423,13 +423,13 @@ public class World {
 	public void setMeta(int m, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setMeta(m, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		getChunkBlockIsIn(x, y).setChunkMeta(m, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public void setTileEntity(TileEntity te, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		getChunkBlockIsIn(x, y).setChunkTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
 
 	public boolean isChunkLoaded(int x, int y) {

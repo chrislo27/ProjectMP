@@ -53,45 +53,45 @@ public class Chunk implements CanBeSavedToNBT {
 				int x = locationX * CHUNK_SIZE + cx;
 				int y = locationY * CHUNK_SIZE + cy;
 
-				getBlock(cx, cy).tickUpdate(world, x, y);
-				if (getTileEntity(cx, cy) != null) {
-					getTileEntity(cx, cy).tickUpdate(world, x, y);
-					if (getTileEntity(cx, cy).isDirty() && world.isServer) {
+				getChunkBlock(cx, cy).tickUpdate(world, x, y);
+				if (getChunkTileEntity(cx, cy) != null) {
+					getChunkTileEntity(cx, cy).tickUpdate(world, x, y);
+					if (getChunkTileEntity(cx, cy).isDirty() && world.isServer) {
 						world.sendTileEntityUpdate(x, y);
-						getTileEntity(cx, cy).setDirty(false);
+						getChunkTileEntity(cx, cy).setDirty(false);
 					}
 				}
 			}
 		}
 	}
 
-	public Block getBlock(int x, int y) {
+	public Block getChunkBlock(int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return Blocks.defaultBlock();
 		if (blocks[x][y] == null) return Blocks.defaultBlock();
 		return blocks[x][y];
 	}
 
-	public int getMeta(int x, int y) {
+	public int getChunkMeta(int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return 0;
 		return metadata[x][y];
 	}
 
-	public TileEntity getTileEntity(int x, int y) {
+	public TileEntity getChunkTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return null;
 		return tileEntities[x][y];
 	}
 
-	public void setBlock(Block b, int x, int y) {
+	public void setChunkBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
 		blocks[x][y] = b;
 	}
 
-	public void setMeta(int m, int x, int y) {
+	public void setChunkMeta(int m, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
 		metadata[x][y] = (byte) m;
 	}
 
-	public void setTileEntity(TileEntity te, int x, int y) {
+	public void setChunkTileEntity(TileEntity te, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
 		tileEntities[x][y] = te;
 	}

@@ -126,9 +126,9 @@ public class ServerLogic {
 					for (int k = 0; k < Chunk.CHUNK_SIZE; k++) {
 						Chunk currentChunk = world.getChunk(x, y);
 
-						packet.blocks[j][k] = Blocks.instance().getKey(currentChunk.getBlock(j, k));
-						packet.meta[j][k] = currentChunk.getMeta(j, k);
-						packet.tileEntities[j][k] = currentChunk.getTileEntity(j, k);
+						packet.blocks[j][k] = Blocks.instance().getKey(currentChunk.getChunkBlock(j, k));
+						packet.meta[j][k] = currentChunk.getChunkMeta(j, k);
+						packet.tileEntities[j][k] = currentChunk.getChunkTileEntity(j, k);
 					}
 				}
 
