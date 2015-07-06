@@ -120,8 +120,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * It is centered horizontally and the bottom of the texture flush with the bottom of the entity.
 	 */
 	public void drawTextureCentered(WorldRenderer renderer, Texture t) {
-		world.batch.draw(t, renderer.convertWorldX((visualX + (World.tilesizex * sizex / 2))
-				- t.getWidth() / 2), renderer.convertWorldY((visualY + (World.tilesizey * sizey)), 0));
+		world.batch.draw(t,
+				renderer.convertWorldX(visualX + (sizex / 2)) - t.getWidth()
+						/ 2, renderer.convertWorldY((visualY + (sizey)), 0));
 	}
 
 	/**
