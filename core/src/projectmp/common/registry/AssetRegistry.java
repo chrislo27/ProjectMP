@@ -7,7 +7,7 @@ import java.util.Set;
 
 import projectmp.client.animation.Animation;
 import projectmp.common.registry.handler.IAssetLoader;
-import projectmp.common.registry.handler.StandardAssetLoader;
+import projectmp.common.registry.handler.StockAssetLoader;
 import projectmp.common.util.AssetMap;
 import projectmp.common.util.GameException;
 
@@ -46,7 +46,7 @@ public final class AssetRegistry implements Disposable {
 	private Texture missingTexture;
 
 	private void onInstantiate() {
-		addAssetLoader(new StandardAssetLoader());
+		addAssetLoader(new StockAssetLoader());
 	}
 
 	public Array<IAssetLoader> getAllAssetLoaders() {

@@ -31,7 +31,7 @@ import projectmp.common.tileentity.TileEntityChessboard;
 import com.esotericsoftware.kryo.Kryo;
 
 
-public class StandardNetworkHandler implements INetworkHandler{
+public class StockNetworkHandler implements INetworkHandler{
 
 	@Override
 	public void registerClasses(Kryo kryo) {

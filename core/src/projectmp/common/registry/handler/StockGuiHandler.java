@@ -12,7 +12,7 @@ import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 
-public class StandardGuiHandler implements IGuiHandler{
+public class StockGuiHandler implements IGuiHandler{
 
 	@Override
 	public Gui getGuiObject(String id, World world, InventoryPlayer player, int x, int y) {

@@ -10,7 +10,7 @@ import projectmp.common.util.render.Gears;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 
-public class StandardAssetLoader implements IAssetLoader {
+public class StockAssetLoader implements IAssetLoader {
 
 	@Override
 	public void addManagedAssets(AssetManager manager) {

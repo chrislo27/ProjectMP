@@ -1,7 +1,7 @@
 package projectmp.common.registry;
 
 import projectmp.common.registry.handler.INetworkHandler;
-import projectmp.common.registry.handler.StandardNetworkHandler;
+import projectmp.common.registry.handler.StockNetworkHandler;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryo.Kryo;
@@ -25,7 +25,7 @@ public class NetworkingRegistry {
 	Array<INetworkHandler> handlers = new Array<>();
 	
 	private void loadResources() {
-		registerHandler(new StandardNetworkHandler());
+		registerHandler(new StockNetworkHandler());
 	}
 	
 	public void registerHandler(INetworkHandler handler){

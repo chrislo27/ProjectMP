@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.GL20;
  * 
  *
  */
-public class SpecificationsErrorLogWriter implements IErrorLogWriter{
+public class SpecsErrorLogWriter implements IErrorLogWriter{
 
 	@Override
 	public void appendToStart(StringBuilder builder) {

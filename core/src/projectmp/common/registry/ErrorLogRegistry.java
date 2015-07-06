@@ -1,8 +1,8 @@
 package projectmp.common.registry;
 
 import projectmp.common.registry.handler.IErrorLogWriter;
-import projectmp.common.registry.handler.SpecificationsErrorLogWriter;
-import projectmp.common.registry.handler.StandardErrorLogWriter;
+import projectmp.common.registry.handler.SpecsErrorLogWriter;
+import projectmp.common.registry.handler.StockErrorLogWriter;
 
 import com.badlogic.gdx.utils.Array;
 
@@ -29,8 +29,8 @@ public class ErrorLogRegistry {
 	private Array<IErrorLogWriter> writers = new Array<>();
 	
 	private void loadResources() {
-		addWriter(new SpecificationsErrorLogWriter());
-		addWriter(new StandardErrorLogWriter());
+		addWriter(new SpecsErrorLogWriter());
+		addWriter(new StockErrorLogWriter());
 	}
 
 	public void addWriter(IErrorLogWriter writer){

@@ -4,7 +4,7 @@ import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.registry.handler.IGuiHandler;
-import projectmp.common.registry.handler.StandardGuiHandler;
+import projectmp.common.registry.handler.StockGuiHandler;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.utils.Array;
@@ -28,7 +28,7 @@ public class GuiRegistry {
 	private Array<IGuiHandler> handlers = new Array<>();
 	
 	private void loadResources() {
-		addGuiHandler(new StandardGuiHandler());
+		addGuiHandler(new StockGuiHandler());
 	}
 	
 	public void addGuiHandler(IGuiHandler handler){

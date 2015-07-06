@@ -1,7 +1,7 @@
 package projectmp.common.registry.handler;
 
 
-public class StandardErrorLogWriter implements IErrorLogWriter{
+public class StockErrorLogWriter implements IErrorLogWriter{
 
 	@Override
 	public void appendToStart(StringBuilder builder) {
