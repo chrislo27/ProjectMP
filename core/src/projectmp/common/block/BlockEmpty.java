@@ -18,10 +18,10 @@ public class BlockEmpty extends Block {
 	}
 
 	/**
-	 * overrode so nothing is rendered
+	 * overrode to -1 so it doesn't render
 	 */
 	@Override
-	public void render(WorldRenderer world, int x, int y) {
-
+	public int getRenderingLayer(World world, int x, int y){
+		return -1;
 	}
 }
