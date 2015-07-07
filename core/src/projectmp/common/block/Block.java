@@ -47,6 +47,17 @@ public class Block extends TexturedObject {
 	}
 	
 	/**
+	 * Returns the rendering layer index. 0 is rendered first before entities, 1 is after entities and so on. Less than 0 is not rendered at all.
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public int getRenderingLayer(World world, int x, int y){
+		return 0;
+	}
+	
+	/**
 	 * Returns a RGBA8888 packed int colour. The alpha determines the brightness.
 	 * @param world
 	 * @param x
