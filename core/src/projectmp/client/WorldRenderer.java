@@ -2,10 +2,10 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.block.BlockTallGrass;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.registry.AssetRegistry;
-import projectmp.common.util.AssetMap;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
 import projectmp.common.world.World;
@@ -14,7 +14,6 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.utils.Disposable;
 import com.bitfire.postprocessing.PostProcessor;
 import com.bitfire.postprocessing.effects.Bloom;
 import com.bitfire.postprocessing.effects.CrtMonitor;
-import com.bitfire.postprocessing.effects.Fxaa;
 import com.bitfire.postprocessing.filters.CrtScreen.RgbMode;
 import com.bitfire.utils.ShaderLoader;
 
@@ -98,35 +96,43 @@ public class WorldRenderer implements Disposable {
 		int prey = getCullStartY(0);
 		int postx = getCullEndX(0);
 		int posty = getCullEndY(0);
-		for (int x = prex; x < postx; x++) {
-			for (int y = posty; y >= prey; y--) {
-				world.getBlock(x, y).render(this, x, y);
-			}
-		}
 
-		for (int i = 0; i < world.getNumberOfEntities(); i++) {
-			Entity e = world.getEntityByIndex(i);
+		int layer = 0;
+		int greatestRenderingLevel = 0;
 
-			// culling
-			if (MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT,
-					convertWorldX(e.visualX), convertWorldY(e.visualY, 0), e.sizex
-							* World.tilesizex, e.sizey * World.tilesizey)) {
-//				if (Settings.debug) {
-//					batch.setColor(1, 1, 1, 1f);
-//					Main.fillRect(batch, convertWorldX(e.visualX),
-//							convertWorldY(e.visualY, World.tilesizey * e.sizey), 4, World.tilesizey * e.sizey);
-//					Main.fillRect(batch, convertWorldX(e.visualX + e.sizex - (World.tilepartx * 4)),
-//							convertWorldY(e.visualY, World.tilesizey * e.sizey), 4, World.tilesizey * e.sizey);
-//					Main.fillRect(batch, convertWorldX(e.visualX),
-//							convertWorldY(e.visualY, World.tilesizey * e.sizey), World.tilesizex
-//									* e.sizex, 4);
-//					Main.fillRect(batch, convertWorldX(e.visualX),
-//							convertWorldY(e.visualY - e.sizey + (World.tileparty * 4), World.tilesizey * e.sizey), World.tilesizex
-//									* e.sizex, 4);
-//					batch.setColor(1, 1, 1, 1);
-//				}
-				e.render(this);
+		while (layer == greatestRenderingLevel) {
+			for (int x = prex; x < postx; x++) {
+				for (int y = posty; y >= prey; y--) {
+					int blockLayer = world.getBlock(x, y).getRenderingLayer(world, x, y);
+					
+					// if the block's rendering layer is greater than the greatest so far, replace
+					if (blockLayer > greatestRenderingLevel) {
+						greatestRenderingLevel = blockLayer;
+					}
+					
+					// render if only the rendering layer matches the current one
+					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
+						world.getBlock(x, y).render(this, x, y);
+					}
+				}
 			}
+
+			// render entities right after layer 0
+			if (layer == 0) {
+				for (int i = 0; i < world.getNumberOfEntities(); i++) {
+					Entity e = world.getEntityByIndex(i);
+
+					// culling
+					if (MathHelper.intersects(0, 0, Settings.DEFAULT_WIDTH,
+							Settings.DEFAULT_HEIGHT, convertWorldX(e.visualX),
+							convertWorldY(e.visualY, 0), e.sizex * World.tilesizex, e.sizey
+									* World.tilesizey)) {
+						e.render(this);
+					}
+				}
+			}
+
+			layer++;
 		}
 
 		for (int i = 0; i < world.particles.size; i++) {
