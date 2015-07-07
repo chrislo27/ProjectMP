@@ -97,10 +97,9 @@ public class WorldRenderer implements Disposable {
 		int postx = getCullEndX(0);
 		int posty = getCullEndY(0);
 
-		int layer = 0;
 		int greatestRenderingLevel = 0;
 
-		while (layer == greatestRenderingLevel) {
+		for (int layer = 0; layer <= greatestRenderingLevel; layer++) {
 			for (int x = prex; x < postx; x++) {
 				for (int y = posty; y >= prey; y--) {
 					int blockLayer = world.getBlock(x, y).getRenderingLayer(world, x, y);
@@ -131,8 +130,6 @@ public class WorldRenderer implements Disposable {
 					}
 				}
 			}
-
-			layer++;
 		}
 
 		for (int i = 0; i < world.particles.size; i++) {
