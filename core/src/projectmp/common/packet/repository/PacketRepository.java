@@ -33,6 +33,7 @@ public final class PacketRepository {
 	public PacketSlotChanged slotChanged = new PacketSlotChanged();
 	
 	public PacketBlockActivate blockActivate = new PacketBlockActivate();
+	public PacketItemUse itemUse = new PacketItemUse();
 	
 	private void loadResources() {
 
