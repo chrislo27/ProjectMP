@@ -12,8 +12,8 @@ import com.esotericsoftware.kryonet.Connection;
  */
 public class PacketBlockActivate implements Packet{
 
-	String playerUsername = null;
-	int blockX, blockY;
+	public String playerUsername = null;
+	public int blockX, blockY;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
