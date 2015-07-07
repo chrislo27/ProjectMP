@@ -223,12 +223,9 @@ public class ClientLogic implements Disposable {
 			int x = getCursorBlockX();
 			int y = getCursorBlockY();
 
-			// digging
-			if (Utils.isButtonJustPressed(Buttons.LEFT)) {
+			if (Utils.isButtonJustPressed(Buttons.LEFT)) { // item use
 
-			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // item use
-
-			} else if (Utils.isButtonJustPressed(Buttons.MIDDLE)) { // block trigger
+			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 				// TODO send packet to server
 			}
