@@ -7,8 +7,10 @@ import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.packet.PacketBlockActivate;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketSwapSlot;
+import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
 import projectmp.common.world.World;
@@ -227,7 +229,13 @@ public class ClientLogic implements Disposable {
 
 			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
-				// TODO send packet to server
+				// send packet to server
+				PacketBlockActivate packet = PacketRepository.instance().blockActivate;
+				packet.playerUsername = Main.username;
+				packet.blockX = x;
+				packet.blockY = y;
+				
+				client.sendTCP(packet);
 			}
 		}
 
