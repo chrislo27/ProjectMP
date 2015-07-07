@@ -7,7 +7,7 @@ import com.esotericsoftware.kryo.Kryo;
  * 
  *
  */
-public interface INetworkHandler {
+public interface INetworkRegister {
 	
 	public void registerClasses(Kryo kryo);
 	
