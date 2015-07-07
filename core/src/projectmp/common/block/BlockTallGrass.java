@@ -104,6 +104,11 @@ public class BlockTallGrass extends Block {
 			}
 		}
 	}
+	
+	@Override
+	public int getRenderingLayer(World world, int x, int y){
+		return 1;
+	}
 
 	private static class GrassBoundingBox implements Sizeable {
 
