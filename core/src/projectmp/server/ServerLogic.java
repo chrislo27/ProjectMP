@@ -13,15 +13,11 @@ import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketGuiState;
-import projectmp.common.packet.PacketNewEntity;
-import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
-import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendChunk;
-import projectmp.common.packet.PacketSlotChanged;
-import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.world.ServerWorld;
+import projectmp.server.player.ServerPlayer;
 
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
@@ -37,7 +33,9 @@ public class ServerLogic {
 	public ServerWorld world = null;
 
 	public int maxplayers = 2;
-	
+
+	public Array<ServerPlayer> players = new Array<>();
+
 	public ServerLogic(Main m) {
 		main = m;
 		server = main.server;
@@ -85,7 +83,7 @@ public class ServerLogic {
 
 		if (server.getConnections().length > 0 && world.getNumberOfEntities() > 0) {
 			PacketPositionUpdate positionUpdate = PacketRepository.instance().positionUpdate;
-			
+
 			if (positionUpdate.entityid.length < world.getNumberOfEntities()
 					|| Math.abs(positionUpdate.entityid.length - world.getNumberOfEntities()) >= 32) {
 				positionUpdate.resetTables(world.getNumberOfEntities());
@@ -95,7 +93,7 @@ public class ServerLogic {
 			int iter = 0;
 			for (int i = 0; i < world.getNumberOfEntities(); i++) {
 				Entity e = world.getEntityByIndex(i);
-				
+
 				if (!e.hasMovedLastTick()) continue;
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
@@ -111,6 +109,19 @@ public class ServerLogic {
 		}
 	}
 
+	public void save(String folder) throws IOException {
+		new File(folder).mkdirs();
+		
+		File f = new File(folder + "world.dat");
+		f.createNewFile();
+
+		byte[] worldBytes = WorldNBTIO.encode(world);
+		WorldSavingLoading.saveWorld(WorldNBTIO.encode(world), f);
+		
+		f = new File(folder + "players.dat");
+		f.createNewFile();
+	}
+
 	public void sendEntireWorld(Connection connection) {
 		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16)
 				+ Math.max(1, world.sizey / 16));
@@ -118,7 +129,7 @@ public class ServerLogic {
 		for (int x = 0; x < world.getWidthInChunks(); x++) {
 			for (int y = 0; y < world.getHeightInChunks(); y++) {
 				PacketSendChunk packet = new PacketSendChunk();
-				
+
 				packet.originx = x * Chunk.CHUNK_SIZE;
 				packet.originy = y * Chunk.CHUNK_SIZE;
 
@@ -126,7 +137,8 @@ public class ServerLogic {
 					for (int k = 0; k < Chunk.CHUNK_SIZE; k++) {
 						Chunk currentChunk = world.getChunk(x, y);
 
-						packet.blocks[j][k] = Blocks.instance().getKey(currentChunk.getChunkBlock(j, k));
+						packet.blocks[j][k] = Blocks.instance().getKey(
+								currentChunk.getChunkBlock(j, k));
 						packet.meta[j][k] = currentChunk.getChunkMeta(j, k);
 						packet.tileEntities[j][k] = currentChunk.getChunkTileEntity(j, k);
 					}
@@ -136,7 +148,8 @@ public class ServerLogic {
 			}
 		}
 
-		connection.sendTCP(new PacketBeginChunkTransfer().setPercentage(1.0f / queue.size).setSingleplayer(isSingleplayer));
+		connection.sendTCP(new PacketBeginChunkTransfer().setPercentage(1.0f / queue.size)
+				.setSingleplayer(isSingleplayer));
 
 		connection.addListener(new ChunkQueueSender(queue, connection));
 	}
@@ -189,23 +202,23 @@ public class ServerLogic {
 			world.removeEntity(p.uuid);
 		}
 	}
-	
-	public void sendGuiState(EntityPlayer player, String guiId, int x, int y, boolean shouldOpen){
+
+	public void sendGuiState(EntityPlayer player, String guiId, int x, int y, boolean shouldOpen) {
 		PacketGuiState guiStatePacket = PacketRepository.instance().guiState;
-		
+
 		guiStatePacket.guiId = guiId;
 		guiStatePacket.shouldOpen = shouldOpen;
 		guiStatePacket.x = x;
 		guiStatePacket.y = y;
-		
+
 		server.sendToTCP(getConnectionIDByName(player.username), guiStatePacket);
 	}
-	
-	public void openGui(EntityPlayer player, String guiId, int x, int y){
+
+	public void openGui(EntityPlayer player, String guiId, int x, int y) {
 		sendGuiState(player, guiId, x, y, true);
 	}
-	
-	public void closeGui(EntityPlayer player, String guiId, int x, int y){
+
+	public void closeGui(EntityPlayer player, String guiId, int x, int y) {
 		sendGuiState(player, guiId, x, y, false);
 	}
 
