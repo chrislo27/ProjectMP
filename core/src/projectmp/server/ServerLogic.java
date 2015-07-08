@@ -17,6 +17,7 @@ import projectmp.common.packet.PacketGuiState;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.repository.PacketRepository;
+import projectmp.common.util.FileNameUtils;
 import projectmp.common.world.ServerWorld;
 import projectmp.server.player.ServerPlayer;
 
@@ -108,13 +109,13 @@ public class ServerLogic {
 	public void save(String folder) throws IOException {
 		new File(folder).mkdirs();
 		
-		File f = new File(folder + "world.dat");
+		File f = new File(folder + FileNameUtils.WORLD_FILE_NAME + FileNameUtils.FILE_EXTENSION);
 		f.createNewFile();
 
 		byte[] worldBytes = WorldNBTIO.encodeWorld(world);
 		WorldSavingLoading.saveBytes(WorldNBTIO.encodeWorld(world), f);
 		
-		f = new File(folder + "players.dat");
+		f = new File(folder + FileNameUtils.PLAYER_FILE_NAME + FileNameUtils.FILE_EXTENSION);
 		f.createNewFile();
 		
 		byte[] playerBytes = WorldNBTIO.encodePlayers(players);
