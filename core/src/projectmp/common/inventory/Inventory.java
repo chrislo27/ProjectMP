@@ -33,7 +33,7 @@ public class Inventory implements CanBeSavedToNBT{
 	}
 	
 	public Inventory() {
-
+		
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class Inventory implements CanBeSavedToNBT{
 		this.invY = essential.getInteger("InvY");
 		this.maxCapacity = essential.getInteger("MaxCapacity");
 		
-		items = new ItemStack[maxCapacity];
+		initSlots();
 		
 		List<TagCompound> itemsList = tag.getList("Items", TagCompound.class);
 		for(int i = 0; i < itemsList.size(); i++){
