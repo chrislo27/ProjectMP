@@ -65,12 +65,7 @@ public class ServerLogic {
 				//				}
 
 				try {
-					new File("saves/save0/").mkdirs();
-					File f = new File("saves/save0/world.dat");
-					f.createNewFile();
-
-					byte[] worldBytes = WorldNBTIO.encodeWorld(world);
-					WorldSavingLoading.saveBytes(WorldNBTIO.encodeWorld(world), f);
+					save("saves/save0/");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
