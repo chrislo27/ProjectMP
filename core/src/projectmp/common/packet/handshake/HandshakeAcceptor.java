@@ -1,8 +1,9 @@
 package projectmp.common.packet.handshake;
 
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.server.ServerLogic;
+import projectmp.server.player.ServerPlayer;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -22,6 +23,22 @@ public final class HandshakeAcceptor {
 		// create the new player entity
 		EntityPlayer newPlayer = new EntityPlayer(logic.world, logic.world.sizex / 2, 0);
 		newPlayer.username = username;
+
+		// get or create serverplayer instance
+		ServerPlayer sp = logic.getServerPlayerByName(username);
+		if (sp == null) {
+			// create new instance
+			sp = new ServerPlayer(username);
+			sp.posx = newPlayer.x;
+			sp.posy = newPlayer.y;
+			sp.inventory = new InventoryPlayer();
+		}
+		
+		// update entity
+		newPlayer.positionUpdate(sp.posx, sp.posy);
+		newPlayer.inventory = sp.inventory;
+		
+		// send create packet
 		logic.world.createNewEntity(newPlayer);
 
 		// update the time (for everyone)
