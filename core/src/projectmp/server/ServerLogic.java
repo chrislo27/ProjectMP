@@ -120,6 +120,9 @@ public class ServerLogic {
 		
 		f = new File(folder + "players.dat");
 		f.createNewFile();
+		
+		byte[] playerBytes = WorldNBTIO.encodePlayers(players);
+		WorldSavingLoading.saveBytes(playerBytes, f);
 	}
 
 	public void sendEntireWorld(Connection connection) {
