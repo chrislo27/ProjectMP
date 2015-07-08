@@ -1,9 +1,17 @@
 package projectmp.common.inventory.itemstack;
 
+import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.item.Item;
 import projectmp.common.item.Items;
+import projectmp.common.util.NBTUtils;
 
-public class ItemStack {
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
+import com.evilco.mc.nbt.tag.TagCompound;
+import com.evilco.mc.nbt.tag.TagInteger;
+import com.evilco.mc.nbt.tag.TagString;
+
+public class ItemStack implements CanBeSavedToNBT{
 
 	String item;
 	int quantity = 1;
@@ -68,6 +76,19 @@ public class ItemStack {
 		}
 		
 		return false;
+	}
+
+	@Override
+	public void writeToNBT(TagCompound tag) {
+		tag.setTag(new TagString("Item", item));
+		tag.setTag(new TagInteger("Num", quantity));
+	}
+
+	@Override
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
+			UnexpectedTagTypeException {
+		item = NBTUtils.getStringWithDef(tag, "Item", null);
+		quantity = NBTUtils.getIntWithDef(tag, "Num", 0);
 	}
 
 }
