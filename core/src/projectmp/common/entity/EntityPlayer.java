@@ -18,7 +18,7 @@ import com.evilco.mc.nbt.tag.TagString;
 public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsChunk, Unsaveable {
 
 	public String username = "UNKNOWN PLAYER NAME RAWR";
-	private InventoryPlayer inventory;
+	public InventoryPlayer inventory;
 
 	public EntityPlayer() {
 		super();
