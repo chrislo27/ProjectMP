@@ -69,7 +69,7 @@ public class ServerLogic {
 					f.createNewFile();
 
 					byte[] worldBytes = WorldNBTIO.encode(world);
-					WorldSavingLoading.saveWorld(WorldNBTIO.encode(world), f);
+					WorldSavingLoading.saveBytes(WorldNBTIO.encode(world), f);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -116,7 +116,7 @@ public class ServerLogic {
 		f.createNewFile();
 
 		byte[] worldBytes = WorldNBTIO.encode(world);
-		WorldSavingLoading.saveWorld(WorldNBTIO.encode(world), f);
+		WorldSavingLoading.saveBytes(WorldNBTIO.encode(world), f);
 		
 		f = new File(folder + "players.dat");
 		f.createNewFile();

@@ -8,12 +8,16 @@ import java.io.IOException;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import projectmp.server.player.ServerPlayer;
+
+import com.badlogic.gdx.utils.Array;
+
 public final class WorldSavingLoading {
 
 	private WorldSavingLoading() {
 	}
 
-	public static void saveWorld(byte[] world, File location) throws IOException {
+	public static void saveBytes(byte[] world, File location) throws IOException {
 		FileOutputStream fos = new FileOutputStream(location);
 		GZIPOutputStream gzipstream = new GZIPOutputStream(fos);
 
@@ -23,7 +27,7 @@ public final class WorldSavingLoading {
 		fos.close();
 	}
 
-	public static byte[] loadWorld(File location) throws IOException {
+	public static byte[] loadBytes(File location) throws IOException {
 		FileInputStream fis = new FileInputStream(location);
 		GZIPInputStream gzipstream = new GZIPInputStream(fis);
 
