@@ -28,7 +28,7 @@ public final class WorldNBTIO {
 
 	public static final int SAVE_FORMAT_VERSION = 1;
 
-	public static byte[] encode(World world) throws IOException {
+	public static byte[] encodeWorld(World world) throws IOException {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 		NbtOutputStream nbtStream = new NbtOutputStream(byteStream);
 
@@ -82,7 +82,7 @@ public final class WorldNBTIO {
 		return byteStream.toByteArray();
 	}
 
-	public static World decode(World world, byte[] bytes) throws IOException, TagNotFoundException,
+	public static World decodeWorld(World world, byte[] bytes) throws IOException, TagNotFoundException,
 			UnexpectedTagTypeException {
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 		NbtInputStream nbtStream = new NbtInputStream(byteStream);
