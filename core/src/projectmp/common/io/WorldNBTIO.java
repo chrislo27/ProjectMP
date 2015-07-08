@@ -10,7 +10,9 @@ import projectmp.common.chunk.BlockIDMap;
 import projectmp.common.entity.Entity;
 import projectmp.common.registry.EntityRegistry;
 import projectmp.common.world.World;
+import projectmp.server.player.ServerPlayer;
 
+import com.badlogic.gdx.utils.Array;
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.stream.NbtInputStream;
@@ -23,10 +25,17 @@ import com.evilco.mc.nbt.tag.TagString;
 
 public final class WorldNBTIO {
 
+	public static final int SAVE_FORMAT_VERSION = 1;
+
 	private WorldNBTIO() {
 	}
 
-	public static final int SAVE_FORMAT_VERSION = 1;
+	private static void sendToErrorScreen(Main main, String msg, Throwable ex) {
+		Main.logger.warn(msg, ex);
+
+		Main.ERRORMSG.setMessage(msg + "\n" + ex.toString());
+		main.setScreen(Main.ERRORMSG);
+	}
 
 	public static byte[] encodeWorld(World world) throws IOException {
 		ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
@@ -82,8 +91,8 @@ public final class WorldNBTIO {
 		return byteStream.toByteArray();
 	}
 
-	public static World decodeWorld(World world, byte[] bytes) throws IOException, TagNotFoundException,
-			UnexpectedTagTypeException {
+	public static World decodeWorld(World world, byte[] bytes) throws IOException,
+			TagNotFoundException, UnexpectedTagTypeException {
 		ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
 		NbtInputStream nbtStream = new NbtInputStream(byteStream);
 		TagCompound tag = null;
@@ -182,11 +191,62 @@ public final class WorldNBTIO {
 		return world;
 	}
 
-	private static void sendToErrorScreen(Main main, String msg, Throwable ex) {
-		Main.logger.warn(msg, ex);
+	public static byte[] encodePlayers(Array<ServerPlayer> players) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		NbtOutputStream nbtStream = new NbtOutputStream(baos);
 
-		Main.ERRORMSG.setMessage(msg + "\n" + ex.toString());
-		main.setScreen(Main.ERRORMSG);
+		TagCompound compound = new TagCompound("Players");
+
+		compound.setTag(new TagInteger("ArrayLength", players.size));
+
+		TagList playerTagList = new TagList("PlayersList");
+		for (ServerPlayer player : players) {
+			TagCompound own = new TagCompound(player.username);
+
+			player.writeToNBT(own);
+
+			playerTagList.addTag(own);
+		}
+
+		compound.setTag(playerTagList);
+		nbtStream.write(compound);
+		nbtStream.close();
+
+		return baos.toByteArray();
+	}
+
+	public static Array<ServerPlayer> decodePlayers(Array<ServerPlayer> players, byte[] bytes,
+			Main main) throws IOException {
+		ByteArrayInputStream byteStream = new ByteArrayInputStream(bytes);
+		NbtInputStream nbtStream = new NbtInputStream(byteStream);
+		TagCompound tag = null;
+		int arrayLength = -1;
+
+		try {
+			tag = (TagCompound) nbtStream.readTag();
+
+			arrayLength = tag.getInteger("ArrayLength");
+		} catch (UnexpectedTagTypeException | TagNotFoundException ex) {
+			sendToErrorScreen(main, "An error occured while reading tags from world file", ex);
+			nbtStream.close();
+			return players;
+		}
+
+		players.clear();
+
+		List<TagCompound> playerList = tag.getList("PlayersList", TagCompound.class);
+		for (int i = 0; i < arrayLength; i++) {
+			TagCompound t = playerList.get(i);
+
+			ServerPlayer p = new ServerPlayer(null);
+			p.readFromNBT(t);
+
+			players.add(p);
+		}
+
+		nbtStream.close();
+
+		return players;
 	}
 
 }
