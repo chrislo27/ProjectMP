@@ -26,14 +26,15 @@ public class Inventory implements CanBeSavedToNBT{
 	public int invX = 0;
 	public int invY = 0;
 
-	public Inventory(String id, int x, int y){
+	public Inventory(int maxCap, String id, int x, int y){
+		setMaxCapacity(maxCap);
 		invId = id;
 		invX = x;
 		invY = y;
 	}
 	
-	public Inventory() {
-		
+	public Inventory(int maxCapacity) {
+		this(maxCapacity, null, 0, 0);
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class Inventory implements CanBeSavedToNBT{
 	 */
 	public Inventory setMaxCapacity(int cap) {
 		maxCapacity = cap;
-		items = new ItemStack[cap];
+		initSlots();
 
 		return this;
 	}

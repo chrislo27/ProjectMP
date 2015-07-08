@@ -7,12 +7,11 @@ import projectmp.common.item.ItemChessPiece;
 public class InventoryChessboard extends Inventory{
 
 	public InventoryChessboard(){
-		super();
+		super(64 + 32);
 	}
 	
 	public InventoryChessboard(String id, int x, int y){
-		super(id, x, y);
-		setMaxCapacity(64 + 32); // chessboard + captured spaces
+		super(64 + 32, id, x, y);
 		initSlots();
 	}
 	

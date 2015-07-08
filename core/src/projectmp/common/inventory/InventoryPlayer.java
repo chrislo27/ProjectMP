@@ -8,14 +8,11 @@ public class InventoryPlayer extends Inventory{
 	public static final int MAX_INV_CAPACITY = 36;
 	
 	public InventoryPlayer(){
-		super();
+		super(MAX_INV_CAPACITY);
 	}
 	
 	public InventoryPlayer(String id, int x, int y){
-		super(id, x, y);
-		
-		setMaxCapacity(MAX_INV_CAPACITY);
-		initSlots();
+		super(MAX_INV_CAPACITY, id, x, y);
 	}
 	
 	@Override
