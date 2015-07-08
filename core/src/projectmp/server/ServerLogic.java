@@ -8,6 +8,7 @@ import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
@@ -202,8 +203,48 @@ public class ServerLogic {
 		EntityPlayer p = getPlayerByName(name);
 
 		if (p != null) {
+			updatePlayerData(p);
 			world.removeEntity(p.uuid);
 		}
+	}
+	
+	/**
+	 * Used to update the ServerPlayer instance with entity data before disconnecting
+	 * <br>
+	 * This method actually deletes the existing instance and creates a new one. The method that creates the new instance updates the fields correctly.
+	 * @param p
+	 */
+	private synchronized void updatePlayerData(EntityPlayer p){
+		for(int i = players.size - 1; i >= 0; i--){
+			if(players.get(i).username.equals(p.username)){
+				players.removeIndex(i);
+			}
+		}
+		
+		players.add(createNewServerPlayer(p));
+	}
+	
+	/**
+	 * Returns a brand new server player instance
+	 * @param p
+	 * @return
+	 */
+	public ServerPlayer createNewServerPlayer(EntityPlayer p){
+		ServerPlayer sp = new ServerPlayer(p.username);
+		
+		sp.posx = p.x;
+		sp.posy = p.y;
+		sp.inventory = new InventoryPlayer();
+		
+		return sp;
+	}
+	
+	public ServerPlayer getServerPlayerByName(String username){
+		for(ServerPlayer p : players){
+			if(p.username.equals(username)) return p;
+		}
+		
+		return null;
 	}
 
 	public void sendGuiState(EntityPlayer player, String guiId, int x, int y, boolean shouldOpen) {

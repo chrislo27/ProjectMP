@@ -28,10 +28,7 @@ public final class HandshakeAcceptor {
 		ServerPlayer sp = logic.getServerPlayerByName(username);
 		if (sp == null) {
 			// create new instance
-			sp = new ServerPlayer(username);
-			sp.posx = newPlayer.x;
-			sp.posy = newPlayer.y;
-			sp.inventory = new InventoryPlayer();
+			sp = logic.createNewServerPlayer(newPlayer);
 		}
 		
 		// update entity
