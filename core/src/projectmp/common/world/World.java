@@ -192,7 +192,6 @@ public class World {
 			}
 		}
 		
-		Main.logger.debug("uuid: " + id);
 		return id;
 	}
 
