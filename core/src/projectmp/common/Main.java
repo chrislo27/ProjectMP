@@ -26,16 +26,13 @@ import projectmp.client.MainMenuScreen;
 import projectmp.client.MessageScreen;
 import projectmp.client.MiscLoadingScreen;
 import projectmp.client.Updateable;
+import projectmp.client.WorldGeneratingScreen;
 import projectmp.client.WorldGettingScreen;
 import projectmp.client.settingsscreen.AudioSettingsScreen;
 import projectmp.client.settingsscreen.GeneralSettingsScreen;
 import projectmp.client.settingsscreen.GraphicsSettingsScreen;
 import projectmp.client.transition.Transition;
 import projectmp.client.transition.TransitionScreen;
-import projectmp.common.block.Block;
-import projectmp.common.block.Blocks;
-import projectmp.common.item.Item;
-import projectmp.common.item.Items;
 import projectmp.common.registry.AssetRegistry;
 import projectmp.common.registry.ErrorLogRegistry;
 import projectmp.common.registry.NetworkingRegistry;
@@ -120,6 +117,7 @@ public class Main extends Game implements Consumer {
 	public static DirectConnectScreen DIRECTCONNECT = null;
 	public static AudioSettingsScreen AUDIOSETTINGS = null;
 	public static GraphicsSettingsScreen GRAPHICSSETTINGS = null;
+	public static WorldGeneratingScreen WORLDGENERATING = null;
 
 	public static Texture filltex;
 	public static TextureRegion filltexRegion;
@@ -301,6 +299,7 @@ public class Main extends Game implements Consumer {
 		DIRECTCONNECT = new DirectConnectScreen(this);
 		AUDIOSETTINGS = new AudioSettingsScreen(this);
 		GRAPHICSSETTINGS = new GraphicsSettingsScreen(this);
+		WORLDGENERATING = new WorldGeneratingScreen(this);
 	}
 
 	@Override
@@ -338,6 +337,7 @@ public class Main extends Game implements Consumer {
 		DIRECTCONNECT.dispose();
 		AUDIOSETTINGS.dispose();
 		GRAPHICSSETTINGS.dispose();
+		WORLDGENERATING.dispose();
 	}
 
 	private void preRender() {
