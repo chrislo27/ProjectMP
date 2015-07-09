@@ -120,7 +120,7 @@ public class World {
 		time.tickUpdate();
 
 		loadChunksNearLoaders();
-		
+
 		// tick update loaded chunks
 		for (int x = 0; x < getWidthInChunks(); x++) {
 			for (int y = 0; y < getHeightInChunks(); y++) {
@@ -185,13 +185,13 @@ public class World {
 
 	public long getNewUniqueUUID() {
 		long id = MathUtils.random(Long.MAX_VALUE) * MathUtils.randomSign();
-		
+
 		for (int i = 0; i < entities.size; i++) {
 			if (entities.get(i).uuid == id) {
 				return getNewUniqueUUID();
 			}
 		}
-		
+
 		return id;
 	}
 
@@ -214,9 +214,8 @@ public class World {
 			PacketNewEntity packet = PacketRepository.instance().newEntity;
 			packet.e = e;
 			main.server.sendToAllTCP(packet);
-		} else {
-			entities.add(e);
 		}
+		entities.add(e);
 	}
 
 	public void removeEntity(long uuid) {
@@ -289,8 +288,7 @@ public class World {
 				setBlock(Blocks.instance().getBlock("dirt"), i, y);
 			}
 			setBlock(Blocks.instance().getBlock("grass"), i, actualHeight + (sizey / 16));
-			setBlock(Blocks.instance().getBlock("tall_grass"), i,
-					actualHeight + (sizey / 16) - 1);
+			setBlock(Blocks.instance().getBlock("tall_grass"), i, actualHeight + (sizey / 16) - 1);
 
 			for (int y = endOfDirt; y < sizey; y++) {
 				setBlock(Blocks.instance().getBlock("stone"), i, y);
@@ -408,7 +406,8 @@ public class World {
 	public TileEntity getTileEntity(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return null;
 
-		return getChunkBlockIsIn(x, y).getChunkTileEntity(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		return getChunkBlockIsIn(x, y).getChunkTileEntity(x % Chunk.CHUNK_SIZE,
+				y % Chunk.CHUNK_SIZE);
 	}
 
 	public void setBlock(Block b, int x, int y) {

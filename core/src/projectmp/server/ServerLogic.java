@@ -205,13 +205,12 @@ public class ServerLogic {
 	 */
 	protected void removePlayer(String name) {
 		EntityPlayer p = getPlayerByName(name);
-
+		
 		if (p != null) {
 			updatePlayerData(p);
 			world.removeEntity(p.uuid);
-			
 			try {
-				save("save0/");
+				save(FileNameUtils.DEFAULT_SAVE_FOLDER + "save0/");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -240,11 +239,10 @@ public class ServerLogic {
 	 * @return
 	 */
 	public ServerPlayer createNewServerPlayer(EntityPlayer p){
-		ServerPlayer sp = new ServerPlayer(p.username);
+		ServerPlayer sp = new ServerPlayer(p.username, p.uuid);
 		
 		sp.posx = p.x;
 		sp.posy = p.y;
-		sp.setUUID(p.uuid);
 		
 		return sp;
 	}

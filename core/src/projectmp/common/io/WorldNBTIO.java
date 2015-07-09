@@ -238,7 +238,7 @@ public final class WorldNBTIO {
 		for (int i = 0; i < arrayLength; i++) {
 			TagCompound t = playerList.get(i);
 
-			ServerPlayer p = new ServerPlayer(null);
+			ServerPlayer p = new ServerPlayer(null, 0);
 			p.readFromNBT(t);
 
 			players.add(p);

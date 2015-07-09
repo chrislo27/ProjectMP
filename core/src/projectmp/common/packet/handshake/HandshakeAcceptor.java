@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.FileNameUtils;
+import projectmp.common.util.Utils;
 import projectmp.server.ServerLogic;
 import projectmp.server.player.ServerPlayer;
 
@@ -31,12 +32,11 @@ public final class HandshakeAcceptor {
 		if (sp == null) {
 			// create new instance
 			sp = logic.createNewServerPlayer(newPlayer);
+		}else{
+			newPlayer.uuid = sp.getUUID();
 		}
-		logic.updatePlayerData(newPlayer);
-		
-		// update entity
-		newPlayer.positionUpdate(sp.posx, sp.posy);
 		newPlayer.inventory = sp.inventory;
+		newPlayer.positionUpdate(sp.posx, sp.posy);
 		
 		// send create packet
 		logic.world.createNewEntity(newPlayer);

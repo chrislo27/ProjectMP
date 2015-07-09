@@ -10,6 +10,7 @@ import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
 import com.evilco.mc.nbt.tag.TagFloat;
+import com.evilco.mc.nbt.tag.TagLong;
 import com.evilco.mc.nbt.tag.TagString;
 
 /**
@@ -23,23 +24,23 @@ public class ServerPlayer implements CanBeSavedToNBT{
 	public InventoryPlayer inventory = null;
 	public float posx;
 	public float posy;
+	private long uuid;
 	
 	@NotWrittenToNBT
 	private ItemStack currentUsingItem = null;
 	
-	public ServerPlayer(String username){
+	public ServerPlayer(String username, long uuid){
 		this.username = username;
+		setUUID(uuid);
 	}
 	
-	/**
-	 * Re-inits the inventory with the correct UUID.
-	 * @param uuid
-	 * @return
-	 */
-	public ServerPlayer setUUID(long uuid){
+	public void setUUID(long u){
+		uuid = u;
 		inventory = new InventoryPlayer(uuid);
-		
-		return this;
+	}
+	
+	public long getUUID(){
+		return uuid;
 	}
 
 	public void tickUpdate(ServerLogic logic){
@@ -77,6 +78,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		tag.setTag(new TagString("Username", username));
 		tag.setTag(new TagFloat("PosX", posx));
 		tag.setTag(new TagFloat("PosY", posy));
+		tag.setTag(new TagLong("UUID", uuid));
 	}
 
 	@Override
@@ -87,6 +89,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		
 		posx = tag.getFloat("PosX");
 		posy = tag.getFloat("PosY");
+		uuid = tag.getLong("UUID");
 	}
 	
 }
