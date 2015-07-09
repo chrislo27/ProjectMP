@@ -85,14 +85,14 @@ public class Block extends TexturedObject {
 		return this;
 	}
 
-	public void render(WorldRenderer renderer, int x, int y) {
-		renderIndexAt(renderer, x, y, getCurrentRenderingIndex(renderer.world, x, y));
+	public void render(WorldRenderer renderer, int x, int y, float width, float height) {
+		renderIndexAt(renderer, x, y, width, height, getCurrentRenderingIndex(renderer.world, x, y));
 	}
 
-	protected void renderIndexAt(WorldRenderer renderer, int x, int y, int renderingIndex) {
+	protected void renderIndexAt(WorldRenderer renderer, int x, int y, float width, float height, int renderingIndex) {
 		if (getAnimation(renderingIndex) != null) {
 			renderer.batch.draw(getAnimation(renderingIndex).getCurrentFrame(),
-					renderer.convertWorldX(x), renderer.convertWorldY(y, World.tilesizey));
+					renderer.convertWorldX(x), renderer.convertWorldY(y, height), width, height);
 		}
 	}
 

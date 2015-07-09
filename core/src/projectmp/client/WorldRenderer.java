@@ -111,7 +111,7 @@ public class WorldRenderer implements Disposable {
 					
 					// render if only the rendering layer matches the current one
 					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
-						world.getBlock(x, y).render(this, x, y);
+						world.getBlock(x, y).render(this, x, y, World.tilesizex, World.tilesizey);
 					}
 				}
 			}

@@ -16,10 +16,10 @@ public class BlockFoliage extends Block {
 	}
 
 	@Override
-	public void render(WorldRenderer renderer, int x, int y) {
+	public void render(WorldRenderer renderer, int x, int y, float width, float height) {
 		Color c = renderer.batch.getColor();
 		renderer.batch.setColor(0f, 175f / 255f, 17f / 255f, 1);
-		super.render(renderer, x, y);
+		super.render(renderer, x, y, width, height);
 		renderer.batch.setColor(c);
 	}
 

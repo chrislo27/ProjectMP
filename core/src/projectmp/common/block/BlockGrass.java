@@ -16,9 +16,9 @@ public class BlockGrass extends BlockFoliage {
 	}
 
 	@Override
-	public void render(WorldRenderer renderer, int x, int y) {
-		this.renderIndexAt(renderer, x, y, getCurrentRenderingIndex(renderer.world, x, y) + 1);
-		super.render(renderer, x, y);
+	public void render(WorldRenderer renderer, int x, int y, float width, float height) {
+		this.renderIndexAt(renderer, x, y, width, height, getCurrentRenderingIndex(renderer.world, x, y) + 1);
+		super.render(renderer, x, y, width, height);
 	}
 
 }

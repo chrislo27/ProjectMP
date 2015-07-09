@@ -22,7 +22,7 @@ public class BlockTallGrass extends Block {
 	private GrassBoundingBox bounds = new GrassBoundingBox();
 
 	@Override
-	public void render(WorldRenderer renderer, int x, int y) {
+	public void render(WorldRenderer renderer, int x, int y, float width, float height) {
 		float c = renderer.batch.getColor().toFloatBits();
 		TextureRegion region = getAnimation(getCurrentRenderingIndex(renderer.world, 0, 0))
 				.getCurrentFrame();
@@ -36,7 +36,7 @@ public class BlockTallGrass extends Block {
 		
 		// the actual "waviness" of it, there's an x-axis offset on the time
 		float wave = (MathHelper.clampNumberFromTime(System.currentTimeMillis() - (x * 250), windSpeed) - 0.25f)
-				* World.tilesizex;
+				* width;
 		
 		// when entities run into it
 		float offsetx = wave + (renderer.world.getMeta(x, y));
@@ -45,28 +45,28 @@ public class BlockTallGrass extends Block {
 
 		// bottom left
 		vertices[idx++] = renderer.convertWorldX(x);
-		vertices[idx++] = renderer.convertWorldY(y, World.tilesizey);
+		vertices[idx++] = renderer.convertWorldY(y, height);
 		vertices[idx++] = renderer.batch.getColor().toFloatBits();
 		vertices[idx++] = region.getU();
 		vertices[idx++] = region.getV2();
 
 		// top left
 		vertices[idx++] = renderer.convertWorldX(x) + offsetx;
-		vertices[idx++] = renderer.convertWorldY(y, World.tilesizey) + region.getRegionHeight();
+		vertices[idx++] = renderer.convertWorldY(y, height) + height;
 		vertices[idx++] = renderer.batch.getColor().toFloatBits();
 		vertices[idx++] = region.getU();
 		vertices[idx++] = region.getV();
 
 		// top right
-		vertices[idx++] = renderer.convertWorldX(x) + offsetx + region.getRegionWidth();
-		vertices[idx++] = renderer.convertWorldY(y, World.tilesizey) + region.getRegionHeight();
+		vertices[idx++] = renderer.convertWorldX(x) + offsetx + width;
+		vertices[idx++] = renderer.convertWorldY(y, height) + height;
 		vertices[idx++] = renderer.batch.getColor().toFloatBits();
 		vertices[idx++] = region.getU2();
 		vertices[idx++] = region.getV();
 
 		// bottom right
-		vertices[idx++] = renderer.convertWorldX(x) + region.getRegionWidth();
-		vertices[idx++] = renderer.convertWorldY(y, World.tilesizey);
+		vertices[idx++] = renderer.convertWorldX(x) + width;
+		vertices[idx++] = renderer.convertWorldY(y, height);
 		vertices[idx++] = renderer.batch.getColor().toFloatBits();
 		vertices[idx++] = region.getU2();
 		vertices[idx++] = region.getV2();
