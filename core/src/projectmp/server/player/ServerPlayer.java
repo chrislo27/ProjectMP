@@ -31,6 +31,11 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		this.username = username;
 	}
 	
+	/**
+	 * Re-inits the inventory with the correct UUID.
+	 * @param uuid
+	 * @return
+	 */
 	public ServerPlayer setUUID(long uuid){
 		inventory = new InventoryPlayer(uuid);
 		
