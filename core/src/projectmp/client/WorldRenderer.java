@@ -2,7 +2,6 @@ package projectmp.client;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
-import projectmp.common.block.BlockTallGrass;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.registry.AssetRegistry;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
@@ -103,15 +103,18 @@ public class WorldRenderer implements Disposable {
 			for (int x = prex; x < postx; x++) {
 				for (int y = posty; y >= prey; y--) {
 					int blockLayer = world.getBlock(x, y).getRenderingLayer(world, x, y);
-					
+
 					// if the block's rendering layer is greater than the greatest so far, replace
 					if (blockLayer > greatestRenderingLevel) {
 						greatestRenderingLevel = blockLayer;
 					}
-					
+
 					// render if only the rendering layer matches the current one
 					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
-						world.getBlock(x, y).render(this, x, y, World.tilesizex, World.tilesizey);
+						world.getBlock(x, y).renderIndexAt(batch, main, world, convertWorldX(x),
+								convertWorldY(y, World.tilesizex), World.tilesizex,
+								World.tilesizey,
+								world.getBlock(x, y).getCurrentRenderingIndex(world, x, y), x, y);
 					}
 				}
 			}
@@ -277,6 +280,32 @@ public class WorldRenderer implements Disposable {
 		lightingBuffer.dispose();
 
 		postProcessor.dispose();
+	}
+
+	public static void renderEntireWorld(World world, Batch batch, float posx, float posy,
+			float width, float height) {
+		if (world == null) return;
+
+		int greatestRenderingLevel = 0;
+
+		for (int layer = 0; layer <= greatestRenderingLevel; layer++) {
+			for (int x = 0; x < world.sizex; x++) {
+				for (int y = world.sizey - 1; y >= 0; y--) {
+					int blockLayer = world.getBlock(x, y).getRenderingLayer(world, x, y);
+
+					// if the block's rendering layer is greater than the greatest so far, replace
+					if (blockLayer > greatestRenderingLevel) {
+						greatestRenderingLevel = blockLayer;
+					}
+
+					// render if only the rendering layer matches the current one
+					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
+						//world.getBlock(x, y).renderIndexAt(batch, , width, height, renderingIndex);
+					}
+				}
+			}
+		}
+
 	}
 
 }

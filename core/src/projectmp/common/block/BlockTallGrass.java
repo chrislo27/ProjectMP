@@ -12,10 +12,15 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 
-public class BlockTallGrass extends Block {
+public class BlockTallGrass extends BlockFoliage {
 
 	public BlockTallGrass(String identifier) {
 		super(identifier);
 	}
 
+	@Override
+	public int getRenderingLayer(World world, int x, int y){
+		return 1;
+	}
+	
 }

@@ -1,7 +1,7 @@
 package projectmp.common.block;
 
-import projectmp.client.WorldRenderer;
 import projectmp.client.animation.Animation;
+import projectmp.common.Main;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
@@ -86,13 +86,8 @@ public class Block extends TexturedObject {
 		return this;
 	}
 
-	public void render(WorldRenderer renderer, int x, int y, float width, float height) {
-		renderIndexAt(renderer.batch, renderer.convertWorldX(x), renderer.convertWorldY(y, height),
-				width, height, getCurrentRenderingIndex(renderer.world, x, y));
-	}
-
-	public void renderIndexAt(Batch batch, float x, float y, float width, float height,
-			int renderingIndex) {
+	public void renderIndexAt(Batch batch, Main main, World world, float x, float y, float width, float height,
+			int renderingIndex, int blockX, int blockY) {
 		if (getAnimation(renderingIndex) != null) {
 			batch.draw(getAnimation(renderingIndex).getCurrentFrame(), x, y, width, height);
 		}
@@ -120,7 +115,7 @@ public class Block extends TexturedObject {
 	 * @param y
 	 * @return
 	 */
-	protected int getCurrentRenderingIndex(World world, int x, int y) {
+	public int getCurrentRenderingIndex(World world, int x, int y) {
 		return 0;
 	}
 
