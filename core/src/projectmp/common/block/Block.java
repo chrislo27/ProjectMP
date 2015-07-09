@@ -10,6 +10,7 @@ import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
 
 public class Block extends TexturedObject {
 
@@ -18,7 +19,7 @@ public class Block extends TexturedObject {
 
 	int collision = BlockFaces.NONE;
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
-	
+
 	protected String unlocalizedName = "unnamed";
 
 	public Block(String unlocalName) {
@@ -35,17 +36,17 @@ public class Block extends TexturedObject {
 	public void tickUpdate(World world, int x, int y) {
 
 	}
-	
+
 	/**
 	 * Triggered when the player clicks on it (right click; lc is for item use). This method is triggered on both server and client.
 	 * @param world
 	 * @param x
 	 * @param y
 	 */
-	public void onActivate(World world, int x, int y, EntityPlayer player){
-		
+	public void onActivate(World world, int x, int y, EntityPlayer player) {
+
 	}
-	
+
 	/**
 	 * Returns the rendering layer index. 0 is rendered first before entities, 1 is after entities and so on. Less than 0 is not rendered at all.
 	 * @param world
@@ -53,10 +54,10 @@ public class Block extends TexturedObject {
 	 * @param y
 	 * @return
 	 */
-	public int getRenderingLayer(World world, int x, int y){
+	public int getRenderingLayer(World world, int x, int y) {
 		return 0;
 	}
-	
+
 	/**
 	 * Returns a RGBA8888 packed int colour. The alpha determines the brightness.
 	 * @param world
@@ -64,7 +65,7 @@ public class Block extends TexturedObject {
 	 * @param y
 	 * @return
 	 */
-	public int getLightEmitted(World world, int x, int y){
+	public int getLightEmitted(World world, int x, int y) {
 		return Color.rgba8888(0, 0, 0, 0);
 	}
 
@@ -86,28 +87,29 @@ public class Block extends TexturedObject {
 	}
 
 	public void render(WorldRenderer renderer, int x, int y, float width, float height) {
-		renderIndexAt(renderer, x, y, width, height, getCurrentRenderingIndex(renderer.world, x, y));
+		renderIndexAt(renderer.batch, renderer.convertWorldX(x), renderer.convertWorldY(y, height),
+				width, height, getCurrentRenderingIndex(renderer.world, x, y));
 	}
 
-	protected void renderIndexAt(WorldRenderer renderer, int x, int y, float width, float height, int renderingIndex) {
+	public void renderIndexAt(Batch batch, float x, float y, float width, float height,
+			int renderingIndex) {
 		if (getAnimation(renderingIndex) != null) {
-			renderer.batch.draw(getAnimation(renderingIndex).getCurrentFrame(),
-					renderer.convertWorldX(x), renderer.convertWorldY(y, height), width, height);
+			batch.draw(getAnimation(renderingIndex).getCurrentFrame(), x, y, width, height);
 		}
 	}
 
 	@Override
 	public Block addAnimations(Animation... args) {
 		super.addAnimations(args);
-		
+
 		return this;
 	}
-	
-	public String getUnlocalizedName(){
+
+	public String getUnlocalizedName() {
 		return unlocalizedName;
 	}
-	
-	public String getLocalizedName(ItemStack stack){
+
+	public String getLocalizedName(ItemStack stack) {
 		return Translator.instance().getMsg("block." + getUnlocalizedName() + ".name");
 	}
 
