@@ -7,11 +7,11 @@ import projectmp.common.item.ItemChessPiece;
 public class InventoryChessboard extends Inventory{
 
 	public InventoryChessboard(){
-		super(64 + 32);
+		super();
 	}
 	
-	public InventoryChessboard(String id, int x, int y){
-		super(64 + 32, id, x, y);
+	public InventoryChessboard(int x, int y){
+		super(64 + 32, "chessboard", x, y);
 		initSlots();
 	}
 	

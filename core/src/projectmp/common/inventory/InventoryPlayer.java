@@ -1,6 +1,7 @@
 package projectmp.common.inventory;
 
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.util.Utils;
 
 
 public class InventoryPlayer extends Inventory{
@@ -8,11 +9,11 @@ public class InventoryPlayer extends Inventory{
 	public static final int MAX_INV_CAPACITY = 36;
 	
 	public InventoryPlayer(){
-		super(MAX_INV_CAPACITY);
+		super();
 	}
 	
-	public InventoryPlayer(String id, int x, int y){
-		super(MAX_INV_CAPACITY, id, x, y);
+	public InventoryPlayer(long uuid){
+		super(MAX_INV_CAPACITY, "playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
 	}
 	
 	@Override

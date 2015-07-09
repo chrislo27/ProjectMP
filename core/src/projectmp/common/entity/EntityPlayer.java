@@ -36,7 +36,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 		this.sizey = 2f - (3 * World.tileparty);
 		this.hasEntityCollision = true;
 		
-		inventory = new InventoryPlayer("playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
+		inventory = new InventoryPlayer(uuid);
 	}
 
 	@Override

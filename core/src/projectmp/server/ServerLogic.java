@@ -234,7 +234,7 @@ public class ServerLogic {
 		
 		sp.posx = p.x;
 		sp.posy = p.y;
-		sp.inventory = new InventoryPlayer();
+		sp.setUUID(p.uuid);
 		
 		return sp;
 	}

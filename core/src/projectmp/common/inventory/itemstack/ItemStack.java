@@ -80,7 +80,7 @@ public class ItemStack implements CanBeSavedToNBT{
 
 	@Override
 	public void writeToNBT(TagCompound tag) {
-		tag.setTag(new TagString("Item", item));
+		tag.setTag(new TagString("Item", (item == null ? "" : item)));
 		tag.setTag(new TagInteger("Num", quantity));
 	}
 
@@ -89,6 +89,8 @@ public class ItemStack implements CanBeSavedToNBT{
 			UnexpectedTagTypeException {
 		item = NBTUtils.getStringWithDef(tag, "Item", null);
 		quantity = NBTUtils.getIntWithDef(tag, "Num", 0);
+		
+		if(item == "") item = null;
 	}
 
 }

@@ -2,6 +2,7 @@ package projectmp.common.inventory;
 
 import java.util.List;
 
+import projectmp.common.Main;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.io.CanBeSavedToNBT;
 
@@ -33,8 +34,8 @@ public class Inventory implements CanBeSavedToNBT{
 		invY = y;
 	}
 	
-	public Inventory(int maxCapacity) {
-		this(maxCapacity, null, 0, 0);
+	public Inventory() {
+		
 	}
 
 	/**
@@ -79,8 +80,9 @@ public class Inventory implements CanBeSavedToNBT{
 		TagList itemsList = new TagList("Items");
 		for(int i = 0; i < maxCapacity; i++){
 			TagCompound itemstack = new TagCompound("Item" + i);
+			itemstack.setTag(new TagInteger("SlotNum", i));
 			getSlot(i).writeToNBT(itemstack);
-			itemsList.setTag(i, itemstack);
+			itemsList.addTag(itemstack);
 		}
 		tag.setTag(itemsList);
 	}
@@ -101,7 +103,7 @@ public class Inventory implements CanBeSavedToNBT{
 			ItemStack is = new ItemStack(null, 0);
 			is.readFromNBT(itemsList.get(i));
 					
-			setSlot(i, is);
+			setSlot(itemsList.get(i).getInteger("SlotNum"), is);
 		}
 	}
 

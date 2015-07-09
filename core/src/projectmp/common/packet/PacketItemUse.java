@@ -28,6 +28,9 @@ public class PacketItemUse implements Packet{
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
+		if(stack == null) return;
+		
+		
 	}
 
 	@Override
