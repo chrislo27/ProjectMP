@@ -103,6 +103,7 @@ public class TextBox extends Button {
 	public boolean onKeyTyped(char key) {
 		if (!clicked) return false;
 		if (Character.isSurrogate(key)) return false;
+		if (key == '\n' || key == '\r') return false;
 
 		if ((allowLetters && Character.isLetter(key)) || (allowDigits && Character.isDigit(key))
 				|| (allowSpaces && Character.isWhitespace(key)) || allowSpecial || key == '.'
