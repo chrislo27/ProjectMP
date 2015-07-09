@@ -199,12 +199,22 @@ public class ServerLogic {
 		return null;
 	}
 
+	/**
+	 * Updates the ServerPlayer, removes the entity, and saves the world.
+	 * @param name
+	 */
 	protected void removePlayer(String name) {
 		EntityPlayer p = getPlayerByName(name);
 
 		if (p != null) {
 			updatePlayerData(p);
 			world.removeEntity(p.uuid);
+			
+			try {
+				save("save0/");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
