@@ -78,6 +78,10 @@ public class ServerLogic {
 	public void tickUpdate() {
 		world.tickUpdate();
 
+		for(ServerPlayer sp : players){
+			sp.tickUpdate(this);
+		}
+		
 		if (server.getConnections().length > 0 && world.getNumberOfEntities() > 0) {
 			PacketPositionUpdate positionUpdate = PacketRepository.instance().positionUpdate;
 
