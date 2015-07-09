@@ -7,8 +7,8 @@ import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
-import projectmp.common.util.sidedictation.Side;
-import projectmp.common.util.sidedictation.SideOnly;
+import projectmp.common.util.annotation.sidedictation.Side;
+import projectmp.common.util.annotation.sidedictation.SideOnly;
 import projectmp.server.ServerLogic;
 
 import com.badlogic.gdx.Gdx;

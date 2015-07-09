@@ -1,4 +1,4 @@
-package projectmp.common.util.sidedictation;
+package projectmp.common.util.annotation.sidedictation;
 
 public enum Side {
 

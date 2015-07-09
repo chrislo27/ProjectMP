@@ -10,8 +10,8 @@ import projectmp.common.inventory.gui.Slot.SlotState;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.util.Utils;
-import projectmp.common.util.sidedictation.Side;
-import projectmp.common.util.sidedictation.SideOnly;
+import projectmp.common.util.annotation.sidedictation.Side;
+import projectmp.common.util.annotation.sidedictation.SideOnly;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;

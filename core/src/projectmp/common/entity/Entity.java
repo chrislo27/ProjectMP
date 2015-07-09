@@ -8,8 +8,8 @@ import projectmp.common.io.CanBeSavedToNBT;
 import projectmp.common.util.Coordinate;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Sizeable;
-import projectmp.common.util.sidedictation.Side;
-import projectmp.common.util.sidedictation.SideOnly;
+import projectmp.common.util.annotation.sidedictation.Side;
+import projectmp.common.util.annotation.sidedictation.SideOnly;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
