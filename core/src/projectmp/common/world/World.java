@@ -184,12 +184,15 @@ public class World {
 	}
 
 	public long getNewUniqueUUID() {
-		long id = MathUtils.random(Long.MIN_VALUE + 1, Long.MAX_VALUE - 1);
+		long id = MathUtils.random(Long.MAX_VALUE) * MathUtils.randomSign();
+		
 		for (int i = 0; i < entities.size; i++) {
 			if (entities.get(i).uuid == id) {
 				return getNewUniqueUUID();
 			}
 		}
+		
+		Main.logger.debug("uuid: " + id);
 		return id;
 	}
 
