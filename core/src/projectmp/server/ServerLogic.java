@@ -36,7 +36,7 @@ public class ServerLogic {
 
 	public int maxplayers = 2;
 
-	public Array<ServerPlayer> players = new Array<>();
+	private Array<ServerPlayer> players = new Array<>();
 
 	public ServerLogic(Main m) {
 		main = m;
@@ -66,7 +66,7 @@ public class ServerLogic {
 				//				}
 
 				try {
-					save("saves/save0/");
+					save(FileNameUtils.DEFAULT_SAVE_FOLDER + "save0/");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -214,7 +214,7 @@ public class ServerLogic {
 	 * This method actually deletes the existing instance and creates a new one. The method that creates the new instance updates the fields correctly.
 	 * @param p
 	 */
-	private synchronized void updatePlayerData(EntityPlayer p){
+	public void updatePlayerData(EntityPlayer p){
 		for(int i = players.size - 1; i >= 0; i--){
 			if(players.get(i).username.equals(p.username)){
 				players.removeIndex(i);

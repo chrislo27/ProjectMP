@@ -1,7 +1,9 @@
 package projectmp.common.packet.handshake;
 
+import java.io.IOException;
+
 import projectmp.common.entity.EntityPlayer;
-import projectmp.common.inventory.InventoryPlayer;
+import projectmp.common.util.FileNameUtils;
 import projectmp.server.ServerLogic;
 import projectmp.server.player.ServerPlayer;
 
@@ -30,6 +32,7 @@ public final class HandshakeAcceptor {
 			// create new instance
 			sp = logic.createNewServerPlayer(newPlayer);
 		}
+		logic.updatePlayerData(newPlayer);
 		
 		// update entity
 		newPlayer.positionUpdate(sp.posx, sp.posy);
@@ -40,6 +43,12 @@ public final class HandshakeAcceptor {
 
 		// update the time (for everyone)
 		logic.world.sendTimeUpdate();
+		
+		try {
+			logic.save(FileNameUtils.DEFAULT_SAVE_FOLDER + "save0/");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
