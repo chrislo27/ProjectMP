@@ -27,7 +27,8 @@ public class WorldGettingScreen extends MessageScreen {
 
 	@Override
 	public void show() {
-		setMessage(Translator.instance().getMsg("menu.msg.gettingworld." + (isSingleplayer ? "singleplayer" : "online")));
+		setMessage(Translator.instance().getMsg(
+				"menu.msg.gettingworld." + (isSingleplayer ? "singleplayer" : "online")));
 	}
 
 	@Override

@@ -246,10 +246,20 @@ public class WorldRenderer implements Disposable {
 		world = w;
 	}
 
+	/**
+	 * Converts world coordinates to screen coordinates accounting for camera position
+	 * @param worldX
+	 * @return
+	 */
 	public float convertWorldX(float worldX) {
 		return worldX * World.tilesizex - camera.camerax;
 	}
 
+	/**
+	 * Converts world coordinates to screen coordinates accounting for camera position
+	 * @param worldY
+	 * @return
+	 */
 	public float convertWorldY(float worldY, float offset) {
 		return Main.convertY(worldY * World.tilesizey - camera.cameray + offset);
 	}
@@ -280,32 +290,6 @@ public class WorldRenderer implements Disposable {
 		lightingBuffer.dispose();
 
 		postProcessor.dispose();
-	}
-
-	public static void renderEntireWorld(World world, Batch batch, float posx, float posy,
-			float width, float height) {
-		if (world == null) return;
-
-		int greatestRenderingLevel = 0;
-
-		for (int layer = 0; layer <= greatestRenderingLevel; layer++) {
-			for (int x = 0; x < world.sizex; x++) {
-				for (int y = world.sizey - 1; y >= 0; y--) {
-					int blockLayer = world.getBlock(x, y).getRenderingLayer(world, x, y);
-
-					// if the block's rendering layer is greater than the greatest so far, replace
-					if (blockLayer > greatestRenderingLevel) {
-						greatestRenderingLevel = blockLayer;
-					}
-
-					// render if only the rendering layer matches the current one
-					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
-						//world.getBlock(x, y).renderIndexAt(batch, , width, height, renderingIndex);
-					}
-				}
-			}
-		}
-
 	}
 
 }
