@@ -4,6 +4,7 @@ import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.block.Block.BlockFaces;
+import projectmp.common.util.MathHelper;
 import projectmp.common.world.TimeOfDay;
 import projectmp.common.world.World;
 
@@ -35,23 +36,30 @@ public class LightingEngine {
 	 * This is the time of day colour with transitions
 	 */
 	public Color timeOfDayColor = new Color(TimeOfDay.DAYTIME.color);
-	
+
 	// reused color objects
 	private Color mixingColor0 = new Color();
 	private Color mixingColor1 = new Color();
 	private Color skyLightTransition = new Color();
 	private Color blockCheckingColor = new Color();
-	
+
 	// all the light data
 	private byte[][] skyLighting;
 	private LightTiles lightData;
-	
+
 	// the lighting renderer
 	private LightingRenderer lightingRenderer;
 
 	// everything related to lighting updates
 	private int lastUpdateLengthNano = 0;
-	private boolean isUpdateScheduled = false;
+	/**
+	 * 0 = no update
+	 * <br>
+	 * 1 = normal update
+	 * <br>
+	 * 2 = sky update + normal after
+	 */
+	private int isUpdateScheduled = 0;
 	private float lastUpdateCamX = 0;
 	private float lastUpdateCamY = 0;
 	private final Pool<LightingUpdate> lightingUpdatePool = Pools.get(LightingUpdate.class, 256);
@@ -69,7 +77,7 @@ public class LightingEngine {
 		sizey = world.sizey;
 
 		lightingRenderer = new LightingRenderer(this);
-		
+
 		skyLighting = new byte[sizex][sizey];
 		lightData = new LightTiles(sizex, sizey);
 	}
@@ -90,14 +98,14 @@ public class LightingEngine {
 
 		if (Math.abs((renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f)) - lastUpdateCamX) > Settings.DEFAULT_WIDTH
 				- (World.tilesizex * 2)) {
-			scheduleLightingUpdate();
+			scheduleLightingUpdate(false);
 		}
 		if (Math.abs((renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f)) - lastUpdateCamY) > Settings.DEFAULT_HEIGHT
 				- (World.tilesizey * 2)) {
-			scheduleLightingUpdate();
+			scheduleLightingUpdate(false);
 		}
 
-		if (isUpdateScheduled) {
+		if (isUpdateScheduled > 0) {
 			int prex = (int) MathUtils
 					.clamp(((renderer.camera.camerax / World.tilesizex) - (Settings.DEFAULT_WIDTH / World.tilesizex)),
 							0f, world.sizex);
@@ -111,19 +119,19 @@ public class LightingEngine {
 
 			lastUpdateCamX = renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f);
 			lastUpdateCamY = renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f);
-
-			updateLighting(prex, prey, postx, posty);
-			isUpdateScheduled = false;
+			
+			updateLighting(prex, prey, postx, posty, isUpdateScheduled >= 2);
+			isUpdateScheduled = 0;
 		}
 
 		lightingRenderer.render(renderer, batch);
 	}
 
-	public void updateLighting(int prex, int prey, int postx, int posty) {
+	public void updateLighting(int prex, int prey, int postx, int posty, boolean shouldUpdateSky) {
 		long nano = System.nanoTime();
 
 		// reset the lighting and calculate the sky lights
-		resetLightingAndCalcSky(prex, prey, postx, posty);
+		resetLightingAndCalcSky(prex, prey, postx, posty, shouldUpdateSky);
 
 		// do all the lighting updates
 		doLightingUpdates(prex, prey, postx, posty);
@@ -137,7 +145,7 @@ public class LightingEngine {
 		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
-	public void resetLightingAndCalcSky(int originx, int originy, int width, int height) {
+	public void resetLightingAndCalcSky(int originx, int originy, int width, int height, boolean shouldUpdateSky) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
@@ -146,20 +154,21 @@ public class LightingEngine {
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				// reset all
-				skyLighting[x][y] = 0;
+				if(shouldUpdateSky) skyLighting[x][y] = 0;
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
 			}
-
+			
 			int y = 0;
 			boolean terminate = false;
-			while (!terminate) {
-				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP) || y >= sizey) {
+			while (!terminate && shouldUpdateSky) {
+				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)
+						|| y >= sizey) {
 					terminate = true;
 
 					// scatter the light at the bottom
 					recursiveSky(x, y, (byte) 127, true);
-					
+
 					break;
 				}
 
@@ -176,29 +185,61 @@ public class LightingEngine {
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
 		height = MathUtils.clamp(height, 0, sizey);
-		
+
 		lightingUpdateMethodCalls = 0;
-		
+
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				blockCheckingColor.set(world.getBlock(x, y).getLightEmitted(world, x, y));
-				
-				if(blockCheckingColor.a > 0){
-					recursiveLight(x, y, (byte) (blockCheckingColor.a * 127f), Color.rgb888(blockCheckingColor), true);
+
+				if (blockCheckingColor.a > 0) {
+					onSource(x, y, (byte) (blockCheckingColor.a * 127f),
+							Color.rgb888(blockCheckingColor));
 				}
 			}
 		}
 
 		for (int i = lightingUpdates.size - 1; i >= 0; i--) {
 			LightingUpdate l = lightingUpdates.get(i);
-			setBrightness(l.brightness, l.x, l.y);
-			mixColors(l.x, l.y, l.color);
 
-			recursiveLight(l.x, l.y, l.brightness, l.color, true);
+			onSource(l.x, l.y, l.brightness, l.color);
 		}
 	}
-	
-	private void recursiveSky(int x, int y, byte bright, boolean source){
+
+	protected void onSource(int x, int y, byte bright, int color) {
+		// set source's brightness at block and colour
+		setBrightness(bright, x, y);
+		setLightColor(color, x, y);
+
+		if (Settings.raycastedLighting) {
+			int numberOfRays = Math.min(Math.round((bright * 2f * MathUtils.PI) / 2.225f), 360);
+			int anglePerRay = (360 / numberOfRays);
+
+			if(numberOfRays >= 8){
+				// rays for 90 degree offset 45 deg artifacts
+				rayOfLight(x, y, bright, color, 1, 1);
+				rayOfLight(x, y, bright, color, -1, 1);
+				rayOfLight(x, y, bright, color, 1, -1);
+				rayOfLight(x, y, bright, color, -1, -1);
+			}
+			
+			for (int i = 0; i < numberOfRays; i++) {
+				int angle = anglePerRay * i;
+				float rise = MathUtils.cosDeg(angle);
+				float run = MathUtils.sinDeg(angle);
+				int accuracy = 10000;
+				
+				// force accuracy for rise and run at 45 degree angles to prevent artifacts -- done before this
+				if((angle + 45) % 90 == 0) continue;
+				
+				rayOfLight(x, y, bright, color, (int) (rise * accuracy), (int) (run * accuracy));
+			}
+		} else {
+			recursiveLight(x, y, bright, color, true);
+		}
+	}
+
+	private void recursiveSky(int x, int y, byte bright, boolean source) {
 		if (bright <= 0) {
 			return;
 		}
@@ -230,20 +271,79 @@ public class LightingEngine {
 		}
 	}
 
+	private void rayOfLight(int x, int y, byte bright, int color, int rise, int run) {
+		lightingUpdateMethodCalls++;
+
+		float remainingBrightness = bright;
+		int currentX = x;
+		int currentY = y;
+		int currentColor = color;
+		boolean xIsLonger = true;
+		// this is y is x is longer, x otherwise
+		int numerator = 0;
+
+		// calculate if Y is longer than X
+		if (Math.abs(rise) > Math.abs(run)) xIsLonger = false;
+
+		while (remainingBrightness > 0) {
+			// set brightness if higher
+			if (getBrightness(currentX, currentY) < remainingBrightness) setBrightness(
+					(byte) remainingBrightness, currentX, currentY);
+
+			// mix colours, sets the colours adjacent
+			mixColors(currentX - 1, currentY, currentColor);
+			mixColors(currentX + 1, currentY, currentColor);
+			mixColors(currentX, currentY + 1, currentColor);
+			mixColors(currentX, currentY - 1, currentColor);
+
+			boolean movedDiagonally = false;
+
+			// move current position
+			if (xIsLonger) {
+				currentX += (int) Math.signum(run);
+				numerator += Math.abs(rise);
+
+				if (Math.abs(numerator) >= Math.abs(run)) {
+					numerator -= Math.abs(rise);
+					currentY += (int) Math.signum(rise);
+					movedDiagonally = true;
+				}
+			} else {
+				currentY += (int) Math.signum(rise);
+				numerator += Math.abs(run);
+
+				if (Math.abs(numerator) >= Math.abs(rise)) {
+					numerator -= Math.abs(run);
+					currentX += (int) Math.signum(run);
+					movedDiagonally = true;
+				}
+			}
+
+			// decrease remaining brightness
+			remainingBrightness -= (world.getBlock(currentX, currentY).lightSubtraction(world,
+					currentX, currentY) * 127f) * (movedDiagonally ? MathHelper.rootTwo : 1);
+
+			// check if current position is out of bounds, if so break
+			if (currentX < 0 || currentY < 0 || currentX >= world.sizex || currentY >= world.sizey) {
+				break;
+			}
+		}
+	}
+
 	private void recursiveLight(int x, int y, byte bright, int color, boolean source) {
 		lightingUpdateMethodCalls++;
 
 		// brightness <= 0, return
 		// brightness >= bright and not a source, return
 		// out of bounds, return
-		
+
 		// set block brightness to bright
-		
+
 		// subtract bright from block's opacity
 		// if bright <= 0 return
 		// mix neighbours colours
 		// recursion
-		
+
 		if (bright <= 0) {
 			return;
 		}
@@ -294,18 +394,18 @@ public class LightingEngine {
 
 	public void setLightSource(byte bright, int color, int x, int y) {
 		lightingUpdates.add(lightingUpdatePool.obtain().set(x, y, bright, color));
-		scheduleLightingUpdate();
+		scheduleLightingUpdate(false);
 	}
 
 	public void setBrightness(byte l, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		
+
 		lightData.brightness[x][y] = l;
 	}
 
 	public void setLightColor(int color, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		
+
 		lightData.color[x][y] = color;
 	}
 
@@ -330,62 +430,66 @@ public class LightingEngine {
 
 		return lightData.color[x][y];
 	}
-	
-	public byte getSkyLight(int posx, int posy){
+
+	public byte getSkyLight(int posx, int posy) {
 		int x = posx;
 		int y = posy;
 		if (x < 0) x = 0;
 		if (x >= sizex) x = sizex - 1;
 		if (y < 0) y = 0;
 		if (y >= sizey) y = sizey - 1;
-		
+
 		return skyLighting[x][y];
 	}
-	
+
 	/**
 	 * accounts for current time of day light with transition
 	 * @param posx
 	 * @param posy
 	 * @return float but clamped to 0-127
 	 */
-	public float getSkyLightFromTOD(byte light){
-		return  MathUtils.clamp(light * lastDayBrightness, 0f, 127f);
+	public float getSkyLightFromTOD(byte light) {
+		return MathUtils.clamp(light * lastDayBrightness, 0f, 127f);
 	}
-	
-	public float getActualLighting(int posx, int posy){
+
+	public float getActualLighting(int posx, int posy) {
 		int x = posx;
 		int y = posy;
 		if (x < 0) x = 0;
 		if (x >= sizex) x = sizex - 1;
 		if (y < 0) y = 0;
 		if (y >= sizey) y = sizey - 1;
-		
+
 		byte brightness = getBrightness(x, y);
 		float sky = getSkyLightFromTOD(getSkyLight(x, y));
-		
-		if(sky > brightness){
+
+		if (sky > brightness) {
 			return MathUtils.clamp(sky, 0f, 127f);
-		}else{
+		} else {
 			return brightness;
 		}
 	}
-	
-	public LightingRenderer getRenderer(){
+
+	public LightingRenderer getRenderer() {
 		return lightingRenderer;
 	}
 
 	// update related things below
-	
+
 	public int getLastUpdateLength() {
 		return lastUpdateLengthNano;
 	}
 
-	public void scheduleLightingUpdate() {
+	public void scheduleLightingUpdate(boolean shouldUpdateSky) {
 		if (world.isServer) return;
-		isUpdateScheduled = true;
+		isUpdateScheduled = 1 + (shouldUpdateSky ? 1 : 0);
 	}
 
 	public boolean isLightingUpdateScheduled() {
+		return isUpdateScheduled > 0;
+	}
+
+	public int getLightingUpdateType() {
 		return isUpdateScheduled;
 	}
 

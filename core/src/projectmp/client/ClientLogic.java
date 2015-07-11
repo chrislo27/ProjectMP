@@ -18,6 +18,8 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
@@ -226,7 +228,13 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Utils.isButtonJustPressed(Buttons.LEFT)) { // item use
-
+				world.lightingEngine.setLightSource((byte) 32, Color.rgb888(MathUtils.random(), MathUtils.random(), MathUtils.random()), x, y);
+				world.lightingEngine.setLightSource((byte) 32, Color.rgb888(MathUtils.random(), MathUtils.random(), MathUtils.random()), x + MathUtils.random(-10, 10), y + MathUtils.random(-10, 10));
+				world.lightingEngine.setLightSource((byte) 32, Color.rgb888(MathUtils.random(), MathUtils.random(), MathUtils.random()), x + MathUtils.random(-10, 10), y + MathUtils.random(-10, 10));
+				world.lightingEngine.setLightSource((byte) 32, Color.rgb888(MathUtils.random(), MathUtils.random(), MathUtils.random()), x + MathUtils.random(-10, 10), y + MathUtils.random(-10, 10));
+				world.lightingEngine.setLightSource((byte) 32, Color.rgb888(MathUtils.random(), MathUtils.random(), MathUtils.random()), x + MathUtils.random(-10, 10), y + MathUtils.random(-10, 10));
+				
+				world.lightingEngine.scheduleLightingUpdate(false);
 			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 				// send packet to server

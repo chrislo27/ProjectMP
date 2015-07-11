@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 
 public enum TimeOfDay {
 
-	DAYTIME((byte) 127, Color.rgb888(0, 0, 0), Time.daytimePercentage) {
+	DAYTIME((byte) 16, Color.rgb888(0, 0, 0), Time.daytimePercentage) {
 
 		@Override
 		public void renderBackground(Batch batch, World world) {
@@ -21,7 +21,7 @@ public enum TimeOfDay {
 		}
 	},
 
-	EVENING((byte) 64, Color.rgb888(1, 174 / 255f, 0), Time.eveningPercentage) {
+	EVENING((byte) 16, Color.rgb888(1, 174 / 255f, 0), Time.eveningPercentage) {
 
 		@Override
 		public void renderBackground(Batch batch, World world) {

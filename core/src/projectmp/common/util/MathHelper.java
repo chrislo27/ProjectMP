@@ -5,7 +5,9 @@ import com.badlogic.gdx.math.MathUtils;
 public class MathHelper {
 
 	private MathHelper() {
-	};
+	}
+	
+	public static final double rootTwo = Math.sqrt(2f);
 
 	public static double getScaleFactor(float iMasterSize, float iTargetSize) {
 		double dScale = 1;

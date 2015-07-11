@@ -415,7 +415,7 @@ public class World {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
 		getChunkBlockIsIn(x, y).setChunkBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
-		lightingEngine.scheduleLightingUpdate();
+		lightingEngine.scheduleLightingUpdate(true);
 
 		if (b instanceof ITileEntityProvider) {
 			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
