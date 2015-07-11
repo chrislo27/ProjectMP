@@ -37,7 +37,7 @@ public class GenerationGroups {
 	 * @param g
 	 */
 	public synchronized void addGroup(GenerationGroup g){
-		addGroup(g);
+		groups.add(g);
 		groups.sort();
 	}
 	
