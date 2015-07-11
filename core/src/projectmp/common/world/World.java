@@ -223,6 +223,7 @@ public class World {
 			PacketRemoveEntity packet = PacketRepository.instance().removeEntity;
 			packet.uuid = uuid;
 			main.server.sendToAllTCP(packet);
+			entities.removeValue(getEntityByUUID(uuid), true);
 		} else {
 			Entity e = getEntityByUUID(uuid);
 			if (e == null) return;
