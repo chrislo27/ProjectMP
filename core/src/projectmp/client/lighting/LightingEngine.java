@@ -184,7 +184,7 @@ public class LightingEngine {
 				blockCheckingColor.set(world.getBlock(x, y).getLightEmitted(world, x, y));
 				
 				if(blockCheckingColor.a > 0){
-					recursiveLight(x, y, (byte) (blockCheckingColor.a * 127f), Color.rgb888(blockCheckingColor), true);
+					onSource(x, y, (byte) (blockCheckingColor.a * 127f), Color.rgb888(blockCheckingColor));
 				}
 			}
 		}
@@ -196,6 +196,10 @@ public class LightingEngine {
 
 			recursiveLight(l.x, l.y, l.brightness, l.color, true);
 		}
+	}
+	
+	protected void onSource(int x, int y, byte bright, int color){
+		recursiveLight(x, y, bright, color, true);
 	}
 	
 	private void recursiveSky(int x, int y, byte bright, boolean source){
