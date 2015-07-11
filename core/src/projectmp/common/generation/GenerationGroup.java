@@ -1,5 +1,6 @@
 package projectmp.common.generation;
 
+import projectmp.common.util.SimplexNoise;
 import projectmp.common.world.World;
 
 /**
@@ -23,7 +24,7 @@ public abstract class GenerationGroup implements Comparable<GenerationGroup>{
 		setPriority(priority);
 	}
 	
-	public abstract void generate(World world);
+	public abstract void generate(World world, SimplexNoise noiseGen);
 	
 	/**
 	 * Descending order, so lower priorities are first.
