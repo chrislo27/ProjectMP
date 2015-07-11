@@ -8,6 +8,7 @@ import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.generation.GenerationGroups;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
@@ -21,6 +22,7 @@ import projectmp.common.util.FileNameUtils;
 import projectmp.common.world.ServerWorld;
 import projectmp.server.player.ServerPlayer;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
@@ -50,7 +52,7 @@ public class ServerLogic {
 				long ms = System.currentTimeMillis();
 				Main.logger.debug("beginning generation");
 				world.setSendingUpdates(false);
-				world.generate();
+				GenerationGroups.generateWorld(world);
 				world.setSendingUpdates(true);
 				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms)
 						+ " ms");
@@ -70,6 +72,15 @@ public class ServerLogic {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				
+				Gdx.app.postRunnable(new Runnable(){
+
+					@Override
+					public void run() {
+						
+					}
+					
+				});
 			}
 
 		}.start();

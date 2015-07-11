@@ -1,5 +1,8 @@
 package projectmp.common.generation;
 
+import projectmp.common.generation.terrain.TerrainLandscape;
+import projectmp.common.world.World;
+
 import com.badlogic.gdx.utils.Array;
 
 /**
@@ -26,7 +29,7 @@ public class GenerationGroups {
 	
 	private void loadResources() {
 		// add stock
-		
+		addGroup(new TerrainLandscape());
 	}
 	
 	/**
@@ -40,6 +43,12 @@ public class GenerationGroups {
 	
 	public synchronized Array<GenerationGroup> getAllGroups(){
 		return groups;
+	}
+	
+	public static void generateWorld(World world){
+		for(int i = 0; i < instance().groups.size; i++){
+			instance().groups.get(i).generate(world, world.noiseGen);
+		}
 	}
 	
 }
