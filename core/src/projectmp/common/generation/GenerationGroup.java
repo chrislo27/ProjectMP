@@ -10,6 +10,10 @@ import projectmp.common.world.World;
  */
 public abstract class GenerationGroup implements Comparable<GenerationGroup>{
 
+	public static final int PRIORITY_TERRAIN = 0;
+	public static final int PRIORITY_FEATURE = 1;
+	public static final int PRIORITY_STRUCTURE = 2;
+	
 	/**
 	 * Cannot be less than 0, the setter will clamp to 0 AND the compareTo method will treat 0 and below equally.
 	 */
