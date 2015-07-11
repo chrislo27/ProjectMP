@@ -243,10 +243,10 @@ public class LightingEngine {
 		if (bright <= 0) {
 			return;
 		}
-		if (skyLighting[x][y] >= bright && !source) {
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) {
 			return;
 		}
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) {
+		if (skyLighting[x][y] >= bright && !source) {
 			return;
 		}
 
