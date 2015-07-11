@@ -322,6 +322,14 @@ public class Main extends Game implements Consumer {
 		shapes.dispose();
 		clientLogic.dispose();
 		clearPixmap.dispose();
+		try {
+			server.stop();
+			server.dispose();
+			client.stop();
+			client.dispose();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		// dispose screens
 		ASSETLOADING.dispose();
@@ -508,7 +516,7 @@ public class Main extends Game implements Consumer {
 	}
 
 	public void tickUpdate() {
-		serverLogic.tickUpdate();
+		if(server.getConnections().length > 0 && serverLogic.isSingleplayer) serverLogic.tickUpdate();
 	}
 
 	private void loadAssets() {
