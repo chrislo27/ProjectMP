@@ -20,6 +20,7 @@ import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.util.FileNameUtils;
 import projectmp.common.world.ServerWorld;
+import projectmp.common.world.World;
 import projectmp.server.player.ServerPlayer;
 
 import com.badlogic.gdx.Gdx;
@@ -72,15 +73,6 @@ public class ServerLogic {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-				
-				Gdx.app.postRunnable(new Runnable(){
-
-					@Override
-					public void run() {
-						
-					}
-					
-				});
 			}
 
 		}.start();

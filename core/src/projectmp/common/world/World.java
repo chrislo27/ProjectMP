@@ -271,48 +271,6 @@ public class World {
 		}
 	}
 
-	public void generateWorldMap(float scale) {
-		FrameBuffer buffer = new FrameBuffer(Format.RGBA8888,
-				(int) (sizex * World.tilesizex * scale), (int) (sizey * World.tilesizey * scale),
-				false);
-
-		int greatestRenderingLevel = 0;
-
-		buffer.begin();
-		main.batch.begin();
-		
-		for (int layer = 0; layer <= greatestRenderingLevel; layer++) {
-			for (int x = 0; x < sizex; x++) {
-				for (int y = sizey - 1; y >= 0; y--) {
-					int blockLayer = getBlock(x, y).getRenderingLayer(this, x, y);
-
-					// if the block's rendering layer is greater than the greatest so far, replace
-					if (blockLayer > greatestRenderingLevel) {
-						greatestRenderingLevel = blockLayer;
-					}
-
-					// render if only the rendering layer matches the current one
-					if (getBlock(x, y).getRenderingLayer(this, x, y) == layer) {
-						getBlock(x, y).renderIndexAt(main.batch, main, this,
-								x * World.tilesizex * scale, y * World.tilesizey * scale,
-								World.tilesizex * scale, World.tilesizey * scale,
-								getBlock(x, y).getRenderingLayer(this, x, y), x, y);
-					}
-				}
-			}
-		}
-		
-		main.batch.end();
-		buffer.end();
-
-		buffer.getColorBufferTexture().getTextureData().prepare();
-		Pixmap pix = buffer.getColorBufferTexture().getTextureData().consumePixmap();
-		PixmapIO.writePNG(new FileHandle("noisemaps/worldmap.png"), pix);
-		pix.dispose();
-
-		buffer.dispose();
-	}
-
 	public void setWeather(Weather w) {
 		weather = w;
 	}
