@@ -218,15 +218,15 @@ public class LightingEngine {
 			int numberOfRays = 360;
 
 			for (int i = 0; i < numberOfRays; i++) {
-				float angle = (360f / numberOfRays) * i;
+				int angle = (360 / numberOfRays) * i;
 				float rise = MathUtils.cosDeg(angle);
 				float run = MathUtils.sinDeg(angle);
 				int accuracy = 10000;
 				
 				// force accuracy for rise and run at 45 degree angles to prevent artifacts
 				if((angle + 45) % 90 == 0){
-					rise = 1;
-					run = 1;
+					rise = Math.signum(MathUtils.cosDeg(angle));
+					run = Math.signum(MathUtils.sinDeg(angle));
 				}
 				
 				rayOfLight(x, y, bright, color, (int) (rise * accuracy), (int) (run * accuracy));
