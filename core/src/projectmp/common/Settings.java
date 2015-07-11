@@ -18,6 +18,7 @@ public class Settings {
 	public static float soundVolume = 1;
 
 	public static boolean smoothLighting = true;
+	public static boolean raycastedLighting = true;
 
 	public static int actualWidth = DEFAULT_WIDTH;
 	public static int actualHeight = DEFAULT_HEIGHT;

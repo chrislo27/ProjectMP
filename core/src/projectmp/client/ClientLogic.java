@@ -18,6 +18,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
@@ -226,7 +227,8 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Utils.isButtonJustPressed(Buttons.LEFT)) { // item use
-
+				world.lightingEngine.setLightSource((byte) 126, Color.rgb888(1, 0, 0), x, y);
+				world.lightingEngine.scheduleLightingUpdate(false);
 			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 				// send packet to server
