@@ -119,22 +119,19 @@ public class LightingEngine {
 
 			lastUpdateCamX = renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f);
 			lastUpdateCamY = renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f);
-
-			if (isUpdateScheduled == 2) {
-				resetLightingAndCalcSky(prex, prey, postx, posty);
-			}
-			updateLighting(prex, prey, postx, posty);
+			
+			updateLighting(prex, prey, postx, posty, isUpdateScheduled >= 2);
 			isUpdateScheduled = 0;
 		}
 
 		lightingRenderer.render(renderer, batch);
 	}
 
-	public void updateLighting(int prex, int prey, int postx, int posty) {
+	public void updateLighting(int prex, int prey, int postx, int posty, boolean shouldUpdateSky) {
 		long nano = System.nanoTime();
 
 		// reset the lighting and calculate the sky lights
-		resetLightingAndCalcSky(prex, prey, postx, posty);
+		resetLightingAndCalcSky(prex, prey, postx, posty, shouldUpdateSky);
 
 		// do all the lighting updates
 		doLightingUpdates(prex, prey, postx, posty);
@@ -148,7 +145,7 @@ public class LightingEngine {
 		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
-	public void resetLightingAndCalcSky(int originx, int originy, int width, int height) {
+	public void resetLightingAndCalcSky(int originx, int originy, int width, int height, boolean shouldUpdateSky) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
@@ -157,14 +154,14 @@ public class LightingEngine {
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				// reset all
-				skyLighting[x][y] = 0;
+				if(shouldUpdateSky) skyLighting[x][y] = 0;
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
 			}
-
+			
 			int y = 0;
 			boolean terminate = false;
-			while (!terminate) {
+			while (!terminate && shouldUpdateSky) {
 				if (((world.getBlock(x, y).isSolid(world, x, y) & BlockFaces.UP) == BlockFaces.UP)
 						|| y >= sizey) {
 					terminate = true;
@@ -215,23 +212,28 @@ public class LightingEngine {
 		setLightColor(color, x, y);
 
 		if (Settings.raycastedLighting) {
-			int numberOfRays = 360;
+			int numberOfRays = Math.min(Math.round((bright * 2f * MathUtils.PI) / 2.225f), 360);
+			int anglePerRay = (360 / numberOfRays);
 
+			if(numberOfRays >= 8){
+				// rays for 90 degree offset 45 deg artifacts
+				rayOfLight(x, y, bright, color, 1, 1);
+				rayOfLight(x, y, bright, color, -1, 1);
+				rayOfLight(x, y, bright, color, 1, -1);
+				rayOfLight(x, y, bright, color, -1, -1);
+			}
+			
 			for (int i = 0; i < numberOfRays; i++) {
-				int angle = (360 / numberOfRays) * i;
+				int angle = anglePerRay * i;
 				float rise = MathUtils.cosDeg(angle);
 				float run = MathUtils.sinDeg(angle);
 				int accuracy = 10000;
 				
-				// force accuracy for rise and run at 45 degree angles to prevent artifacts
-				if((angle + 45) % 90 == 0){
-					rise = Math.signum(MathUtils.cosDeg(angle));
-					run = Math.signum(MathUtils.sinDeg(angle));
-				}
+				// force accuracy for rise and run at 45 degree angles to prevent artifacts -- done before this
+				if((angle + 45) % 90 == 0) continue;
 				
 				rayOfLight(x, y, bright, color, (int) (rise * accuracy), (int) (run * accuracy));
 			}
-			//recursiveLight(x, y, bright, color, true);
 		} else {
 			recursiveLight(x, y, bright, color, true);
 		}
