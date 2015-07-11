@@ -21,15 +21,14 @@ import projectmp.common.util.ParticlePool;
 import projectmp.common.util.QuadTree;
 import projectmp.common.util.SimplexNoise;
 import projectmp.common.util.Sizeable;
-import projectmp.common.util.Utils;
 import projectmp.common.weather.Weather;
 
-import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
@@ -272,73 +271,46 @@ public class World {
 		}
 	}
 
-	// FIXME make generator better
-	public void generate() {
-		float hillCoeff = 8f;
-		float terrainLimit = hillCoeff + (sizey / 8);
-		int dirtLimit = Math.round(hillCoeff + (sizey / 8));
-		int caveStart = dirtLimit - (sizey / 32);
+	public void generateWorldMap(float scale) {
+		FrameBuffer buffer = new FrameBuffer(Format.RGBA8888,
+				(int) (sizex * World.tilesizex * scale), (int) (sizey * World.tilesizey * scale),
+				false);
 
-		for (int i = 0; i < sizex; i++) {
-			float noise = (float) noiseGen.eval(i * 0.09f, -1 * 0.09f);
-			int actualHeight = Math.round(noise * hillCoeff);
+		int greatestRenderingLevel = 0;
 
-			int topOfDirt = actualHeight + (sizey / 16);
-			int endOfDirt = actualHeight + (sizey / 8);
-			for (int y = endOfDirt; y >= topOfDirt; y--) {
-				setBlock(Blocks.instance().getBlock("dirt"), i, y);
-			}
-			setBlock(Blocks.instance().getBlock("grass"), i, actualHeight + (sizey / 16));
-			setBlock(Blocks.instance().getBlock("tall_grass"), i, actualHeight + (sizey / 16) - 1);
+		buffer.begin();
+		main.batch.begin();
+		
+		for (int layer = 0; layer <= greatestRenderingLevel; layer++) {
+			for (int x = 0; x < sizex; x++) {
+				for (int y = sizey - 1; y >= 0; y--) {
+					int blockLayer = getBlock(x, y).getRenderingLayer(this, x, y);
 
-			for (int y = endOfDirt; y < sizey; y++) {
-				setBlock(Blocks.instance().getBlock("stone"), i, y);
-			}
+					// if the block's rendering layer is greater than the greatest so far, replace
+					if (blockLayer > greatestRenderingLevel) {
+						greatestRenderingLevel = blockLayer;
+					}
 
-			// long cave under surface to cover up noise's abrupt end
-			for (int y = caveStart - Math.round(4 * noise) - 6; y < caveStart
-					+ Math.round(3 * noise) + 3; y++) {
-				setBlock(Blocks.instance().getBlock("empty"), i, y);
-			}
-		}
-
-		/* NOTES
-		 * Terrain upper limit is essentially 1 * hillCoeff + (sizey / 8)
-		 * dirt ends at around hillCoeff + (sizey / 8)
-		 * noise ends at dirtLimit - (sizey / 32)
-		 * caves start at dirtLimit - (sizey / 32)
-		 * 
-		 */
-
-		float caveStartThreshold = 0.56f;
-		float caveEndThreshold = 0.825f;
-		for (int x = 0; x < sizex; x++) {
-			for (int y = caveStart; y < sizey; y++) {
-				float noise = (float) noiseGen.eval(x * 0.1f, y * 0.1f);
-				noise = (noise + 1) / 2f;
-				if (noise >= caveStartThreshold && noise <= caveEndThreshold) {
-					setBlock(Blocks.instance().getBlock("empty"), x, y);
+					// render if only the rendering layer matches the current one
+					if (getBlock(x, y).getRenderingLayer(this, x, y) == layer) {
+						getBlock(x, y).renderIndexAt(main.batch, main, this,
+								x * World.tilesizex * scale, y * World.tilesizey * scale,
+								World.tilesizex * scale, World.tilesizey * scale,
+								getBlock(x, y).getRenderingLayer(this, x, y), x, y);
+					}
 				}
 			}
 		}
+		
+		main.batch.end();
+		buffer.end();
 
-		Pixmap pix = new Pixmap(sizex, sizey, Format.RGBA8888);
-		for (int x = 0; x < sizex; x++) {
-			for (int y = 0; y < sizey; y++) {
-				pix.setColor(0, 0, 0, 1);
-				if (getBlock(x, y) == Blocks.instance().getBlock("dirt")) {
-					pix.setColor(140 / 255f, 96 / 255f, 45 / 255f, 1);
-				} else if (getBlock(x, y) == Blocks.instance().getBlock("grass")) {
-					pix.setColor(40 / 255f, 176 / 255f, 50 / 255f, 1);
-				} else if (getBlock(x, y) == Blocks.instance().getBlock("stone")) {
-					pix.setColor(0.5f, 0.5f, 0.5f, 1);
-				}
-				pix.drawPixel(x, y);
-			}
-		}
+		buffer.getColorBufferTexture().getTextureData().prepare();
+		Pixmap pix = buffer.getColorBufferTexture().getTextureData().consumePixmap();
 		PixmapIO.writePNG(new FileHandle("noisemaps/worldmap.png"), pix);
 		pix.dispose();
 
+		buffer.dispose();
 	}
 
 	public void setWeather(Weather w) {
