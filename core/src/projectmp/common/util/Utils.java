@@ -165,7 +165,7 @@ public class Utils {
 	}
 
 	/**
-	 * Draws a baked texture that's masked with the mask texture.
+	 * Draws a baked texture that's masked with the mask texture. Use with the mask shader.
 	 * <br>
 	 * Only the parts that are visible in the mask texture will be affect the parts in the baked texture.
 	 */

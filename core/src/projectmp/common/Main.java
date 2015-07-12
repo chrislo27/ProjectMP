@@ -767,12 +767,9 @@ public class Main extends Game implements Consumer {
 	}
 
 	/**
-	 * Call after the masking shader is set to mask a texture onto another stencil texture
+	 * Call after the masking shader is set to mask a texture onto another stencil texture. Use with maskShader.
 	 * 
-	 * 
-	 * 
-	 * @param mask
-	 *            mask itself (generally base tex as well)
+	 * @param mask mask itself (generally base tex as well)
 	 */
 	public static void useMask(Texture mask) {
 		mask.bind(1);
