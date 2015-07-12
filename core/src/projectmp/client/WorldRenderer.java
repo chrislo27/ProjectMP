@@ -10,6 +10,7 @@ import projectmp.common.util.Particle;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -146,8 +147,6 @@ public class WorldRenderer implements Disposable {
 
 		worldBuffer.end();
 
-		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
 		/* --------------------------------------------------------------------- */
 
 		// begin capture for post processing
@@ -172,7 +171,7 @@ public class WorldRenderer implements Disposable {
 			world.getWeather().renderOnWorld(this);
 		}
 
-		// draw the lighting buffer, masked
+		// draw the lighting buffer, masked with the world buffer texture
 		batch.setShader(main.maskshader);
 		Main.useMask(worldBuffer.getColorBufferTexture());
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
@@ -182,8 +181,38 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 
 		postProcessor.render();
+		
+		int x = logic.getCursorBlockX();
+		int y = logic.getCursorBlockY();
+		
+		batch.begin();
+		
+		batch.setShader(main.maskNoiseShader);
+		main.maskNoiseShader.setUniformf("time", main.totalSeconds);
+		main.maskNoiseShader.setUniformf("intensity", intensity);
+		main.maskNoiseShader.setUniformf("speed", 0f);
+		main.maskNoiseShader.setUniformf("zoom", 2f);
+		
+		world.getBlock(x, y).renderIndexAt(batch, main, world, convertWorldX(x),
+				convertWorldY(y, World.tilesizex), World.tilesizex,
+				World.tilesizey,
+				world.getBlock(x, y).getCurrentRenderingIndex(world, x, y), x, y);
+		
+		batch.setShader(null);
+		
+		batch.end();
+		
+		if(Gdx.input.isKeyPressed(Keys.W)){
+			intensity += 1f * Gdx.graphics.getDeltaTime();
+		}else if(Gdx.input.isKeyPressed(Keys.S)){
+			intensity -= 1f * Gdx.graphics.getDeltaTime();
+		}
+		
+		intensity = Math.max(0, intensity);
 
 	}
+	
+	private float intensity = 0;
 
 	public void renderHUD() {
 		batch.begin();

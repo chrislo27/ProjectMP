@@ -77,6 +77,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 
@@ -153,7 +154,7 @@ public class Main extends Game implements Consumer {
 	private int[] lastFPS = new int[5];
 	private long nanoUntilTick = TICKS_NANO;
 	private long lastKnownNano = System.nanoTime();
-	private float totalSeconds = 0f;
+	public float totalSeconds = 0f;
 	private long totalTicksElapsed = 0;
 	private long lastTickDurationNano = 0;
 
@@ -255,11 +256,11 @@ public class Main extends Game implements Consumer {
 		blurshader.end();
 		
 		maskNoiseShader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKENOISE);
-		maskNoiseShader.begin();
-		maskNoiseShader.setUniformf("u_mask", 1); // GL_TEXTURE1
-		maskNoiseShader.setUniformf("intensity", 0.5f);
-		maskNoiseShader.setUniformf("time", totalSeconds);
-		maskNoiseShader.end();
+		if(!maskNoiseShader.isCompiled()){
+			throw new GdxRuntimeException("Couldn't compile shader: " + maskNoiseShader.getLog());
+		}else{
+			Main.logger.debug(maskNoiseShader.getLog());
+		}
 
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
 		swizzleshader = new ShaderProgram(Shaders.VERTSWIZZLE, Shaders.FRAGSWIZZLE);
@@ -327,6 +328,7 @@ public class Main extends Game implements Consumer {
 		swizzleshader.dispose();
 		distanceFieldShader.dispose();
 		meshShader.dispose();
+		maskNoiseShader.dispose();
 		shapes.dispose();
 		clientLogic.dispose();
 		clearPixmap.dispose();
