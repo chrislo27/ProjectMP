@@ -35,7 +35,7 @@ public final class HandshakeAcceptor {
 		}else{
 			newPlayer.uuid = sp.getUUID();
 		}
-		newPlayer.inventory = sp.inventory;
+		newPlayer.setInventory(sp.inventory);
 		newPlayer.positionUpdate(sp.posx, sp.posy);
 		
 		// send create packet

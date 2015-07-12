@@ -55,6 +55,14 @@ public class ClientLogic implements Disposable {
 
 		return (EntityPlayer) world.getEntityByIndex(playerIndex);
 	}
+	
+	public InventoryPlayer getPlayerInventory(){
+		EntityPlayer p = getPlayer();
+		
+		if(p == null) return null;
+		
+		return p.getInventoryObject();
+	}
 
 	private void updatePlayerIndex() {
 		playerIndex = -1;
@@ -228,7 +236,9 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Utils.isButtonJustPressed(Buttons.LEFT)) { // item use
-				
+				if(!getPlayerInventory().getSelectedItem().isNothing()){
+					
+				}
 			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 				// send packet to server
