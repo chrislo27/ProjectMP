@@ -256,11 +256,6 @@ public class Main extends Game implements Consumer {
 		blurshader.end();
 		
 		maskNoiseShader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKENOISE);
-		if(!maskNoiseShader.isCompiled()){
-			throw new GdxRuntimeException("Couldn't compile shader: " + maskNoiseShader.getLog());
-		}else{
-			Main.logger.debug(maskNoiseShader.getLog());
-		}
 
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
 		swizzleshader = new ShaderProgram(Shaders.VERTSWIZZLE, Shaders.FRAGSWIZZLE);
