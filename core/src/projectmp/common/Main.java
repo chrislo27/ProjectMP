@@ -134,6 +134,7 @@ public class Main extends Game implements Consumer {
 	public ShaderProgram swizzleshader;
 	public ShaderProgram distanceFieldShader;
 	public static ShaderProgram meshShader;
+	public ShaderProgram maskNoiseShader;
 
 	private CaptureStream output;
 	private PrintStream printstrm;
@@ -252,6 +253,13 @@ public class Main extends Game implements Consumer {
 		blurshader.setUniformf("resolution", Settings.DEFAULT_WIDTH);
 		blurshader.setUniformf("radius", 2f);
 		blurshader.end();
+		
+		maskNoiseShader = new ShaderProgram(Shaders.VERTDEFAULT, Shaders.FRAGBAKENOISE);
+		maskNoiseShader.begin();
+		maskNoiseShader.setUniformf("u_mask", 1); // GL_TEXTURE1
+		maskNoiseShader.setUniformf("intensity", 0.5f);
+		maskNoiseShader.setUniformf("time", totalSeconds);
+		maskNoiseShader.end();
 
 		invertshader = new ShaderProgram(Shaders.VERTINVERT, Shaders.FRAGINVERT);
 		swizzleshader = new ShaderProgram(Shaders.VERTSWIZZLE, Shaders.FRAGSWIZZLE);
