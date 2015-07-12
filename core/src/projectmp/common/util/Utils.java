@@ -165,14 +165,9 @@ public class Utils {
 	}
 
 	/**
-	 * Draws toMask texture that's masked with the stencil texture.
-	 * @param main
-	 * @param toMask
-	 * @param stencil
-	 * @param x
-	 * @param y
-	 * @param width
-	 * @param height
+	 * Draws a baked texture that's masked with the mask texture.
+	 * <br>
+	 * Only the parts that are visible in the mask texture will be affect the parts in the baked texture.
 	 */
 	public static void drawMaskedTexture(Main main, Batch batch, Texture theMask, Texture baked,
 			float x, float y, float width, float height) {

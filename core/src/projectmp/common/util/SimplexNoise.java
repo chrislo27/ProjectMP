@@ -71,6 +71,12 @@ public class SimplexNoise {
 	}
 
 	//2D OpenSimplex Noise.
+	/**
+	 * Returns a value from -1 to 1.
+	 * @param x
+	 * @param y
+	 * @return
+	 */
 	public double eval(double x, double y) {
 
 		//Place input coordinates onto grid.
@@ -186,6 +192,13 @@ public class SimplexNoise {
 	}
 
 	//3D OpenSimplex Noise.
+	/**
+	 * Returns a value from -1 to 1.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @return
+	 */
 	public double eval(double x, double y, double z) {
 
 		//Place input coordinates on simplectic honeycomb.
@@ -747,6 +760,14 @@ public class SimplexNoise {
 	}
 
 	//4D OpenSimplex Noise.
+	/**
+	 * Returns a value from -1 to 1.
+	 * @param x
+	 * @param y
+	 * @param z
+	 * @param w
+	 * @return
+	 */
 	public double eval(double x, double y, double z, double w) {
 
 		//Place input coordinates on simplectic honeycomb.
