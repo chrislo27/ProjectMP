@@ -2,6 +2,7 @@ package projectmp.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
@@ -9,7 +10,6 @@ import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.generation.GenerationGroups;
-import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
@@ -20,10 +20,8 @@ import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.util.FileNameUtils;
 import projectmp.common.world.ServerWorld;
-import projectmp.common.world.World;
 import projectmp.server.player.ServerPlayer;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Array;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Server;
@@ -81,10 +79,10 @@ public class ServerLogic {
 	public void tickUpdate() {
 		world.tickUpdate();
 
-		for(ServerPlayer sp : players){
+		for (ServerPlayer sp : players) {
 			sp.tickUpdate(this);
 		}
-		
+
 		if (server.getConnections().length > 0 && world.getNumberOfEntities() > 0) {
 			PacketPositionUpdate positionUpdate = PacketRepository.instance().positionUpdate;
 
@@ -115,16 +113,16 @@ public class ServerLogic {
 
 	public void save(String folder) throws IOException {
 		new File(folder).mkdirs();
-		
+
 		File f = new File(folder + FileNameUtils.WORLD_FILE_NAME + FileNameUtils.FILE_EXTENSION);
 		f.createNewFile();
 
 		byte[] worldBytes = WorldNBTIO.encodeWorld(world);
 		WorldSavingLoading.saveBytes(WorldNBTIO.encodeWorld(world), f);
-		
+
 		f = new File(folder + FileNameUtils.PLAYER_FILE_NAME + FileNameUtils.FILE_EXTENSION);
 		f.createNewFile();
-		
+
 		byte[] playerBytes = WorldNBTIO.encodePlayers(players);
 		WorldSavingLoading.saveBytes(playerBytes, f);
 	}
@@ -133,8 +131,14 @@ public class ServerLogic {
 		Array<PacketSendChunk> queue = new Array<PacketSendChunk>(Math.max(1, world.sizex / 16)
 				+ Math.max(1, world.sizey / 16));
 
+		Array<String> blockKeys = new Array<>();
+		HashMap<String, Integer> blockMap = new HashMap<>();
+
 		for (int x = 0; x < world.getWidthInChunks(); x++) {
 			for (int y = 0; y < world.getHeightInChunks(); y++) {
+				blockKeys.clear();
+				blockMap.clear();
+
 				PacketSendChunk packet = new PacketSendChunk();
 
 				packet.originx = x * Chunk.CHUNK_SIZE;
@@ -144,12 +148,22 @@ public class ServerLogic {
 					for (int k = 0; k < Chunk.CHUNK_SIZE; k++) {
 						Chunk currentChunk = world.getChunk(x, y);
 
-						packet.blocks[j][k] = Blocks.instance().getKey(
-								currentChunk.getChunkBlock(j, k));
+						String blockKey = Blocks.instance()
+								.getKey(currentChunk.getChunkBlock(j, k));
+
+						if (!blockKeys.contains(
+								blockKey, false)) {
+							blockKeys.add(blockKey);
+							blockMap.put(blockKey, blockKeys.size - 1);
+						}
+
+						packet.blocks[j][k] = blockMap.get(blockKey);
 						packet.meta[j][k] = currentChunk.getChunkMeta(j, k);
 						packet.tileEntities[j][k] = currentChunk.getChunkTileEntity(j, k);
 					}
 				}
+
+				packet.blockKeys = blockKeys.toArray(String.class);
 
 				queue.add(packet);
 			}
@@ -208,9 +222,10 @@ public class ServerLogic {
 	 */
 	protected void removePlayer(String name) {
 		EntityPlayer p = getPlayerByName(name);
-		
+
 		if (p != null) {
-			getServerPlayerByName(name).stopUsingItem(this);
+			if (getServerPlayerByName(name) != null) getServerPlayerByName(name)
+					.stopUsingItem(this);
 			updatePlayerData(p);
 			world.removeEntity(p.uuid);
 			try {
@@ -220,42 +235,42 @@ public class ServerLogic {
 			}
 		}
 	}
-	
+
 	/**
 	 * Used to update the ServerPlayer instance with entity data before disconnecting
 	 * <br>
 	 * This method actually deletes the existing instance and creates a new one. The method that creates the new instance updates the fields correctly.
 	 * @param p
 	 */
-	public void updatePlayerData(EntityPlayer p){
-		for(int i = players.size - 1; i >= 0; i--){
-			if(players.get(i).username.equals(p.username)){
+	public void updatePlayerData(EntityPlayer p) {
+		for (int i = players.size - 1; i >= 0; i--) {
+			if (players.get(i).username.equals(p.username)) {
 				players.removeIndex(i);
 			}
 		}
-		
+
 		players.add(createNewServerPlayer(p));
 	}
-	
+
 	/**
 	 * Returns a brand new server player instance
 	 * @param p
 	 * @return
 	 */
-	public ServerPlayer createNewServerPlayer(EntityPlayer p){
+	public ServerPlayer createNewServerPlayer(EntityPlayer p) {
 		ServerPlayer sp = new ServerPlayer(p.username, p.uuid);
-		
+
 		sp.posx = p.x;
 		sp.posy = p.y;
-		
+
 		return sp;
 	}
-	
-	public ServerPlayer getServerPlayerByName(String username){
-		for(ServerPlayer p : players){
-			if(p.username.equals(username)) return p;
+
+	public ServerPlayer getServerPlayerByName(String username) {
+		for (ServerPlayer p : players) {
+			if (p.username.equals(username)) return p;
 		}
-		
+
 		return null;
 	}
 

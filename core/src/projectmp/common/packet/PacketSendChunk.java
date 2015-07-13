@@ -11,7 +11,9 @@ import com.esotericsoftware.kryonet.Connection;
 
 public class PacketSendChunk implements Packet {
 
-	public String[][] blocks = new String[Chunk.CHUNK_SIZE][Chunk.CHUNK_SIZE];
+	public String[] blockKeys;
+	
+	public int[][] blocks = new int[Chunk.CHUNK_SIZE][Chunk.CHUNK_SIZE];
 	public int[][] meta = new int[Chunk.CHUNK_SIZE][Chunk.CHUNK_SIZE];
 	public TileEntity[][] tileEntities = new TileEntity[Chunk.CHUNK_SIZE][Chunk.CHUNK_SIZE];
 
@@ -26,7 +28,7 @@ public class PacketSendChunk implements Packet {
 	public void actionClient(Connection connection, ClientLogic logic) {
 		for (int x = 0; x < Chunk.CHUNK_SIZE; x++) {
 			for (int y = 0; y < Chunk.CHUNK_SIZE; y++) {
-				logic.world.setBlock(Blocks.instance().getBlock(blocks[x][y]), originx + x, originy
+				logic.world.setBlock(Blocks.instance().getBlock(blockKeys[blocks[x][y]]), originx + x, originy
 						+ y);
 				logic.world.setMeta(meta[x][y], originx + x, originy + y);
 				logic.world.setTileEntity(tileEntities[x][y], x, y);
