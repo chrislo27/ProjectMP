@@ -351,6 +351,10 @@ public class World {
 			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
 		}
 	}
+	
+	public void setBlock(String b, int x, int y){
+		setBlock(Blocks.instance().getBlock(b), x, y);
+	}
 
 	public void setMeta(int m, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
