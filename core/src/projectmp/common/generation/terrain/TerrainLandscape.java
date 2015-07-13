@@ -17,8 +17,15 @@ public class TerrainLandscape extends TerrainGenerator{
 		for(int i = 0; i < elevation.length; i++){
 			elevation[i] = (float) noiseGen.eval(i * 0.05, -1);
 			
-			for(int y = (int) (hillCenterPoint + elevation[i] * hillHeightCoefficient); y < world.sizey; y++){
-				world.setBlock(Blocks.instance().getBlock("stone"), i, y);
+			int start = (int) (hillCenterPoint + elevation[i] * hillHeightCoefficient);
+			for(int y = start; y < world.sizey; y++){
+				world.setBlock("stone", i, y);
+				
+				if(y == start){
+					world.setBlock("grass", i, y);
+				}else if(y > start && y <= start + (hillHeightCoefficient / 2)){
+					world.setBlock("dirt", i, y);
+				}
 			}
 		}
 		
