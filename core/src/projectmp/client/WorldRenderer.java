@@ -112,10 +112,16 @@ public class WorldRenderer implements Disposable {
 
 					// render if only the rendering layer matches the current one
 					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
-						world.getBlock(x, y).renderIndexAt(batch, main, world, convertWorldX(x),
-								convertWorldY(y, World.tilesizex), World.tilesizex,
-								World.tilesizey,
-								world.getBlock(x, y).getCurrentRenderingIndex(world, x, y), x, y);
+						if (x == logic.getCursorBlockX() && y == logic.getCursorBlockY()
+								&& !logic.getPlayerInventory().getSelectedItem().isNothing()) {
+							logic.getPlayerInventory()
+									.getSelectedItem()
+									.getItem()
+									.onRenderCursorBlock(this,
+											logic.getPlayerInventory().getSelectedItem(), x, y);
+						} else {
+							renderBlockInWorld(x, y);
+						}
 					}
 				}
 			}
@@ -239,6 +245,14 @@ public class WorldRenderer implements Disposable {
 
 	public void tickUpdate() {
 
+	}
+	
+	public void renderBlockInWorld(int x, int y){
+		world.getBlock(x, y).renderIndexAt(batch, main, world,
+				convertWorldX(x), convertWorldY(y, World.tilesizex),
+				World.tilesizex, World.tilesizey,
+				world.getBlock(x, y).getCurrentRenderingIndex(world, x, y), x,
+				y);
 	}
 
 	protected void changeWorld(World w) {
