@@ -8,6 +8,7 @@ import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.packet.PacketBlockActivate;
+import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.repository.PacketRepository;
@@ -18,8 +19,6 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
@@ -40,6 +39,8 @@ public class ClientLogic implements Disposable {
 
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
+	
+	private boolean isUsingItem = false;
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -93,6 +94,10 @@ public class ClientLogic implements Disposable {
 			if (main.client.isConnected()) {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
+				
+				if(isUsingItem){
+					getPlayerInventory().getSelectedItem().getItem().onUsing(world, getPlayer());
+				}
 
 				// send a movement update if the player moved last tick OR if it's time to send a packet
 				if (getPlayer().hasMovedLastTick()
@@ -236,10 +241,12 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Utils.isButtonJustPressed(Buttons.LEFT)) { // item use
-				if(!getPlayerInventory().getSelectedItem().isNothing()){
-					
-				}
-			} else if (Utils.isButtonJustPressed(Buttons.RIGHT)) { // block activate
+				useItem();
+			}else{
+				stopUsingItem();
+			}
+			
+			if (Utils.isButtonJustPressed(Buttons.RIGHT) && !isUsingItem) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 				// send packet to server
 				PacketBlockActivate packet = PacketRepository.instance().blockActivate;
@@ -307,6 +314,38 @@ public class ClientLogic implements Disposable {
 
 	public PacketSwapSlot getSwapSlotPacket() {
 		return swapSlot;
+	}
+	
+	public boolean isUsingItem(){
+		return isUsingItem;
+	}
+	
+	public void useItem(){
+		if(!getPlayerInventory().getSelectedItem().isNothing()){
+			if(!isUsingItem){
+				isUsingItem = true;
+				getPlayerInventory().getSelectedItem().getItem().onUseStart(world, getPlayer());
+				
+				PacketItemUse packet = PacketRepository.instance().itemUse;
+				packet.status = PacketItemUse.ON_START;
+				packet.stack = mouseStack;
+				client.sendTCP(packet);
+			}
+		}
+	}
+	
+	public void stopUsingItem(){
+		if(!getPlayerInventory().getSelectedItem().isNothing()){
+			if(isUsingItem){
+				isUsingItem = false;
+				getPlayerInventory().getSelectedItem().getItem().onUseEnd(world, getPlayer());
+				
+				PacketItemUse packet = PacketRepository.instance().itemUse;
+				packet.status = PacketItemUse.ON_END;
+				packet.stack = mouseStack;
+				client.sendTCP(packet);
+			}
+		}
 	}
 
 }

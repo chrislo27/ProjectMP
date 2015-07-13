@@ -3,6 +3,7 @@ package projectmp.common.packet;
 import projectmp.client.ClientLogic;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.server.ServerLogic;
+import projectmp.server.player.ServerPlayer;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -30,7 +31,15 @@ public class PacketItemUse implements Packet{
 	public void actionServer(Connection connection, ServerLogic logic) {
 		if(stack == null) return;
 		
+		ServerPlayer sp = logic.getServerPlayerByName(connection.toString());
 		
+		if(sp == null) return;
+		
+		if(status == ON_START){
+			sp.startUsingItem(logic, stack);
+		}else if(status == ON_END){
+			sp.stopUsingItem(logic);
+		}
 	}
 
 	@Override
