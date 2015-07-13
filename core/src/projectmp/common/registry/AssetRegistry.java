@@ -6,6 +6,8 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import projectmp.client.animation.Animation;
+import projectmp.common.block.Blocks;
+import projectmp.common.item.Items;
 import projectmp.common.registry.handler.IAssetLoader;
 import projectmp.common.registry.handler.StockAssetLoader;
 import projectmp.common.util.AssetMap;
@@ -46,6 +48,9 @@ public final class AssetRegistry implements Disposable {
 	private Texture missingTexture;
 
 	private void onInstantiate() {
+		Blocks.instance();
+		Items.instance();
+		
 		addAssetLoader(new StockAssetLoader());
 	}
 
@@ -94,6 +99,7 @@ public final class AssetRegistry implements Disposable {
 			long time = System.currentTimeMillis();
 			while (true) {
 				if(System.currentTimeMillis() - time >= animationTimeShare) break;
+				if(!animationLoadingIterator.hasNext()) break;
 				animationLoadingIterator.next().getValue().load();
 			}
 		}
