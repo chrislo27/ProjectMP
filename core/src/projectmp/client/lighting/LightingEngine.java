@@ -145,7 +145,7 @@ public class LightingEngine {
 		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
-	public void resetLightingAndCalcSky(int originx, int originy, int width, int height, boolean shouldUpdateSky) {
+	private void resetLightingAndCalcSky(int originx, int originy, int width, int height, boolean shouldUpdateSky) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
@@ -180,7 +180,7 @@ public class LightingEngine {
 		}
 	}
 
-	public void doLightingUpdates(int originx, int originy, int width, int height) {
+	private void doLightingUpdates(int originx, int originy, int width, int height) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
