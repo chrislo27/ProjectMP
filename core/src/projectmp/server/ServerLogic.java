@@ -55,9 +55,6 @@ public class ServerLogic {
 				world.setSendingUpdates(true);
 				Main.logger.debug("finished generating; took " + (System.currentTimeMillis() - ms)
 						+ " ms");
-				world.lightingEngine.updateLighting(0, 0, world.sizex, world.sizey, true);
-				Main.logger.debug("Lighting update for entire world on init took "
-						+ (world.lightingEngine.getLastUpdateLength() / 1000000f) + " ms");
 
 				//				try {
 				//					byte[] worldBytes = WorldSavingLoading.loadWorld(new File("saves/save0/world.dat"));
