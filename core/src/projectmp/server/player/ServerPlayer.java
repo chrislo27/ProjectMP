@@ -45,7 +45,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 
 	public void tickUpdate(ServerLogic logic){
 		if(isUsingItem()){
-			currentUsingItem.getItem().onUsing(logic.world, logic.getPlayerByName(username));
+			currentUsingItem.getItem().onUsing(logic.world, logic.getPlayerByName(username), currentUsingItem);
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		if(!isUsingItem()) return;
 		if(currentUsingItem.getItem() == null) return;
 		
-		currentUsingItem.getItem().onUseEnd(logic.world, logic.getPlayerByName(username));
+		currentUsingItem.getItem().onUseEnd(logic.world, logic.getPlayerByName(username), currentUsingItem);
 	}
 	
 	public void startUsingItem(ServerLogic logic, ItemStack item){
@@ -66,7 +66,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		if(item.getItem() == null) return;
 		
 		currentUsingItem = item.copy();
-		currentUsingItem.getItem().onUseStart(logic.world, logic.getPlayerByName(username));
+		currentUsingItem.getItem().onUseStart(logic.world, logic.getPlayerByName(username), currentUsingItem);
 	}
 	
 	@Override

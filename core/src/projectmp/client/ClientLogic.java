@@ -95,8 +95,8 @@ public class ClientLogic implements Disposable {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 				
-				if(isUsingItem){
-					getPlayerInventory().getSelectedItem().getItem().onUsing(world, getPlayer());
+				if(isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()){
+					getPlayerInventory().getSelectedItem().getItem().onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem());
 				}
 
 				// send a movement update if the player moved last tick OR if it's time to send a packet
@@ -324,7 +324,7 @@ public class ClientLogic implements Disposable {
 		if(!getPlayerInventory().getSelectedItem().isNothing()){
 			if(!isUsingItem){
 				isUsingItem = true;
-				getPlayerInventory().getSelectedItem().getItem().onUseStart(world, getPlayer());
+				getPlayerInventory().getSelectedItem().getItem().onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem());
 				
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_START;
@@ -338,7 +338,7 @@ public class ClientLogic implements Disposable {
 		if(!getPlayerInventory().getSelectedItem().isNothing()){
 			if(isUsingItem){
 				isUsingItem = false;
-				getPlayerInventory().getSelectedItem().getItem().onUseEnd(world, getPlayer());
+				getPlayerInventory().getSelectedItem().getItem().onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem());
 				
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_END;
