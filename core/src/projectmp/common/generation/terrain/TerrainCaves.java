@@ -1,5 +1,6 @@
 package projectmp.common.generation.terrain;
 
+import projectmp.common.block.Blocks;
 import projectmp.common.util.SimplexNoise;
 import projectmp.common.world.World;
 
@@ -21,7 +22,7 @@ public class TerrainCaves extends TerrainGenerator{
 				check2 = (check2 + 1) / 2f;
 				
 				if((check1 > greaterThan && check1 < lessThan) && (check2 > greaterThan && check2 < lessThan)){
-					world.setBlock(null, x, y);
+					world.setBlock(Blocks.defaultBlock, x, y);
 				}
 			}
 		}
