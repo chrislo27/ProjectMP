@@ -18,59 +18,60 @@ public class Item extends TexturedObject {
 		this.unlocalizedName = unlocalizedname;
 	}
 
-	public void onUseStart(World world, EntityPlayer user, ItemStack stack){
-		
+	public void onUseStart(World world, EntityPlayer user, ItemStack stack) {
+
 	}
-	
+
 	/**
 	 * called every tick while in use
 	 * @param world
 	 * @param user
 	 */
-	public void onUsing(World world, EntityPlayer user, ItemStack stack){
-		
+	public void onUsing(World world, EntityPlayer user, ItemStack stack) {
+
 	}
-	
-	public void onUseEnd(World world, EntityPlayer user, ItemStack stack){
-		
+
+	public void onUseEnd(World world, EntityPlayer user, ItemStack stack) {
+
 	}
-	
-	public void onRenderCursorBlock(WorldRenderer renderer, ItemStack stack, int x, int y){
+
+	public void onRenderCursorBlock(WorldRenderer renderer, ItemStack stack, int x, int y) {
 		renderer.renderBlockInWorld(x, y);
 	}
-	
+
 	@Override
 	public Item addAnimations(Animation... args) {
 		super.addAnimations(args);
 
 		return this;
 	}
-	
-	public Item setMaxStack(int i){
+
+	public Item setMaxStack(int i) {
 		maxStackable = i;
 		return this;
 	}
-	
-	public String getUnlocalizedName(){
+
+	public String getUnlocalizedName() {
 		return unlocalizedName;
 	}
 
 	public String getLocalizedName(ItemStack stack) {
 		return Translator.instance().getMsg("item." + getUnlocalizedName() + ".name");
 	}
-	
-	public void render(WorldRenderer renderer, int x, int y, int width, int height, ItemStack stack){
+
+	public void render(WorldRenderer renderer, float x, float y, float width, float height, ItemStack stack) {
 		renderIndexAt(renderer, x, y, width, height, stack, getCurrentRenderingIndex(stack));
 	}
-	
-	protected void renderIndexAt(WorldRenderer renderer, int x, int y, int width, int height, ItemStack stack, int renderingIndex) {
+
+	protected void renderIndexAt(WorldRenderer renderer, float x, float y, float width,
+			float height, ItemStack stack, int renderingIndex) {
 		if (getAnimation(renderingIndex) != null) {
-			renderer.batch.draw(getAnimation(renderingIndex).getCurrentFrame(),
-					x, y, width, height);
+			renderer.batch
+					.draw(getAnimation(renderingIndex).getCurrentFrame(), x, y, width, height);
 		}
 	}
-	
-	protected int getCurrentRenderingIndex(ItemStack stack){
+
+	protected int getCurrentRenderingIndex(ItemStack stack) {
 		return 0;
 	}
 
