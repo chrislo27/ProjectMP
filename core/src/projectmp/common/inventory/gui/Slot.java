@@ -50,8 +50,7 @@ public class Slot {
 		SpriteBatch batch = renderer.batch;
 
 		batch.setColor(1, 1, 1, 1);
-		batch.draw(AssetRegistry.getTexture("invslot"), posx, posy,
-				width, height);
+		batch.draw(AssetRegistry.getTexture("invslot"), posx, posy, width, height);
 		batch.setColor(1, 1, 1, 1);
 
 		// darken
@@ -64,7 +63,11 @@ public class Slot {
 		// draw icon
 		ItemStack stack = inventory.getSlot(slotNum);
 		if (stack.getItem() != null) {
-			stack.getItem().render(renderer, posx, posy, width, height, stack);
+			float spacing = 0.125f;
+
+			stack.getItem().render(renderer, posx + (spacing * width / 2),
+					posy + (spacing * height / 2), width - (width * spacing),
+					height - (height * spacing), stack);
 			// draw number if > 1
 			if (stack.getAmount() > 1) {
 				float textHeight = renderer.main.font.getBounds("" + stack.getAmount()).height;
