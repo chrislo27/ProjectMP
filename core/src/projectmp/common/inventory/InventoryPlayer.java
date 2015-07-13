@@ -1,6 +1,7 @@
 package projectmp.common.inventory;
 
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.item.Items;
 import projectmp.common.util.Utils;
 
 import com.badlogic.gdx.math.MathUtils;
@@ -18,6 +19,8 @@ public class InventoryPlayer extends Inventory{
 	
 	public InventoryPlayer(long uuid){
 		super(MAX_INV_CAPACITY, "playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
+		
+		setSlot(0, new ItemStack("testMineable", 1));
 	}
 	
 	@Override
