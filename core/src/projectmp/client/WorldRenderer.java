@@ -137,6 +137,7 @@ public class WorldRenderer implements Disposable {
 						renderBlockInWorld(x, y);
 						
 						if(isSetForBreaking){
+							// better than re-setting the shader to default each time
 							batch.flush();
 						}
 					}
