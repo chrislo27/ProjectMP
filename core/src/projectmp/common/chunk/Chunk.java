@@ -30,6 +30,7 @@ public class Chunk implements CanBeSavedToNBT {
 	protected Block[][] blocks = new Block[CHUNK_SIZE][CHUNK_SIZE];
 	protected byte[][] metadata = new byte[CHUNK_SIZE][CHUNK_SIZE];
 	protected TileEntity[][] tileEntities = new TileEntity[CHUNK_SIZE][CHUNK_SIZE];
+	protected float[][] breakingProgress = new float[CHUNK_SIZE][CHUNK_SIZE];
 
 	int locationX = 0;
 	int locationY = 0;
@@ -43,6 +44,7 @@ public class Chunk implements CanBeSavedToNBT {
 				blocks[x][y] = Blocks.defaultBlock();
 				metadata[x][y] = 0;
 				tileEntities[x][y] = null;
+				breakingProgress[x][y] = 0;
 			}
 		}
 	}
@@ -80,6 +82,11 @@ public class Chunk implements CanBeSavedToNBT {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return null;
 		return tileEntities[x][y];
 	}
+	
+	public float getChunkBreakingProgress(int x, int y){
+		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return 0;
+		return breakingProgress[x][y];
+	}
 
 	public void setChunkBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
@@ -94,6 +101,11 @@ public class Chunk implements CanBeSavedToNBT {
 	public void setChunkTileEntity(TileEntity te, int x, int y) {
 		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
 		tileEntities[x][y] = te;
+	}
+	
+	public void setChunkBreakingProgress(float pro, int x, int y){
+		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return;
+		breakingProgress[x][y] = pro;
 	}
 
 	@Override
