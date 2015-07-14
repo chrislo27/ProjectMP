@@ -5,7 +5,7 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.packet.PacketBlockUpdate;
-import projectmp.common.packet.PacketSendTileEntity;
+import projectmp.common.packet.PacketBreakingProgress;
 import projectmp.common.packet.PacketTimeUpdate;
 import projectmp.common.packet.PacketUpdateHealth;
 import projectmp.common.packet.PacketWeather;
@@ -86,6 +86,13 @@ public class ServerWorld extends World {
 		super.setMeta(m, x, y);
 		if (getMeta(x, y) != old) sendBlockUpdatePacket(x, y);
 	}
+	
+	@Override
+	public void setBreakingProgress(int x, int y, float pro){
+		float old = getBreakingProgress(x, y);
+		super.setBreakingProgress(x, y, pro);
+		if(getBreakingProgress(x, y) != old) sendBreakingProgressUpdate(x, y);
+	}
 
 	@Override
 	public void setTileEntity(TileEntity te, int x, int y) {
@@ -103,6 +110,17 @@ public class ServerWorld extends World {
 		bupacket.y = y;
 
 		logic.server.sendToAllTCP(bupacket);
+	}
+	
+	private void sendBreakingProgressUpdate(int x, int y){
+		if (!shouldSendUpdates) return;
+		PacketBreakingProgress packet = PacketRepository.instance().breakingProgress;
+		
+		packet.x = x;
+		packet.y = y;
+		packet.progress = getBreakingProgress(x, y);
+		
+		logic.server.sendToAllTCP(packet);
 	}
 
 }

@@ -11,6 +11,7 @@ import projectmp.common.packet.Packet;
 import projectmp.common.packet.PacketBeginChunkTransfer;
 import projectmp.common.packet.PacketBlockActivate;
 import projectmp.common.packet.PacketBlockUpdate;
+import projectmp.common.packet.PacketBreakingProgress;
 import projectmp.common.packet.PacketEndChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketItemUse;
@@ -69,6 +70,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(PacketSwapSlot.class);
 		kryo.register(PacketBlockActivate.class);
 		kryo.register(PacketItemUse.class);
+		kryo.register(PacketBreakingProgress.class);
 	}
 
 	private void registerEntities(Kryo kryo) {

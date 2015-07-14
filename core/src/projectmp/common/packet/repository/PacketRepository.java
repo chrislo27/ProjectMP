@@ -27,6 +27,7 @@ public final class PacketRepository {
 	public PacketTimeUpdate timeUpdate = new PacketTimeUpdate();
 	public PacketUpdateHealth updateHealth = new PacketUpdateHealth();
 	public PacketWeather weatherUpdate = new PacketWeather();
+	public PacketBreakingProgress breakingProgress = new PacketBreakingProgress();
 	
 	public PacketGuiState guiState = new PacketGuiState();
 	public PacketSwapSlot swapSlot = new PacketSwapSlot();
