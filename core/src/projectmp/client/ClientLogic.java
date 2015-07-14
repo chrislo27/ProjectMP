@@ -39,7 +39,7 @@ public class ClientLogic implements Disposable {
 
 	private Gui currentGui = null;
 	public ItemStack mouseStack = new ItemStack(null, 0);
-	
+
 	private boolean isUsingItem = false;
 
 	public ClientLogic(Main main) {
@@ -56,12 +56,12 @@ public class ClientLogic implements Disposable {
 
 		return (EntityPlayer) world.getEntityByIndex(playerIndex);
 	}
-	
-	public InventoryPlayer getPlayerInventory(){
+
+	public InventoryPlayer getPlayerInventory() {
 		EntityPlayer p = getPlayer();
-		
-		if(p == null) return null;
-		
+
+		if (p == null) return null;
+
 		return p.getInventoryObject();
 	}
 
@@ -94,9 +94,10 @@ public class ClientLogic implements Disposable {
 			if (main.client.isConnected()) {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
-				
-				if(isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()){
-					getPlayerInventory().getSelectedItem().getItem().onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem());
+
+				if (isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()) {
+					getPlayerInventory().getSelectedItem().getItem()
+							.onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem());
 				}
 
 				// send a movement update if the player moved last tick OR if it's time to send a packet
@@ -199,6 +200,12 @@ public class ClientLogic implements Disposable {
 					Main.convertY(starting + 255));
 			main.font.draw(main.batch, "lerpVeloY: " + getPlayer().lerpVeloY, 5,
 					Main.convertY(starting + 270));
+			main.font
+					.draw(main.batch,
+							"breakingProgress: "
+									+ String.format("%.3f", world.getBreakingProgress(
+											getCursorBlockX(), getCursorBlockY())), 5, Main
+									.convertY(starting + 285));
 		}
 	}
 
@@ -242,10 +249,10 @@ public class ClientLogic implements Disposable {
 
 			if (Gdx.input.isButtonPressed(Buttons.LEFT)) { // item use
 				useItem();
-			}else if (Gdx.input.isButtonPressed(Buttons.LEFT) == false){
+			} else if (Gdx.input.isButtonPressed(Buttons.LEFT) == false) {
 				stopUsingItem();
 			}
-			
+
 			if (Utils.isButtonJustPressed(Buttons.RIGHT) && !isUsingItem) { // block activate
 				world.getBlock(x, y).onActivate(world, x, y, getPlayer());
 				// send packet to server
@@ -253,7 +260,7 @@ public class ClientLogic implements Disposable {
 				packet.playerUsername = Main.username;
 				packet.blockX = x;
 				packet.blockY = y;
-				
+
 				client.sendTCP(packet);
 			}
 		}
@@ -315,17 +322,18 @@ public class ClientLogic implements Disposable {
 	public PacketSwapSlot getSwapSlotPacket() {
 		return swapSlot;
 	}
-	
-	public boolean isUsingItem(){
+
+	public boolean isUsingItem() {
 		return isUsingItem;
 	}
-	
-	public void useItem(){
-		if(!getPlayerInventory().getSelectedItem().isNothing()){
-			if(!isUsingItem){
+
+	public void useItem() {
+		if (!getPlayerInventory().getSelectedItem().isNothing()) {
+			if (!isUsingItem) {
 				isUsingItem = true;
-				getPlayerInventory().getSelectedItem().getItem().onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem());
-				
+				getPlayerInventory().getSelectedItem().getItem()
+						.onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem());
+
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_START;
 				packet.stack = mouseStack;
@@ -333,13 +341,14 @@ public class ClientLogic implements Disposable {
 			}
 		}
 	}
-	
-	public void stopUsingItem(){
-		if(!getPlayerInventory().getSelectedItem().isNothing()){
-			if(isUsingItem){
+
+	public void stopUsingItem() {
+		if (!getPlayerInventory().getSelectedItem().isNothing()) {
+			if (isUsingItem) {
 				isUsingItem = false;
-				getPlayerInventory().getSelectedItem().getItem().onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem());
-				
+				getPlayerInventory().getSelectedItem().getItem()
+						.onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem());
+
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_END;
 				packet.stack = mouseStack;
