@@ -87,7 +87,8 @@ void main(void) {
     
     // an intensity of at least 2.5 with zoom of 2.0 occupies the entire texture
     
-    float noiseTime = (time / 3.0) * speed;
+    // interestingly, a static time with a speed > 0 makes it more pixelated
+    float noiseTime = (time * speed / 3.0);
     
     vec2 manipulatedTexCoord = vec2(vTexCoord + vec2(noiseTime, noiseTime)) * zoom;
     
