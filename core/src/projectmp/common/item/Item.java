@@ -35,10 +35,6 @@ public class Item extends TexturedObject {
 
 	}
 
-	public void onRenderCursorBlock(WorldRenderer renderer, ItemStack stack, int x, int y) {
-		renderer.renderBlockInWorld(x, y);
-	}
-
 	@Override
 	public Item addAnimations(Animation... args) {
 		super.addAnimations(args);
