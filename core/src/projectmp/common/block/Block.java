@@ -21,6 +21,8 @@ public class Block extends TexturedObject {
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 
 	protected String unlocalizedName = "unnamed";
+	
+	protected float hardness = 1f;
 
 	public Block(String unlocalName) {
 		super("block", unlocalName);
@@ -67,6 +69,16 @@ public class Block extends TexturedObject {
 	 */
 	public int getLightEmitted(World world, int x, int y) {
 		return Color.rgba8888(0, 0, 0, 0);
+	}
+	
+	public Block setHardness(float hard){
+		hardness = Math.max(hard, 0f);
+		
+		return this;
+	}
+	
+	public float getHardness(){
+		return hardness;
 	}
 
 	/**
