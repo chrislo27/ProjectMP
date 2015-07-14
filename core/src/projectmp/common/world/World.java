@@ -68,6 +68,8 @@ public class World {
 	public Background background = new Background(this);
 
 	private Weather weather = null;
+	
+	protected Array<BreakingState> breakingStates;
 
 	/**
 	 * 
@@ -111,6 +113,7 @@ public class World {
 		entities = new Array<Entity>(32);
 		particles = new Array<Particle>();
 		quadtree = new QuadTree(sizex, sizey);
+		breakingStates = new Array<>();
 
 		noiseGen = new SimplexNoise(seed);
 	}
@@ -340,6 +343,17 @@ public class World {
 		return getChunkBlockIsIn(x, y).getChunkTileEntity(x % Chunk.CHUNK_SIZE,
 				y % Chunk.CHUNK_SIZE);
 	}
+	
+	public float getBreakingProgress(int x, int y){
+		for(int i = 0; i < breakingStates.size; i++){
+			BreakingState state = breakingStates.get(i);
+			if(state.x == x && state.y == y){
+				return state.progress;
+			}
+		}
+		
+		return 0;
+	}
 
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
@@ -366,6 +380,18 @@ public class World {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
 		getChunkBlockIsIn(x, y).setChunkTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+	}
+	
+	public void setBreakingProgress(int x, int y, float progress){
+		for(int i = 0; i < breakingStates.size; i++){
+			BreakingState state = breakingStates.get(i);
+			if(state.x == x && state.y == y){
+				state.progress = progress;
+				return;
+			}
+		}
+		
+		breakingStates.add(BreakingState.obtain(x, y, progress));
 	}
 
 	public boolean isChunkLoaded(int x, int y) {
