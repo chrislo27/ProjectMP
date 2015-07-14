@@ -37,6 +37,8 @@ public class WorldRenderer implements Disposable {
 	private FrameBuffer worldBuffer;
 	private FrameBuffer lightingBuffer;
 
+	private float seconds = 0;
+
 	private PostProcessor postProcessor;
 
 	public WorldRenderer(Main m, World w, ClientLogic l) {
@@ -118,25 +120,33 @@ public class WorldRenderer implements Disposable {
 						boolean isBeingBroken = world.getBreakingProgress(x, y) > 0;
 
 						if (isBeingBroken) {
-							if(!isSetForBreaking){
+							if (!isSetForBreaking) {
 								isSetForBreaking = true;
 								batch.setShader(main.maskNoiseShader);
 							}
 
-							main.maskNoiseShader.setUniformf("time", x * y * 7f);
-							main.maskNoiseShader.setUniformf("speed", 0f);
+							seconds += Gdx.graphics.getDeltaTime()
+									* (0.75f + ((MathHelper.clampNumberFromTime(2f) * 2) * 0.25f));
+
+							main.maskNoiseShader.setUniformf("time", seconds);
+							main.maskNoiseShader.setUniformf("speed", 1f);
+							if(x == logic.getCursorBlockX() && y == logic.getCursorBlockY()){
+								main.maskNoiseShader.setUniformf("outlinecolor", 0f, 1f, 1f, 1f);
+							}else{
+								main.maskNoiseShader.setUniformf("outlinecolor", 0f, 0f, 0f, 0f);
+							}
 							Utils.setupMaskingNoiseShader(main.maskNoiseShader,
 									MathUtils.clamp(world.getBreakingProgress(x, y), 0f, 1f));
 						} else {
-							if(isSetForBreaking){
+							if (isSetForBreaking) {
 								isSetForBreaking = false;
 								batch.setShader(null);
 							}
 						}
 
 						renderBlockInWorld(x, y);
-						
-						if(isSetForBreaking){
+
+						if (isSetForBreaking) {
 							// better than re-setting the shader to default each time
 							batch.flush();
 						}
