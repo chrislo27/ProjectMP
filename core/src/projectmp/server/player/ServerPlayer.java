@@ -49,6 +49,10 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		}
 	}
 	
+	public ItemStack getCurrentUsingItem(){
+		return currentUsingItem;
+	}
+	
 	public boolean isUsingItem(){
 		return currentUsingItem != null;
 	}
