@@ -19,7 +19,11 @@ public class PacketBreakingProgress implements Packet {
 		packet.y = y;
 		packet.progress = logic.world.getBreakingProgress(x, y);
 		
-		logic.server.sendToAllExceptUDP(connection.getID(), packet);
+		if(packet.progress <= 0){
+			logic.server.sendToAllExceptTCP(connection.getID(), packet);
+		}else{
+			logic.server.sendToAllExceptUDP(connection.getID(), packet);
+		}
 	}
 
 	@Override

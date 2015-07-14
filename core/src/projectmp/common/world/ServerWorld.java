@@ -120,7 +120,11 @@ public class ServerWorld extends World {
 		packet.y = y;
 		packet.progress = getBreakingProgress(x, y);
 		
-		logic.server.sendToAllUDP(packet);
+		if(packet.progress <= 0){
+			logic.server.sendToAllTCP(packet);
+		}else{
+			logic.server.sendToAllUDP(packet);
+		}
 	}
 
 }
