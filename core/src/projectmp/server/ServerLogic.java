@@ -274,7 +274,9 @@ public class ServerLogic {
 	}
 
 	public ServerPlayer getServerPlayerByName(String username) {
-		for (ServerPlayer p : players) {
+		for (int i = 0; i < players.size; i++) {
+			ServerPlayer p = players.get(i);
+			
 			if (p.username.equals(username)) return p;
 		}
 
