@@ -240,9 +240,9 @@ public class ClientLogic implements Disposable {
 			int x = getCursorBlockX();
 			int y = getCursorBlockY();
 
-			if (Utils.isButtonJustPressed(Buttons.LEFT)) { // item use
+			if (Gdx.input.isButtonPressed(Buttons.LEFT)) { // item use
 				useItem();
-			}else{
+			}else if (Gdx.input.isButtonPressed(Buttons.LEFT) == false){
 				stopUsingItem();
 			}
 			
