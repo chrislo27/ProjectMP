@@ -223,7 +223,7 @@ public class ServerLogic {
 		if (p != null) {
 			if (getServerPlayerByName(name) != null) getServerPlayerByName(name)
 					.stopUsingItem(this);
-			updatePlayerData(p);
+			updatePlayerData(name, p);
 			world.removeEntity(p.uuid);
 			try {
 				save(FileNameUtils.DEFAULT_SAVE_FOLDER + "save0/");
@@ -239,14 +239,24 @@ public class ServerLogic {
 	 * This method actually deletes the existing instance and creates a new one. The method that creates the new instance updates the fields correctly.
 	 * @param p
 	 */
-	public void updatePlayerData(EntityPlayer p) {
+	public void updatePlayerData(String username, EntityPlayer p) {
+		updatePlayerData(username, createNewServerPlayer(p));
+	}
+	
+	/**
+	 * Used to update the ServerPlayer instance with entity data before disconnecting
+	 * <br>
+	 * This method actually deletes the existing instance and creates a new one. The method that creates the new instance updates the fields correctly.
+	 * @param p
+	 */
+	public void updatePlayerData(String username, ServerPlayer sp){
 		for (int i = players.size - 1; i >= 0; i--) {
-			if (players.get(i).username.equals(p.username)) {
+			if (players.get(i).username.equals(username)) {
 				players.removeIndex(i);
 			}
 		}
 
-		players.add(createNewServerPlayer(p));
+		players.add(sp);
 	}
 
 	/**

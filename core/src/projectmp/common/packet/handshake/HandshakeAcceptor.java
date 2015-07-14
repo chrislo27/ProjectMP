@@ -38,6 +38,8 @@ public final class HandshakeAcceptor {
 		newPlayer.setInventory(sp.inventory);
 		newPlayer.positionUpdate(sp.posx, sp.posy);
 		
+		logic.updatePlayerData(username, sp);
+		
 		// send create packet
 		logic.world.createNewEntity(newPlayer);
 
