@@ -12,6 +12,8 @@ uniform float intensity;
 uniform float speed;
 // how zoomed out should it look, the higher the more zoomed OUT
 uniform float zoom;
+// outline colour
+uniform vec4 outlinecolor;
 
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -86,9 +88,27 @@ void main(void) {
     // an intensity of at least 2.5 with zoom of 2.0 occupies the entire texture
     
     float noiseTime = (time / 3.0) * speed;
-    vec2 manipulatedTexCoord = vec2(vTexCoord + vec2(noiseTime, noiseTime)) * zoom;
-    float noise = snoise(manipulatedTexCoord) * pow(intensity, 2.0);
     
-    gl_FragColor = vColor * mix(sentIn, vec4(sentIn.rgb, 0.0), noise + pow(intensity, 2.0));
+    vec2 manipulatedTexCoord = vec2(vTexCoord + vec2(noiseTime, noiseTime)) * zoom;
+    
+    float noise = snoise(manipulatedTexCoord) * pow(intensity, 2.0);
+    noise = noise + pow(intensity, 2.0);
+    vec4 toLerpTo = vec4(sentIn.rgb, 0.0);
+    
+    // outline below
+    
+    // intensify mixing
+    float mixAmount = sentIn.a * noise * 3.0;
+    
+    // cutoff point to make it look neater
+    float cutoff = 0.75;
+    
+    if(sentIn.a * noise >= cutoff){
+       mixAmount = 0.0;
+    }
+    
+    toLerpTo.rgb = mix(toLerpTo.rgb, outlinecolor.rgb, mixAmount * outlinecolor.a * (1.0 + cutoff));
+    
+    gl_FragColor = vColor * mix(sentIn, toLerpTo, noise);
 }
 

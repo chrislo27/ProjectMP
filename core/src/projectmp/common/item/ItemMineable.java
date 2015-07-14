@@ -3,7 +3,9 @@ package projectmp.common.item;
 import projectmp.client.WorldRenderer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.util.MathHelper;
+import projectmp.common.util.Utils;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
@@ -17,16 +19,18 @@ public class ItemMineable extends Item{
 		super(unlocalizedname);
 	}
 	
+	private Color outline = new Color(0f, 1f, 1f, 1f);
+	
 	@Override
 	public void onRenderCursorBlock(WorldRenderer renderer, ItemStack stack, int x, int y){
 		ShaderProgram shader = renderer.main.maskNoiseShader;
 		
 		renderer.batch.setShader(shader);
 		
-		shader.setUniformf("zoom", 2f);
-		shader.setUniformf("intensity", 2.5f - (MathHelper.getNumberFromTime(4) * 2.5f));
 		shader.setUniformf("speed", 0f);
 		shader.setUniformf("time", renderer.main.totalSeconds);
+		shader.setUniformf("outlinecolor", outline);
+		Utils.setupMaskingNoiseShader(shader, (MathHelper.getNumberFromTime(4)));
 		
 		super.onRenderCursorBlock(renderer, stack, x, y);
 		
