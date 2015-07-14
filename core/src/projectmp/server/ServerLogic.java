@@ -76,7 +76,9 @@ public class ServerLogic {
 	public void tickUpdate() {
 		world.tickUpdate();
 
-		for (ServerPlayer sp : players) {
+		for (int i = 0; i < players.size; i++) {
+			ServerPlayer sp = players.get(i);
+			
 			sp.tickUpdate(this);
 		}
 
