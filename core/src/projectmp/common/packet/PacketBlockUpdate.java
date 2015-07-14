@@ -2,7 +2,9 @@ package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.block.Blocks;
+import projectmp.common.item.ItemMineable;
 import projectmp.server.ServerLogic;
+import projectmp.server.player.ServerPlayer;
 
 import com.esotericsoftware.kryonet.Connection;
 
@@ -16,6 +18,16 @@ public class PacketBlockUpdate implements Packet {
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
+		ServerPlayer sp = logic.getServerPlayerByName(connection.toString());
+
+		if (sp.isUsingItem()) {
+			if (!sp.getCurrentUsingItem().isNothing()) {
+				if (sp.getCurrentUsingItem().getItem() instanceof ItemMineable) {
+					logic.world.setBlock(Blocks.instance().getBlock(block), x, y);
+					logic.world.setMeta(meta, x, y);
+				}
+			}
+		}
 	}
 
 	@Override
