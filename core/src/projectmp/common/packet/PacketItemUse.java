@@ -1,6 +1,7 @@
 package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
+import projectmp.common.Main;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.server.ServerLogic;
 import projectmp.server.player.ServerPlayer;
@@ -25,7 +26,7 @@ public class PacketItemUse implements Packet{
 	/**
 	 * The item stack.
 	 */
-	public ItemStack stack = new ItemStack(null, 0);
+	public ItemStack stack = null;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {

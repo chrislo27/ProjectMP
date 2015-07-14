@@ -336,7 +336,7 @@ public class ClientLogic implements Disposable {
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_START;
-				packet.stack = mouseStack;
+				packet.stack = getPlayerInventory().getSelectedItem();
 				client.sendTCP(packet);
 			}
 		}
@@ -351,7 +351,7 @@ public class ClientLogic implements Disposable {
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_END;
-				packet.stack = mouseStack;
+				packet.stack = getPlayerInventory().getSelectedItem();
 				client.sendTCP(packet);
 			}
 		}
