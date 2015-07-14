@@ -7,6 +7,7 @@ import projectmp.common.entity.EntityPlayer;
 import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Application.ApplicationType;
@@ -98,11 +99,13 @@ public class WorldRenderer implements Disposable {
 		int postx = getCullEndX(0);
 		int posty = getCullEndY(0);
 
+		boolean isSetForBreaking = false;
+
 		int greatestRenderingLevel = 0;
 
 		for (int layer = 0; layer <= greatestRenderingLevel; layer++) {
-			for (int x = prex; x < postx; x++) {
-				for (int y = posty; y >= prey; y--) {
+			for (int y = posty; y >= prey; y--) {
+				for (int x = prex; x < postx; x++) {
 					int blockLayer = world.getBlock(x, y).getRenderingLayer(world, x, y);
 
 					// if the block's rendering layer is greater than the greatest so far, replace
@@ -112,9 +115,37 @@ public class WorldRenderer implements Disposable {
 
 					// render if only the rendering layer matches the current one
 					if (world.getBlock(x, y).getRenderingLayer(world, x, y) == layer) {
+						boolean isBeingBroken = world.getBreakingProgress(x, y) > 0;
+
+						if (isBeingBroken) {
+							if(!isSetForBreaking){
+								isSetForBreaking = true;
+								batch.setShader(main.maskNoiseShader);
+							}
+
+							main.maskNoiseShader.setUniformf("time", x * y * 7f);
+							main.maskNoiseShader.setUniformf("speed", 0f);
+							Utils.setupMaskingNoiseShader(main.maskNoiseShader,
+									MathUtils.clamp(world.getBreakingProgress(x, y), 0f, 1f));
+						} else {
+							if(isSetForBreaking){
+								isSetForBreaking = false;
+								batch.setShader(null);
+							}
+						}
+
 						renderBlockInWorld(x, y);
+						
+						if(isSetForBreaking){
+							batch.flush();
+						}
 					}
 				}
+			}
+
+			if (isSetForBreaking) {
+				isSetForBreaking = false;
+				batch.setShader(null);
 			}
 
 			// render entities right after layer 0
