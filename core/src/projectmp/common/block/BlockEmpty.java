@@ -8,6 +8,7 @@ public class BlockEmpty extends Block {
 
 	public BlockEmpty(String identifier) {
 		super(identifier);
+		setHardness(-1);
 	}
 
 	public static final float DRAG = 0.7f;
