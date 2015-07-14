@@ -18,23 +18,5 @@ public class ItemMineable extends Item{
 	public ItemMineable(String unlocalizedname) {
 		super(unlocalizedname);
 	}
-	
-	private Color outline = new Color(0f, 1f, 1f, 1f);
-	
-	@Override
-	public void onRenderCursorBlock(WorldRenderer renderer, ItemStack stack, int x, int y){
-		ShaderProgram shader = renderer.main.maskNoiseShader;
-		
-		renderer.batch.setShader(shader);
-		
-		shader.setUniformf("speed", 0f);
-		shader.setUniformf("time", renderer.main.totalSeconds);
-		shader.setUniformf("outlinecolor", outline);
-		Utils.setupMaskingNoiseShader(shader, (MathHelper.getNumberFromTime(4)));
-		
-		super.onRenderCursorBlock(renderer, stack, x, y);
-		
-		renderer.batch.setShader(null);
-	}
 
 }
