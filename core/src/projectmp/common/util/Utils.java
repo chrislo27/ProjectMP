@@ -11,6 +11,7 @@ import projectmp.common.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class Utils {
 
@@ -173,6 +174,14 @@ public class Utils {
 			float x, float y, float width, float height) {
 		Main.useMask(theMask);
 		batch.draw(baked, x, y, width, height);
+	}
+	
+	/**
+	 * Does magic number work to set up the noise shader to cover a percentage of sprite at zoom 2.0;
+	 */
+	public static void setupMaskingNoiseShader(ShaderProgram program, float percentage){
+		program.setUniformf("zoom", 2f);
+		program.setUniformf("intensity", percentage * 2.5f);
 	}
 
 	public static String repeat(String s, int times) {
