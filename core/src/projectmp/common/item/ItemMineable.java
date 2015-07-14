@@ -1,11 +1,14 @@
 package projectmp.common.item;
 
 import projectmp.common.Main;
+import projectmp.common.block.Blocks;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.packet.PacketBlockUpdate;
+import projectmp.common.packet.PacketBreakingProgress;
+import projectmp.common.packet.repository.PacketRepository;
+import projectmp.common.util.GameException;
 import projectmp.common.world.World;
-
-import com.badlogic.gdx.Gdx;
 
 
 /**
@@ -33,10 +36,41 @@ public class ItemMineable extends Item{
 		if(world.isServer == false){
 			int x = world.main.clientLogic.getCursorBlockX();
 			int y = world.main.clientLogic.getCursorBlockY();
-			
+			PacketBreakingProgress packet = PacketRepository.instance().breakingProgress;
+			packet.x = x;
+			packet.y = y;
 			float progress = world.getBreakingProgress(x, y);
 			
-			world.setBreakingProgress(x, y, progress + (0.1f) + (World.BLOCK_RECEDE / Main.TICKS));
+			if(effectiveness <= 0){
+				throw new GameException("Item mining effectiveness cannot be <= 0!");
+			}
+			if(world.getBlock(x, y).getHardness() < 0){
+				world.setBreakingProgress(x, y, 0);
+				
+				return;
+			}
+			
+			world.setBreakingProgress(x, y, progress + ((world.getBlock(x, y).getHardness() / effectiveness) / Main.TICKS) + (World.BLOCK_RECEDE / Main.TICKS));
+			
+			float newProgress = world.getBreakingProgress(x, y);
+			
+			if(newProgress >= 1f){
+				packet.progress = 0;
+				
+				world.setBreakingProgress(x, y, 0);
+				
+				PacketBlockUpdate bu = PacketRepository.instance().blockUpdate;
+				bu.block = "empty";
+				bu.meta = 0;
+				bu.x = x;
+				bu.y = y;
+				
+				world.main.client.sendTCP(bu);
+				world.main.client.sendTCP(packet);
+			}else{
+				packet.progress = newProgress;
+				world.main.client.sendUDP(packet);
+			}
 		}
 	}
 
