@@ -38,6 +38,8 @@ public class World {
 	public static final int tilesizey = 32;
 	public static final float tilepartx = 1.0f / tilesizex;
 	public static final float tileparty = 1.0f / tilesizey;
+	
+	public static final float BLOCK_RECEDE = 0.25f;
 
 	public Main main;
 	public SpriteBatch batch;

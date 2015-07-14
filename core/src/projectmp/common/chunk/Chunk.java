@@ -63,6 +63,10 @@ public class Chunk implements CanBeSavedToNBT {
 						getChunkTileEntity(cx, cy).setDirty(false);
 					}
 				}
+				
+				if(getChunkBreakingProgress(cx, cy) > 0){
+					setChunkBreakingProgress(Math.max(0f, getChunkBreakingProgress(cx, cy) - (World.BLOCK_RECEDE / Main.TICKS)), cx, cy);
+				}
 			}
 		}
 	}
