@@ -11,6 +11,7 @@ import projectmp.common.packet.PacketBlockActivate;
 import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketSwapSlot;
+import projectmp.common.packet.PacketUpdateCursor;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
@@ -99,6 +100,16 @@ public class ClientLogic implements Disposable {
 				if (isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()) {
 					getPlayerInventory().getSelectedItem().getItem()
 							.onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem(), getCursorBlockX(), getCursorBlockY());
+					
+					if(getCursorBlockX() != lastUsingCursorX || getCursorBlockY() != lastUsingCursorY){
+						lastUsingCursorX = getCursorBlockX();
+						lastUsingCursorY = getCursorBlockY();
+						
+						PacketUpdateCursor packet = PacketRepository.instance().updateCursor;
+						packet.x = lastUsingCursorX;
+						packet.y = lastUsingCursorY;
+						client.sendTCP(packet);
+					}
 				}
 
 				// send a movement update if the player moved last tick OR if it's time to send a packet

@@ -24,6 +24,7 @@ import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketSlotChanged;
 import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.PacketTimeUpdate;
+import projectmp.common.packet.PacketUpdateCursor;
 import projectmp.common.packet.PacketWeather;
 import projectmp.common.packet.handshake.PacketHandshake;
 import projectmp.common.tileentity.TileEntity;
@@ -71,6 +72,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(PacketBlockActivate.class);
 		kryo.register(PacketItemUse.class);
 		kryo.register(PacketBreakingProgress.class);
+		kryo.register(PacketUpdateCursor.class);
 	}
 
 	private void registerEntities(Kryo kryo) {

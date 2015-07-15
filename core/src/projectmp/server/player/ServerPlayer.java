@@ -30,7 +30,9 @@ public class ServerPlayer implements CanBeSavedToNBT{
 	private ItemStack currentUsingItem = null;
 	
 	@NotWrittenToNBT
-	private int cursorX, cursorY;
+	public int cursorX;
+	@NotWrittenToNBT
+	public int cursorY;
 	
 	public ServerPlayer(String username, long uuid){
 		this.username = username;

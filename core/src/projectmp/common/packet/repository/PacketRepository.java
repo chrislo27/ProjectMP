@@ -1,6 +1,20 @@
 package projectmp.common.packet.repository;
 
-import projectmp.common.packet.*;
+import projectmp.common.packet.PacketBlockActivate;
+import projectmp.common.packet.PacketBlockUpdate;
+import projectmp.common.packet.PacketBreakingProgress;
+import projectmp.common.packet.PacketGuiState;
+import projectmp.common.packet.PacketItemUse;
+import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketPositionUpdate;
+import projectmp.common.packet.PacketRemoveEntity;
+import projectmp.common.packet.PacketSendTileEntity;
+import projectmp.common.packet.PacketSlotChanged;
+import projectmp.common.packet.PacketSwapSlot;
+import projectmp.common.packet.PacketTimeUpdate;
+import projectmp.common.packet.PacketUpdateCursor;
+import projectmp.common.packet.PacketUpdateHealth;
+import projectmp.common.packet.PacketWeather;
 
 
 public final class PacketRepository {
@@ -35,6 +49,7 @@ public final class PacketRepository {
 	
 	public PacketBlockActivate blockActivate = new PacketBlockActivate();
 	public PacketItemUse itemUse = new PacketItemUse();
+	public PacketUpdateCursor updateCursor = new PacketUpdateCursor();
 	
 	private void loadResources() {
 
