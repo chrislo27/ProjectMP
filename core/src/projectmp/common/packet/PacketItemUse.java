@@ -28,6 +28,11 @@ public class PacketItemUse implements Packet{
 	 */
 	public ItemStack stack = null;
 	
+	/**
+	 * Cursor positions
+	 */
+	public int cursorX, cursorY;
+	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
 		if(stack == null) return;
@@ -37,9 +42,9 @@ public class PacketItemUse implements Packet{
 		if(sp == null) return;
 		
 		if(status == ON_START){
-			sp.startUsingItem(logic, stack);
+			sp.startUsingItem(logic, stack, cursorX, cursorY);
 		}else if(status == ON_END){
-			sp.stopUsingItem(logic);
+			sp.stopUsingItem(logic, cursorX, cursorY);
 		}
 	}
 

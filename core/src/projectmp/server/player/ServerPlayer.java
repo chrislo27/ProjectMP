@@ -29,6 +29,9 @@ public class ServerPlayer implements CanBeSavedToNBT{
 	@NotWrittenToNBT
 	private ItemStack currentUsingItem = null;
 	
+	@NotWrittenToNBT
+	private int cursorX, cursorY;
+	
 	public ServerPlayer(String username, long uuid){
 		this.username = username;
 		setUUID(uuid);
@@ -45,7 +48,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 
 	public void tickUpdate(ServerLogic logic){
 		if(isUsingItem()){
-			currentUsingItem.getItem().onUsing(logic.world, logic.getPlayerByName(username), currentUsingItem);
+			currentUsingItem.getItem().onUsing(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 		}
 	}
 	
@@ -57,20 +60,26 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		return currentUsingItem != null;
 	}
 	
-	public void stopUsingItem(ServerLogic logic){
+	public void stopUsingItem(ServerLogic logic, int x, int y){
 		if(!isUsingItem()) return;
 		if(currentUsingItem.getItem() == null) return;
 		
-		currentUsingItem.getItem().onUseEnd(logic.world, logic.getPlayerByName(username), currentUsingItem);
+		cursorX = x;
+		cursorY = y;
+		
+		currentUsingItem.getItem().onUseEnd(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 	}
 	
-	public void startUsingItem(ServerLogic logic, ItemStack item){
-		if(isUsingItem()) stopUsingItem(logic);
+	public void startUsingItem(ServerLogic logic, ItemStack item, int x, int y){
+		if(isUsingItem()) stopUsingItem(logic, x, y);
 		if(item == null) return;
 		if(item.getItem() == null) return;
 		
+		cursorX = x;
+		cursorY = y;
+		
 		currentUsingItem = item.copy();
-		currentUsingItem.getItem().onUseStart(logic.world, logic.getPlayerByName(username), currentUsingItem);
+		currentUsingItem.getItem().onUseStart(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 	}
 	
 	@Override

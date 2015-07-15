@@ -18,7 +18,7 @@ public class Item extends TexturedObject {
 		this.unlocalizedName = unlocalizedname;
 	}
 
-	public void onUseStart(World world, EntityPlayer user, ItemStack stack) {
+	public void onUseStart(World world, EntityPlayer user, ItemStack stack, int x, int y) {
 
 	}
 
@@ -27,11 +27,11 @@ public class Item extends TexturedObject {
 	 * @param world
 	 * @param user
 	 */
-	public void onUsing(World world, EntityPlayer user, ItemStack stack) {
+	public void onUsing(World world, EntityPlayer user, ItemStack stack, int x, int y) {
 
 	}
 
-	public void onUseEnd(World world, EntityPlayer user, ItemStack stack) {
+	public void onUseEnd(World world, EntityPlayer user, ItemStack stack, int x, int y) {
 
 	}
 

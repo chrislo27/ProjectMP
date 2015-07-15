@@ -41,6 +41,7 @@ public class ClientLogic implements Disposable {
 	public ItemStack mouseStack = new ItemStack(null, 0);
 
 	private boolean isUsingItem = false;
+	private int lastUsingCursorX, lastUsingCursorY;
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -97,7 +98,7 @@ public class ClientLogic implements Disposable {
 
 				if (isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()) {
 					getPlayerInventory().getSelectedItem().getItem()
-							.onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem());
+							.onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem(), getCursorBlockX(), getCursorBlockY());
 				}
 
 				// send a movement update if the player moved last tick OR if it's time to send a packet
@@ -332,11 +333,13 @@ public class ClientLogic implements Disposable {
 			if (!isUsingItem) {
 				isUsingItem = true;
 				getPlayerInventory().getSelectedItem().getItem()
-						.onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem());
+						.onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem(), getCursorBlockX(), getCursorBlockY());
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_START;
 				packet.stack = getPlayerInventory().getSelectedItem();
+				packet.cursorX = getCursorBlockX();
+				packet.cursorY = getCursorBlockY();
 				client.sendTCP(packet);
 			}
 		}
@@ -347,11 +350,13 @@ public class ClientLogic implements Disposable {
 			if (isUsingItem) {
 				isUsingItem = false;
 				getPlayerInventory().getSelectedItem().getItem()
-						.onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem());
+						.onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem(), getCursorBlockX(), getCursorBlockY());
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_END;
 				packet.stack = getPlayerInventory().getSelectedItem();
+				packet.cursorX = getCursorBlockX();
+				packet.cursorY = getCursorBlockY();
 				client.sendTCP(packet);
 			}
 		}
