@@ -39,8 +39,7 @@ public class Blocks {
 						.addAnimations(Block.newSingleFrame("images/blocks/grass.png"), Block.newSingleFrame("images/blocks/dirt.png")));
 		put("tall_grass", new BlockTallGrass("tallGrass").addAnimations(Block
 				.newSingleFrame("images/blocks/tall_grass.png")));
-		put("chess_set", new BlockChessSet("chessboard").addAnimations(Block
-				.newSingleFrame("images/items/asteroidfirer.png")));
+		put("chess_set", new BlockChessSet("chessboard"));
 	}
 
 	public void put(String key, Block value) {
