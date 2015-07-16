@@ -30,9 +30,9 @@ public class ServerPlayer implements CanBeSavedToNBT{
 	private ItemStack currentUsingItem = null;
 	
 	@NotWrittenToNBT
-	public int cursorX;
+	private int cursorX;
 	@NotWrittenToNBT
-	public int cursorY;
+	private int cursorY;
 	
 	public ServerPlayer(String username, long uuid){
 		this.username = username;
@@ -52,6 +52,19 @@ public class ServerPlayer implements CanBeSavedToNBT{
 		if(isUsingItem()){
 			currentUsingItem.getItem().onUsing(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 		}
+	}
+	
+	public void setCursor(int x, int y){
+		cursorX = x;
+		cursorY = y;
+	}
+	
+	public int getCursorX(){
+		return cursorX;
+	}
+	
+	public int getCursorY(){
+		return cursorY;
 	}
 	
 	public ItemStack getCurrentUsingItem(){

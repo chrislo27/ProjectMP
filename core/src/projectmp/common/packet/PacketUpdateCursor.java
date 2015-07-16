@@ -10,6 +10,7 @@ import com.esotericsoftware.kryonet.Connection;
 public class PacketUpdateCursor implements Packet{
 
 	public int x, y;
+	public String username;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -17,8 +18,7 @@ public class PacketUpdateCursor implements Packet{
 		
 		if(sp == null) return;
 		
-		sp.cursorX = x;
-		sp.cursorY = y;
+		sp.setCursor(x, y);
 	}
 
 	@Override

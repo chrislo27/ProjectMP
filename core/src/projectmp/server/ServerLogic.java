@@ -225,7 +225,7 @@ public class ServerLogic {
 		if (p != null) {
 			ServerPlayer sp = getServerPlayerByName(name);
 			if (sp != null) getServerPlayerByName(name)
-					.stopUsingItem(this, sp.cursorX, sp.cursorY);
+					.stopUsingItem(this, sp.getCursorX(), sp.getCursorY());
 			updatePlayerData(name, p);
 			world.removeEntity(p.uuid);
 			try {
