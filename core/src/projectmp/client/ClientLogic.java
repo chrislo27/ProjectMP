@@ -1,5 +1,7 @@
 package projectmp.client;
 
+import java.util.HashMap;
+
 import projectmp.common.Main;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
@@ -43,6 +45,8 @@ public class ClientLogic implements Disposable {
 
 	private boolean isUsingItem = false;
 	private int lastUsingCursorX, lastUsingCursorY;
+	
+	private HashMap<String, Long> otherPlayersCursors = new HashMap<>();
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -373,4 +377,8 @@ public class ClientLogic implements Disposable {
 		}
 	}
 
+	public HashMap<String, Long> getOtherCursors(){
+		return otherPlayersCursors;
+	}
+	
 }

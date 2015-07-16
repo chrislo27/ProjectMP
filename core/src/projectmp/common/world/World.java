@@ -9,6 +9,7 @@ import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
 import projectmp.common.chunk.Chunk;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.entity.ILoadsChunk;
 import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketRemoveEntity;
@@ -23,12 +24,7 @@ import projectmp.common.util.SimplexNoise;
 import projectmp.common.util.Sizeable;
 import projectmp.common.weather.Weather;
 
-import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
@@ -228,6 +224,12 @@ public class World {
 		} else {
 			Entity e = getEntityByUUID(uuid);
 			if (e == null) return;
+			
+			// remove cursor position if client
+			if(e instanceof EntityPlayer){
+				main.clientLogic.getOtherCursors().remove(((EntityPlayer) e).username);
+			}
+			
 			entities.removeValue(e, true);
 		}
 	}
