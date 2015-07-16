@@ -35,7 +35,7 @@ public class PacketUpdateCursor implements Packet{
 		if(username == null) return;
 		if(Main.username.equals(username)) return;
 		
-		logic.getOtherCursors().put(username, Utils.packLong(x, y));
+		logic.putOtherPlayerCursor(username, Utils.packLong(x, y));
 	}
 
 }

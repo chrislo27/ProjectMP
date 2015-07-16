@@ -227,7 +227,7 @@ public class World {
 			
 			// remove cursor position if client
 			if(e instanceof EntityPlayer){
-				main.clientLogic.getOtherCursors().remove(((EntityPlayer) e).username);
+				main.clientLogic.removeOtherPlayerCursor(((EntityPlayer) e).username);
 			}
 			
 			entities.removeValue(e, true);

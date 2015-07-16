@@ -90,6 +90,7 @@ public class ClientLogic implements Disposable {
 		renderer.world = world;
 		renderer.camera.setWorld(world);
 		this.world.isServer = false;
+		otherPlayersCursors.clear();
 	}
 
 	public void tickUpdate() {
@@ -377,8 +378,20 @@ public class ClientLogic implements Disposable {
 		}
 	}
 
-	public HashMap<String, Long> getOtherCursors(){
-		return otherPlayersCursors;
+	public long getOtherPlayerCursor(String username){
+		if(!otherPlayersCursors.containsKey(username)){
+			otherPlayersCursors.put(username, 0L);
+		}
+
+		return otherPlayersCursors.get(username);
+	}
+	
+	public void putOtherPlayerCursor(String username, long cursor){
+		otherPlayersCursors.put(username, cursor);
+	}
+	
+	public void removeOtherPlayerCursor(String username){
+		otherPlayersCursors.remove(username);
 	}
 	
 }
