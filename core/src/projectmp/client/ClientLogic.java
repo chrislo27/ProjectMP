@@ -357,6 +357,11 @@ public class ClientLogic implements Disposable {
 				packet.cursorX = getCursorBlockX();
 				packet.cursorY = getCursorBlockY();
 				client.sendTCP(packet);
+				
+				PacketUpdateCursor packet2 = PacketRepository.instance().updateCursor;
+				packet2.x = lastUsingCursorX;
+				packet2.y = lastUsingCursorY;
+				client.sendTCP(packet);
 			}
 		}
 	}
@@ -373,6 +378,11 @@ public class ClientLogic implements Disposable {
 				packet.stack = getPlayerInventory().getSelectedItem();
 				packet.cursorX = getCursorBlockX();
 				packet.cursorY = getCursorBlockY();
+				client.sendTCP(packet);
+				
+				PacketUpdateCursor packet2 = PacketRepository.instance().updateCursor;
+				packet2.x = lastUsingCursorX;
+				packet2.y = lastUsingCursorY;
 				client.sendTCP(packet);
 			}
 		}
