@@ -293,8 +293,11 @@ public class WorldRenderer implements Disposable {
 			throw new IllegalStateException("Cannot start bypassing buffer while already started!");
 		}
 		
+		batch.flush();
+		
 		worldBuffer.end();
 		bypassBuffer.begin();
+		
 		isBypassing = true;
 	}
 	
@@ -303,8 +306,11 @@ public class WorldRenderer implements Disposable {
 			throw new IllegalStateException("Cannot stop bypassing when already stopped!");
 		}
 		
+		batch.flush();
+		
 		bypassBuffer.end();
 		worldBuffer.begin();
+		
 		isBypassing = false;
 	}
 
