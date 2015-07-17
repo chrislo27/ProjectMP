@@ -36,10 +36,11 @@ public class WorldRenderer implements Disposable {
 
 	private FrameBuffer worldBuffer;
 	private FrameBuffer lightingBuffer;
+	private FrameBuffer bypassBuffer;
 
 	private float seconds = 0;
-
-	private PostProcessor postProcessor;
+	
+	private boolean isBypassing = false;
 
 	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
@@ -53,41 +54,67 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_HEIGHT, false);
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
-
-		ShaderLoader.BasePath = "postprocessing/";
-
-		postProcessor = new PostProcessor(false, false,
-				Gdx.app.getType() == ApplicationType.Desktop);
-
-		Bloom bloom = new Bloom((int) (Settings.DEFAULT_WIDTH * 0.25f),
-				(int) (Settings.DEFAULT_HEIGHT * 0.25f));
-		bloom.setThreshold(0.5f);
-		//postProcessor.addEffect(bloom);
-
-		CrtMonitor monitor = new CrtMonitor(Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT, true,
-				true, RgbMode.ChromaticAberrations, 0b111111);
-		//postProcessor.addEffect(monitor);
+		bypassBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
+				Settings.DEFAULT_HEIGHT, false);
 	}
 
 	public void renderWorld() {
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		/* --------------------------------------------------------------------- */
-
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-		// lighting to buffer
-		lightingBuffer.begin();
+		renderToLightingBuffer();
 
+		renderToWorldBuffer();
+
+		/* -------------------------------------------- */
+
+		// render background
+		renderBackground();
+		
+		batch.begin();
+
+		// draw the world buffer for full light
+		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		if (world.getWeather() != null) {
+			world.getWeather().renderOnWorld(this);
+		}
+
+		batch.flush();
+		
+		// draw the lighting buffer, masked with the world buffer texture on top of world buffer
+		batch.setShader(main.maskshader);
+		Main.useMask(worldBuffer.getColorBufferTexture());
+		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		batch.setShader(null);
+		
+		// draw bypass buffer
+		batch.draw(bypassBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+
+		batch.end();
+	}
+
+	private void renderBackground() {
+		// render background
+		batch.begin();
+		batch.setColor(1, 1, 1, 1);
+
+		world.background.render(this);
+
+		batch.end();
+	}
+
+	private void renderToWorldBuffer() {
+		// clear bypass buffer
+		bypassBuffer.begin();
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		world.lightingEngine.render(this, batch);
-
-		lightingBuffer.end();
-
+		bypassBuffer.end();
+		
 		// world to buffer
 		worldBuffer.begin();
 
@@ -96,6 +123,7 @@ public class WorldRenderer implements Disposable {
 
 		batch.begin();
 
+		// culling with 0 offsets
 		int prex = getCullStartX(0);
 		int prey = getCullStartY(0);
 		int postx = getCullEndX(0);
@@ -130,9 +158,9 @@ public class WorldRenderer implements Disposable {
 
 							main.maskNoiseShader.setUniformf("time", seconds);
 							main.maskNoiseShader.setUniformf("speed", 1f);
-							if(x == logic.getCursorBlockX() && y == logic.getCursorBlockY()){
+							if (x == logic.getCursorBlockX() && y == logic.getCursorBlockY()) {
 								main.maskNoiseShader.setUniformf("outlinecolor", 0f, 1f, 1f, 1f);
-							}else{
+							} else {
 								main.maskNoiseShader.setUniformf("outlinecolor", 0f, 0f, 0f, 0f);
 							}
 							Utils.setupMaskingNoiseShader(main.maskNoiseShader,
@@ -185,42 +213,18 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 
 		worldBuffer.end();
+	}
 
-		/* --------------------------------------------------------------------- */
+	private void renderToLightingBuffer() {
+		// lighting to buffer
+		lightingBuffer.begin();
 
-		// begin capture for post processing
-		postProcessor.capture();
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		// render background
-		batch.begin();
-		batch.setColor(1, 1, 1, 1);
+		world.lightingEngine.render(this, batch);
 
-		world.background.render(this);
-
-		batch.end();
-
-		// mask lighting buffer onto world buffer and render
-
-		batch.begin();
-
-		// draw the world buffer as-is
-		batch.draw(worldBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
-				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		if (world.getWeather() != null) {
-			world.getWeather().renderOnWorld(this);
-		}
-
-		// draw the lighting buffer, masked with the world buffer texture
-		batch.setShader(main.maskshader);
-		Main.useMask(worldBuffer.getColorBufferTexture());
-		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
-				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		batch.setShader(null);
-
-		batch.end();
-
-		postProcessor.render();
-
+		lightingBuffer.end();
 	}
 
 	public void renderHUD() {
@@ -279,6 +283,30 @@ public class WorldRenderer implements Disposable {
 	public void tickUpdate() {
 
 	}
+	
+	public boolean isBypassing(){
+		return isBypassing;
+	}
+	
+	public void startBypassing(){
+		if(isBypassing){
+			throw new IllegalStateException("Cannot start bypassing buffer while already started!");
+		}
+		
+		worldBuffer.end();
+		bypassBuffer.begin();
+		isBypassing = true;
+	}
+	
+	public void endBypassing(){
+		if(!isBypassing){
+			throw new IllegalStateException("Cannot stop bypassing when already stopped!");
+		}
+		
+		bypassBuffer.end();
+		worldBuffer.begin();
+		isBypassing = false;
+	}
 
 	public void renderBlockInWorld(int x, int y) {
 		world.getBlock(x, y).renderIndexAt(batch, main, world, convertWorldX(x),
@@ -332,8 +360,7 @@ public class WorldRenderer implements Disposable {
 	public void dispose() {
 		worldBuffer.dispose();
 		lightingBuffer.dispose();
-
-		postProcessor.dispose();
+		bypassBuffer.dispose();
 	}
 
 }
