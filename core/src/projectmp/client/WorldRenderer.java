@@ -298,7 +298,7 @@ public class WorldRenderer implements Disposable {
 		isBypassing = true;
 	}
 	
-	public void endBypassing(){
+	public void stopBypassing(){
 		if(!isBypassing){
 			throw new IllegalStateException("Cannot stop bypassing when already stopped!");
 		}
