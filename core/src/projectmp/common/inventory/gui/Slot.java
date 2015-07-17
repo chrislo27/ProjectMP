@@ -63,7 +63,7 @@ public class Slot {
 		// draw icon
 		ItemStack stack = inventory.getSlot(slotNum);
 		if (stack.getItem() != null) {
-			float spacing = 0.125f;
+			float spacing = 0f;
 
 			stack.getItem().render(renderer, posx + (spacing * width / 2),
 					posy + (spacing * height / 2), width - (width * spacing),
