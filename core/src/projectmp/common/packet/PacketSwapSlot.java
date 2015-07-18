@@ -149,7 +149,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 
 	@SideOnly(Side.SERVER)
 	private void updateOtherClients(ServerLogic logic, int slot) {
-		logic.updateClientsOfInventoryChange(invId, invX, invY, slot);
+		logic.updateClientsOfInventorySlotChange(invId, invX, invY, slot);
 	}
 
 	@SideOnly(Side.SERVER)

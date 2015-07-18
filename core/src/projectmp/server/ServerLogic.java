@@ -308,7 +308,7 @@ public class ServerLogic {
 		sendGuiState(player, guiId, x, y, false);
 	}
 	
-	public void updateClientsOfInventoryChange(String invId, int invX, int invY, int newSlot){
+	public void updateClientsOfInventorySlotChange(String invId, int invX, int invY, int newSlot){
 		PacketSlotChanged changed = PacketRepository.instance().slotChanged;
 		changed.changedItem = GuiRegistry.instance().getInventory(invId, world, invX, invY).getSlot(newSlot);
 		changed.slotToSwap = newSlot;
