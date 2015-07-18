@@ -102,7 +102,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 		}
 
 		updateMouseStack(logic, connection, newMouseStack);
-		updateOtherClients(logic, inventorySlot);
+		updateOtherClients(logic, slotToSwap);
 	}
 
 	@SideOnly(Side.SERVER)
@@ -144,20 +144,12 @@ public class PacketSwapSlot extends PacketSlotChanged {
 		}
 
 		updateMouseStack(logic, connection, mouseStack);
-		updateOtherClients(logic, inventorySlot);
+		updateOtherClients(logic, slotToSwap);
 	}
 
 	@SideOnly(Side.SERVER)
-	private void updateOtherClients(ServerLogic logic, ItemStack changedItem) {
-		// update the other clients of the change
-		PacketSlotChanged changed = PacketRepository.instance().slotChanged;
-		changed.changedItem = changedItem;
-		changed.slotToSwap = slotToSwap;
-		changed.invId = invId;
-		changed.invX = invX;
-		changed.invY = invY;
-
-		logic.server.sendToAllTCP(changed);
+	private void updateOtherClients(ServerLogic logic, int slot) {
+		logic.updateClientsOfInventoryChange(invId, invX, invY, slot);
 	}
 
 	@SideOnly(Side.SERVER)

@@ -17,7 +17,10 @@ import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketGuiState;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketSendChunk;
+import projectmp.common.packet.PacketSlotChanged;
+import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.repository.PacketRepository;
+import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.FileNameUtils;
 import projectmp.common.world.ServerWorld;
 import projectmp.server.player.ServerPlayer;
@@ -303,6 +306,17 @@ public class ServerLogic {
 
 	public void closeGui(EntityPlayer player, String guiId, int x, int y) {
 		sendGuiState(player, guiId, x, y, false);
+	}
+	
+	public void updateClientsOfInventoryChange(String invId, int invX, int invY, int newSlot){
+		PacketSlotChanged changed = PacketRepository.instance().slotChanged;
+		changed.changedItem = GuiRegistry.instance().getInventory(invId, world, invX, invY).getSlot(newSlot);
+		changed.slotToSwap = newSlot;
+		changed.invId = invId;
+		changed.invX = invX;
+		changed.invY = invY;
+
+		server.sendToAllTCP(changed);
 	}
 
 }
