@@ -36,7 +36,7 @@ public class PacketSlotChanged implements Packet{
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY);
+		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY).getInventoryObject();
 
 		if (inv == null) return;
 		

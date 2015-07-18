@@ -22,7 +22,7 @@ public class GuiChessboard extends Gui{
 		
 		addPlayerInventory();
 		
-		Inventory inv = GuiRegistry.instance().getInventory(id, world, invx, invy);
+		Inventory inv = GuiRegistry.instance().getInventory(id, world, invx, invy).getInventoryObject();
 		
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){

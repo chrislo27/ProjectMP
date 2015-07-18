@@ -27,12 +27,12 @@ public class StockGuiHandler implements IGuiHandler{
 	}
 
 	@Override
-	public Inventory getInventoryObject(String id, World world, int x, int y) {
+	public HasInventory getInventoryHolder(String id, World world, int x, int y) {
 		switch(id){
 		case("playerInv"):
-			return ((EntityPlayer) (world.getEntityByUUID(Utils.packLong(x, y)))).getInventoryObject();
+			return ((EntityPlayer) (world.getEntityByUUID(Utils.packLong(x, y))));
 		case("chessboard"):
-			return (InventoryChessboard) (((HasInventory) (world.getTileEntity(x, y))).getInventoryObject());
+			return (((HasInventory) (world.getTileEntity(x, y))));
 		default:
 			return null;
 		}

@@ -5,6 +5,7 @@ import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.gui.Gui;
 import projectmp.common.registry.handler.IGuiHandler;
 import projectmp.common.registry.handler.StockGuiHandler;
+import projectmp.common.tileentity.HasInventory;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.utils.Array;
@@ -44,10 +45,10 @@ public class GuiRegistry {
 		return null;
 	}
 	
-	public Inventory getInventory(String id, World world, int x, int y){
-		Inventory inv = null;
+	public HasInventory getInventory(String id, World world, int x, int y){
+		HasInventory inv = null;
 		for(int i = 0; i < handlers.size; i++){
-			if((inv = handlers.get(i).getInventoryObject(id, world, x, y)) != null) return inv;
+			if((inv = handlers.get(i).getInventoryHolder(id, world, x, y)) != null) return inv;
 		}
 		
 		return null;

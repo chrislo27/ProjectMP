@@ -33,7 +33,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
-		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY);
+		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY).getInventoryObject();
 
 		if (inv == null) return;
 
@@ -46,7 +46,7 @@ public class PacketSwapSlot extends PacketSlotChanged {
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
-		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY);
+		Inventory inv = GuiRegistry.instance().getInventory(invId, logic.world, invX, invY).getInventoryObject();
 
 		if (inv == null) return;
 

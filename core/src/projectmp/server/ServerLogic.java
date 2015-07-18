@@ -81,7 +81,7 @@ public class ServerLogic {
 
 		for (int i = 0; i < players.size; i++) {
 			ServerPlayer sp = players.get(i);
-			
+
 			sp.tickUpdate(this);
 		}
 
@@ -153,8 +153,7 @@ public class ServerLogic {
 						String blockKey = Blocks.instance()
 								.getKey(currentChunk.getChunkBlock(j, k));
 
-						if (!blockKeys.contains(
-								blockKey, false)) {
+						if (!blockKeys.contains(blockKey, false)) {
 							blockKeys.add(blockKey);
 							blockMap.put(blockKey, blockKeys.size - 1);
 						}
@@ -227,8 +226,8 @@ public class ServerLogic {
 
 		if (p != null) {
 			ServerPlayer sp = getServerPlayerByName(name);
-			if (sp != null) getServerPlayerByName(name)
-					.stopUsingItem(this, sp.getCursorX(), sp.getCursorY());
+			if (sp != null) getServerPlayerByName(name).stopUsingItem(this, sp.getCursorX(),
+					sp.getCursorY());
 			updatePlayerData(name, p);
 			world.removeEntity(p.uuid);
 			try {
@@ -248,14 +247,14 @@ public class ServerLogic {
 	public void updatePlayerData(String username, EntityPlayer p) {
 		updatePlayerData(username, createNewServerPlayer(p));
 	}
-	
+
 	/**
 	 * Used to update the ServerPlayer instance with entity data before disconnecting
 	 * <br>
 	 * This method actually deletes the existing instance and creates a new one. The method that creates the new instance updates the fields correctly.
 	 * @param p
 	 */
-	public void updatePlayerData(String username, ServerPlayer sp){
+	public void updatePlayerData(String username, ServerPlayer sp) {
 		for (int i = players.size - 1; i >= 0; i--) {
 			if (players.get(i).username.equals(username)) {
 				players.removeIndex(i);
@@ -282,7 +281,7 @@ public class ServerLogic {
 	public ServerPlayer getServerPlayerByName(String username) {
 		for (int i = 0; i < players.size; i++) {
 			ServerPlayer p = players.get(i);
-			
+
 			if (p.username.equals(username)) return p;
 		}
 
@@ -307,10 +306,11 @@ public class ServerLogic {
 	public void closeGui(EntityPlayer player, String guiId, int x, int y) {
 		sendGuiState(player, guiId, x, y, false);
 	}
-	
-	public void updateClientsOfInventorySlotChange(String invId, int invX, int invY, int newSlot){
+
+	public void updateClientsOfInventorySlotChange(String invId, int invX, int invY, int newSlot) {
 		PacketSlotChanged changed = PacketRepository.instance().slotChanged;
-		changed.changedItem = GuiRegistry.instance().getInventory(invId, world, invX, invY).getSlot(newSlot);
+		changed.changedItem = GuiRegistry.instance().getInventory(invId, world, invX, invY)
+				.getInventoryObject().getSlot(newSlot);
 		changed.slotToSwap = newSlot;
 		changed.invId = invId;
 		changed.invX = invX;
