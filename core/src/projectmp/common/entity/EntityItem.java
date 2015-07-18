@@ -1,5 +1,7 @@
 package projectmp.common.entity;
 
+import java.util.List;
+
 import projectmp.client.WorldRenderer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.util.MathHelper;
@@ -46,12 +48,28 @@ public class EntityItem extends Entity {
 	public void tickUpdate() {
 		super.tickUpdate();
 
-		
-		
 		if (itemStack == null || itemStack.isNothing()) {
 			markForRemoval();
 			return;
 		}
+		
+		if(world.isServer){
+			List<Entity> nearby = world.getQuadArea(this);
+			
+			for(int i = nearby.size() - 1; i >= 0; i--){
+				if(!(nearby.get(i) instanceof EntityPlayer)) continue;
+				
+				EntityPlayer player = (EntityPlayer) nearby.get(i);
+				
+				player.getInventoryObject().addStack(itemStack);
+				
+				if(itemStack.isNothing()){
+					markForRemoval();
+					return;
+				}
+			}
+		}
+		
 	}
 
 	@Override
