@@ -5,6 +5,7 @@ import java.util.List;
 import projectmp.client.WorldRenderer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.util.MathHelper;
+import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -52,30 +53,33 @@ public class EntityItem extends Entity {
 			markForRemoval();
 			return;
 		}
-		
-		if(world.isServer){
+
+		if (world.isServer) {
 			List<Entity> nearby = world.getQuadArea(this);
-			
-			for(int i = nearby.size() - 1; i >= 0; i--){
-				if(!(nearby.get(i) instanceof EntityPlayer)) continue;
-				
+
+			for (int i = nearby.size() - 1; i >= 0; i--) {
+				if (!(nearby.get(i) instanceof EntityPlayer)) continue;
+
 				EntityPlayer player = (EntityPlayer) nearby.get(i);
-				
+
 				player.getInventoryObject().addStack(itemStack);
-				
-				if(itemStack.isNothing()){
+
+				world.main.serverLogic.updateClientsOfTotalInventoryChange("playerInv",
+						Utils.unpackLongUpper(player.uuid), Utils.unpackLongLower(player.uuid));
+
+				if (itemStack.isNothing()) {
 					markForRemoval();
 					return;
 				}
 			}
 		}
-		
+
 	}
 
 	@Override
 	public void writeToNBT(TagCompound tag) {
 		super.writeToNBT(tag);
-		
+
 		TagCompound is = new TagCompound("Item");
 		itemStack.writeToNBT(is);
 		tag.setTag(is);
@@ -85,7 +89,7 @@ public class EntityItem extends Entity {
 	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
 			UnexpectedTagTypeException {
 		super.readFromNBT(tag);
-		
+
 		itemStack = new ItemStack(null, 0);
 		itemStack.readFromNBT(tag.getCompound("Item"));
 	}
