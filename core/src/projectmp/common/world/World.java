@@ -139,25 +139,17 @@ public class World {
 					removeEntity(e.uuid);
 				}
 			}
-
-			if (particles.size > 0) {
-				Particle item;
-				for (int i = particles.size; --i >= 0;) {
-					item = particles.get(i);
-					// remove immediately since server doesn't need particles
+		} else {
+			
+		}
+		
+		if (particles.size > 0) {
+			Particle item;
+			for (int i = particles.size; --i >= 0;) {
+				item = particles.get(i);
+				if (item.lifetime <= 0 || isServer) {
 					particles.removeIndex(i);
 					ParticlePool.instance().getPool().free(item);
-				}
-			}
-		} else {
-			if (particles.size > 0) {
-				Particle item;
-				for (int i = particles.size; --i >= 0;) {
-					item = particles.get(i);
-					if (item.lifetime <= 0) {
-						particles.removeIndex(i);
-						ParticlePool.instance().getPool().free(item);
-					}
 				}
 			}
 		}
