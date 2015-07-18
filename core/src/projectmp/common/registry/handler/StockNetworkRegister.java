@@ -1,6 +1,7 @@
 package projectmp.common.registry.handler;
 
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
@@ -79,6 +80,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(Entity.class);
 		kryo.register(EntityLiving.class);
 		kryo.register(EntityPlayer.class);
+		kryo.register(EntityItem.class);
 	}
 
 	private void registerTileEntities(Kryo kryo) {
