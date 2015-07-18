@@ -5,6 +5,7 @@ import projectmp.common.Main;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.world.World;
@@ -61,11 +62,11 @@ public class Block extends TexturedObject {
 	}
 	
 	public void onBreak(World world, int x, int y){
-		dropItems(world, x, y);
+		if(world.isServer) dropItems(world, x, y);
 	}
 	
 	public void dropItems(World world, int x, int y){
-		
+		world.createNewEntity(new EntityItem(world, x, y, getDroppedItem()));
 	}
 	
 	public ItemStack getDroppedItem(){
