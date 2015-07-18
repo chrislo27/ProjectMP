@@ -72,4 +72,9 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 		inventory = p;
 	}
 
+	@Override
+	public void setInventoryObject(Inventory inv) {
+		inventory = (InventoryPlayer) inv;
+	}
+
 }

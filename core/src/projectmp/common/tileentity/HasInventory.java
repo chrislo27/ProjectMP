@@ -10,4 +10,6 @@ public interface HasInventory {
 	
 	public Inventory getInventoryObject();
 	
+	public void setInventoryObject(Inventory inv);
+	
 }

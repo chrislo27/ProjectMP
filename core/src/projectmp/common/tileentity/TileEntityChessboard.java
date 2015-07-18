@@ -24,5 +24,10 @@ public class TileEntityChessboard extends TileEntity implements HasInventory{
 		
 		return inv;
 	}
+
+	@Override
+	public void setInventoryObject(Inventory inv) {
+		this.inv = (InventoryChessboard) inv;
+	}
 	
 }
