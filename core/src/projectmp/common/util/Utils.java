@@ -181,7 +181,7 @@ public class Utils {
 	 */
 	public static void setupMaskingNoiseShader(ShaderProgram program, float percentage){
 		program.setUniformf("zoom", 2f);
-		program.setUniformf("intensity", (float) ((percentage * (percentage * 1.4f)) * 2.5f));
+		program.setUniformf("intensity", (float) (percentage * 2.5f));
 	}
 
 	public static String repeat(String s, int times) {
