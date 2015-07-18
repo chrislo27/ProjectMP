@@ -354,7 +354,7 @@ public class World {
 
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-
+		
 		getChunkBlockIsIn(x, y).setChunkBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		lightingEngine.scheduleLightingUpdate(true);
 
