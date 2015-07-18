@@ -4,6 +4,7 @@ import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.item.Items;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.Utils;
@@ -74,6 +75,11 @@ public class PacketSwapSlot extends PacketSlotChanged {
 		} else {
 			// they're the same, so try to stack it together as much as possible
 
+			if(inventorySlot.getItem() == null){
+				// Main.logger.warn("Unknown item: " + inventorySlot.getItemString());
+				return;
+			}
+			
 			// get how much we can put/shove inside the slot
 			int shoveableRemaining = inventorySlot.getItem().getMaxStack()
 					- inventorySlot.getAmount();
