@@ -77,6 +77,7 @@ public class StockAssetLoader implements IAssetLoader {
 
 		// entities
 		manager.load(AssetMap.add("player", "images/entity/player/player.png"), Texture.class);
+		manager.load(AssetMap.add("player_eyes", "images/entity/player/player_eyes.png"), Texture.class);
 
 		// misc
 		manager.load(AssetMap.add("vignette", "images/ui/vignette.png"), Texture.class);

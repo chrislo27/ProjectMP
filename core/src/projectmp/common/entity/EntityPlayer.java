@@ -42,6 +42,10 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 	@Override
 	public void render(WorldRenderer renderer) {
 		this.drawTextureCenteredWithFacing(renderer, AssetRegistry.getTexture("player"));
+		
+		renderer.startBypassing();
+		this.drawTextureCenteredWithFacing(renderer, AssetRegistry.getTexture("player_eyes"));
+		renderer.stopBypassing();
 	}
 
 	@Override
