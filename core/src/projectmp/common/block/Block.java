@@ -12,6 +12,7 @@ import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.MathUtils;
 
 public class Block extends TexturedObject {
 
@@ -22,7 +23,7 @@ public class Block extends TexturedObject {
 	private float lightBlocked = DEFAULT_TRANSPARENT_LIGHT;
 
 	protected String unlocalizedName = "unnamed";
-	
+
 	protected float hardness = 1f;
 
 	public Block(String unlocalName) {
@@ -60,16 +61,22 @@ public class Block extends TexturedObject {
 	public int getRenderingLayer(World world, int x, int y) {
 		return 0;
 	}
-	
-	public void onBreak(World world, int x, int y){
-		if(world.isServer) dropItems(world, x, y);
+
+	public void onBreak(World world, int x, int y) {
+		if (world.isServer) dropItems(world, x, y);
 	}
-	
-	public void dropItems(World world, int x, int y){
-		world.createNewEntity(new EntityItem(world, x, y, getDroppedItem()));
+
+	public void dropItems(World world, int x, int y) {
+		EntityItem item = new EntityItem(world, x + 0.25f, y
+				+ 0.25f, getDroppedItem());
+		
+		item.velox += MathUtils.random(3f, 7.5f) * MathUtils.randomSign();
+		item.veloy -= 4f;
+		
+		world.createNewEntity(item);
 	}
-	
-	public ItemStack getDroppedItem(){
+
+	public ItemStack getDroppedItem() {
 		return new ItemStack("block_" + Blocks.instance().getKey(this), 1);
 	}
 
@@ -83,14 +90,14 @@ public class Block extends TexturedObject {
 	public int getLightEmitted(World world, int x, int y) {
 		return Color.rgba8888(0, 0, 0, 0);
 	}
-	
-	public Block setHardness(float hard){
+
+	public Block setHardness(float hard) {
 		hardness = Math.max(hard, 0f);
-		
+
 		return this;
 	}
-	
-	public float getHardness(){
+
+	public float getHardness() {
 		return hardness;
 	}
 
@@ -111,8 +118,8 @@ public class Block extends TexturedObject {
 		return this;
 	}
 
-	public void renderIndexAt(Batch batch, Main main, World world, float x, float y, float width, float height,
-			int renderingIndex, int blockX, int blockY) {
+	public void renderIndexAt(Batch batch, Main main, World world, float x, float y, float width,
+			float height, int renderingIndex, int blockX, int blockY) {
 		if (getAnimation(renderingIndex) != null) {
 			batch.draw(getAnimation(renderingIndex).getCurrentFrame(), x, y, width, height);
 		}
