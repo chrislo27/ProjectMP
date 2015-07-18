@@ -44,9 +44,29 @@ public class Inventory implements CanBeSavedToNBT{
 	 */
 	public void addStack(ItemStack stack){
 		for(int i = 0; i < maxCapacity; i++){
-			ItemStack is = getSlot(i);
+			ItemStack slot = getSlot(i);
 			
+			if(!slot.isNothing() && slot.getItem() != stack.getItem()) continue;
 			
+			if(slot.isNothing()){
+				// empty slot, put everything in
+				setSlot(i, stack.copy());
+				stack.setAmount(0);
+				return;
+			}else if(slot.getItem() == stack.getItem()){
+				int remaining = slot.getItem().getMaxStack() - slot.getAmount();
+				
+				if(remaining >= stack.getAmount()){
+					// the entire stack fits in the slot
+					slot.setAmount(slot.getAmount() + stack.getAmount());
+					stack.setAmount(0);
+					return;
+				}else{
+					// only part of the stack fits
+					slot.setAmount(slot.getItem().getMaxStack());
+					stack.setAmount(stack.getAmount() - remaining);
+				}
+			}
 		}
 	}
 
