@@ -23,10 +23,6 @@ public class PacketBlockUpdate implements Packet {
 		if (sp.isUsingItem()) {
 			if (!sp.getCurrentUsingItem().isNothing()) {
 				if (sp.getCurrentUsingItem().getItem() instanceof ItemMineable) {
-					if(block.equals(Blocks.airBlock)){
-						logic.world.getBlock(x, y).onBreak(logic.world, x, y);
-					}
-					
 					logic.world.setBlock(Blocks.instance().getBlock(block), x, y);
 					logic.world.setMeta(meta, x, y);
 				}
