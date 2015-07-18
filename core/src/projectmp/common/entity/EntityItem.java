@@ -46,6 +46,8 @@ public class EntityItem extends Entity {
 	public void tickUpdate() {
 		super.tickUpdate();
 
+		
+		
 		if (itemStack == null || itemStack.isNothing()) {
 			markForRemoval();
 			return;
@@ -55,12 +57,19 @@ public class EntityItem extends Entity {
 	@Override
 	public void writeToNBT(TagCompound tag) {
 		super.writeToNBT(tag);
+		
+		TagCompound is = new TagCompound("Item");
+		itemStack.writeToNBT(is);
+		tag.setTag(is);
 	}
 
 	@Override
 	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
 			UnexpectedTagTypeException {
 		super.readFromNBT(tag);
+		
+		itemStack = new ItemStack(null, 0);
+		itemStack.readFromNBT(tag.getCompound("Item"));
 	}
 
 	public EntityItem setItemStack(ItemStack stack) {
