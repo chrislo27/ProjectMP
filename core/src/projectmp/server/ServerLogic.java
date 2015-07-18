@@ -17,8 +17,8 @@ import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketGuiState;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketSendChunk;
+import projectmp.common.packet.PacketSendInventory;
 import projectmp.common.packet.PacketSlotChanged;
-import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
 import projectmp.common.util.FileNameUtils;
@@ -307,6 +307,13 @@ public class ServerLogic {
 		sendGuiState(player, guiId, x, y, false);
 	}
 
+	/**
+	 * Updates all the clients with the changed slot in the inventory.
+	 * @param invId
+	 * @param invX
+	 * @param invY
+	 * @param newSlot
+	 */
 	public void updateClientsOfInventorySlotChange(String invId, int invX, int invY, int newSlot) {
 		PacketSlotChanged changed = PacketRepository.instance().slotChanged;
 		changed.changedItem = GuiRegistry.instance().getInventory(invId, world, invX, invY)
@@ -317,6 +324,20 @@ public class ServerLogic {
 		changed.invY = invY;
 
 		server.sendToAllTCP(changed);
+	}
+	
+	/**
+	 * Updates all the clients by re-sending the inventory object
+	 * @param invId
+	 * @param invX
+	 * @param invY
+	 */
+	public void updateClientsOfTotalInventoryChange(String invId, int invX, int invY){
+		PacketSendInventory packet = PacketRepository.instance().sendInv;
+		
+		packet.inv = GuiRegistry.instance().getInventory(invId, world, invX, invY).getInventoryObject();
+		
+		server.sendToAllTCP(packet);
 	}
 
 }
