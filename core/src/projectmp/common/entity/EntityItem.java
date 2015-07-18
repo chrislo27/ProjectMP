@@ -25,8 +25,8 @@ public class EntityItem extends Entity {
 
 	@Override
 	public void prepare() {
-		sizex = 0.5f;
-		sizey = 0.5f;
+		sizex = 0.75f;
+		sizey = 0.75f;
 	}
 
 	@Override
