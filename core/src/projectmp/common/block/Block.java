@@ -59,6 +59,19 @@ public class Block extends TexturedObject {
 	public int getRenderingLayer(World world, int x, int y) {
 		return 0;
 	}
+	
+	public void onBreak(World world, int x, int y){
+		dropItems(world, x, y);
+	}
+	
+	public void dropItems(World world, int x, int y){
+		// FIXME hacky hack hack
+		((EntityPlayer) world.getEntityByUUID(world.main.clientLogic.getPlayer().uuid)).getInventoryObject().setSlot(2, getDroppedItem());
+	}
+	
+	public ItemStack getDroppedItem(){
+		return new ItemStack("block_" + Blocks.instance().getKey(this), 1);
+	}
 
 	/**
 	 * Returns a RGBA8888 packed int colour. The alpha determines the brightness.
