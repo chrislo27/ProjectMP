@@ -37,6 +37,18 @@ public class Inventory implements CanBeSavedToNBT{
 	public Inventory() {
 		
 	}
+	
+	/**
+	 * Adds as much of the given item stack into this inventory. The ItemStack passed in will be directly modified
+	 * @param stack
+	 */
+	public void addStack(ItemStack stack){
+		for(int i = 0; i < maxCapacity; i++){
+			ItemStack is = getSlot(i);
+			
+			
+		}
+	}
 
 	/**
 	 * sets max capacity AND re-inits itemstack array
