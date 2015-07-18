@@ -2,6 +2,7 @@ package projectmp.common.entity;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.util.MathHelper;
 import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -32,9 +33,12 @@ public class EntityItem extends Entity {
 	public void render(WorldRenderer renderer) {
 		if (itemStack == null || itemStack.isNothing()) return;
 
-		itemStack.getItem().render(renderer,
+		itemStack.getItem().render(
+				renderer,
 				renderer.convertWorldX(visualX + (sizex / 2)) - World.tilesizex / 2f,
-				renderer.convertWorldY((visualY + (sizey)), 0), World.tilesizex * sizex,
+				renderer.convertWorldY((visualY + (sizey)), 0)
+						+ MathHelper.clampNumberFromTime(System.currentTimeMillis()
+								+ (uuid / Short.MAX_VALUE), 2.5f) * 8, World.tilesizex * sizex,
 				World.tilesizey * sizey, itemStack);
 	}
 
