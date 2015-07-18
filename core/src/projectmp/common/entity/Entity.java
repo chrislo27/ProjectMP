@@ -56,6 +56,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	@SideOnly(Side.CLIENT)
 	public transient boolean facingLeft = false;
 	
+	public int age = 0;
+	
 	private boolean isMarkedForRemoval = false;
 
 	// interpolation stuff END
@@ -249,6 +251,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * called every tick, before rendering
 	 */
 	public void tickUpdate() {
+		age++;
+		
 		movementAndCollision();
 	}
 
