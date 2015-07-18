@@ -28,7 +28,7 @@ public class Blocks {
 	private Array<Block> allBlocks = new Array<Block>();
 
 	private void loadResources() {
-		put(defaultBlock, new BlockEmpty("empty"));
+		put(airBlock, new BlockEmpty("empty"));
 		put("stone", new BlockStone("stone").solidify(BlockFaces.ALL).setOpaqueToLight()
 				.addAnimations(Block.newSingleFrame("images/blocks/stone.png")));
 		put("dirt",
@@ -49,12 +49,12 @@ public class Blocks {
 	}
 
 	public Block getBlock(String key) {
-		if (key == null) return defaultBlock();
+		if (key == null) return getAir();
 		return blocks.get(key);
 	}
 
 	public String getKey(Block block) {
-		if (block == null) return defaultBlock;
+		if (block == null) return airBlock;
 		return reverse.get(block);
 	}
 
@@ -62,10 +62,10 @@ public class Blocks {
 		return allBlocks;
 	}
 
-	public static Block defaultBlock() {
-		return instance().getBlock(defaultBlock);
+	public static Block getAir() {
+		return instance().getBlock(airBlock);
 	}
 
-	public static final String defaultBlock = "empty";
+	public static final String airBlock = "empty";
 
 }

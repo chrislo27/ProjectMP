@@ -101,7 +101,7 @@ public class World {
 
 		for (int x = 0; x < sizex; x++) {
 			for (int y = 0; y < sizey; y++) {
-				setBlock(Blocks.defaultBlock(), x, y);
+				setBlock(Blocks.getAir(), x, y);
 				setMeta(0, x, y);
 			}
 		}
@@ -327,7 +327,7 @@ public class World {
 	}
 
 	public Block getBlock(int x, int y) {
-		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Blocks.defaultBlock();
+		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return Blocks.getAir();
 
 		return getChunkBlockIsIn(x, y).getChunkBlock(x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}

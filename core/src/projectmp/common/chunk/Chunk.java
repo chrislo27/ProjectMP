@@ -41,7 +41,7 @@ public class Chunk implements CanBeSavedToNBT {
 
 		for (int x = 0; x < CHUNK_SIZE; x++) {
 			for (int y = 0; y < CHUNK_SIZE; y++) {
-				blocks[x][y] = Blocks.defaultBlock();
+				blocks[x][y] = Blocks.getAir();
 				metadata[x][y] = 0;
 				tileEntities[x][y] = null;
 				breakingProgress[x][y] = 0;
@@ -78,8 +78,8 @@ public class Chunk implements CanBeSavedToNBT {
 	}
 
 	public Block getChunkBlock(int x, int y) {
-		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return Blocks.defaultBlock();
-		if (blocks[x][y] == null) return Blocks.defaultBlock();
+		if (x < 0 || y < 0 || x >= CHUNK_SIZE || y >= CHUNK_SIZE) return Blocks.getAir();
+		if (blocks[x][y] == null) return Blocks.getAir();
 		return blocks[x][y];
 	}
 
