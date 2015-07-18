@@ -65,8 +65,7 @@ public class Block extends TexturedObject {
 	}
 	
 	public void dropItems(World world, int x, int y){
-		// FIXME hacky hack hack
-		((EntityPlayer) world.getEntityByUUID(world.main.clientLogic.getPlayer().uuid)).getInventoryObject().setSlot(2, getDroppedItem());
+		
 	}
 	
 	public ItemStack getDroppedItem(){
