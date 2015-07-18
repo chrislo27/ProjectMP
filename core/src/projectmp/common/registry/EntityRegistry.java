@@ -1,6 +1,7 @@
 package projectmp.common.registry;
 
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.registry.classmap.ClassMap;
@@ -26,6 +27,7 @@ public class EntityRegistry{
 	private void loadResources() {
 		registerEntity(EntityLiving.class, "entityLiving");
 		registerEntity(EntityPlayer.class, "player");
+		registerEntity(EntityItem.class, "item");
 	}
 	
 	public void registerEntity(Class<? extends Entity> clazz, String key){
