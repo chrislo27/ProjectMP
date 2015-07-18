@@ -131,9 +131,13 @@ public class World {
 
 		if (isServer) {
 
-			for (int i = 0; i < entities.size; i++) {
+			for (int i = entities.size - 1; i >= 0; i--) {
 				Entity e = entities.get(i);
 				e.tickUpdate();
+				
+				if(e.isMarkedForRemoval()){
+					removeEntity(e.uuid);
+				}
 			}
 
 			if (particles.size > 0) {

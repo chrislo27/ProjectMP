@@ -55,6 +55,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	@SideOnly(Side.CLIENT)
 	public transient boolean facingLeft = false;
+	
+	private boolean isMarkedForRemoval = false;
 
 	// interpolation stuff END
 
@@ -808,6 +810,14 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 			accelerate(accspeed * (usingTicks ? (1f / Main.TICKS) : Gdx.graphics.getDeltaTime()),
 					0, true);
 		}
+	}
+	
+	public boolean isMarkedForRemoval(){
+		return isMarkedForRemoval;
+	}
+	
+	public void markForRemoval(){
+		isMarkedForRemoval = true;
 	}
 
 	@Override
