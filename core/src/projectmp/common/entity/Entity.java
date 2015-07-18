@@ -57,6 +57,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public transient boolean facingLeft = false;
 	
 	public int age = 0;
+	public int timeInstantiated = -1;
 	
 	private boolean isMarkedForRemoval = false;
 
@@ -113,6 +114,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		lastKnownX = x;
 		lastKnownY = y;
 		if (world != null) uuid = world.getNewUniqueUUID();
+		timeInstantiated = world.time.totalTicks;
+		
 		prepare();
 	}
 
