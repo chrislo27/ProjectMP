@@ -3,10 +3,10 @@ package projectmp.common.block;
 import java.util.HashMap;
 
 import projectmp.common.block.Block.BlockFaces;
+import projectmp.common.item.ItemBlock;
+import projectmp.common.item.Items;
 
 import com.badlogic.gdx.utils.Array;
-import com.evilco.mc.nbt.tag.TagCompound;
-import com.evilco.mc.nbt.tag.TagInteger;
 
 public class Blocks {
 
@@ -46,6 +46,9 @@ public class Blocks {
 		blocks.put(key, value);
 		reverse.put(value, key);
 		allBlocks.add(value);
+		
+		ItemBlock itemBlock = new ItemBlock(key);
+		Items.instance().put("block_" + key, itemBlock);
 	}
 
 	public Block getBlock(String key) {
