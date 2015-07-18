@@ -5,11 +5,10 @@ import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.item.ItemBlock;
 import projectmp.common.registry.AssetRegistry;
-import projectmp.common.util.AssetMap;
 import projectmp.common.world.World;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Slot {
@@ -64,6 +63,10 @@ public class Slot {
 		ItemStack stack = inventory.getSlot(slotNum);
 		if (stack.getItem() != null) {
 			float spacing = 0f;
+			
+			if(stack.getItem() instanceof ItemBlock){
+				spacing = 0.25f;
+			}
 
 			stack.getItem().render(renderer, posx + (spacing * width / 2),
 					posy + (spacing * height / 2), width - (width * spacing),

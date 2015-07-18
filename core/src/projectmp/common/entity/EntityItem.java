@@ -25,8 +25,8 @@ public class EntityItem extends Entity {
 
 	@Override
 	public void prepare() {
-		sizex = 0.75f;
-		sizey = 0.75f;
+		sizex = 0.5f;
+		sizey = 0.5f;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class EntityItem extends Entity {
 				renderer.convertWorldX(visualX + (sizex / 2)) - World.tilesizex / 2f,
 				renderer.convertWorldY((visualY + (sizey)), 0)
 						+ MathHelper.clampNumberFromTime(System.currentTimeMillis()
-								+ (uuid / Short.MAX_VALUE), 2.5f) * 8, World.tilesizex * sizex,
+								+ (timeInstantiated * 750), 2.5f) * 8, World.tilesizex * sizex,
 				World.tilesizey * sizey, itemStack);
 	}
 
