@@ -8,6 +8,7 @@ import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
+import projectmp.common.packet.PacketSendInventory;
 import projectmp.common.packet.PacketSendTileEntity;
 import projectmp.common.packet.PacketSlotChanged;
 import projectmp.common.packet.PacketSwapSlot;
@@ -42,6 +43,7 @@ public final class PacketRepository {
 	public PacketUpdateHealth updateHealth = new PacketUpdateHealth();
 	public PacketWeather weatherUpdate = new PacketWeather();
 	public PacketBreakingProgress breakingProgress = new PacketBreakingProgress();
+	public PacketSendInventory sendInv = new PacketSendInventory();
 	
 	public PacketGuiState guiState = new PacketGuiState();
 	public PacketSwapSlot swapSlot = new PacketSwapSlot();
