@@ -14,8 +14,10 @@ import projectmp.common.util.annotation.sidedictation.SideOnly;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.evilco.mc.nbt.error.TagNotFoundException;
 import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
 import com.evilco.mc.nbt.tag.TagCompound;
@@ -160,6 +162,22 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		drawTextureCentered(renderer, t, 0, 0, facingLeft);
 	}
 
+	/**
+	 * Modifies the parameter to fit a light source, alpha > 0 = light
+	 * @param c
+	 */
+	public void setLightColor(Color c){
+		c.set(0, 0, 0, 0);
+	}
+	
+	/**
+	 * Modifies the parameter to offset where the light source will be placed (default centre)
+	 * @param c
+	 */
+	public void setLightOffset(Vector2 v){
+		v.set(0, 0);
+	}
+	
 	/**
 	 * called every render update BEFORE rendering on client only, used for interpolation
 	 */

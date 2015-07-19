@@ -1,10 +1,14 @@
 package projectmp.client.lighting;
 
+import java.util.List;
+
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.block.Block.BlockFaces;
+import projectmp.common.entity.Entity;
 import projectmp.common.util.MathHelper;
+import projectmp.common.util.Sizeable;
 import projectmp.common.world.TimeOfDay;
 import projectmp.common.world.World;
 
@@ -12,6 +16,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.utils.Pools;
@@ -69,6 +74,9 @@ public class LightingEngine {
 	 * used for debug
 	 */
 	private int lightingUpdateMethodCalls = 0;
+	
+	private LightingBoundingBox boundingbox = new LightingBoundingBox();
+	private Vector2 entityLightOffset = new Vector2();
 
 	public LightingEngine(World world) {
 		this.world = world;
@@ -187,6 +195,7 @@ public class LightingEngine {
 		height = MathUtils.clamp(height, 0, sizey);
 
 		lightingUpdateMethodCalls = 0;
+		boundingbox.set(originx, originy, width, height);
 
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
@@ -196,6 +205,19 @@ public class LightingEngine {
 					onSource(x, y, (byte) (blockCheckingColor.a * 127f),
 							Color.rgb888(blockCheckingColor));
 				}
+			}
+		}
+		
+		List<Entity> withinRange = world.getQuadArea(boundingbox);
+		for(int i = 0; i < withinRange.size(); i++){
+			Entity e = withinRange.get(i);
+			
+			e.setLightColor(blockCheckingColor);
+			e.setLightOffset(entityLightOffset);
+			
+			if (blockCheckingColor.a > 0) {
+				onSource((int) (e.x + entityLightOffset.x), (int) (e.y + entityLightOffset.y), (byte) (blockCheckingColor.a * 127f),
+						Color.rgb888(blockCheckingColor));
 			}
 		}
 
@@ -491,6 +513,39 @@ public class LightingEngine {
 
 	public int getLightingUpdateType() {
 		return isUpdateScheduled;
+	}
+	
+	private static class LightingBoundingBox implements Sizeable{
+
+		public float x, y, width, height;
+		
+		@Override
+		public float getX() {
+			return x;
+		}
+
+		@Override
+		public float getY() {
+			return y;
+		}
+
+		@Override
+		public float getWidth() {
+			return width;
+		}
+
+		@Override
+		public float getHeight() {
+			return height;
+		}
+		
+		public void set(float x, float y, float w, float h){
+			this.x = x;
+			this.y = y;
+			width = w;
+			height = h;
+		}
+		
 	}
 
 }
