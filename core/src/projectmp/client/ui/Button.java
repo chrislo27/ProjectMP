@@ -53,7 +53,7 @@ public class Button extends UiElement {
 		main.font.setColor(Color.BLACK);
 
 		if (main.font.getBounds(text).width + 6 > width) {
-			main.font.setScale(width / (main.font.getBounds(text).width + 6));
+			//main.font.setScale(width / (main.font.getBounds(text).width + 6), 1);
 		}
 		main.drawCentered(main.font, text, x + (width / 2),
 				y + (height / 2) + (main.font.getBounds(text).height / 2));
