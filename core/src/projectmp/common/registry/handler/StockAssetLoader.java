@@ -105,6 +105,7 @@ public class StockAssetLoader implements IAssetLoader {
 
 		// unmanaged textures
 		textures.put("gear", new Texture("images/gear.png"));
+		textures.put("laserfx", new Texture("images/laser.png"));
 
 	}
 
