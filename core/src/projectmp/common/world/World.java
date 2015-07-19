@@ -201,6 +201,18 @@ public class World {
 	public Entity getEntityByIndex(int i) {
 		return entities.get(i);
 	}
+	
+	public EntityPlayer getPlayerByUsername(String username){
+		for (int i = 0; i < entities.size; i++) {
+			if(entities.get(i) instanceof EntityPlayer){
+				if(((EntityPlayer) entities.get(i)).username.equals(username)){
+					return (EntityPlayer) entities.get(i);
+				}
+			}
+		}
+		
+		return null;
+	}
 
 	public void createNewEntity(Entity e) {
 		if (isServer) {
