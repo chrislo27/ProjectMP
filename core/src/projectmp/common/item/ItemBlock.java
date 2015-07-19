@@ -18,11 +18,13 @@ public class ItemBlock extends Item {
 		block = b;
 		return this;
 	}
-
+	
+	@Override
 	public String getLocalizedName(ItemStack stack) {
 		return Blocks.instance().getBlock(block).getLocalizedName(stack);
 	}
 
+	@Override
 	public void render(WorldRenderer renderer, float x, float y, float width, float height,
 			ItemStack stack) {
 		Block b = Blocks.instance().getBlock(block);
@@ -31,4 +33,5 @@ public class ItemBlock extends Item {
 				this.getCurrentRenderingIndex(stack), -1, -1);
 	}
 
+	
 }
