@@ -17,6 +17,7 @@ import projectmp.common.packet.PacketEndChunkTransfer;
 import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketOtherPlayerUsing;
 import projectmp.common.packet.PacketPlayerPosUpdate;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
@@ -76,6 +77,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(PacketBreakingProgress.class);
 		kryo.register(PacketUpdateCursor.class);
 		kryo.register(PacketSendInventory.class);
+		kryo.register(PacketOtherPlayerUsing.class);
 	}
 
 	private void registerEntities(Kryo kryo) {

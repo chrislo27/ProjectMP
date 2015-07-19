@@ -23,6 +23,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
 
@@ -48,6 +49,7 @@ public class ClientLogic implements Disposable {
 	private int lastUsingCursorX, lastUsingCursorY;
 
 	private HashMap<String, Long> otherPlayersCursors = new HashMap<>();
+	private HashMap<String, Integer> otherPlayersSelected = new HashMap<>();
 
 	public int selectedItem = 0;
 
@@ -98,6 +100,7 @@ public class ClientLogic implements Disposable {
 		renderer.camera.setWorld(world);
 		this.world.isServer = false;
 		otherPlayersCursors.clear();
+		otherPlayersSelected.clear();
 	}
 
 	public void tickUpdate() {
@@ -429,6 +432,20 @@ public class ClientLogic implements Disposable {
 
 	public void removeOtherPlayerCursor(String username) {
 		otherPlayersCursors.remove(username);
+	}
+	
+	public void putOtherPlayerUsing(String username, int slot){
+		otherPlayersSelected.put(username, slot);
+	}
+	
+	public void removeOtherPlayerUsingItem(String username){
+		if(otherPlayersSelected.remove(username) != null){
+			
+		}
+	}
+	
+	public HashMap<String, Integer> getOtherPlayersSelected(){
+		return otherPlayersSelected;
 	}
 
 }

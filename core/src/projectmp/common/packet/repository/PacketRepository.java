@@ -6,6 +6,7 @@ import projectmp.common.packet.PacketBreakingProgress;
 import projectmp.common.packet.PacketGuiState;
 import projectmp.common.packet.PacketItemUse;
 import projectmp.common.packet.PacketNewEntity;
+import projectmp.common.packet.PacketOtherPlayerUsing;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketRemoveEntity;
 import projectmp.common.packet.PacketSendInventory;
@@ -52,6 +53,7 @@ public final class PacketRepository {
 	public PacketBlockActivate blockActivate = new PacketBlockActivate();
 	public PacketItemUse itemUse = new PacketItemUse();
 	public PacketUpdateCursor updateCursor = new PacketUpdateCursor();
+	public PacketOtherPlayerUsing otherPlayerUsing = new PacketOtherPlayerUsing();
 	
 	private void loadResources() {
 

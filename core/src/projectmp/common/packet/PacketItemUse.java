@@ -3,6 +3,7 @@ package projectmp.common.packet;
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.packet.repository.PacketRepository;
 import projectmp.server.ServerLogic;
 import projectmp.server.player.ServerPlayer;
 
@@ -41,10 +42,18 @@ public class PacketItemUse implements Packet{
 		}else if(status == ON_END){
 			sp.stopUsingItem(logic, cursorX, cursorY);
 		}
+		
+		PacketOtherPlayerUsing packet = PacketRepository.instance().otherPlayerUsing;
+		packet.slot = selectedSlot;
+		packet.username = connection.toString();
+		packet.remove = status != ON_START;
+		
+		logic.server.sendToAllExceptTCP(connection.getID(), packet);
 	}
 
 	@Override
 	public void actionClient(Connection connection, ClientLogic logic) {
+		
 	}
 
 }
