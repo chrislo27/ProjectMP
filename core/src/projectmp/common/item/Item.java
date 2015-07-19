@@ -12,6 +12,7 @@ public class Item extends TexturedObject {
 
 	String unlocalizedName = "unnamed";
 	int maxStackable = 512;
+	float range = 4f;
 
 	public Item(String unlocalizedname) {
 		super("item", unlocalizedname);
@@ -40,6 +41,15 @@ public class Item extends TexturedObject {
 
 	public void onUseEndRender(WorldRenderer renderer, EntityPlayer user, int slot, int x, int y) {
 
+	}
+	
+	public Item setRange(float r){
+		range = r;
+		return this;
+	}
+	
+	public float getRange(){
+		return range;
 	}
 
 	@Override

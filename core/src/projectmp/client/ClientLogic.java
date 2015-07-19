@@ -16,6 +16,7 @@ import projectmp.common.packet.PacketSwapSlot;
 import projectmp.common.packet.PacketUpdateCursor;
 import projectmp.common.packet.repository.PacketRepository;
 import projectmp.common.registry.GuiRegistry;
+import projectmp.common.util.MathHelper;
 import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
@@ -47,7 +48,7 @@ public class ClientLogic implements Disposable {
 	private int lastUsingCursorX, lastUsingCursorY;
 
 	private HashMap<String, Long> otherPlayersCursors = new HashMap<>();
-	
+
 	public int selectedItem = 0;
 
 	public ClientLogic(Main main) {
@@ -64,8 +65,8 @@ public class ClientLogic implements Disposable {
 
 		return (EntityPlayer) world.getEntityByIndex(playerIndex);
 	}
-	
-	public ItemStack getSelectedItem(){
+
+	public ItemStack getSelectedItem() {
 		return getPlayerInventory().getSlot(selectedItem);
 	}
 
@@ -109,20 +110,24 @@ public class ClientLogic implements Disposable {
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 
 				if (isUsingItem && !getSelectedItem().isNothing()) {
-					getSelectedItem()
-							.getItem()
-							.onUsing(world, getPlayer(), selectedItem,
-									getCursorBlockX(), getCursorBlockY());
+					
+					if (MathHelper.calcDistance(getPlayer().visualX, getPlayer().visualY,
+							getCursorBlockX(), getCursorBlockY()) > getSelectedItem().getItem().getRange()){
+						stopUsingItem();
+					}else{
+						getSelectedItem().getItem().onUsing(world, getPlayer(), selectedItem,
+								getCursorBlockX(), getCursorBlockY());
 
-					if (getCursorBlockX() != lastUsingCursorX
-							|| getCursorBlockY() != lastUsingCursorY) {
-						lastUsingCursorX = getCursorBlockX();
-						lastUsingCursorY = getCursorBlockY();
+						if (getCursorBlockX() != lastUsingCursorX
+								|| getCursorBlockY() != lastUsingCursorY) {
+							lastUsingCursorX = getCursorBlockX();
+							lastUsingCursorY = getCursorBlockY();
 
-						PacketUpdateCursor packet = PacketRepository.instance().updateCursor;
-						packet.x = lastUsingCursorX;
-						packet.y = lastUsingCursorY;
-						client.sendTCP(packet);
+							PacketUpdateCursor packet = PacketRepository.instance().updateCursor;
+							packet.x = lastUsingCursorX;
+							packet.y = lastUsingCursorY;
+							client.sendTCP(packet);
+						}
 					}
 				}
 
@@ -256,16 +261,16 @@ public class ClientLogic implements Disposable {
 	public void playerInput() {
 		if (getPlayer() == null || !main.client.isConnected()) return;
 
-		if (Gdx.input.isKeyPressed(Keys.LEFT)) {
+		if (Gdx.input.isKeyPressed(Keys.A)) {
 			getPlayer().moveLeft(false);
 		}
-		if (Gdx.input.isKeyPressed(Keys.RIGHT)) {
+		if (Gdx.input.isKeyPressed(Keys.D)) {
 			getPlayer().moveRight(false);
 		}
-		if (Gdx.input.isKeyPressed(Keys.UP)) {
+		if (Gdx.input.isKeyPressed(Keys.SPACE)) {
 			getPlayer().jump();
 		}
-		if (Gdx.input.isKeyPressed(Keys.DOWN)) {
+		if (Gdx.input.isKeyPressed(Keys.S)) {
 
 		}
 
@@ -274,7 +279,7 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Gdx.input.isButtonPressed(Buttons.LEFT)) { // item use
-				useItem();
+				if(!isUsingItem) useItem();
 			} else if (Gdx.input.isButtonPressed(Buttons.LEFT) == false) {
 				stopUsingItem();
 			}
@@ -355,19 +360,17 @@ public class ClientLogic implements Disposable {
 
 	public void useItem() {
 		if (!getSelectedItem().isNothing()) {
+			if (MathHelper.calcDistance(getPlayer().visualX, getPlayer().visualY,
+					getCursorBlockX(), getCursorBlockY()) > getSelectedItem().getItem().getRange()) return;
+
 			if (!isUsingItem) {
 				isUsingItem = true;
-				getSelectedItem()
-						.getItem()
-						.onUseStart(world, getPlayer(), selectedItem,
-								getCursorBlockX(), getCursorBlockY());
-				
+				getSelectedItem().getItem().onUseStart(world, getPlayer(), selectedItem,
+						getCursorBlockX(), getCursorBlockY());
+
 				renderer.batch.begin();
-				getSelectedItem()
-						.getItem()
-						.onUseStartRender(renderer, getPlayer(),
-								selectedItem, getCursorBlockX(),
-								getCursorBlockY());
+				getSelectedItem().getItem().onUseStartRender(renderer, getPlayer(), selectedItem,
+						getCursorBlockX(), getCursorBlockY());
 				renderer.batch.end();
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
@@ -389,17 +392,12 @@ public class ClientLogic implements Disposable {
 		if (!getSelectedItem().isNothing()) {
 			if (isUsingItem) {
 				isUsingItem = false;
-				getSelectedItem()
-						.getItem()
-						.onUseEnd(world, getPlayer(), selectedItem,
-								getCursorBlockX(), getCursorBlockY());
-				
+				getSelectedItem().getItem().onUseEnd(world, getPlayer(), selectedItem,
+						getCursorBlockX(), getCursorBlockY());
+
 				renderer.batch.begin();
-				getSelectedItem()
-						.getItem()
-						.onUseEndRender(renderer, getPlayer(),
-								selectedItem, getCursorBlockX(),
-								getCursorBlockY());
+				getSelectedItem().getItem().onUseEndRender(renderer, getPlayer(), selectedItem,
+						getCursorBlockX(), getCursorBlockY());
 				renderer.batch.end();
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
