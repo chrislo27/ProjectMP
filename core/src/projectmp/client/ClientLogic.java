@@ -151,14 +151,6 @@ public class ClientLogic implements Disposable {
 
 		renderer.renderWorld();
 
-		if (isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()) {
-			getPlayerInventory()
-					.getSelectedItem()
-					.getItem()
-					.onUsingRender(renderer, getPlayer(), getPlayerInventory().getSelectedItem(),
-							getCursorBlockX(), getCursorBlockY());
-		}
-
 		renderer.renderPlayerNames();
 
 		main.batch.setProjectionMatrix(main.camera.combined);
@@ -365,12 +357,15 @@ public class ClientLogic implements Disposable {
 						.getItem()
 						.onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem(),
 								getCursorBlockX(), getCursorBlockY());
+				
+				renderer.batch.begin();
 				getPlayerInventory()
 						.getSelectedItem()
 						.getItem()
 						.onUseStartRender(renderer, getPlayer(),
 								getPlayerInventory().getSelectedItem(), getCursorBlockX(),
 								getCursorBlockY());
+				renderer.batch.end();
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_START;
@@ -396,12 +391,15 @@ public class ClientLogic implements Disposable {
 						.getItem()
 						.onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem(),
 								getCursorBlockX(), getCursorBlockY());
+				
+				renderer.batch.begin();
 				getPlayerInventory()
 						.getSelectedItem()
 						.getItem()
 						.onUseEndRender(renderer, getPlayer(),
 								getPlayerInventory().getSelectedItem(), getCursorBlockX(),
 								getCursorBlockY());
+				renderer.batch.end();
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_END;
