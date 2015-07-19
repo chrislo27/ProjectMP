@@ -30,7 +30,7 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 		super.addGuiElements();
 
 		container.elements.add(resolutions169 = new ResolutionButton(
-				(Settings.DEFAULT_WIDTH / 2) - 320, Settings.DEFAULT_HEIGHT - 334, 160, 32,
+				(Settings.DEFAULT_WIDTH / 2) - 160, Settings.DEFAULT_HEIGHT - 238, 320, 32,
 				Settings.get169ResolutionsStrings()) {
 
 			@Override
@@ -39,7 +39,7 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 			}
 		});
 		container.elements.add(resolutions43 = new ResolutionButton(
-				(Settings.DEFAULT_WIDTH / 2) - 320, Settings.DEFAULT_HEIGHT - 334, 160, 32,
+				(Settings.DEFAULT_WIDTH / 2) - 160, Settings.DEFAULT_HEIGHT - 238, 320, 32,
 				Settings.get43ResolutionsStrings()) {
 
 			@Override
@@ -48,7 +48,7 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 			}
 		});
 		container.elements.add(resolutions1610 = new ResolutionButton(
-				(Settings.DEFAULT_WIDTH / 2) - 320, Settings.DEFAULT_HEIGHT - 334, 160, 32,
+				(Settings.DEFAULT_WIDTH / 2) - 160, Settings.DEFAULT_HEIGHT - 238, 320, 32,
 				Settings.get1610ResolutionsStrings()) {
 
 			@Override
@@ -56,12 +56,12 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 				return aspectRatio.selection == 2;
 			}
 		});
-		container.elements.add(aspectRatio = new ChoiceButton((Settings.DEFAULT_WIDTH / 2) - 320,
-				Settings.DEFAULT_HEIGHT - 286, 160, 32, "menu.settings.aspectratio", new String[] {
+		container.elements.add(aspectRatio = new ChoiceButton((Settings.DEFAULT_WIDTH / 2) - 160,
+				Settings.DEFAULT_HEIGHT - 190, 320, 32, "menu.settings.aspectratio", new String[] {
 						"menu.settings.aspectratio.169", "menu.settings.aspectratio.43",
 						"menu.settings.aspectratio.1610" }));
-		container.elements.add(fullscreen = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 320,
-				Settings.DEFAULT_HEIGHT - 382, 160, 32, "menu.settings.fullscreen") {
+		container.elements.add(fullscreen = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 160,
+				Settings.DEFAULT_HEIGHT - 286, 320, 32, "menu.settings.fullscreen") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -71,8 +71,8 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 			}
 		}.setState(Settings.fullscreen));
 
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 290,
-				Settings.DEFAULT_HEIGHT - 430, 100, 32, "menu.settings.apply") {
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 120,
+				Settings.DEFAULT_HEIGHT - 334, 240, 32, "menu.settings.apply") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -101,8 +101,8 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 				return true;
 			}
 		});
-		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
-				Settings.DEFAULT_HEIGHT - 334, 160, 32, "menu.settings.vignette") {
+		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 160,
+				Settings.DEFAULT_HEIGHT - 430, 320, 32, "menu.settings.vignette") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -111,8 +111,8 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 				return true;
 			}
 		}.setState(Settings.showVignette));
-		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80,
-				Settings.DEFAULT_HEIGHT - 382, 160, 32, "menu.settings.smoothlighting") {
+		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 160,
+				Settings.DEFAULT_HEIGHT - 478, 320, 32, "menu.settings.smoothlighting") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -134,9 +134,6 @@ public class GraphicsSettingsScreen extends SettingsScreen {
 		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics"),
 				(Settings.DEFAULT_WIDTH / 2), Settings.DEFAULT_HEIGHT - 32);
 		main.font.setScale(1);
-
-		main.drawCentered(main.font, Translator.getMsg("menu.settings.graphics.resolution"),
-				(Settings.DEFAULT_WIDTH / 2) - 240, Settings.DEFAULT_HEIGHT - 226);
 
 		main.batch.end();
 	}
