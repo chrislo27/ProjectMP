@@ -31,6 +31,8 @@ import com.esotericsoftware.kryonet.Server;
 
 public class ServerLogic {
 
+	private static final float TIME_BETWEEN_FORCE_SEND = 5;
+	
 	public boolean isSingleplayer = false;
 
 	public Main main;
@@ -95,10 +97,12 @@ public class ServerLogic {
 
 			boolean shouldSend = false;
 			int iter = 0;
+			boolean force = ((int) (main.totalSeconds * Main.TICKS)) % ((int) (TIME_BETWEEN_FORCE_SEND * Main.TICKS)) == 0;
+			
 			for (int i = 0; i < world.getNumberOfEntities(); i++) {
 				Entity e = world.getEntityByIndex(i);
 
-				if (!e.hasMovedLastTick()) continue;
+				if (!e.hasMovedLastTick() || force) continue;
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;
@@ -109,7 +113,11 @@ public class ServerLogic {
 				iter++;
 			}
 
-			if (shouldSend) server.sendToAllUDP(positionUpdate);
+			if (shouldSend && !force){
+				server.sendToAllUDP(positionUpdate);
+			}else if(force){
+				server.sendToAllTCP(positionUpdate);
+			}
 		}
 	}
 
