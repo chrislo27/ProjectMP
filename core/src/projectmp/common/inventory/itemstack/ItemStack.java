@@ -49,11 +49,17 @@ public class ItemStack implements CanBeSavedToNBT{
 	}
 	
 	public void setAmount(int i){
-		quantity = i;
+		quantity = Math.max(0, i);
+		
+		if(quantity <= 0 && item != null) setItem(null);
 	}
 	
 	public void setItem(String i){
 		item = i;
+		
+		if(item == null && getAmount() > 0){
+			setAmount(0);
+		}
 	}
 	
 	/**
