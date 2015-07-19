@@ -18,6 +18,8 @@ public final class ElectricityFX {
 	public static final float DEFAULT_THICKNESS = 3f;
 	public static final float DEFAULT_OFFSET_OF_POINTS = 16f;
 	public static final float DEFAULT_DISTANCE_BETWEEN_POINTS = 24f;
+	
+	private static Texture lineTexture = null;
 
 	/**
 	 * 
@@ -77,6 +79,10 @@ public final class ElectricityFX {
 
 	private static void drawLine(SpriteBatch batch, float _x1, float _y1, float _x2, float _y2,
 			float thickness) {
+		if(lineTexture == null){
+			setLineTexture(Main.filltex);
+		}
+		
 		float length = (float) MathHelper.calcDistance(_x1, _y1, _x2, _y2);
 		float dx = _x1;
 		float dy = _y1;
@@ -84,8 +90,12 @@ public final class ElectricityFX {
 		dy = dy - _y2;
 		float angle = MathUtils.radiansToDegrees * MathUtils.atan2(dy, dx);
 		angle = angle - 180;
-		batch.draw(Main.filltex, _x1, _y1, 0f, thickness * 0.5f, length, thickness, 1f, 1f, angle,
+		batch.draw(lineTexture, _x1, _y1, 0f, thickness * 0.5f, length, thickness, 1f, 1f, angle,
 				0, 0, 1, 1, false, false);
+	}
+	
+	public static void setLineTexture(Texture t){
+		lineTexture = t;
 	}
 
 }
