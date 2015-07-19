@@ -60,6 +60,10 @@ public final class ElectricityFX {
 		
 		batch.setColor(oldColor);
 	}
+	
+	public static void drawElectricty(SpriteBatch batch, float startX, float startY, float endX, float endY, float color){
+		drawElectricity(batch, startX, startY, endX, endY, DEFAULT_OFFSET_OF_POINTS, DEFAULT_THICKNESS, DEFAULT_DISTANCE_BETWEEN_POINTS, color);
+	}
 
 	/**
 	 * gets a random colour that looks lightningy
