@@ -23,13 +23,13 @@ public class GeneralSettingsScreen extends SettingsScreen {
 	protected void addGuiElements() {
 		super.addGuiElements();
 
-		usernameBox = new TextBox((Settings.DEFAULT_WIDTH / 2) - 80,
-				Gdx.graphics.getHeight() - 144, 160, 32, "" + Main.username).setAllowDigits(true)
+		usernameBox = new TextBox((Settings.DEFAULT_WIDTH / 2) - 160,
+				Gdx.graphics.getHeight() - 144, 320, 32, "" + Main.username).setAllowDigits(true)
 				.setAllowLetters(true).setAllowSpaces(true).setAllowSpecial(false)
 				.setPasswordMode(false);
 
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
-				.getHeight() - 192, 160, 32, "menu.settings.graphics") {
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 160, Gdx.graphics
+				.getHeight() - 192, 320, 32, "menu.settings.graphics") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -38,8 +38,8 @@ public class GeneralSettingsScreen extends SettingsScreen {
 			}
 		});
 
-		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
-				.getHeight() - 240, 160, 32, "menu.settings.audio") {
+		container.elements.add(new Button((Settings.DEFAULT_WIDTH / 2) - 160, Gdx.graphics
+				.getHeight() - 240, 320, 32, "menu.settings.audio") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -48,8 +48,8 @@ public class GeneralSettingsScreen extends SettingsScreen {
 			}
 		});
 
-		debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Settings.DEFAULT_HEIGHT - 332,
-				160, 32, "menu.settings.debugmode") {
+		debug = new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 160, Settings.DEFAULT_HEIGHT - 332,
+				320, 32, "menu.settings.debugmode") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -59,8 +59,8 @@ public class GeneralSettingsScreen extends SettingsScreen {
 			}
 		}.setState(Settings.debug);
 
-		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 80, Gdx.graphics
-				.getHeight() - 286, 160, 32, "menu.settings.showfps") {
+		container.elements.add(new BooleanButton((Settings.DEFAULT_WIDTH / 2) - 160, Gdx.graphics
+				.getHeight() - 286, 320, 32, "menu.settings.showfps") {
 
 			@Override
 			public boolean onLeftClick() {
@@ -82,7 +82,7 @@ public class GeneralSettingsScreen extends SettingsScreen {
 		main.font.setColor(1, 1, 1, 1);
 
 		main.drawInverse(main.font, Translator.getMsg("menu.settings.username"),
-				(Settings.DEFAULT_WIDTH / 2) - 80, Settings.DEFAULT_HEIGHT - 144 + 23);
+				(Settings.DEFAULT_WIDTH / 2) - 160, Settings.DEFAULT_HEIGHT - 144 + 23);
 
 		main.font.setScale(2);
 		main.font.setColor(1, 1, 1, 1);
