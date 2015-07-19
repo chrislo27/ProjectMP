@@ -2,6 +2,7 @@ package projectmp.common.entity;
 
 import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
+import projectmp.common.ai.BaseAI;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.block.BlockEmpty;
 import projectmp.common.io.CanBeSavedToNBT;
@@ -93,7 +94,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public transient float accspeed = 1.5f; // acceleration blocks/sec
 	public transient float maxspeed = 1.5f; // speed cap blocks/sec
 	
-	
+	public transient BaseAI ai = null;
 
 	/**
 	 * used for deserialization
@@ -132,6 +133,11 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public abstract void render(WorldRenderer renderer);
 
+	public void setAI(BaseAI ai){
+		this.ai = ai;
+		this.ai.setEntity(this);
+	}
+	
 	/**
 	 * Draws the texture centered on the entity. 
 	 * It is centered horizontally and the bottom of the texture flush with the bottom of the entity.
@@ -257,6 +263,12 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public void tickUpdate() {
 		age++;
+		
+		if(world.isServer){
+			if(ai != null){
+				ai.tickUpdate();
+			}
+		}
 		
 		movementAndCollision();
 	}
