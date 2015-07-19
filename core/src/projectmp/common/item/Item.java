@@ -34,6 +34,23 @@ public class Item extends TexturedObject {
 	public void onUseEnd(World world, EntityPlayer user, ItemStack stack, int x, int y) {
 
 	}
+	
+	public void onUseStartRender(WorldRenderer renderer, EntityPlayer user, ItemStack stack, int x, int y) {
+
+	}
+
+	/**
+	 * called every frame while in use
+	 * @param world
+	 * @param user
+	 */
+	public void onUsingRender(WorldRenderer renderer, EntityPlayer user, ItemStack stack, int x, int y) {
+
+	}
+
+	public void onUseEndRender(WorldRenderer renderer, EntityPlayer user, ItemStack stack, int x, int y) {
+
+	}
 
 	@Override
 	public Item addAnimations(Animation... args) {
