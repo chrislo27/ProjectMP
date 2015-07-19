@@ -16,9 +16,9 @@ public class ItemPlasmaCutter extends ItemMineable {
 	}
 
 	@Override
-	public void onUsingRender(WorldRenderer renderer, EntityPlayer player, ItemStack stack, int x,
+	public void onUsingRender(WorldRenderer renderer, EntityPlayer player, int slot, int x,
 			int y) {
-		super.onUsingRender(renderer, player, stack, x, y);
+		super.onUsingRender(renderer, player, slot, x, y);
 
 		renderer.startBypassing();
 		

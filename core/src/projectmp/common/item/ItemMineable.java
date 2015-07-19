@@ -34,7 +34,7 @@ public class ItemMineable extends Item{
 	public float effectiveness = 1f;
 	
 	@Override
-	public void onUsing(World world, EntityPlayer player, ItemStack stack, int x, int y){
+	public void onUsing(World world, EntityPlayer player, int slot, int x, int y){
 		if(world.isServer == false){
 			PacketBreakingProgress packet = PacketRepository.instance().breakingProgress;
 			packet.x = x;

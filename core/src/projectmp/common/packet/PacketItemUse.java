@@ -23,10 +23,7 @@ public class PacketItemUse implements Packet{
 	 */
 	public int status = ON_END;
 	
-	/**
-	 * The item stack.
-	 */
-	public ItemStack stack = null;
+	public int selectedSlot = 0;
 	
 	/**
 	 * Cursor positions
@@ -35,14 +32,12 @@ public class PacketItemUse implements Packet{
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
-		if(stack == null) return;
-		
 		ServerPlayer sp = logic.getServerPlayerByName(connection.toString());
 		
 		if(sp == null) return;
 		
 		if(status == ON_START){
-			sp.startUsingItem(logic, stack, cursorX, cursorY);
+			sp.startUsingItem(logic, selectedSlot, cursorX, cursorY);
 		}else if(status == ON_END){
 			sp.stopUsingItem(logic, cursorX, cursorY);
 		}

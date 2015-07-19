@@ -202,11 +202,10 @@ public class WorldRenderer implements Disposable {
 				}
 				
 				// render using item
-				if (logic.isUsingItem() && !logic.getPlayerInventory().getSelectedItem().isNothing()) {
-					logic.getPlayerInventory()
-							.getSelectedItem()
+				if (logic.isUsingItem() && !logic.getSelectedItem().isNothing()) {
+					logic.getSelectedItem()
 							.getItem()
-							.onUsingRender(this, logic.getPlayer(), logic.getPlayerInventory().getSelectedItem(),
+							.onUsingRender(this, logic.getPlayer(), logic.selectedItem,
 									logic.getCursorBlockX(), logic.getCursorBlockY());
 				}
 			}

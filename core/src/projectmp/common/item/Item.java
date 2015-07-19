@@ -18,37 +18,27 @@ public class Item extends TexturedObject {
 		this.unlocalizedName = unlocalizedname;
 	}
 
-	public void onUseStart(World world, EntityPlayer user, ItemStack stack, int x, int y) {
+	public void onUseStart(World world, EntityPlayer user, int slot, int x, int y) {
 
 	}
 
-	/**
-	 * called every tick while in use
-	 * @param world
-	 * @param user
-	 */
-	public void onUsing(World world, EntityPlayer user, ItemStack stack, int x, int y) {
+	public void onUsing(World world, EntityPlayer user, int slot, int x, int y) {
 
 	}
 
-	public void onUseEnd(World world, EntityPlayer user, ItemStack stack, int x, int y) {
+	public void onUseEnd(World world, EntityPlayer user, int slot, int x, int y) {
 
 	}
 	
-	public void onUseStartRender(WorldRenderer renderer, EntityPlayer user, ItemStack stack, int x, int y) {
+	public void onUseStartRender(WorldRenderer renderer, EntityPlayer user, int slot, int x, int y) {
+
+	}
+ 
+	public void onUsingRender(WorldRenderer renderer, EntityPlayer user, int slot, int x, int y) {
 
 	}
 
-	/**
-	 * called every frame while in use
-	 * @param world
-	 * @param user
-	 */
-	public void onUsingRender(WorldRenderer renderer, EntityPlayer user, ItemStack stack, int x, int y) {
-
-	}
-
-	public void onUseEndRender(WorldRenderer renderer, EntityPlayer user, ItemStack stack, int x, int y) {
+	public void onUseEndRender(WorldRenderer renderer, EntityPlayer user, int slot, int x, int y) {
 
 	}
 

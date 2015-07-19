@@ -3,7 +3,10 @@ package projectmp.common.item;
 import projectmp.client.WorldRenderer;
 import projectmp.common.block.Block;
 import projectmp.common.block.Blocks;
+import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.util.Utils;
+import projectmp.common.world.World;
 
 public class ItemBlock extends Item {
 
@@ -33,5 +36,18 @@ public class ItemBlock extends Item {
 				this.getCurrentRenderingIndex(stack), -1, -1);
 	}
 
+	@Override
+	public void onUsing(World world, EntityPlayer user, int slot, int x, int y) {
+		if(!world.isServer) return;
+		
+		ItemStack stack = user.getInventoryObject().getSlot(slot);
+		
+		if(world.getBlock(x, y) == Blocks.getAir() && stack.getAmount() > 0){
+			world.setBlock(block, x, y);
+			stack.setAmount(stack.getAmount() - 1);
+			
+			world.main.serverLogic.updateClientsOfTotalInventoryChange("playerInv", Utils.unpackLongUpper(user.uuid), Utils.unpackLongLower(user.uuid));
+		}
+	}
 	
 }

@@ -1,5 +1,6 @@
 package projectmp.server.player;
 
+import projectmp.common.Main;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.io.CanBeSavedToNBT;
@@ -27,7 +28,10 @@ public class ServerPlayer implements CanBeSavedToNBT{
 	private long uuid;
 	
 	@NotWrittenToNBT
-	private ItemStack currentUsingItem = null;
+	private int currentUsingItem;
+	
+	@NotWrittenToNBT
+	private boolean isUsing = false;
 	
 	@NotWrittenToNBT
 	private int cursorX;
@@ -50,7 +54,7 @@ public class ServerPlayer implements CanBeSavedToNBT{
 
 	public void tickUpdate(ServerLogic logic){
 		if(isUsingItem()){
-			currentUsingItem.getItem().onUsing(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
+			getCurrentUsingItem().getItem().onUsing(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 		}
 	}
 	
@@ -68,33 +72,36 @@ public class ServerPlayer implements CanBeSavedToNBT{
 	}
 	
 	public ItemStack getCurrentUsingItem(){
-		return currentUsingItem;
+		return inventory.getSlot(currentUsingItem);
 	}
 	
 	public boolean isUsingItem(){
-		return currentUsingItem != null;
+		return getCurrentUsingItem().isNothing() == false && isUsing;
 	}
 	
 	public void stopUsingItem(ServerLogic logic, int x, int y){
 		if(!isUsingItem()) return;
-		if(currentUsingItem.getItem() == null) return;
+		if(getCurrentUsingItem().getItem() == null) return;
 		
 		cursorX = x;
 		cursorY = y;
 		
-		currentUsingItem.getItem().onUseEnd(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
+		isUsing = false;
+		
+		getCurrentUsingItem().getItem().onUseEnd(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 	}
 	
-	public void startUsingItem(ServerLogic logic, ItemStack item, int x, int y){
+	public void startUsingItem(ServerLogic logic, int slot, int x, int y){
 		if(isUsingItem()) stopUsingItem(logic, x, y);
-		if(item == null) return;
-		if(item.getItem() == null) return;
+		if(inventory.getSlot(slot).getItem() == null) return;
 		
 		cursorX = x;
 		cursorY = y;
 		
-		currentUsingItem = item.copy();
-		currentUsingItem.getItem().onUseStart(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
+		currentUsingItem = slot;
+		isUsing = true;
+		
+		getCurrentUsingItem().getItem().onUseStart(logic.world, logic.getPlayerByName(username), currentUsingItem, cursorX, cursorY);
 	}
 	
 	@Override

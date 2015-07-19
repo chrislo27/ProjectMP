@@ -47,6 +47,8 @@ public class ClientLogic implements Disposable {
 	private int lastUsingCursorX, lastUsingCursorY;
 
 	private HashMap<String, Long> otherPlayersCursors = new HashMap<>();
+	
+	public int selectedItem = 0;
 
 	public ClientLogic(Main main) {
 		this.main = main;
@@ -61,6 +63,10 @@ public class ClientLogic implements Disposable {
 		if (playerIndex >= world.getNumberOfEntities() || playerIndex == -1) updatePlayerIndex();
 
 		return (EntityPlayer) world.getEntityByIndex(playerIndex);
+	}
+	
+	public ItemStack getSelectedItem(){
+		return getPlayerInventory().getSlot(selectedItem);
 	}
 
 	public InventoryPlayer getPlayerInventory() {
@@ -102,11 +108,10 @@ public class ClientLogic implements Disposable {
 				getPlayer().movementAndCollision();
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 
-				if (isUsingItem && !getPlayerInventory().getSelectedItem().isNothing()) {
-					getPlayerInventory()
-							.getSelectedItem()
+				if (isUsingItem && !getSelectedItem().isNothing()) {
+					getSelectedItem()
 							.getItem()
-							.onUsing(world, getPlayer(), getPlayerInventory().getSelectedItem(),
+							.onUsing(world, getPlayer(), selectedItem,
 									getCursorBlockX(), getCursorBlockY());
 
 					if (getCursorBlockX() != lastUsingCursorX
@@ -349,27 +354,25 @@ public class ClientLogic implements Disposable {
 	}
 
 	public void useItem() {
-		if (!getPlayerInventory().getSelectedItem().isNothing()) {
+		if (!getSelectedItem().isNothing()) {
 			if (!isUsingItem) {
 				isUsingItem = true;
-				getPlayerInventory()
-						.getSelectedItem()
+				getSelectedItem()
 						.getItem()
-						.onUseStart(world, getPlayer(), getPlayerInventory().getSelectedItem(),
+						.onUseStart(world, getPlayer(), selectedItem,
 								getCursorBlockX(), getCursorBlockY());
 				
 				renderer.batch.begin();
-				getPlayerInventory()
-						.getSelectedItem()
+				getSelectedItem()
 						.getItem()
 						.onUseStartRender(renderer, getPlayer(),
-								getPlayerInventory().getSelectedItem(), getCursorBlockX(),
+								selectedItem, getCursorBlockX(),
 								getCursorBlockY());
 				renderer.batch.end();
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_START;
-				packet.stack = getPlayerInventory().getSelectedItem();
+				packet.selectedSlot = selectedItem;
 				packet.cursorX = getCursorBlockX();
 				packet.cursorY = getCursorBlockY();
 				client.sendTCP(packet);
@@ -383,27 +386,25 @@ public class ClientLogic implements Disposable {
 	}
 
 	public void stopUsingItem() {
-		if (!getPlayerInventory().getSelectedItem().isNothing()) {
+		if (!getSelectedItem().isNothing()) {
 			if (isUsingItem) {
 				isUsingItem = false;
-				getPlayerInventory()
-						.getSelectedItem()
+				getSelectedItem()
 						.getItem()
-						.onUseEnd(world, getPlayer(), getPlayerInventory().getSelectedItem(),
+						.onUseEnd(world, getPlayer(), selectedItem,
 								getCursorBlockX(), getCursorBlockY());
 				
 				renderer.batch.begin();
-				getPlayerInventory()
-						.getSelectedItem()
+				getSelectedItem()
 						.getItem()
 						.onUseEndRender(renderer, getPlayer(),
-								getPlayerInventory().getSelectedItem(), getCursorBlockX(),
+								selectedItem, getCursorBlockX(),
 								getCursorBlockY());
 				renderer.batch.end();
 
 				PacketItemUse packet = PacketRepository.instance().itemUse;
 				packet.status = PacketItemUse.ON_END;
-				packet.stack = getPlayerInventory().getSelectedItem();
+				packet.selectedSlot = selectedItem;
 				packet.cursorX = getCursorBlockX();
 				packet.cursorY = getCursorBlockY();
 				client.sendTCP(packet);
