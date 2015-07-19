@@ -73,25 +73,27 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	/**
 	 * collides with blocks
 	 */
-	public boolean hasBlockCollision = true;
+	public transient boolean hasBlockCollision = true;
 
 	/**
 	 * collides with other entities with this flag as true
 	 */
-	public boolean hasEntityCollision = false;
+	public transient boolean hasEntityCollision = false;
 
 	/**
 	 * indicates that entities that hit this other entity will shift
 	 * velocity*forceTransfer to this entity (and stop)
 	 */
-	public float forceTransfer = 0f;
+	public transient float forceTransfer = 0f;
 
-	public float dragCoefficient = 1;
-	public float gravityCoefficient = 1;
-	public float bounceCoefficient = 0;
+	public transient float dragCoefficient = 1;
+	public transient float gravityCoefficient = 1;
+	public transient float bounceCoefficient = 0;
 
-	public float accspeed = 1.5f; // acceleration blocks/sec
-	public float maxspeed = 1.5f; // speed cap blocks/sec
+	public transient float accspeed = 1.5f; // acceleration blocks/sec
+	public transient float maxspeed = 1.5f; // speed cap blocks/sec
+	
+	
 
 	/**
 	 * used for deserialization
