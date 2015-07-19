@@ -20,6 +20,8 @@ public class ItemMineable extends Item{
 
 	public ItemMineable(String unlocalizedname) {
 		super(unlocalizedname);
+		
+		this.setMaxStack(1);
 	}
 	
 	/**
