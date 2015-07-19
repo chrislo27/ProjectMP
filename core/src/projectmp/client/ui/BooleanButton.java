@@ -19,7 +19,7 @@ public class BooleanButton extends Button {
 		main.font.setColor(Color.BLACK);
 		//		main.drawCentered(Translator.getMsg(text), x + (width / 2) - 27,
 		//				y + (height / 2) + (main.font.getBounds(text).height / 2));
-		renderText(main, Translator.getMsg(text), this.width - 32);
+		renderText(main, Translator.getMsg(text), this.width);
 	}
 
 	@Override
