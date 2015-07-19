@@ -3,6 +3,7 @@ package projectmp.common.entity;
 import java.util.List;
 
 import projectmp.client.WorldRenderer;
+import projectmp.common.Main;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Utils;
@@ -61,6 +62,18 @@ public class EntityItem extends Entity {
 				if (!(nearby.get(i) instanceof EntityPlayer)) continue;
 
 				EntityPlayer player = (EntityPlayer) nearby.get(i);
+				float blockRange = 2f;
+
+				if (MathHelper.intersects(x - blockRange, y - blockRange, sizex
+						+ blockRange * 2, sizey + blockRange * 2, player.x, player.y, player.sizex,
+						player.sizey)) {
+					float distance = MathHelper.distanceSquared(x, y, player.x, player.y);
+					
+					velox += (player.x - x) * (blockRange / distance) * Main.TICKS;
+					veloy += (player.y - y) * (blockRange / distance) * Main.TICKS;
+				}
+
+				if (!this.intersectingOther(player)) continue;
 
 				player.getInventoryObject().addStack(itemStack);
 
