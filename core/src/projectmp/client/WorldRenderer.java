@@ -297,6 +297,7 @@ public class WorldRenderer implements Disposable {
 		
 		worldBuffer.end();
 		bypassBuffer.begin();
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
 		
 		isBypassing = true;
 	}
@@ -310,6 +311,7 @@ public class WorldRenderer implements Disposable {
 		
 		bypassBuffer.end();
 		worldBuffer.begin();
+		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		
 		isBypassing = false;
 	}
