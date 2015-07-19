@@ -74,7 +74,7 @@ public class LightingEngine {
 	 * used for debug
 	 */
 	private int lightingUpdateMethodCalls = 0;
-	
+
 	private LightingBoundingBox boundingbox = new LightingBoundingBox();
 	private Vector2 entityLightOffset = new Vector2();
 
@@ -127,7 +127,7 @@ public class LightingEngine {
 
 			lastUpdateCamX = renderer.camera.camerax + (Settings.DEFAULT_WIDTH / 2f);
 			lastUpdateCamY = renderer.camera.cameray + (Settings.DEFAULT_HEIGHT / 2f);
-			
+
 			updateLighting(prex, prey, postx, posty, isUpdateScheduled >= 2);
 			isUpdateScheduled = 0;
 		}
@@ -153,7 +153,8 @@ public class LightingEngine {
 		lastUpdateLengthNano = (int) (System.nanoTime() - nano);
 	}
 
-	private void resetLightingAndCalcSky(int originx, int originy, int width, int height, boolean shouldUpdateSky) {
+	private void resetLightingAndCalcSky(int originx, int originy, int width, int height,
+			boolean shouldUpdateSky) {
 		originx = MathUtils.clamp(originx, 0, sizex);
 		originy = MathUtils.clamp(originy, 0, sizey);
 		width = MathUtils.clamp(width, 0, sizex);
@@ -162,11 +163,11 @@ public class LightingEngine {
 		for (int x = originx; x < width; x++) {
 			for (int y = originy; y < height; y++) {
 				// reset all
-				if(shouldUpdateSky) skyLighting[x][y] = 0;
+				if (shouldUpdateSky) skyLighting[x][y] = 0;
 				setBrightness((byte) 0, x, y);
 				setLightColor(Color.rgb888(0, 0, 0), x, y);
 			}
-			
+
 			int y = 0;
 			boolean terminate = false;
 			while (!terminate && shouldUpdateSky) {
@@ -207,17 +208,18 @@ public class LightingEngine {
 				}
 			}
 		}
-		
+
 		List<Entity> withinRange = world.getQuadArea(boundingbox);
-		for(int i = 0; i < withinRange.size(); i++){
+		for (int i = 0; i < withinRange.size(); i++) {
 			Entity e = withinRange.get(i);
-			
+
 			e.setLightColor(blockCheckingColor);
 			e.setLightOffset(entityLightOffset);
-			
+
 			if (blockCheckingColor.a > 0) {
-				onSource((int) (e.x + entityLightOffset.x), (int) (e.y + entityLightOffset.y), (byte) (blockCheckingColor.a * 127f),
-						Color.rgb888(blockCheckingColor));
+				onSource((int) ((e.x + e.sizex / 2f) + entityLightOffset.x),
+						(int) ((e.y + e.sizey / 2f) + entityLightOffset.y),
+						(byte) (blockCheckingColor.a * 127f), Color.rgb888(blockCheckingColor));
 			}
 		}
 
@@ -237,23 +239,23 @@ public class LightingEngine {
 			int numberOfRays = Math.min(Math.round((bright * 2f * MathUtils.PI) / 2.225f), 360);
 			int anglePerRay = (360 / numberOfRays);
 
-			if(numberOfRays >= 8){
+			if (numberOfRays >= 8) {
 				// rays for 90 degree offset 45 deg artifacts
 				rayOfLight(x, y, bright, color, 1, 1);
 				rayOfLight(x, y, bright, color, -1, 1);
 				rayOfLight(x, y, bright, color, 1, -1);
 				rayOfLight(x, y, bright, color, -1, -1);
 			}
-			
+
 			for (int i = 0; i < numberOfRays; i++) {
 				int angle = anglePerRay * i;
 				float rise = MathUtils.cosDeg(angle);
 				float run = MathUtils.sinDeg(angle);
 				int accuracy = 10000;
-				
+
 				// force accuracy for rise and run at 45 degree angles to prevent artifacts -- done before this
-				if((angle + 45) % 90 == 0) continue;
-				
+				if ((angle + 45) % 90 == 0) continue;
+
 				rayOfLight(x, y, bright, color, (int) (rise * accuracy), (int) (run * accuracy));
 			}
 		} else {
@@ -343,7 +345,8 @@ public class LightingEngine {
 
 			// decrease remaining brightness
 			remainingBrightness -= (world.getBlock(currentX, currentY).lightSubtraction(world,
-					currentX, currentY) * 127f) * (movedDiagonally ? MathHelper.rootTwo : 1);
+					currentX, currentY) * 127f)
+					* (movedDiagonally ? MathHelper.rootTwo : 1);
 
 			// check if current position is out of bounds, if so break
 			if (currentX < 0 || currentY < 0 || currentX >= world.sizex || currentY >= world.sizey) {
@@ -514,11 +517,11 @@ public class LightingEngine {
 	public int getLightingUpdateType() {
 		return isUpdateScheduled;
 	}
-	
-	private static class LightingBoundingBox implements Sizeable{
+
+	private static class LightingBoundingBox implements Sizeable {
 
 		public float x, y, width, height;
-		
+
 		@Override
 		public float getX() {
 			return x;
@@ -538,14 +541,14 @@ public class LightingEngine {
 		public float getHeight() {
 			return height;
 		}
-		
-		public void set(float x, float y, float w, float h){
+
+		public void set(float x, float y, float w, float h) {
 			this.x = x;
 			this.y = y;
 			width = w;
 			height = h;
 		}
-		
+
 	}
 
 }
