@@ -43,7 +43,7 @@ public class Items {
 						Item.newSingleFrame("images/items/chess/black/rook.png"),
 						Item.newSingleFrame("images/items/chess/black/queen.png"),
 						Item.newSingleFrame("images/items/chess/black/king.png")));
-		put("testMineable", new ItemMineable("testMineable").addAnimations(Item.newSingleFrame("images/items/mininglaser.png")));
+		put("plasmaCutter", new ItemPlasmaCutter("plasmaCutter").addAnimations(Item.newSingleFrame("images/items/mininglaser.png")));
 	}
 
 	public void put(String key, Item value) {
