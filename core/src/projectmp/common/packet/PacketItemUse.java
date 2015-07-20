@@ -47,6 +47,8 @@ public class PacketItemUse implements Packet{
 		packet.slot = selectedSlot;
 		packet.username = connection.toString();
 		packet.remove = status != ON_START;
+		packet.cursorX = cursorX;
+		packet.cursorY = cursorY;
 		
 		logic.server.sendToAllExceptTCP(connection.getID(), packet);
 	}

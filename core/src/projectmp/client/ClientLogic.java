@@ -113,11 +113,12 @@ public class ClientLogic implements Disposable {
 				getPlayer().positionUpdate(getPlayer().x, getPlayer().y);
 
 				if (isUsingItem && !getSelectedItem().isNothing()) {
-					
+
 					if (MathHelper.calcDistance(getPlayer().visualX, getPlayer().visualY,
-							getCursorBlockX(), getCursorBlockY()) > getSelectedItem().getItem().getRange()){
+							getCursorBlockX(), getCursorBlockY()) > getSelectedItem().getItem()
+							.getRange()) {
 						stopUsingItem();
-					}else{
+					} else {
 						getSelectedItem().getItem().onUsing(world, getPlayer(), selectedItem,
 								getCursorBlockX(), getCursorBlockY());
 
@@ -139,7 +140,11 @@ public class ClientLogic implements Disposable {
 						|| (world.time.totalTicks
 								% ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
 					prepareMovementUpdate();
-					main.client.sendUDP(playerUpdate);
+					if ((world.time.totalTicks % ((int) (Main.TICKS * TIME_BETWEEN_FORCE_UPDATE)) == 0)) {
+						main.client.sendTCP(playerUpdate);
+					} else {
+						main.client.sendUDP(playerUpdate);
+					}
 				}
 			} else {
 				main.client.close();
@@ -282,7 +287,7 @@ public class ClientLogic implements Disposable {
 			int y = getCursorBlockY();
 
 			if (Gdx.input.isButtonPressed(Buttons.LEFT)) { // item use
-				if(!isUsingItem) useItem();
+				if (!isUsingItem) useItem();
 			} else if (Gdx.input.isButtonPressed(Buttons.LEFT) == false) {
 				stopUsingItem();
 			}
@@ -383,9 +388,13 @@ public class ClientLogic implements Disposable {
 				packet.cursorY = getCursorBlockY();
 				client.sendTCP(packet);
 
+				lastUsingCursorX = getCursorBlockX();
+				lastUsingCursorY = getCursorBlockY();
+
 				PacketUpdateCursor packet2 = PacketRepository.instance().updateCursor;
 				packet2.x = lastUsingCursorX;
 				packet2.y = lastUsingCursorY;
+				packet2.username = Main.username;
 				client.sendTCP(packet);
 			}
 		}
@@ -433,18 +442,18 @@ public class ClientLogic implements Disposable {
 	public void removeOtherPlayerCursor(String username) {
 		otherPlayersCursors.remove(username);
 	}
-	
-	public void putOtherPlayerUsing(String username, int slot){
+
+	public void putOtherPlayerUsing(String username, int slot) {
 		otherPlayersSelected.put(username, slot);
 	}
-	
-	public void removeOtherPlayerUsingItem(String username){
-		if(otherPlayersSelected.remove(username) != null){
-			
+
+	public void removeOtherPlayerUsingItem(String username) {
+		if (otherPlayersSelected.remove(username) != null) {
+
 		}
 	}
-	
-	public HashMap<String, Integer> getOtherPlayersSelected(){
+
+	public HashMap<String, Integer> getOtherPlayersSelected() {
 		return otherPlayersSelected;
 	}
 

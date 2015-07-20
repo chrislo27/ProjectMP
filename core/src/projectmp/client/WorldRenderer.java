@@ -1,30 +1,25 @@
 package projectmp.client;
 
+import java.util.Map.Entry;
+
 import projectmp.common.Main;
 import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
 import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
-import com.badlogic.gdx.Application.ApplicationType;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Disposable;
-import com.bitfire.postprocessing.PostProcessor;
-import com.bitfire.postprocessing.effects.Bloom;
-import com.bitfire.postprocessing.effects.CrtMonitor;
-import com.bitfire.postprocessing.filters.CrtScreen.RgbMode;
-import com.bitfire.utils.ShaderLoader;
 
 public class WorldRenderer implements Disposable {
 
@@ -39,7 +34,7 @@ public class WorldRenderer implements Disposable {
 	private FrameBuffer bypassBuffer;
 
 	private float seconds = 0;
-	
+
 	private boolean isBypassing = false;
 
 	public WorldRenderer(Main m, World w, ClientLogic l) {
@@ -72,7 +67,7 @@ public class WorldRenderer implements Disposable {
 
 		// render background
 		renderBackground();
-		
+
 		batch.begin();
 
 		// draw the world buffer for full light
@@ -83,14 +78,14 @@ public class WorldRenderer implements Disposable {
 		}
 
 		batch.flush();
-		
+
 		// draw the lighting buffer, masked with the world buffer texture on top of world buffer
 		batch.setShader(main.maskshader);
 		Main.useMask(worldBuffer.getColorBufferTexture());
 		batch.draw(lightingBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		batch.setShader(null);
-		
+
 		// draw bypass buffer
 		batch.draw(bypassBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
@@ -114,7 +109,7 @@ public class WorldRenderer implements Disposable {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		bypassBuffer.end();
-		
+
 		// world to buffer
 		worldBuffer.begin();
 
@@ -200,8 +195,24 @@ public class WorldRenderer implements Disposable {
 						e.render(this);
 					}
 				}
-				
+
 				// render using item
+				for (Entry<String, Integer> entry : logic.getOtherPlayersSelected().entrySet()) {
+					EntityPlayer p = world.getPlayerByUsername(entry.getKey());
+
+					if (p == null) continue;
+					if (MathHelper.intersects(p.x, p.y, p.sizex, p.sizey, getCullStartX(8),
+							getCullStartY(8), getCullEndX(8), getCullEndY(8)) == false) continue;
+
+					ItemStack slotItem = p.getInventoryObject().getSlot(entry.getValue());
+					long cursor = logic.getOtherPlayerCursor(entry.getKey());
+
+					if (slotItem.isNothing()) continue;
+
+					slotItem.getItem().onUsingRender(this, p, entry.getValue(),
+							Utils.unpackLongUpper(cursor), Utils.unpackLongLower(cursor));
+				}
+
 				if (logic.isUsingItem() && !logic.getSelectedItem().isNothing()) {
 					logic.getSelectedItem()
 							.getItem()
@@ -291,36 +302,36 @@ public class WorldRenderer implements Disposable {
 	public void tickUpdate() {
 
 	}
-	
-	public boolean isBypassing(){
+
+	public boolean isBypassing() {
 		return isBypassing;
 	}
-	
-	public void startBypassing(){
-		if(isBypassing){
+
+	public void startBypassing() {
+		if (isBypassing) {
 			throw new IllegalStateException("Cannot start bypassing buffer while already started!");
 		}
-		
+
 		batch.flush();
-		
+
 		worldBuffer.end();
 		bypassBuffer.begin();
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE);
-		
+
 		isBypassing = true;
 	}
-	
-	public void stopBypassing(){
-		if(!isBypassing){
+
+	public void stopBypassing() {
+		if (!isBypassing) {
 			throw new IllegalStateException("Cannot stop bypassing when already stopped!");
 		}
-		
+
 		batch.flush();
-		
+
 		bypassBuffer.end();
 		worldBuffer.begin();
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		isBypassing = false;
 	}
 

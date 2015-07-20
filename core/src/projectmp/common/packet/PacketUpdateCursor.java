@@ -23,11 +23,7 @@ public class PacketUpdateCursor implements Packet{
 		
 		sp.setCursor(x, y);
 		
-		PacketUpdateCursor packet = PacketRepository.instance().updateCursor;
-		packet.x = x;
-		packet.y = y;
-		packet.username = username;
-		logic.server.sendToAllExceptUDP(connection.getID(), packet);
+		logic.server.sendToAllExceptUDP(connection.getID(), this);
 	}
 
 	@Override

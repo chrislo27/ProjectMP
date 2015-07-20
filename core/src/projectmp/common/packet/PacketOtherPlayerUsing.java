@@ -2,6 +2,7 @@ package projectmp.common.packet;
 
 import projectmp.client.ClientLogic;
 import projectmp.common.Main;
+import projectmp.common.util.Utils;
 import projectmp.server.ServerLogic;
 
 import com.esotericsoftware.kryonet.Connection;
@@ -12,6 +13,8 @@ public class PacketOtherPlayerUsing implements Packet{
 	public String username;
 	public boolean remove;
 	public int slot;
+	
+	public int cursorX, cursorY;
 	
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -25,6 +28,8 @@ public class PacketOtherPlayerUsing implements Packet{
 		}
 		
 		if(username == null) return;
+		
+		logic.putOtherPlayerCursor(username, Utils.packLong(cursorX, cursorY));
 		
 		if(remove){
 			logic.removeOtherPlayerUsingItem(username);
