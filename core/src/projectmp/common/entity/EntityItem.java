@@ -64,13 +64,15 @@ public class EntityItem extends Entity {
 				EntityPlayer player = (EntityPlayer) nearby.get(i);
 				float blockRange = 2f;
 
-				if (MathHelper.intersects(x - blockRange, y - blockRange, sizex
-						+ blockRange * 2, sizey + blockRange * 2, player.x, player.y, player.sizex,
-						player.sizey)) {
+				if (MathHelper.intersects(x - blockRange, y - blockRange, sizex + blockRange * 2,
+						sizey + blockRange * 2, player.x, player.y, player.sizex, player.sizey)) {
 					float distance = MathHelper.distanceSquared(x, y, player.x, player.y);
+					float maxspeed = 16f;
 					
-					velox += (player.x - x) * (blockRange / distance) * Main.TICKS;
-					veloy += (player.y - y) * (blockRange / distance) * Main.TICKS;
+					if (Math.abs(velox) < maxspeed) velox += (player.x - x) * (blockRange / distance)
+							* Main.TICKS;
+					if (Math.abs(veloy) < maxspeed) veloy += (player.y - y) * (blockRange / distance)
+							* Main.TICKS;
 				}
 
 				if (!this.intersectingOther(player)) continue;
