@@ -491,7 +491,7 @@ public class Main extends Game implements Consumer {
 	public void inputUpdate() {
 		if (Gdx.input.isKeyJustPressed(Keys.F12)) {
 			Settings.debug = !Settings.debug;
-		} else if (Gdx.input.isKeyJustPressed(Keys.F5)) {
+		} else if (Gdx.input.isKeyJustPressed(Keys.F1)) {
 			ScreenshotFactory.saveScreenshot();
 		}
 		if (Settings.debug) { // console things -> alt + key
