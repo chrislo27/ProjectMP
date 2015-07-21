@@ -7,6 +7,8 @@ public class StencilMaskUtil {
 
 	/**
 	 * call this BEFORE rendering with ShapeRenderer and BEFORE drawing sprites, and AFTER what you want in the background rendered
+	 * <br>
+	 * after this render primitive shapes
 	 */
 	public static void prepareMask() {
 		Gdx.gl.glDepthFunc(GL20.GL_LESS);
@@ -18,7 +20,7 @@ public class StencilMaskUtil {
 	}
 
 	/**
-	 * call this AFTER batch.begin() and BEFORE drawing sprites
+	 * call this AFTER batch.begin() and BEFORE drawing sprites, after primitives
 	 */
 	public static void useMask() {
 		Gdx.gl.glDepthMask(false);
