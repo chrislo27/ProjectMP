@@ -73,11 +73,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.glutils.ImmediateModeRenderer20;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.esotericsoftware.kryonet.Client;
 import com.esotericsoftware.kryonet.Server;
 
@@ -93,6 +93,8 @@ public class Main extends Game implements Consumer {
 	public SpriteBatch batch;
 
 	public ShapeRenderer shapes;
+	
+	public ImmediateModeRenderer20 verticesRenderer;
 
 	public BitmapFont font;
 	public BitmapFont arial;
@@ -184,6 +186,8 @@ public class Main extends Game implements Consumer {
 		camera.setToOrtho(false, Settings.DEFAULT_WIDTH, Settings.DEFAULT_HEIGHT);
 		batch = new SpriteBatch();
 		batch.enableBlending();
+		
+		verticesRenderer = new ImmediateModeRenderer20(false, true, 0);
 		
 		defaultShader = SpriteBatch.createDefaultShader();
 		username = Settings.getPreferences().getString("username", getRandomUsername());
@@ -311,6 +315,7 @@ public class Main extends Game implements Consumer {
 		Settings.instance().save();
 
 		batch.dispose();
+		verticesRenderer.dispose();
 		AssetRegistry.instance().dispose();
 		font.dispose();
 		arial.dispose();
