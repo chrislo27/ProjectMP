@@ -84,7 +84,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 	
 	@Override
 	/**
-	 * This method in EntityPlayer always returns false (you cannot remove a player entity, there is special handling for death)
+	 * This method in EntityPlayer always returns false (you cannot remove a player entity via conventional methods, there is special handling for death)
 	 */
 	public boolean isMarkedForRemoval(){
 		return false;
