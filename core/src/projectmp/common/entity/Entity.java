@@ -769,7 +769,6 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	}
 
 	public Entity entityColliding() {
-		if (!hasEntityCollision) return null;
 		for (Entity e : world.getQuadArea(this)) {
 			if (intersectingOther(e)) {
 				if (!e.hasEntityCollision) continue;
