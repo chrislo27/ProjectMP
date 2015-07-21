@@ -11,6 +11,7 @@ public class PacketUpdateHealth implements Packet {
 
 	public long uuid = 0;
 	public int newhealth = 1;
+	public int maxhealth = 1;
 
 	@Override
 	public void actionServer(Connection connection, ServerLogic logic) {
@@ -23,7 +24,8 @@ public class PacketUpdateHealth implements Packet {
 		if(e == null) return;
 		if(!(e instanceof EntityLiving)) return;
 		
-		((EntityLiving) e).health = newhealth;
+		((EntityLiving) e).maxhealth = maxhealth;
+		((EntityLiving) e).health = Math.min(newhealth, maxhealth);
 	}
 
 }

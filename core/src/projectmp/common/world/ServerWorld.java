@@ -49,6 +49,7 @@ public class ServerWorld extends World {
 		
 		healthpacket.uuid = e.uuid;
 		healthpacket.newhealth = e.health;
+		healthpacket.maxhealth = e.maxhealth;
 		logic.server.sendToAllTCP(healthpacket);
 	}
 
