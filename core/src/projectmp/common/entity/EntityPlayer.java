@@ -76,5 +76,18 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 	public void setInventoryObject(Inventory inv) {
 		inventory = (InventoryPlayer) inv;
 	}
+	
+	@Override
+	public void damage(int dmg){
+		super.damage(dmg);
+	}
+	
+	@Override
+	/**
+	 * This method in EntityPlayer always returns false (you cannot remove a player entity, there is special handling for death)
+	 */
+	public boolean isMarkedForRemoval(){
+		return false;
+	}
 
 }
