@@ -34,7 +34,9 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 		this.accspeed = maxspeed * 5f;
 		this.sizex = 2f - (4 * World.tilepartx);
 		this.sizey = 2f - (3 * World.tileparty);
-		this.hasEntityCollision = true;
+		
+		this.maxhealth = 100;
+		this.health = maxhealth;
 		
 		inventory = new InventoryPlayer(uuid);
 	}
