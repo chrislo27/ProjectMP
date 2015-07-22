@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 
 public class LiquidContainer {
 
-	float width, height;
+	public float width, height;
 	/**
 	 * Gap between vertices
 	 */
@@ -37,12 +37,6 @@ public class LiquidContainer {
 
 	protected void renderUpdate(Main main) {
 		secondsElapsed += Gdx.graphics.getDeltaTime();
-
-		if (Gdx.input.isKeyPressed(Keys.R)) {
-			for (int i = 0; i < waves.length; i++) {
-				perturb(MathUtils.random(), 2f);
-			}
-		}
 		
 		for(int i = 0; i < 4; i++){
 			smooth(main);
@@ -74,6 +68,12 @@ public class LiquidContainer {
 	public void perturb(float x, float intensity) {
 		waves[(int) ((width * x) / waveGap)] += intensity * MathUtils.random()
 				* MathUtils.randomSign();
+	}
+	
+	public void perturbAll(float intensity){
+		for(int i = 0; i < waves.length; i++){
+			perturb(MathUtils.random(), intensity);
+		}
 	}
 
 	public void render(Main main, float x, float y) {

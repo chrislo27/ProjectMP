@@ -11,9 +11,12 @@ import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
 import projectmp.common.util.Utils;
+import projectmp.common.util.render.LiquidContainer;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -32,10 +35,15 @@ public class WorldRenderer implements Disposable {
 	private FrameBuffer worldBuffer;
 	private FrameBuffer lightingBuffer;
 	private FrameBuffer bypassBuffer;
+	private FrameBuffer healthBuffer;
 
 	private float seconds = 0;
 
 	private boolean isBypassing = false;
+
+	private float lastPlayerHealth = -1;
+	private LiquidContainer healthLiquid;
+	private float vignetteBloodAlpha = 0;
 
 	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
@@ -45,11 +53,15 @@ public class WorldRenderer implements Disposable {
 
 		camera = new SmoothCamera(world);
 
+		healthLiquid = new LiquidContainer(64, 64, 2, 8, new Color(1, 0, 0, 1));
+
 		worldBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
 		lightingBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
 		bypassBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
+				Settings.DEFAULT_HEIGHT, false);
+		healthBuffer = new FrameBuffer(Format.RGBA8888, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT, false);
 	}
 
@@ -247,6 +259,14 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderHUD() {
+		if(vignetteBloodAlpha > 0){
+			vignetteBloodAlpha -= Gdx.graphics.getDeltaTime();
+		}
+		
+		if(vignetteBloodAlpha <= 0){
+			vignetteBloodAlpha = 0;
+		}
+		
 		batch.begin();
 
 		// render weather
@@ -258,6 +278,9 @@ public class WorldRenderer implements Disposable {
 		batch.setColor(0, 0, 0, 0.1f);
 		batch.draw(AssetRegistry.getTexture("vignette"), 0, 0, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT);
+		batch.setColor(1, 0, 0, vignetteBloodAlpha);
+		batch.draw(AssetRegistry.getTexture("vignette"), 0, 0, Settings.DEFAULT_WIDTH,
+				Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
 
 		if (logic.getCurrentGui() != null) {
@@ -266,6 +289,29 @@ public class WorldRenderer implements Disposable {
 			// TODO render hotbar
 		}
 
+		batch.end();
+
+		// health liquid
+		
+		healthBuffer.begin();
+		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		healthLiquid.render(main, 64, 64);
+		healthBuffer.end();
+
+		batch.begin();
+		
+		batch.draw(AssetRegistry.getTexture("healthbg"), 5, 5);
+		
+		batch.flush();
+		
+		batch.setShader(main.maskshader);
+		Main.useMask(AssetRegistry.getTexture("heartmask"));
+		
+		batch.draw(healthBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		
+		batch.setShader(null);
 		batch.end();
 	}
 
@@ -300,7 +346,23 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void tickUpdate() {
+		if(Gdx.input.isKeyJustPressed(Keys.R)){
+			logic.getPlayer().damage(5);
+		}
+		
+		// took dmg
+		if (lastPlayerHealth > (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth)) {
+			// vignette and liquid
+			healthLiquid.height = 64 * (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth);
+			healthLiquid.perturbAll(5f);
+			
+			vignetteBloodAlpha = Math.abs(((lastPlayerHealth - logic.getPlayer().health * 1f / logic.getPlayer().maxhealth)) * 2.5f);
+		}
 
+		// reset
+		if (lastPlayerHealth != (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth)) {
+			lastPlayerHealth = (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth);
+		}
 	}
 
 	public boolean isBypassing() {
@@ -388,6 +450,7 @@ public class WorldRenderer implements Disposable {
 		worldBuffer.dispose();
 		lightingBuffer.dispose();
 		bypassBuffer.dispose();
+		healthBuffer.dispose();
 	}
 
 }

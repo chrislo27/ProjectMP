@@ -85,6 +85,8 @@ public class StockAssetLoader implements IAssetLoader {
 		manager.load(AssetMap.add("circlegradient", "images/circlegradient.png"), Texture.class);
 		manager.load(AssetMap.add("stunhalo", "images/stunhalo.png"), Texture.class);
 		manager.load(AssetMap.add("featheredcircle", "images/featheredcircle.png"), Texture.class);
+		manager.load(AssetMap.add("heartmask", "images/heartmask.png"), Texture.class);
+		manager.load(AssetMap.add("healthbg", "images/ui/healthbg.png"), Texture.class);
 
 		// background related
 		manager.load(AssetMap.add("starrysky", "images/starrysky.png"), Texture.class);
