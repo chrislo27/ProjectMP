@@ -301,7 +301,8 @@ public class WorldRenderer implements Disposable {
 
 		batch.begin();
 		
-		batch.draw(AssetRegistry.getTexture("healthbg"), 5, 5);
+		batch.draw(AssetRegistry.getTexture("healthbg"), 0, Settings.DEFAULT_HEIGHT,
+				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 		
 		batch.flush();
 		

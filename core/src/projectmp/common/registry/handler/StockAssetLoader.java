@@ -39,6 +39,8 @@ public class StockAssetLoader implements IAssetLoader {
 		manager.load(AssetMap.add("playerdirectionarrow", "images/ui/player-arrow.png"),
 				Texture.class);
 		manager.load(AssetMap.add("invslot", "images/ui/inventory/itemslot.png"), Texture.class);
+		manager.load(AssetMap.add("heartmask", "images/ui/healthbar/heartmask.png"), Texture.class);
+		manager.load(AssetMap.add("healthbg", "images/ui/healthbar/heartbg.png"), Texture.class);
 
 		// particle
 		manager.load(AssetMap.add("money", "images/particle/money.png"), Texture.class);
@@ -85,8 +87,6 @@ public class StockAssetLoader implements IAssetLoader {
 		manager.load(AssetMap.add("circlegradient", "images/circlegradient.png"), Texture.class);
 		manager.load(AssetMap.add("stunhalo", "images/stunhalo.png"), Texture.class);
 		manager.load(AssetMap.add("featheredcircle", "images/featheredcircle.png"), Texture.class);
-		manager.load(AssetMap.add("heartmask", "images/heartmask.png"), Texture.class);
-		manager.load(AssetMap.add("healthbg", "images/ui/healthbg.png"), Texture.class);
 
 		// background related
 		manager.load(AssetMap.add("starrysky", "images/starrysky.png"), Texture.class);
