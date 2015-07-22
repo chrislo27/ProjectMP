@@ -19,6 +19,7 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.math.MathUtils;
@@ -301,8 +302,9 @@ public class WorldRenderer implements Disposable {
 
 		batch.begin();
 		
-		batch.draw(AssetRegistry.getTexture("healthbg"), 0, Settings.DEFAULT_HEIGHT,
-				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+		Texture healthbg = AssetRegistry.getTexture("healthbg");
+		batch.draw(healthbg, 0, Settings.DEFAULT_HEIGHT,
+				AssetRegistry.getTexture("healthbg").getWidth(), -AssetRegistry.getTexture("healthbg").getHeight());
 		
 		batch.flush();
 		
