@@ -46,6 +46,11 @@ public class Items {
 		put("plasmaCutter", new ItemPlasmaCutter("plasmaCutter").addAnimations(Item.newSingleFrame("images/items/mininglaser.png")));
 	}
 
+	/**
+	 * 
+	 * @param key the item's unique key, usually also the unlocalized name if the item is unique
+	 * @param value
+	 */
 	public void put(String key, Item value) {
 		items.put(key, value);
 		reverse.put(value, key);
