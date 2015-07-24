@@ -109,7 +109,6 @@ public class LightingRenderer {
 		square *= (1 + thresholdInverse);
 		// subtract a bit so it doesn't become totally pitch black too early on
 		square -= (thresholdInverse / 2);
-		// not usegul
 		if (alpha >= threshold) {
 			return square;
 		} else {
