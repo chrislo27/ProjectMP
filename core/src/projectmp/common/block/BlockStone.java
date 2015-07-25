@@ -8,6 +8,7 @@ public class BlockStone extends Block {
 
 	public BlockStone(String identifier) {
 		super(identifier);
+		this.setHardness(1f);
 	}
 
 }

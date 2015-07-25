@@ -8,6 +8,7 @@ public class BlockDirt extends Block {
 
 	public BlockDirt(String identifier) {
 		super(identifier);
+		this.setHardness(0.5f);
 	}
 
 }
