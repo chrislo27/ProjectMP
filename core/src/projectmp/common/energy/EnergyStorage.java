@@ -62,10 +62,6 @@ public class EnergyStorage implements CanBeSavedToNBT{
 	public int getMaxSend() {
 		return maxSend;
 	}
-
-	public int getEnergy() {
-		return energy;
-	}
 	
 	public void setMaxTransfer(int transfer){
 		setMaxReceive(transfer);
