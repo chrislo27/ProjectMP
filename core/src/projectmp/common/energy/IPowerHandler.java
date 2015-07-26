@@ -19,4 +19,14 @@ public interface IPowerHandler{
 	
 	public int getMaxReceive();
 	
+	public void setMaxSend(int max);
+	
+	public void setMaxReceive(int max);
+	
+	public void setMaxTransfer(int max);
+	
+	public void setMaxCapacity(int max);
+	
+	public void setEnergyStored(int energy);
+	
 }
