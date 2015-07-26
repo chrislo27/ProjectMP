@@ -1,5 +1,6 @@
 package projectmp.common.registry.handler;
 
+import projectmp.common.energy.EnergyStorage;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityLiving;
@@ -32,6 +33,7 @@ import projectmp.common.packet.PacketWeather;
 import projectmp.common.packet.handshake.PacketHandshake;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.tileentity.TileEntityChessboard;
+import projectmp.common.tileentity.TileEntityPowerHandler;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -53,6 +55,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(float[].class);
 		kryo.register(ItemStack.class);
 		kryo.register(ItemStack[].class);
+		kryo.register(EnergyStorage.class);
 	}
 
 	private void registerPackets(Kryo kryo) {
@@ -92,6 +95,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(TileEntity[].class);
 		kryo.register(TileEntity[][].class);
 		kryo.register(TileEntityChessboard.class);
+		kryo.register(TileEntityPowerHandler.class);
 	}
 	
 	private void registerInventories(Kryo kryo){
