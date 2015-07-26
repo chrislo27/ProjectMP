@@ -6,19 +6,17 @@ package projectmp.common.energy;
  *
  */
 public interface IPowerHandler{
-
-	public boolean canConnectTo(int blockFace);
 	
-	public int receiveEnergy(int blockFace, int requestedAmount, boolean sim);
+	public int receiveEnergy(int requestedAmount, boolean sim);
 	
-	public int extractEnergy(int blockFace, int requestedAmount, boolean sim);
+	public int extractEnergy(int requestedAmount, boolean sim);
 	
-	public int getMaxCapacity(int blockFace);
+	public int getMaxCapacity();
 	
-	public int getEnergyStored(int blockFace);
+	public int getEnergyStored();
 	
-	public int getMaxSend(int blockFace);
+	public int getMaxSend();
 	
-	public int getMaxReceive(int blockFace);
+	public int getMaxReceive();
 	
 }
