@@ -21,7 +21,7 @@ public abstract class TileEntity implements CanBeSavedToNBT {
 		this.y = y;
 	}
 	
-	public void tickUpdate(World world, int x, int y){
+	public void tickUpdate(World world){
 		
 	}
 

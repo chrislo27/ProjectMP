@@ -1,5 +1,7 @@
 package projectmp.common.tileentity;
 
+import projectmp.common.world.World;
+
 
 public class TileEntityTestGenerator extends TileEntityPowerHandler{
 
@@ -11,9 +13,9 @@ public class TileEntityTestGenerator extends TileEntityPowerHandler{
 		super(x, y);
 	}
 	
-//	@Override
-//	public void tickUpdate(){
-//		
-//	}
+	@Override
+	public void tickUpdate(World world){
+		
+	}
 	
 }

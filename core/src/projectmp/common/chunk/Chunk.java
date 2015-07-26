@@ -57,7 +57,7 @@ public class Chunk implements CanBeSavedToNBT {
 
 				getChunkBlock(cx, cy).tickUpdate(world, x, y);
 				if (getChunkTileEntity(cx, cy) != null) {
-					getChunkTileEntity(cx, cy).tickUpdate(world, x, y);
+					getChunkTileEntity(cx, cy).tickUpdate(world);
 					if (getChunkTileEntity(cx, cy).isDirty() && world.isServer) {
 						world.sendTileEntityUpdate(x, y);
 						getChunkTileEntity(cx, cy).setDirty(false);
