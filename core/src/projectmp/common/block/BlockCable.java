@@ -7,8 +7,9 @@ public class BlockCable extends Block implements IPowerHandler{
 
 	private int transferRate = 16;
 	
-	public BlockCable(String unlocalName) {
+	public BlockCable(String unlocalName, int transferRate) {
 		super(unlocalName);
+		this.transferRate = 16;
 	}
 
 	@Override

@@ -40,6 +40,11 @@ public class Blocks {
 		put("tall_grass", new BlockTallGrass("tallGrass").addAnimations(Block
 				.newSingleFrame("images/blocks/tall_grass.png")));
 		put("chess_set", new BlockChessSet("chessboard"));
+		
+		// experimental stuff here
+		put("testCable", new BlockCable("testCable", 16));
+		put("testBattery", new BlockTestBattery("testBattery"));
+		put("testGenerator", new BlockTestGenerator("testGenerator"));
 	}
 
 	public void put(String key, Block value) {

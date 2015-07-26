@@ -8,6 +8,14 @@ public abstract class TileEntityPowerHandler extends TileEntity implements IPowe
 
 	private EnergyStorage energyStorage = new EnergyStorage(0, Short.MAX_VALUE, 16, 16);
 	
+	public TileEntityPowerHandler(int x, int y){
+		super(x, y);
+	}
+	
+	public TileEntityPowerHandler(){
+		super();
+	}
+	
 	@Override
 	public int receiveEnergy(int requestedAmount, boolean sim) {
 		return energyStorage.receiveEnergy(requestedAmount, sim);

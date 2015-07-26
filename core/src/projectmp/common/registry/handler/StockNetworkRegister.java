@@ -34,6 +34,8 @@ import projectmp.common.packet.handshake.PacketHandshake;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.tileentity.TileEntityChessboard;
 import projectmp.common.tileentity.TileEntityPowerHandler;
+import projectmp.common.tileentity.TileEntityTestBattery;
+import projectmp.common.tileentity.TileEntityTestGenerator;
 
 import com.esotericsoftware.kryo.Kryo;
 
@@ -96,6 +98,8 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(TileEntity[][].class);
 		kryo.register(TileEntityChessboard.class);
 		kryo.register(TileEntityPowerHandler.class);
+		kryo.register(TileEntityTestBattery.class);
+		kryo.register(TileEntityTestGenerator.class);
 	}
 	
 	private void registerInventories(Kryo kryo){
