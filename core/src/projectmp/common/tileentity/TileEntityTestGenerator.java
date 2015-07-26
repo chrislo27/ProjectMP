@@ -1,5 +1,9 @@
 package projectmp.common.tileentity;
 
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
+import com.evilco.mc.nbt.tag.TagCompound;
+
 import projectmp.common.world.World;
 
 

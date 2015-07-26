@@ -1,5 +1,9 @@
 package projectmp.common.tileentity;
 
+import com.evilco.mc.nbt.error.TagNotFoundException;
+import com.evilco.mc.nbt.error.UnexpectedTagTypeException;
+import com.evilco.mc.nbt.tag.TagCompound;
+
 import projectmp.common.energy.EnergyStorage;
 import projectmp.common.energy.IPowerHandler;
 
@@ -14,6 +18,17 @@ public abstract class TileEntityPowerHandler extends TileEntity implements IPowe
 	
 	public TileEntityPowerHandler(){
 		super();
+	}
+	
+	@Override
+	public void writeToNBT(TagCompound tag) {
+		energyStorage.writeToNBT(tag);
+	}
+
+	@Override
+	public void readFromNBT(TagCompound tag) throws TagNotFoundException,
+			UnexpectedTagTypeException {
+		energyStorage.readFromNBT(tag);
 	}
 	
 	@Override

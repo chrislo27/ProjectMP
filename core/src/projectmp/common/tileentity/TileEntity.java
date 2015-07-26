@@ -25,14 +25,6 @@ public abstract class TileEntity implements CanBeSavedToNBT {
 		
 	}
 
-	@Override
-	public void writeToNBT(TagCompound tag) {
-	}
-
-	@Override
-	public void readFromNBT(TagCompound tag) {
-	}
-
 	public int getX() {
 		return x;
 	}
