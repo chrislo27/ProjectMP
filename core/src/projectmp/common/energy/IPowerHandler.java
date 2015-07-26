@@ -5,8 +5,10 @@ package projectmp.common.energy;
  * 
  *
  */
-public interface IPowerHandler extends IPowerConnector{
+public interface IPowerHandler{
 
+	public boolean canConnectTo(int blockFace);
+	
 	public int receiveEnergy(int blockFace, int requestedAmount, boolean sim);
 	
 	public int extractEnergy(int blockFace, int requestedAmount, boolean sim);
