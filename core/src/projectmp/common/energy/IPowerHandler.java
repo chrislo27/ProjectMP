@@ -1,7 +1,7 @@
 package projectmp.common.energy;
 
 /**
- * Has send/receive and getters for energy storage.
+ * Has send/receive and getters for energy storage. Used for machines, generators, and storage devices (essentially anything not a cable)
  * 
  *
  */
