@@ -50,6 +50,28 @@ public class Block extends TexturedObject {
 	public void onActivate(World world, int x, int y, EntityPlayer player) {
 
 	}
+	
+	/**
+	 * Triggered when the block is set in the world
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @param player
+	 */
+	public void onPlace(World world, int x, int y) {
+
+	}
+	
+	/**
+	 * Triggered when the block is replaced in the world (either with air or something else)
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @param player
+	 */
+	public void onActivate(World world, int x, int y) {
+
+	}
 
 	/**
 	 * Returns the rendering layer index. 0 is rendered first before entities, 1 is after entities and so on. Less than 0 is not rendered at all.

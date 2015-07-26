@@ -369,9 +369,12 @@ public class World {
 		if (b instanceof ITileEntityProvider) {
 			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
 		}
+		
+		getBlock(x, y).onPlace(this, x, y);
 	}
 	
 	public void setBlock(String b, int x, int y){
+		getBlock(x, y).onBreak(this, x, y);
 		setBlock(Blocks.instance().getBlock(b), x, y);
 	}
 
