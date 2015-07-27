@@ -19,15 +19,16 @@ public class EntityItem extends Entity {
 
 	public EntityItem() {
 		super();
+		prepare();
 	}
 
 	public EntityItem(World w, float posx, float posy, ItemStack stack) {
 		super(w, posx, posy);
-
+		prepare();
+		
 		setItemStack(stack);
 	}
 
-	@Override
 	public void prepare() {
 		sizex = 0.5f;
 		sizey = 0.5f;

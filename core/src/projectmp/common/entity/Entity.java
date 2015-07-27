@@ -102,8 +102,6 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * used for deserialization
 	 */
 	public Entity() {
-		prepare();
-
 		visualX = x;
 		visualY = y;
 		lastKnownX = x;
@@ -120,14 +118,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 		lastKnownY = y;
 		if (world != null) uuid = world.getNewUniqueUUID();
 		timeInstantiated = world.time.totalTicks;
-		
-		prepare();
 	}
-
-	/**
-	 * called on creation
-	 */
-	public abstract void prepare();
 
 	/**
 	 * you MUST adhere to the batch's color!

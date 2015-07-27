@@ -1,13 +1,13 @@
 package projectmp.common.entity;
 
 import projectmp.client.WorldRenderer;
+import projectmp.common.Main;
 import projectmp.common.inventory.Inventory;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.io.Unsaveable;
 import projectmp.common.registry.AssetRegistry;
 import projectmp.common.tileentity.HasInventory;
 import projectmp.common.util.NBTUtils;
-import projectmp.common.util.Utils;
 import projectmp.common.world.World;
 
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -22,16 +22,19 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 
 	public EntityPlayer() {
 		super();
+		prepare();
 	}
 
 	public EntityPlayer(World w, float posx, float posy) {
 		super(w, posx, posy);
+		prepare();
 	}
 
-	@Override
 	public void prepare() {
-		this.maxspeed = 15f;
-		this.accspeed = maxspeed * 5f;
+		this.maxspeed = 10f;
+		this.accspeed = maxspeed * 2.5f;
+		this.jump = 1000f;
+		
 		this.sizex = 2f - (4 * World.tilepartx);
 		this.sizey = 2f - (3 * World.tileparty);
 		
