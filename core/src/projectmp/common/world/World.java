@@ -34,7 +34,7 @@ public class World {
 	public static final int tilesizey = 32;
 	public static final float tilepartx = 1.0f / tilesizex;
 	public static final float tileparty = 1.0f / tilesizey;
-	
+
 	public static final float BLOCK_RECEDE = 0.25f;
 
 	public Main main;
@@ -66,7 +66,7 @@ public class World {
 	public Background background = new Background(this);
 
 	private Weather weather = null;
-	
+
 	boolean shouldSendUpdates = true;
 
 	/**
@@ -136,15 +136,15 @@ public class World {
 			for (int i = entities.size - 1; i >= 0; i--) {
 				Entity e = entities.get(i);
 				e.tickUpdate();
-				
-				if(e.isMarkedForRemoval()){
+
+				if (e.isMarkedForRemoval()) {
 					removeEntity(e.uuid);
 				}
 			}
 		} else {
-			
+
 		}
-		
+
 		if (particles.size > 0) {
 			Particle item;
 			for (int i = particles.size; --i >= 0;) {
@@ -203,16 +203,16 @@ public class World {
 	public Entity getEntityByIndex(int i) {
 		return entities.get(i);
 	}
-	
-	public EntityPlayer getPlayerByUsername(String username){
+
+	public EntityPlayer getPlayerByUsername(String username) {
 		for (int i = 0; i < entities.size; i++) {
-			if(entities.get(i) instanceof EntityPlayer){
-				if(((EntityPlayer) entities.get(i)).username.equals(username)){
+			if (entities.get(i) instanceof EntityPlayer) {
+				if (((EntityPlayer) entities.get(i)).username.equals(username)) {
 					return (EntityPlayer) entities.get(i);
 				}
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -234,12 +234,12 @@ public class World {
 		} else {
 			Entity e = getEntityByUUID(uuid);
 			if (e == null) return;
-			
+
 			// remove cursor position if client
-			if(e instanceof EntityPlayer){
+			if (e instanceof EntityPlayer) {
 				main.clientLogic.removeOtherPlayerCursor(((EntityPlayer) e).username);
 			}
-			
+
 			entities.removeValue(e, true);
 		}
 	}
@@ -354,8 +354,8 @@ public class World {
 		return getChunkBlockIsIn(x, y).getChunkTileEntity(x % Chunk.CHUNK_SIZE,
 				y % Chunk.CHUNK_SIZE);
 	}
-	
-	public float getBreakingProgress(int x, int y){
+
+	public float getBreakingProgress(int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return 0;
 
 		return getChunkBlockIsIn(x, y).getChunkBreakingProgress(x % Chunk.CHUNK_SIZE,
@@ -364,19 +364,22 @@ public class World {
 
 	public void setBlock(Block b, int x, int y) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
-		
+
+		if (shouldSendUpdates) getBlock(x, y).onBreak(this, x, y);
+
+		setTileEntity(null, x, y);
+
 		getChunkBlockIsIn(x, y).setChunkBlock(b, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 		lightingEngine.scheduleLightingUpdate(true);
 
 		if (b instanceof ITileEntityProvider) {
 			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
 		}
-		
-		if(shouldSendUpdates) getBlock(x, y).onPlace(this, x, y);
+
+		if (shouldSendUpdates) getBlock(x, y).onPlace(this, x, y);
 	}
-	
-	public void setBlock(String b, int x, int y){
-		if(shouldSendUpdates) getBlock(x, y).onBreak(this, x, y);
+
+	public void setBlock(String b, int x, int y) {
 		setBlock(Blocks.instance().getBlock(b), x, y);
 	}
 
@@ -391,11 +394,12 @@ public class World {
 
 		getChunkBlockIsIn(x, y).setChunkTileEntity(te, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
 	}
-	
-	public void setBreakingProgress(int x, int y, float progress){
+
+	public void setBreakingProgress(int x, int y, float progress) {
 		if (x < 0 || y < 0 || x >= sizex || y >= sizey) return;
 
-		getChunkBlockIsIn(x, y).setChunkBreakingProgress(progress, x % Chunk.CHUNK_SIZE, y % Chunk.CHUNK_SIZE);
+		getChunkBlockIsIn(x, y).setChunkBreakingProgress(progress, x % Chunk.CHUNK_SIZE,
+				y % Chunk.CHUNK_SIZE);
 	}
 
 	public boolean isChunkLoaded(int x, int y) {
@@ -427,7 +431,7 @@ public class World {
 
 		main.server.sendToAllTCP(tepacket);
 	}
-	
+
 	public void setSendingUpdates(boolean b) {
 		shouldSendUpdates = b;
 	}
