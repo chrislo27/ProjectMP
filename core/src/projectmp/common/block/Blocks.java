@@ -42,9 +42,9 @@ public class Blocks {
 		put("chess_set", new BlockChessSet("chessboard"));
 		
 		// experimental stuff here
-		put("testCable", new BlockCable("testCable", 16));
-		put("testBattery", new BlockTestBattery("testBattery"));
-		put("testGenerator", new BlockTestGenerator("testGenerator"));
+		put("testCable", new BlockCable("testCable", 16).addAnimations(Block.newSingleFrame("images/blocks/test/cable.png")));
+		put("testBattery", new BlockTestBattery("testBattery").addAnimations(Block.newSingleFrame("images/blocks/test/battery.png")));
+		put("testGenerator", new BlockTestGenerator("testGenerator").addAnimations(Block.newSingleFrame("images/blocks/test/generator.png")));
 	}
 
 	public void put(String key, Block value) {
