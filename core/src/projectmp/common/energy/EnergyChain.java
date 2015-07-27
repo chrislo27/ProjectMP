@@ -19,7 +19,7 @@ public class EnergyChain {
 		// spread
 		for (int i = 0; i < OFFSETS.length; i++) {
 			if (energyEach[i] > 0) {
-				traverse(energyEach[i], startX + OFFSETS[i].getX(), startY + OFFSETS[i].getY(),
+				remainingEnergy += traverse(energyEach[i], startX + OFFSETS[i].getX(), startY + OFFSETS[i].getY(),
 						startX, startY, world);
 			}
 		}
@@ -67,7 +67,7 @@ public class EnergyChain {
 						} else {
 							// not first find
 							// recurse at new area
-							traverse(energyArray[i], currentX + OFFSETS[i].getX(), currentY
+							remainingEnergy += traverse(energyArray[i], currentX + OFFSETS[i].getX(), currentY
 									+ OFFSETS[i].getY(), currentX, currentY, world);
 						}
 					}
