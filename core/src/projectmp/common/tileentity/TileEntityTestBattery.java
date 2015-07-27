@@ -9,6 +9,7 @@ public class TileEntityTestBattery extends TileEntityPowerHandler{
 
 	public TileEntityTestBattery(int x, int y){
 		super(x, y);
+		this.setMaxCapacity(256);
 	}
 	
 	public TileEntityTestBattery(){
