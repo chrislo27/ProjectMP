@@ -3,6 +3,8 @@ package projectmp.common.registry;
 import projectmp.common.registry.classmap.ClassMap;
 import projectmp.common.tileentity.TileEntity;
 import projectmp.common.tileentity.TileEntityChessboard;
+import projectmp.common.tileentity.TileEntityTestBattery;
+import projectmp.common.tileentity.TileEntityTestGenerator;
 
 
 
@@ -25,6 +27,8 @@ public class TileEntityRegistry {
 	
 	private void loadResources() {
 		registerTileEntity(TileEntityChessboard.class, "chessboard");
+		registerTileEntity(TileEntityTestBattery.class, "testBattery");
+		registerTileEntity(TileEntityTestGenerator.class, "testGenerator");
 	}
 	
 	public void registerTileEntity(Class<? extends TileEntity> clazz, String key){
