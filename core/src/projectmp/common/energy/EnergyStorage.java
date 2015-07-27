@@ -26,6 +26,13 @@ public class EnergyStorage implements CanBeSavedToNBT{
 		energy = startingEnergy;
 		this.capacity = capacity;
 	}
+	
+	/**
+	 * No-arg for kryonet
+	 */
+	public EnergyStorage(){
+		
+	}
 
 	/**
 	 * 
