@@ -868,5 +868,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public float getHeight() {
 		return sizey;
 	}
+	
+	public static float calculateJumpVelocity(double defaultGravity, double jumpHeight){
+		return MathHelper.getJumpVelo(defaultGravity, jumpHeight);
+	}
 
 }
