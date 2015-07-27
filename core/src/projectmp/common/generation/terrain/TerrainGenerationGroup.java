@@ -3,9 +3,9 @@ package projectmp.common.generation.terrain;
 import projectmp.common.generation.GenerationGroup;
 
 
-public abstract class TerrainGenerator extends GenerationGroup{
+public abstract class TerrainGenerationGroup extends GenerationGroup{
 
-	public TerrainGenerator() {
+	public TerrainGenerationGroup() {
 		super(GenerationGroup.PRIORITY_TERRAIN);
 	}
 

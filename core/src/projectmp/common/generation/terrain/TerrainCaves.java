@@ -5,7 +5,7 @@ import projectmp.common.util.SimplexNoise;
 import projectmp.common.world.World;
 
 
-public class TerrainCaves extends TerrainGenerator{
+public class TerrainCaves extends TerrainGenerationGroup{
 
 	@Override
 	public void generate(World world, SimplexNoise noiseGen) {

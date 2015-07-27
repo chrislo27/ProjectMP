@@ -5,7 +5,7 @@ import projectmp.common.util.SimplexNoise;
 import projectmp.common.world.World;
 
 
-public class TerrainLandscape extends TerrainGenerator{
+public class TerrainLandscape extends TerrainGenerationGroup{
 
 	@Override
 	public void generate(World world, SimplexNoise noiseGen) {
@@ -21,9 +21,7 @@ public class TerrainLandscape extends TerrainGenerator{
 			for(int y = start; y < world.sizey; y++){
 				world.setBlock("stone", i, y);
 				
-				if(y == start){
-					world.setBlock("grass", i, y);
-				}else if(y > start && y <= start + (hillHeightCoefficient / 2)){
+				if(y > start && y <= start + (hillHeightCoefficient / 2)){
 					world.setBlock("dirt", i, y);
 				}
 			}
