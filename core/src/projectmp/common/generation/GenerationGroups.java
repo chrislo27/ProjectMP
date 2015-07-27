@@ -3,6 +3,7 @@ package projectmp.common.generation;
 import projectmp.common.Main;
 import projectmp.common.block.Blocks;
 import projectmp.common.generation.terrain.TerrainCaves;
+import projectmp.common.generation.terrain.TerrainGrass;
 import projectmp.common.generation.terrain.TerrainLandscape;
 import projectmp.common.world.World;
 
@@ -37,10 +38,28 @@ public class GenerationGroups {
 	private Array<GenerationGroup> groups = new Array<>();
 
 	private void loadResources() {
+		addTerrainGroups();
+		addFeatureGroups();
+		addStructureGroups();
+	}
+
+	private void addTerrainGroups() {
 		// major landscape (hills and stone)
 		addGroup(new TerrainLandscape());
+		
 		// caves
 		addGroup(new TerrainCaves());
+		
+		// add grass to top of dirt (after caves b/c caves can carve dirt)
+		addGroup(new TerrainGrass());
+	}
+
+	private void addFeatureGroups() {
+
+	}
+
+	private void addStructureGroups() {
+
 	}
 
 	/**
@@ -64,9 +83,9 @@ public class GenerationGroups {
 				Main.logger.info("Beginning generation iteration " + (i + 1) + " with "
 						+ instance().groups.get(i).getClass().getSimpleName());
 			}
-			
+
 			instance().groups.get(i).generate(world, world.noiseGen);
-			
+
 			if (VERBOSE) {
 				Main.logger.info(instance().groups.get(i).getClass().getSimpleName()
 						+ " finished; took " + ((System.nanoTime() - nano) / 1000000f) + " ms");
