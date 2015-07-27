@@ -21,7 +21,7 @@ public class TerrainLandscape extends TerrainGenerationGroup{
 			for(int y = start; y < world.sizey; y++){
 				world.setBlock("stone", i, y);
 				
-				if(y > start && y <= start + (hillHeightCoefficient / 2)){
+				if(y >= start && y <= start + (hillHeightCoefficient / 2)){
 					world.setBlock("dirt", i, y);
 				}
 			}
