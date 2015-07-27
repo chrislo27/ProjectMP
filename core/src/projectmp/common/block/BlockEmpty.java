@@ -1,7 +1,6 @@
 package projectmp.common.block;
 
-import projectmp.client.WorldRenderer;
-import projectmp.common.Main;
+import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.world.World;
 
 public class BlockEmpty extends Block {
@@ -24,5 +23,13 @@ public class BlockEmpty extends Block {
 	@Override
 	public int getRenderingLayer(World world, int x, int y){
 		return -1;
+	}
+	
+	/**
+	 * Overrode to prevent item drops
+	 */
+	@Override
+	public ItemStack getDroppedItem(){
+		return null;
 	}
 }

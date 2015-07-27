@@ -89,8 +89,12 @@ public class Block extends TexturedObject {
 	}
 
 	public void dropItems(World world, int x, int y) {
+		ItemStack stack = getDroppedItem();
+		
+		if(stack == null) return;
+		
 		EntityItem item = new EntityItem(world, x + 0.25f, y
-				+ 0.25f, getDroppedItem());
+				+ 0.25f, stack);
 		
 		item.velox += MathUtils.random(3f, 7.5f) * MathUtils.randomSign();
 		item.veloy -= 4f;
