@@ -220,13 +220,13 @@ public class Main extends Game implements Consumer {
 		
 		shapes = new ShapeRenderer();
 
-		client = new Client(16384, 8192);
+		client = new Client(16384, 4096);
 		client.addListener(new ClientListener(this));
 		NetworkingRegistry.instance().registerClasses(client.getKryo());
 		client.start();
 		clientLogic = new ClientLogic(this);
 
-		server = new Server(32768, 16384);
+		server = new Server(32768, 4096);
 		NetworkingRegistry.instance().registerClasses(server.getKryo());
 		server.start();
 		serverLogic = new ServerLogic(this);

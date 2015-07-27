@@ -13,8 +13,8 @@ import projectmp.common.generation.GenerationGroups;
 import projectmp.common.io.WorldNBTIO;
 import projectmp.common.io.WorldSavingLoading;
 import projectmp.common.packet.PacketBeginChunkTransfer;
+import projectmp.common.packet.PacketEntities;
 import projectmp.common.packet.PacketGuiState;
-import projectmp.common.packet.PacketNewEntity;
 import projectmp.common.packet.PacketPositionUpdate;
 import projectmp.common.packet.PacketSendChunk;
 import projectmp.common.packet.PacketSendInventory;
@@ -186,11 +186,13 @@ public class ServerLogic {
 
 	public void sendEntities(Connection connection) {
 		if (world.getNumberOfEntities() > 0) {
-			PacketNewEntity packet = PacketRepository.instance().newEntity;
-			for (int i = 0; i < world.getNumberOfEntities(); i++) {
-				packet.e = world.getEntityByIndex(i);
-				connection.sendTCP(packet);
+			PacketEntities packet = new PacketEntities();
+			packet.entities = new Entity[world.getNumberOfEntities()];
+			for (int i = 0; i < packet.entities.length; i++) {
+				packet.entities[i] = world.getEntityByIndex(i);
 			}
+
+			connection.sendTCP(packet);
 		}
 	}
 
