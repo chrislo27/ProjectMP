@@ -66,6 +66,8 @@ public class World {
 	public Background background = new Background(this);
 
 	private Weather weather = null;
+	
+	boolean shouldSendUpdates = true;
 
 	/**
 	 * 
@@ -370,11 +372,11 @@ public class World {
 			setTileEntity(((ITileEntityProvider) b).createNewTileEntity(x, y), x, y);
 		}
 		
-		getBlock(x, y).onPlace(this, x, y);
+		if(shouldSendUpdates) getBlock(x, y).onPlace(this, x, y);
 	}
 	
 	public void setBlock(String b, int x, int y){
-		getBlock(x, y).onBreak(this, x, y);
+		if(shouldSendUpdates) getBlock(x, y).onBreak(this, x, y);
 		setBlock(Blocks.instance().getBlock(b), x, y);
 	}
 
@@ -424,6 +426,10 @@ public class World {
 		tepacket.y = y;
 
 		main.server.sendToAllTCP(tepacket);
+	}
+	
+	public void setSendingUpdates(boolean b) {
+		shouldSendUpdates = b;
 	}
 
 }

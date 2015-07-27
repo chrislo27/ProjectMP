@@ -18,17 +18,12 @@ import projectmp.server.ServerLogic;
 public class ServerWorld extends World {
 
 	ServerLogic logic;
-	boolean shouldSendUpdates = true;
 
 	public ServerWorld(Main main, int x, int y, long seed, ServerLogic l) {
 		super(main, x, y, true, seed);
 		logic = l;
 	}
-
-	public void setSendingUpdates(boolean b) {
-		shouldSendUpdates = b;
-	}
-
+	
 	@Override
 	public void tickUpdate() {
 		super.tickUpdate();
