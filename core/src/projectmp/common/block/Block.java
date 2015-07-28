@@ -13,6 +13,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
 
 public class Block extends TexturedObject {
 
@@ -25,12 +26,32 @@ public class Block extends TexturedObject {
 	protected String unlocalizedName = "unnamed";
 
 	protected float hardness = 1f;
+	
+	private Array<ItemStack> droppedItems = new Array<>(1);
 
 	public Block(String unlocalName) {
 		super("block", unlocalName);
 		unlocalizedName = unlocalName;
 	}
+	
+	/**
+	 * Called when the block is added to the list after creating the Item instance of the block
+	 */
+	public void initialize(){
+		initializeDroppedItems();
+	}
+	
+	/**
+	 * Called in initialization to create the item stacks
+	 */
+	public void initializeDroppedItems(){
+		droppedItems.add(new ItemStack("block_" + Blocks.instance().getKey(this), 1));
+	}
 
+	public Array<ItemStack> getDroppedItems(){
+		return droppedItems;
+	}
+	
 	/**
 	 * Triggered every tick on both server and client.
 	 * @param world
@@ -89,11 +110,12 @@ public class Block extends TexturedObject {
 	}
 
 	public void dropItems(World world, int x, int y) {
-		ItemStack stack = getDroppedItem();
-		
-		if(stack == null) return;
-		
-		world.createNewEntity(createEntityItem(world, x, y, stack));
+		for(int i = 0; i < droppedItems.size; i++){
+			ItemStack stack = droppedItems.get(i);
+			if(stack == null || stack.isNothing()) continue;
+			
+			world.createNewEntity(createEntityItem(world, x, y, stack.copy()));
+		}
 	}
 	
 	public EntityItem createEntityItem(World world, int x, int y, ItemStack stack){
@@ -106,10 +128,6 @@ public class Block extends TexturedObject {
 		item.veloy -= 4f;
 		
 		return item;
-	}
-
-	public ItemStack getDroppedItem() {
-		return new ItemStack("block_" + Blocks.instance().getKey(this), 1);
 	}
 
 	/**

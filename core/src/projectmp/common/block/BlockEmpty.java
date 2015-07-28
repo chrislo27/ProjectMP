@@ -29,7 +29,7 @@ public class BlockEmpty extends Block {
 	 * Overrode to prevent item drops
 	 */
 	@Override
-	public ItemStack getDroppedItem(){
-		return null;
+	public void initializeDroppedItems(){
+		getDroppedItems().clear();
 	}
 }

@@ -48,12 +48,17 @@ public class Blocks {
 	}
 
 	public void put(String key, Block value) {
+		// add to lists and maps
 		blocks.put(key, value);
 		reverse.put(value, key);
 		allBlocks.add(value);
 		
+		// create the item instance
 		ItemBlock itemBlock = new ItemBlock(key);
 		Items.instance().put("block_" + key, itemBlock);
+		
+		// initialize the block
+		value.initialize();
 	}
 
 	public Block getBlock(String key) {
