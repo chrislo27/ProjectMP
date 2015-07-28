@@ -53,6 +53,11 @@ public class Particle implements Poolable {
 		return this;
 	}
 
+	/**
+	 * 
+	 * @param t if it starts with _ it will render text
+	 * @return
+	 */
 	public Particle setTexture(String t) {
 		texture = t;
 		return this;
