@@ -217,6 +217,8 @@ public class World {
 	}
 
 	public void createNewEntity(Entity e) {
+		if(e == null) return;
+		
 		if (isServer) {
 			PacketNewEntity packet = PacketRepository.instance().newEntity;
 			packet.e = e;
