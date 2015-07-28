@@ -5,11 +5,9 @@ import projectmp.common.Settings;
 import projectmp.common.util.MathHelper;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.bitfire.utils.ShaderLoader;
 
 /**
  * 
