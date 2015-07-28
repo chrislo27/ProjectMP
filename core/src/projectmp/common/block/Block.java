@@ -93,13 +93,19 @@ public class Block extends TexturedObject {
 		
 		if(stack == null) return;
 		
+		world.createNewEntity(createEntityItem(world, x, y, stack));
+	}
+	
+	public EntityItem createEntityItem(World world, int x, int y, ItemStack stack){
+		if(stack == null || stack.isNothing()) return null;
+		
 		EntityItem item = new EntityItem(world, x + 0.25f, y
 				+ 0.25f, stack);
 		
 		item.velox += MathUtils.random(3f, 7.5f) * MathUtils.randomSign();
 		item.veloy -= 4f;
 		
-		world.createNewEntity(item);
+		return item;
 	}
 
 	public ItemStack getDroppedItem() {
