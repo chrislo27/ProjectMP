@@ -1,6 +1,8 @@
 package projectmp.common.entity;
 
 import projectmp.common.util.NBTUtils;
+import projectmp.common.util.Particle;
+import projectmp.common.util.ParticlePool;
 import projectmp.common.world.ServerWorld;
 import projectmp.common.world.World;
 
@@ -31,10 +33,25 @@ public abstract class EntityLiving extends Entity {
 		}
 	}
 
-	public void damage(int dmg) {
-		health = MathUtils.clamp(health - dmg, 0, maxhealth);
+	public void damage(int oldDmg) {
+		int newDamage = oldDmg;
+		
+		health = MathUtils.clamp(health - newDamage, 0, maxhealth);
 		if (world instanceof ServerWorld && world.isServer == true) {
 			((ServerWorld) world).sendHealthUpdate(this);
+		} else if (world.isServer == false) {
+			Particle p = ParticlePool
+					.obtain()
+					.setGravity(0f)
+					.setVelocity(this.velox + (MathUtils.random(0.1f) * MathUtils.randomSign()),
+							this.veloy + -2f);
+
+			p.setTexture("_" + newDamage);
+			p.setTint((Math.signum(newDamage) >= 0 ? 1 : 0), (Math.signum(newDamage) < 0 ? 1 : 0), 0, 1f);
+			p.setPosition(x + sizex / 2
+					+ (sizex * MathUtils.randomSign() * MathUtils.random(0.25f)), y - sizey / 10);
+			p.setLifetime(1);
+			world.particles.add(p);
 		}
 	}
 
