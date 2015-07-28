@@ -198,6 +198,7 @@ public class Main extends Game implements Consumer {
 		FreeTypeFontParameter ttfParam = new FreeTypeFontParameter();
 		ttfParam.magFilter = TextureFilter.Nearest;
 		ttfParam.minFilter = TextureFilter.Nearest;
+		ttfParam.genMipMaps = true;
 		ttfParam.size = 16; // 14 for my font, 16 for Osaka font/minecraft font
 		ttfParam.characters += SpecialCharactersList.getJapaneseKana();
 		font = ttfGenerator.generateFont(ttfParam);
