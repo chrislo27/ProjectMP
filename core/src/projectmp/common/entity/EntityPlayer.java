@@ -33,7 +33,7 @@ public class EntityPlayer extends EntityLiving implements HasInventory, ILoadsCh
 	public void prepare() {
 		this.maxspeed = 10f;
 		this.accspeed = maxspeed * 2.5f;
-		this.jump = Entity.calculateJumpVelocity(world.gravity, 3f);
+		this.jump = Entity.calculateJumpVelocity(World.gravity, 3f);
 		
 		this.sizex = 2f - (4 * World.tilepartx);
 		this.sizey = 2f - (3 * World.tileparty);

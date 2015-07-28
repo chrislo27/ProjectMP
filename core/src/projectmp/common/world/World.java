@@ -40,8 +40,8 @@ public class World {
 	public Main main;
 	public SpriteBatch batch;
 
-	public float gravity = 20f;
-	public float drag = 20f;
+	public static final float gravity = 20f;
+	public static final float drag = 20f;
 
 	public int sizex;
 	public int sizey;
