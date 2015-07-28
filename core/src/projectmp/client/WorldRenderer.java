@@ -238,7 +238,7 @@ public class WorldRenderer implements Disposable {
 		for (int i = 0; i < world.particles.size; i++) {
 			Particle p = world.particles.get(i);
 
-			p.render(world, main);
+			p.render(this, main);
 		}
 
 		batch.setColor(1, 1, 1, 1);

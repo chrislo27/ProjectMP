@@ -1,5 +1,6 @@
 package projectmp.common.util;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.block.Block.BlockFaces;
 import projectmp.common.registry.AssetRegistry;
@@ -29,6 +30,7 @@ public class Particle implements Poolable {
 	float tintg = 1;
 	float tintb = 1;
 	float tinta = 1;
+	float fadeOutThreshold = 0.25f;
 
 	float startScale = 1f;
 	float endScale = 1f;
@@ -79,6 +81,11 @@ public class Particle implements Poolable {
 		tintg = c.g;
 		tintb = c.b;
 		tinta = c.a;
+		return this;
+	}
+	
+	public Particle setFadeOutThreshold(float t){
+		fadeOutThreshold = t;
 		return this;
 	}
 
@@ -148,41 +155,45 @@ public class Particle implements Poolable {
 		endScale = 1f;
 		gravity = 0;
 		initialRotation = 0;
+		fadeOutThreshold = 0.25f;
 	}
 
 	private float getModifiedScale() {
 		return (((startTime - lifetime) / startTime) * (endScale - startScale)) + startScale;
 	}
 
-	public void render(World world, Main main) {
+	private float getModifiedAlpha() {
+		return Math.max((lifetime <= fadeOutThreshold ? (lifetime * (1f / fadeOutThreshold) * tinta) : tinta), 0f);
+	}
+
+	public void render(WorldRenderer renderer, Main main) {
 		if (prelife <= 0) {
 			update(Gdx.graphics.getDeltaTime());
 
 			if (texture != null) {
+				float originalColor = main.batch.getPackedColor();
 				if (texture.startsWith("_")) {
-					main.font.setColor(tintr, tintg, tintb,
-							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
-					main.drawCentered(main.font, texture.substring(1), x * World.tilesizex,
-							Main.convertY(y * World.tilesizey));
-					main.font.setColor(Color.WHITE);
+					main.font.setColor(tintr, tintg, tintb, getModifiedAlpha());
+					main.drawCentered(main.font, texture.substring(1), renderer.convertWorldX(x),
+							renderer.convertWorldY(y, 0));
+					main.font.setColor(originalColor);
 				} else {
 					Texture t = AssetRegistry.getTexture(texture.startsWith("real-") ? texture
 							.substring(5) : texture);
 
-					main.batch.setColor(tintr, tintg, tintb,
-							(lifetime <= 0.1f ? (Math.min(lifetime * 10f, tinta)) : tinta));
+					main.batch.setColor(tintr, tintg, tintb, getModifiedAlpha());
 
 					Utils.drawRotatedCentered(
 							main.batch,
 							t,
-							x * World.tilesizex,
-							Main.convertY(y * World.tilesizey),
+							renderer.convertWorldX(x),
+							renderer.convertWorldY(y, 0),
 							t.getWidth() * getModifiedScale(),
 							t.getHeight() * getModifiedScale(),
 							((rotspeed > 0 ? (MathHelper.getNumberFromTime(rotspeed) * 360) : 0) + initialRotation) % 360,
 							clockwise);
 
-					main.batch.setColor(Color.WHITE);
+					main.batch.setColor(originalColor);
 				}
 			}
 
@@ -195,7 +206,8 @@ public class Particle implements Poolable {
 		}
 
 		if (destroyOnBlock) {
-			if ((world.getBlock((int) x, (int) y).isSolid(world, (int) x, (int) y) != BlockFaces.NONE)) if (MathHelper
+			if ((renderer.world.getBlock((int) x, (int) y)
+					.isSolid(renderer.world, (int) x, (int) y) != BlockFaces.NONE)) if (MathHelper
 					.intersects((int) x, (int) y, 1, 1, x - (4 * World.tilepartx), y
 							- (4 * World.tileparty), 8 * World.tilepartx, 8 * World.tileparty)) {
 				lifetime = -1;
