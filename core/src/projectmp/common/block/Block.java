@@ -4,10 +4,12 @@ import projectmp.client.animation.Animation;
 import projectmp.common.Main;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
+import projectmp.common.block.droprate.DropRate;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.item.Items;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.graphics.Color;
@@ -27,7 +29,7 @@ public class Block extends TexturedObject {
 
 	protected float hardness = 1f;
 	
-	private Array<ItemStack> droppedItems = new Array<>(1);
+	private Array<DropRate> droppedItems = new Array<>(1);
 
 	public Block(String unlocalName) {
 		super("block", unlocalName);
@@ -45,10 +47,10 @@ public class Block extends TexturedObject {
 	 * Called in initialization to create the item stacks
 	 */
 	public void initializeDroppedItems(){
-		droppedItems.add(new ItemStack("block_" + Blocks.instance().getKey(this), 1));
+		droppedItems.add(new DropRate("block_" + Blocks.instance().getKey(this), 1, 1, 1));
 	}
 
-	public Array<ItemStack> getDroppedItems(){
+	public Array<DropRate> getDroppedItems(){
 		return droppedItems;
 	}
 	
@@ -111,10 +113,13 @@ public class Block extends TexturedObject {
 
 	public void dropItems(World world, int x, int y) {
 		for(int i = 0; i < droppedItems.size; i++){
-			ItemStack stack = droppedItems.get(i);
+			DropRate dr = droppedItems.get(i);
+			if(dr.getItem() == null) continue;
+			
+			ItemStack stack = new ItemStack(dr.item, dr.getRandomQuantity());
 			if(stack == null || stack.isNothing()) continue;
 			
-			world.createNewEntity(createEntityItem(world, x, y, stack.copy()));
+			world.createNewEntity(createEntityItem(world, x, y, stack));
 		}
 	}
 	
