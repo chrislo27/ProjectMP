@@ -28,6 +28,8 @@ import com.badlogic.gdx.utils.Array;
 public abstract class Gui {
 
 	public static final Slot TEMPLATE_SLOT = new Slot(null, -1, 0, 0);
+	public static final Array<String> DESC_ARRAY = new Array<>(16);
+	public static final StringBuilder DESC_BUILDER = new StringBuilder();
 
 	Array<Slot> slots = new Array<Slot>();
 	protected InventoryPlayer playerInv;
@@ -65,12 +67,26 @@ public abstract class Gui {
 
 				if (slot.isMouseOver()) {
 					if (stack.isNothing()) continue;
-					
-					renderer.main.font.drawMultiLine(renderer.batch, stack.getItem()
-							.getLocalizedName(stack)
-							+ " x"
-							+ stack.getAmount(), Main.getInputX(), Main.convertY(Main
-							.getInputY() + 48));
+
+					// render tooltip
+					DESC_ARRAY.clear();
+					DESC_BUILDER.delete(0, DESC_BUILDER.length());
+
+					stack.getItem().addDescription(DESC_ARRAY, stack);
+
+					DESC_BUILDER.append(stack.getItem().getLocalizedName(stack) + " x"
+							+ stack.getAmount());
+
+					for (String s : DESC_ARRAY) {
+						DESC_BUILDER.append('\n');
+						DESC_BUILDER.append(s);
+					}
+
+					boolean oldMarkup = renderer.main.font.isMarkupEnabled();
+					renderer.main.font.setMarkupEnabled(true);
+					renderer.main.font.drawMultiLine(renderer.batch, DESC_BUILDER.toString(),
+							Main.getInputX(), Main.convertY(Main.getInputY() + 48));
+					renderer.main.font.setMarkupEnabled(oldMarkup);
 
 					break;
 				}

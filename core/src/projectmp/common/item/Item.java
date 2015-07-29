@@ -1,14 +1,17 @@
 package projectmp.common.item;
 
+import com.badlogic.gdx.utils.Array;
+
 import projectmp.client.WorldRenderer;
 import projectmp.client.animation.Animation;
 import projectmp.common.TexturedObject;
 import projectmp.common.Translator;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.Describable;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.world.World;
 
-public class Item extends TexturedObject {
+public class Item extends TexturedObject implements Describable{
 
 	String unlocalizedName = "unnamed";
 	int maxStackable = 512;
@@ -90,6 +93,11 @@ public class Item extends TexturedObject {
 
 	public int getMaxStack() {
 		return maxStackable;
+	}
+
+	@Override
+	public void addDescription(Array<String> array, ItemStack stack) {
+		
 	}
 
 }

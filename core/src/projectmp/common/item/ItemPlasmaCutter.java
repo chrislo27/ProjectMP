@@ -1,13 +1,12 @@
 package projectmp.common.item;
 
-import com.badlogic.gdx.Gdx;
-
 import projectmp.client.WorldRenderer;
-import projectmp.common.Main;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
-import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.render.ElectricityFX;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Array;
 
 public class ItemPlasmaCutter extends ItemMineable {
 
@@ -32,5 +31,11 @@ public class ItemPlasmaCutter extends ItemMineable {
 		}
 		
 		renderer.stopBypassing();
+	}
+	
+	@Override
+	public void addDescription(Array<String> array, ItemStack stack){
+		array.add("[RED]markup test[]");
+		array.add("This item mines blocks");
 	}
 }

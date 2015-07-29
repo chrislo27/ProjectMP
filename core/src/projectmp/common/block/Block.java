@@ -8,6 +8,7 @@ import projectmp.common.block.droprate.DropRate;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityPlayer;
+import projectmp.common.inventory.Describable;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.item.Items;
 import projectmp.common.world.World;
@@ -17,7 +18,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-public class Block extends TexturedObject {
+public class Block extends TexturedObject implements Describable{
 
 	public static final float DEFAULT_TRANSPARENT_LIGHT = 0.05f;
 	public static final float DEFAULT_OPAQUE_LIGHT = 0.2f;
@@ -244,6 +245,11 @@ public class Block extends TexturedObject {
 		public static final int LEFT = 0x4;
 		public static final int RIGHT = 0x8;
 
+	}
+
+	@Override
+	public void addDescription(Array<String> array, ItemStack stack) {
+		
 	}
 
 }
