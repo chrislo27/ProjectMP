@@ -25,7 +25,7 @@ public class Items {
 
 	private void loadResources() {
 		put("plasmaCutter", new ItemPlasmaCutter("plasmaCutter").addAnimations(Item.newSingleFrame("images/items/mininglaser.png")));
-		put("scrapMetal", new Item("scrapMetal").addAnimations(Item.newSingleFrame("images/items/scrapMetal.png")));
+		put("scrapMetal", new ItemScrapMetal("scrapMetal").addAnimations(Item.newSingleFrame("images/items/scrapMetal.png")));
 	}
 
 	/**
