@@ -65,10 +65,12 @@ public abstract class Gui {
 
 				if (slot.isMouseOver()) {
 					if (stack.isNothing()) continue;
-
-					renderer.main.drawTextBg(renderer.main.font,
-							stack.getItem().getLocalizedName(stack) + " x" + stack.getAmount(),
-							Main.getInputX(), Main.convertY(Main.getInputY() + 48));
+					
+					renderer.main.font.drawMultiLine(renderer.batch, stack.getItem()
+							.getLocalizedName(stack)
+							+ " x"
+							+ stack.getAmount(), Main.getInputX(), Main.convertY(Main
+							.getInputY() + 48));
 
 					break;
 				}
@@ -189,8 +191,8 @@ public abstract class Gui {
 		renderer.main.font.draw(renderer.batch, title, x,
 				Main.convertY(y - (renderer.main.font.getBounds(title).height) - 4));
 	}
-	
-	public void setShouldRenderPlayerInvTitle(boolean b){
+
+	public void setShouldRenderPlayerInvTitle(boolean b) {
 		shouldRenderPlayerInvTitle = b;
 	}
 
