@@ -2,9 +2,6 @@ package projectmp.common.item;
 
 import java.util.HashMap;
 
-import projectmp.common.TexturedObject;
-import projectmp.common.block.Block.BlockFaces;
-
 import com.badlogic.gdx.utils.Array;
 
 public class Items {
@@ -27,23 +24,8 @@ public class Items {
 	private Array<Item> allItems = new Array<Item>();
 
 	private void loadResources() {
-		put("chessWhite",
-				new ItemChessPiece("chessWhite").addAnimations(
-						Item.newSingleFrame("images/items/chess/white/pawn.png"),
-						Item.newSingleFrame("images/items/chess/white/knight.png"),
-						Item.newSingleFrame("images/items/chess/white/bishop.png"),
-						Item.newSingleFrame("images/items/chess/white/rook.png"),
-						Item.newSingleFrame("images/items/chess/white/queen.png"),
-						Item.newSingleFrame("images/items/chess/white/king.png")));
-		put("chessBlack",
-				new ItemChessPiece("chessBlack").addAnimations(
-						Item.newSingleFrame("images/items/chess/black/pawn.png"),
-						Item.newSingleFrame("images/items/chess/black/knight.png"),
-						Item.newSingleFrame("images/items/chess/black/bishop.png"),
-						Item.newSingleFrame("images/items/chess/black/rook.png"),
-						Item.newSingleFrame("images/items/chess/black/queen.png"),
-						Item.newSingleFrame("images/items/chess/black/king.png")));
 		put("plasmaCutter", new ItemPlasmaCutter("plasmaCutter").addAnimations(Item.newSingleFrame("images/items/mininglaser.png")));
+		put("scrapMetal", new Item("scrapMetal").addAnimations(Item.newSingleFrame("images/items/scrapMetal.png")));
 	}
 
 	/**

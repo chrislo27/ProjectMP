@@ -6,7 +6,6 @@ import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.Inventory;
-import projectmp.common.inventory.InventoryChessboard;
 import projectmp.common.inventory.InventoryPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
 import projectmp.common.packet.Packet;
@@ -32,7 +31,6 @@ import projectmp.common.packet.PacketUpdateCursor;
 import projectmp.common.packet.PacketWeather;
 import projectmp.common.packet.handshake.PacketHandshake;
 import projectmp.common.tileentity.TileEntity;
-import projectmp.common.tileentity.TileEntityChessboard;
 import projectmp.common.tileentity.TileEntityPowerHandler;
 import projectmp.common.tileentity.TileEntityTestBattery;
 import projectmp.common.tileentity.TileEntityTestGenerator;
@@ -96,7 +94,6 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(TileEntity.class);
 		kryo.register(TileEntity[].class);
 		kryo.register(TileEntity[][].class);
-		kryo.register(TileEntityChessboard.class);
 		kryo.register(TileEntityPowerHandler.class);
 		kryo.register(TileEntityTestBattery.class);
 		kryo.register(TileEntityTestGenerator.class);
@@ -105,7 +102,6 @@ public class StockNetworkRegister implements INetworkRegister{
 	private void registerInventories(Kryo kryo){
 		kryo.register(Inventory.class);
 		kryo.register(InventoryPlayer.class);
-		kryo.register(InventoryChessboard.class);
 	}
 
 }

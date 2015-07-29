@@ -39,7 +39,7 @@ public class Blocks {
 						.addAnimations(Block.newSingleFrame("images/blocks/grass.png"), Block.newSingleFrame("images/blocks/dirt.png")));
 		put("tall_grass", new BlockTallGrass("tallGrass").addAnimations(Block
 				.newSingleFrame("images/blocks/tall_grass.png")));
-		put("chess_set", new BlockChessSet("chessboard"));
+		put("salvagePile", new BlockSalvagePile("salvagePile").addAnimations(Block.newSingleFrame("images/blocks/salvagePile.png")));
 		
 		// experimental stuff here
 		put("testCable", new BlockCable("testCable", 16).addAnimations(Block.newSingleFrame("images/blocks/test/cable.png")));
