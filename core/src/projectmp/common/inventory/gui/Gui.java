@@ -123,7 +123,7 @@ public abstract class Gui {
 			for (int i = 0; i < slots.size; i++) {
 				Slot slot = slots.get(i);
 
-				if (slot.isMouseOver()) {
+				if (slot.isMouseOver() && slot.canPlaceItem(renderer.logic.mouseStack)) {
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
 					// things to identify the inventory
@@ -146,7 +146,7 @@ public abstract class Gui {
 			for (int i = 0; i < slots.size; i++) {
 				Slot slot = slots.get(i);
 
-				if (slot.isMouseOver()) {
+				if (slot.isMouseOver() && slot.canPlaceItem(renderer.logic.mouseStack)) {
 					PacketSwapSlot packet = renderer.logic.getSwapSlotPacket();
 
 					// things to identify the inventory

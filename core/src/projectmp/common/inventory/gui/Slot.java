@@ -104,5 +104,9 @@ public class Slot {
 
 		return false;
 	}
+	
+	public boolean canPlaceItem(ItemStack stack){
+		return true;
+	}
 
 }
