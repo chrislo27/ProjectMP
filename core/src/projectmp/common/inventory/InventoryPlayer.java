@@ -19,9 +19,6 @@ public class InventoryPlayer extends Inventory{
 		super(MAX_INV_CAPACITY, "playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
 		
 		setSlot(0, new ItemStack("plasmaCutter", 1));
-		setSlot(1, new ItemStack("block_testCable", 512));
-		setSlot(2, new ItemStack("block_testBattery", 512));
-		setSlot(3, new ItemStack("block_testGenerator", 512));
 	}
 	
 	@Override
