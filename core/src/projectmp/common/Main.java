@@ -69,6 +69,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -806,11 +807,15 @@ public class Main extends Game implements Consumer {
 		font.draw(batch, s, x - (font.getBounds(s).width / 2), y);
 	}
 
-	public void drawTextBg(BitmapFont font, String text, float x, float y) {
+	public void drawTextBg(BitmapFont font, String text, float x, float y, float wrapWidth, HAlignment align) {
 		batch.setColor(0, 0, 0, batch.getColor().a * 0.6f);
-		fillRect(batch, x, y, font.getBounds(text).width + 2, 17);
-		font.draw(batch, text, x + 1, y + 15);
+		fillRect(batch, x, y, font.getBounds(text).width + 2, (font.getBounds(text).height) + 2);
+		font.drawMultiLine(batch, text, x + 1, y + font.getCapHeight(), wrapWidth, align);
 		batch.setColor(1, 1, 1, 1);
+	}
+	
+	public void drawTextBg(BitmapFont font, String text, float x, float y){
+		drawTextBg(font, text, x, y, font.getBounds(text).width, HAlignment.LEFT);
 	}
 
 	public void drawScaled(BitmapFont font, String text, float x, float y, float width,
