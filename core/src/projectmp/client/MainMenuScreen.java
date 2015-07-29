@@ -68,25 +68,25 @@ public strictfp class MainMenuScreen extends Updateable {
 				Settings.DEFAULT_WIDTH / 2, Main.convertY(200));
 		main.font.setScale(1);
 
-		main.drawInverse(main.font, Main.version, Settings.DEFAULT_WIDTH - 5, 20);
+		main.drawInverse(main.font, Main.version, Settings.DEFAULT_WIDTH - 5, main.font.getCapHeight() * 1 + 5);
 		if (Main.githubVersion == null) {
 			main.drawInverse(main.font, Translator.getMsg("menu.checkingversion"),
-					Settings.DEFAULT_WIDTH - 5, 35);
+					Settings.DEFAULT_WIDTH - 5, main.font.getCapHeight() * 2 + 5);
 		} else {
 			if (Main.githubVersion.equals(Main.version)) {
 				main.font.setColor(0, 1, 0, 1);
 				main.drawInverse(main.font, Translator.getMsg("menu.uptodate"),
-						Settings.DEFAULT_WIDTH - 5, 35);
+						Settings.DEFAULT_WIDTH - 5, main.font.getCapHeight() * 2 + 5);
 				main.font.setColor(1, 1, 1, 1);
 			} else {
 				main.font.setColor(1, 0, 0, 1);
 				main.drawInverse(main.font, Translator.getMsg("menu.newversion")
-						+ Main.githubVersion, Settings.DEFAULT_WIDTH - 5, 35);
+						+ Main.githubVersion, Settings.DEFAULT_WIDTH - 5, main.font.getCapHeight() * 2 + 5);
 				main.font.setColor(1, 1, 1, 1);
 			}
 		}
 		main.drawInverse(main.font, Translator.getMsg("menu.player") + Main.username,
-				Settings.DEFAULT_WIDTH - 5, 50);
+				Settings.DEFAULT_WIDTH - 5, main.font.getCapHeight() * 3 + 5);
 		container.render(main);
 		main.font.setColor(Color.WHITE);
 		main.batch.setColor(1, 1, 1, 1);
