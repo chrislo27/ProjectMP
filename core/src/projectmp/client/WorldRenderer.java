@@ -260,14 +260,14 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderHUD() {
-		if(vignetteBloodAlpha > 0){
+		if (vignetteBloodAlpha > 0) {
 			vignetteBloodAlpha -= Gdx.graphics.getDeltaTime();
 		}
-		
-		if(vignetteBloodAlpha <= 0){
+
+		if (vignetteBloodAlpha <= 0) {
 			vignetteBloodAlpha = 0;
 		}
-		
+
 		batch.begin();
 
 		// render weather
@@ -293,7 +293,7 @@ public class WorldRenderer implements Disposable {
 		batch.end();
 
 		// health liquid
-		
+
 		healthBuffer.begin();
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -301,19 +301,19 @@ public class WorldRenderer implements Disposable {
 		healthBuffer.end();
 
 		batch.begin();
-		
+
 		Texture healthbg = AssetRegistry.getTexture("healthbg");
-		batch.draw(healthbg, 0, Settings.DEFAULT_HEIGHT,
-				AssetRegistry.getTexture("healthbg").getWidth(), -AssetRegistry.getTexture("healthbg").getHeight());
-		
+		batch.draw(healthbg, 0, Settings.DEFAULT_HEIGHT, AssetRegistry.getTexture("healthbg")
+				.getWidth(), -AssetRegistry.getTexture("healthbg").getHeight());
+
 		batch.flush();
-		
+
 		batch.setShader(main.maskshader);
 		Main.useMask(AssetRegistry.getTexture("heartmask"));
-		
+
 		batch.draw(healthBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
-		
+
 		batch.setShader(null);
 		batch.end();
 	}
@@ -349,17 +349,18 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void tickUpdate() {
-		if(Gdx.input.isKeyJustPressed(Keys.R)){
+		if (Gdx.input.isKeyJustPressed(Keys.R)) {
 			logic.getPlayer().damage(5);
 		}
-		
+
 		// took dmg
 		if (lastPlayerHealth > (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth)) {
 			// vignette and liquid
 			healthLiquid.height = 64 * (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth);
 			healthLiquid.perturbAll(5f);
-			
-			vignetteBloodAlpha = Math.abs(((lastPlayerHealth - logic.getPlayer().health * 1f / logic.getPlayer().maxhealth)) * 2.5f);
+
+			vignetteBloodAlpha = Math.abs(((lastPlayerHealth - logic.getPlayer().health * 1f
+					/ logic.getPlayer().maxhealth)) * 2.5f);
 		}
 
 		// reset
@@ -401,9 +402,8 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderBlockInWorld(int x, int y) {
-		world.getBlock(x, y).renderIndexAt(batch, main, world, convertWorldX(x),
-				convertWorldY(y, World.tilesizex), World.tilesizex, World.tilesizey,
-				world.getBlock(x, y).getCurrentRenderingIndex(world, x, y), x, y);
+		world.getBlock(x, y).renderInWorld(this, convertWorldX(x),
+				convertWorldY(y, World.tilesizex), World.tilesizex, World.tilesizey, x, y);
 	}
 
 	protected void changeWorld(World w) {

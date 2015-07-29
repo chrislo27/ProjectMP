@@ -32,8 +32,7 @@ public class ItemBlock extends Item {
 			ItemStack stack) {
 		Block b = Blocks.instance().getBlock(block);
 
-		b.renderIndexAt(renderer.batch, renderer.main, renderer.world, x, y, width, height,
-				this.getCurrentRenderingIndex(stack), -1, -1);
+		b.renderInWorld(renderer, x, y, width, height, -1, -1);
 	}
 
 	@Override

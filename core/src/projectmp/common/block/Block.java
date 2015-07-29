@@ -1,5 +1,6 @@
 package projectmp.common.block;
 
+import projectmp.client.WorldRenderer;
 import projectmp.client.animation.Animation;
 import projectmp.common.Main;
 import projectmp.common.TexturedObject;
@@ -18,7 +19,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
-public class Block extends TexturedObject implements Describable{
+public class Block extends TexturedObject implements Describable {
 
 	public static final float DEFAULT_TRANSPARENT_LIGHT = 0.05f;
 	public static final float DEFAULT_OPAQUE_LIGHT = 0.2f;
@@ -29,32 +30,32 @@ public class Block extends TexturedObject implements Describable{
 	protected String unlocalizedName = "unnamed";
 
 	protected float hardness = 1f;
-	
+
 	private Array<DropRate> droppedItems = new Array<>(1);
 
 	public Block(String unlocalName) {
 		super("block", unlocalName);
 		unlocalizedName = unlocalName;
 	}
-	
+
 	/**
 	 * Called when the block is added to the list after creating the Item instance of the block
 	 */
-	public void initialize(){
+	public void initialize() {
 		initializeDroppedItems();
 	}
-	
+
 	/**
 	 * Called in initialization to create the item stacks
 	 */
-	public void initializeDroppedItems(){
+	public void initializeDroppedItems() {
 		droppedItems.add(new DropRate("block_" + Blocks.instance().getKey(this), 1, 1, 1));
 	}
 
-	public Array<DropRate> getDroppedItems(){
+	public Array<DropRate> getDroppedItems() {
 		return droppedItems;
 	}
-	
+
 	/**
 	 * Triggered every tick on both server and client.
 	 * @param world
@@ -74,7 +75,7 @@ public class Block extends TexturedObject implements Describable{
 	public void onActivate(World world, int x, int y, EntityPlayer player) {
 
 	}
-	
+
 	/**
 	 * Triggered when the block is set in the world
 	 * @param world
@@ -85,7 +86,7 @@ public class Block extends TexturedObject implements Describable{
 	public void onPlace(World world, int x, int y) {
 
 	}
-	
+
 	/**
 	 * Triggered when the block is replaced in the world (either with air or something else)
 	 * @param world
@@ -113,26 +114,25 @@ public class Block extends TexturedObject implements Describable{
 	}
 
 	public void dropItems(World world, int x, int y) {
-		for(int i = 0; i < droppedItems.size; i++){
+		for (int i = 0; i < droppedItems.size; i++) {
 			DropRate dr = droppedItems.get(i);
-			if(dr.getItem() == null) continue;
-			
+			if (dr.getItem() == null) continue;
+
 			ItemStack stack = new ItemStack(dr.item, dr.getRandomQuantity());
-			if(stack == null || stack.isNothing()) continue;
-			
+			if (stack == null || stack.isNothing()) continue;
+
 			world.createNewEntity(createEntityItem(world, x, y, stack));
 		}
 	}
-	
-	public EntityItem createEntityItem(World world, int x, int y, ItemStack stack){
-		if(stack == null || stack.isNothing()) return null;
-		
-		EntityItem item = new EntityItem(world, x + 0.25f, y
-				+ 0.25f, stack);
-		
+
+	public EntityItem createEntityItem(World world, int x, int y, ItemStack stack) {
+		if (stack == null || stack.isNothing()) return null;
+
+		EntityItem item = new EntityItem(world, x + 0.25f, y + 0.25f, stack);
+
 		item.velox += MathUtils.random(3f, 7.5f) * MathUtils.randomSign();
 		item.veloy -= 4f;
-		
+
 		return item;
 	}
 
@@ -174,11 +174,35 @@ public class Block extends TexturedObject implements Describable{
 		return this;
 	}
 
-	public void renderIndexAt(Batch batch, Main main, World world, float x, float y, float width,
-			float height, int renderingIndex, int blockX, int blockY) {
+	/**
+	 * Renders the animation frame index. Should not be overrode.
+	 * @param batch
+	 * @param main
+	 * @param world
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param renderingIndex
+	 * @param blockX
+	 * @param blockY
+	 */
+	public final void renderIndexAt(Batch batch, Main main, World world, float x, float y,
+			float width, float height, int renderingIndex, int blockX, int blockY) {
 		if (getAnimation(renderingIndex) != null) {
 			batch.draw(getAnimation(renderingIndex).getCurrentFrame(), x, y, width, height);
 		}
+	}
+
+	/**
+	 * Renders in the world. Allows usage of the bypass buffer in the renderer.
+	 * This method also controls what index is rendered, hence good for blocks with custom rendering.
+	 * @param renderer
+	 */
+	public void renderInWorld(WorldRenderer renderer, float x, float y, float width, float height,
+			int blockX, int blockY) {
+		renderIndexAt(renderer.batch, renderer.main, renderer.world, x, y, width, height,
+				getCurrentRenderingIndex(renderer.world, blockX, blockY), blockX, blockY);
 	}
 
 	@Override
@@ -249,7 +273,7 @@ public class Block extends TexturedObject implements Describable{
 
 	@Override
 	public void addDescription(Array<String> array, ItemStack stack) {
-		
+
 	}
 
 }
