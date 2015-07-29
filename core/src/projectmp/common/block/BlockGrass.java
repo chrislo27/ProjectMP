@@ -22,10 +22,13 @@ public class BlockGrass extends BlockFoliage {
 			int blockX, int blockY) {
 		int renderingIndex = getCurrentRenderingIndex(renderer.world, blockX, blockY);
 		
-		shouldApplyFoliageColour = false;
+		// dirt
 		renderIndexAt(renderer.batch, renderer.main, renderer.world, x, y, width, height, renderingIndex + 1, blockX, blockY);
-		shouldApplyFoliageColour = true;
+		
+		// actual grass
+		this.startFoliaging(renderer, blockX, blockY);
 		renderIndexAt(renderer.batch, renderer.main, renderer.world, x, y, width, height, renderingIndex, blockX, blockY);
+		this.stopFoliaging(renderer);
 	}
 
 }
