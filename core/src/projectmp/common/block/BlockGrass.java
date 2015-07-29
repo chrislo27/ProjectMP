@@ -1,5 +1,6 @@
 package projectmp.common.block;
 
+import projectmp.client.WorldRenderer;
 import projectmp.common.Main;
 import projectmp.common.world.World;
 
@@ -17,11 +18,14 @@ public class BlockGrass extends BlockFoliage {
 	}
 
 	@Override
-	public void renderIndexAt(Batch batch, Main main, World world, float x, float y, float width, float height, int renderingIndex, int blockX, int blockY) {
+	public void renderInWorld(WorldRenderer renderer, float x, float y, float width, float height,
+			int blockX, int blockY) {
+		int renderingIndex = getCurrentRenderingIndex(renderer.world, blockX, blockY);
+		
 		shouldApplyFoliageColour = false;
-		super.renderIndexAt(batch, main, world, x, y, width, height, renderingIndex + 1, blockX, blockY);
+		renderIndexAt(renderer.batch, renderer.main, renderer.world, x, y, width, height, renderingIndex + 1, blockX, blockY);
 		shouldApplyFoliageColour = true;
-		super.renderIndexAt(batch, main, world, x, y, width, height, renderingIndex, blockX, blockY);
+		renderIndexAt(renderer.batch, renderer.main, renderer.world, x, y, width, height, renderingIndex, blockX, blockY);
 	}
 
 }
