@@ -23,6 +23,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.esotericsoftware.kryonet.Client;
@@ -186,25 +187,27 @@ public class ClientLogic implements Disposable {
 	}
 
 	public void renderDebug(int starting) {
+		BitmapFont font = main.font;
+		
 		main.font.draw(main.batch, "latency: " + main.client.getReturnTripTime() + " ms", 5,
 				Main.convertY(starting));
 		if (world != null) {
 			main.font.draw(main.batch, "entities: " + world.getNumberOfEntities(), 5,
-					Main.convertY(starting + 15));
+					Main.convertY(starting + font.getCapHeight()));
 			main.font.draw(main.batch,
 					"lightingTimeTaken: " + (world.lightingEngine.getLastUpdateLength() / 1000000f)
-							+ " ms", 5, Main.convertY(starting + 30));
+							+ " ms", 5, Main.convertY(starting + font.getCapHeight() * 2));
 			main.font.draw(main.batch, "worldTime: " + world.time.currentDayTicks
 					+ ", lastDayBri: " + world.lightingEngine.lastDayBrightness, 5,
-					Main.convertY(starting + 45));
+					Main.convertY(starting + font.getCapHeight() * 3));
 			main.font.draw(main.batch, "timeOfDay: " + world.time.getCurrentTimeOfDay(), 5,
-					Main.convertY(starting + 60));
-			main.font.draw(main.batch, "x: " + getPlayer().x, 5, Main.convertY(starting + 75));
-			main.font.draw(main.batch, "y: " + getPlayer().y, 5, Main.convertY(starting + 90));
+					Main.convertY(starting + font.getCapHeight() * 4));
+			main.font.draw(main.batch, "x: " + getPlayer().x, 5, Main.convertY(starting + font.getCapHeight() * 5));
+			main.font.draw(main.batch, "y: " + getPlayer().y, 5, Main.convertY(starting + font.getCapHeight()* 6));
 			main.font.draw(main.batch, "cursorx: " + getCursorBlockX(), 5,
-					Main.convertY(starting + 105));
+					Main.convertY(starting + font.getCapHeight() * 7));
 			main.font.draw(main.batch, "cursory: " + getCursorBlockY(), 5,
-					Main.convertY(starting + 120));
+					Main.convertY(starting + font.getCapHeight() * 8));
 			main.font.draw(
 					main.batch,
 					"light: "
@@ -217,34 +220,34 @@ public class ClientLogic implements Disposable {
 							+ String.format("%.3f", world.lightingEngine
 									.getSkyLightFromTOD(world.lightingEngine.getSkyLight(
 											getCursorBlockX(), getCursorBlockY()))), 5, Main
-							.convertY(starting + 135));
+							.convertY(starting + font.getCapHeight() * 9));
 			main.font.draw(main.batch, "weather: "
 					+ (world.getWeather() == null ? null : world.getWeather().getClass()
 							.getSimpleName()
 							+ ", " + world.getWeather().getTimeRemaining() + " ticks left"), 5,
-					Main.convertY(starting + 150));
+					Main.convertY(starting + font.getCapHeight() * 10));
 			main.font.draw(main.batch, "cam x: " + renderer.camera.camerax, 5,
-					Main.convertY(starting + 165));
+					Main.convertY(starting + font.getCapHeight() * 11));
 			main.font.draw(main.batch, "cam y: " + renderer.camera.camerax, 5,
-					Main.convertY(starting + 180));
+					Main.convertY(starting + font.getCapHeight() * 12));
 			main.font.draw(main.batch, "cam wantedx: " + renderer.camera.wantedx, 5,
-					Main.convertY(starting + 195));
+					Main.convertY(starting + font.getCapHeight() * 13));
 			main.font.draw(main.batch, "cam wantedy: " + renderer.camera.wantedx, 5,
-					Main.convertY(starting + 210));
+					Main.convertY(starting + font.getCapHeight() * 14));
 			main.font.draw(main.batch, "visualX: " + getPlayer().visualX, 5,
-					Main.convertY(starting + 225));
+					Main.convertY(starting + font.getCapHeight() * 15));
 			main.font.draw(main.batch, "visualY: " + getPlayer().visualY, 5,
-					Main.convertY(starting + 240));
+					Main.convertY(starting + font.getCapHeight() * 16));
 			main.font.draw(main.batch, "lerpVeloX: " + getPlayer().lerpVeloX, 5,
-					Main.convertY(starting + 255));
+					Main.convertY(starting + font.getCapHeight() * 17));
 			main.font.draw(main.batch, "lerpVeloY: " + getPlayer().lerpVeloY, 5,
-					Main.convertY(starting + 270));
+					Main.convertY(starting + font.getCapHeight() * 18));
 			main.font
 					.draw(main.batch,
 							"breakingProgress: "
 									+ String.format("%.3f", world.getBreakingProgress(
 											getCursorBlockX(), getCursorBlockY())), 5, Main
-									.convertY(starting + 285));
+									.convertY(starting + font.getCapHeight() * 19));
 		}
 	}
 

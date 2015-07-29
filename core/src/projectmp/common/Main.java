@@ -475,21 +475,21 @@ public class Main extends Game implements Consumer {
 		font.setColor(Color.WHITE);
 		font.draw(batch, "version: " + Main.version
 				+ (githubVersion == null ? "" : "; latest: " + Main.githubVersion), 5,
-				Main.convertY(30 + offset));
+				Main.convertY(font.getCapHeight() * 2 + offset));
 		font.draw(batch, "memory: "
 				+ NumberFormat.getInstance().format(MemoryUtils.getUsedMemory()) + " KB / "
 				+ NumberFormat.getInstance().format(MemoryUtils.getMaxMemory()) + " KB (max "
 				+ NumberFormat.getInstance().format(getMostMemory) + " KB) ", 5,
-				Main.convertY(45 + offset));
+				Main.convertY(font.getCapHeight() * 3 + offset));
 		font.draw(batch, "OS: " + System.getProperty("os.name") + ", " + MemoryUtils.getCores() + " cores", 5,
-				Main.convertY(60 + offset));
-		font.draw(batch, "tickDuration: " + (lastTickDurationNano / 1000000f) + " ms", 5, Main.convertY(75 + offset));
-		font.draw(batch, "delta: " + Gdx.graphics.getDeltaTime(), 5, Main.convertY(90 + offset));
+				Main.convertY(font.getCapHeight() * 4 + offset));
+		font.draw(batch, "tickDuration: " + (lastTickDurationNano / 1000000f) + " ms", 5, Main.convertY(font.getCapHeight() * 5 + offset));
+		font.draw(batch, "delta: " + Gdx.graphics.getDeltaTime(), 5, Main.convertY(font.getCapHeight() * 6 + offset));
 		if (getScreen() != null) {
 			font.draw(batch, "state: " + getScreen().getClass().getSimpleName(), 5,
-					Main.convertY(105 + offset));
+					Main.convertY(font.getCapHeight() * 7 + offset));
 		} else {
-			font.draw(batch, "state: null", 5, Main.convertY(105 + offset));
+			font.draw(batch, "state: null", 5, Main.convertY(font.getCapHeight() * 8 + offset));
 		}
 
 		return 30 + offset + 105;
