@@ -7,6 +7,7 @@ import projectmp.common.Settings;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
+import projectmp.common.item.ItemBlock;
 import projectmp.common.registry.AssetRegistry;
 import projectmp.common.util.MathHelper;
 import projectmp.common.util.Particle;
@@ -286,7 +287,7 @@ public class WorldRenderer implements Disposable {
 		
 		batch.end();
 
-		// health liquid
+		// health liquid prep
 
 		healthBuffer.begin();
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
@@ -296,8 +297,53 @@ public class WorldRenderer implements Disposable {
 
 		batch.begin();
 
+		// heart bg
+		batch.setColor(0, 0, 0, 0.5f);
+		Main.fillRect(batch, 0, 0, 86, 86);
+		batch.setColor(1, 1, 1, 1);
+		
+		// 9 inventory slots
+		for(int i = 0; i < 9; i++){
+			int slot = 8 - i;
+			ItemStack stack = logic.getPlayerInventory().getSlot(slot);
+			float spacing = 0;
+			if(stack.getItem() instanceof ItemBlock){
+				spacing = 0.25f;
+			}
+			float posx = 0;
+			float posy = 86 + (i * 64);
+			float width = 64, height = 64;
+			
+			batch.setColor(1, 1, 1, 0.5f);
+			batch.draw(AssetRegistry.getTexture("invslot"), posx, posy, width, height);
+			batch.setColor(1, 1, 1, 1);
+			
+			if(stack == null || stack.isNothing()) continue;
+			
+			stack.getItem().render(this, posx + (spacing * width / 2),
+					posy + (spacing * height / 2), width - (width * spacing),
+					height - (height * spacing), stack);
+			// draw number if > 1
+			if (stack.getAmount() > 1) {
+				float textHeight = main.font.getBounds("" + stack.getAmount()).height;
+				main.drawInverse(main.font, "" + stack.getAmount(), posx + width,
+						posy + textHeight);
+			}
+			
+			if(slot == logic.selectedItem){
+				batch.setColor(1, 1, 1, 0.2f);
+				Main.fillRect(batch, posx, posy, width, height);
+				batch.setColor(1, 1, 1, 1);
+			}
+		}
+		batch.setColor(1, 1, 1, 1);
+		
+		// START HEALTH
+		float offsetX = -54f;
+		float offsetY = -54f;
+		
 		Texture healthbg = AssetRegistry.getTexture("healthbg");
-		batch.draw(healthbg, 0, Settings.DEFAULT_HEIGHT, AssetRegistry.getTexture("healthbg")
+		batch.draw(healthbg, offsetX, Settings.DEFAULT_HEIGHT + offsetY, AssetRegistry.getTexture("healthbg")
 				.getWidth(), -AssetRegistry.getTexture("healthbg").getHeight());
 
 		batch.flush();
@@ -305,16 +351,18 @@ public class WorldRenderer implements Disposable {
 		batch.setShader(main.maskshader);
 		Main.useMask(AssetRegistry.getTexture("heartmask"));
 
-		batch.draw(healthBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
+		batch.draw(healthBuffer.getColorBufferTexture(), offsetX, Settings.DEFAULT_HEIGHT + offsetY,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 
 		batch.setShader(null);
+		
+		// health text
+		
+		// END HEALTH
 		batch.flush();
 
 		if (logic.getCurrentGui() != null) {
 			logic.getCurrentGui().render(this, logic);
-		} else {
-			// TODO render hotbar
 		}
 
 		batch.end();
