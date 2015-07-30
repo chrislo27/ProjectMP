@@ -16,6 +16,7 @@ import projectmp.common.world.World;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.evilco.mc.nbt.error.TagNotFoundException;
@@ -52,16 +53,16 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * extrapolation or not
 	 */
 	private transient boolean shouldPredictFuture = false;
-	
+
 	/**
 	 * Client-only flag to show which direction the entity is facing
 	 */
 	@SideOnly(Side.CLIENT)
 	public transient boolean facingLeft = false;
-	
+
 	public int age = 0;
 	public int timeInstantiated = -1;
-	
+
 	private boolean isMarkedForRemoval = false;
 
 	// interpolation stuff END
@@ -95,7 +96,7 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 
 	public transient float accspeed = 1.5f; // acceleration blocks/sec
 	public transient float maxspeed = 1.5f; // speed cap blocks/sec
-	
+
 	public transient BaseAI ai = null;
 
 	/**
@@ -126,11 +127,11 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public abstract void render(WorldRenderer renderer);
 
-	public void setAI(BaseAI ai){
+	public void setAI(BaseAI ai) {
 		this.ai = ai;
 		this.ai.setEntity(this);
 	}
-	
+
 	/**
 	 * Draws the texture centered on the entity. 
 	 * It is centered horizontally and the bottom of the texture flush with the bottom of the entity.
@@ -138,18 +139,45 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * Offset values are in pixels.
 	 * <br>
 	 */
-	public void drawTextureCentered(WorldRenderer renderer, Texture t, float offsetPxX, float offsetPxY, boolean flipHor) {
-		world.batch.draw(t,
-				(renderer.convertWorldX(visualX + (sizex / 2)) - t.getWidth()
-						/ 2) + offsetPxX + (flipHor ? t.getWidth() : 0), renderer.convertWorldY((visualY + (sizey)), 0) + offsetPxY, t.getWidth() * (flipHor ? -1 : 1), t.getHeight());
+	public void drawTextureCentered(WorldRenderer renderer, Texture t, float offsetPxX,
+			float offsetPxY, boolean flipHor) {
+		world.batch.draw(t, (renderer.convertWorldX(visualX + (sizex / 2)) - t.getWidth() / 2)
+				+ offsetPxX + (flipHor ? t.getWidth() : 0),
+				renderer.convertWorldY((visualY + (sizey)), 0) + offsetPxY, t.getWidth()
+						* (flipHor ? -1 : 1), t.getHeight());
 	}
-	
+
 	/**
-	 * Utility method that's the same as drawTextured centered with 0 offset and flip if facingLeft is true
+	 * Draws the texture centered on the entity. 
+	 * It is centered horizontally and the bottom of the texture flush with the bottom of the entity.
+	 * <br>
+	 * Offset values are in pixels.
+	 * <br>
+	 */
+	public void drawTextureCentered(WorldRenderer renderer, TextureRegion t, float offsetPxX,
+			float offsetPxY, boolean flipHor) {
+		world.batch.draw(t,
+				(renderer.convertWorldX(visualX + (sizex / 2)) - t.getRegionWidth() / 2)
+						+ offsetPxX + (flipHor ? t.getRegionWidth() : 0),
+				renderer.convertWorldY((visualY + (sizey)), 0) + offsetPxY, t.getRegionWidth()
+						* (flipHor ? -1 : 1), t.getRegionHeight());
+	}
+
+	/**
+	 * Utility method that's the same as drawTexturedCentered with 0 offset and flip if facingLeft is true
 	 * @param renderer
 	 * @param t
 	 */
-	public void drawTextureCenteredWithFacing(WorldRenderer renderer, Texture t){
+	public void drawTextureCenteredWithFacing(WorldRenderer renderer, Texture t) {
+		drawTextureCentered(renderer, t, 0, 0, facingLeft);
+	}
+
+	/**
+	 * Utility method that's the same as drawTexturedCentered with 0 offset and flip if facingLeft is true
+	 * @param renderer
+	 * @param t
+	 */
+	public void drawTextureCenteredWithFacing(WorldRenderer renderer, TextureRegion t) {
 		drawTextureCentered(renderer, t, 0, 0, facingLeft);
 	}
 
@@ -157,18 +185,18 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * Modifies the parameter to fit a light source, alpha > 0 = light
 	 * @param c
 	 */
-	public void setLightColor(Color c){
+	public void setLightColor(Color c) {
 		c.set(0, 0, 0, 0);
 	}
-	
+
 	/**
 	 * Modifies the parameter to offset where the light source will be placed (default centre)
 	 * @param c
 	 */
-	public void setLightOffset(Vector2 v){
+	public void setLightOffset(Vector2 v) {
 		v.set(0, 0);
 	}
-	
+
 	/**
 	 * called every render update BEFORE rendering on client only, used for interpolation
 	 */
@@ -272,13 +300,13 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 */
 	public void tickUpdate() {
 		age++;
-		
-		if(world.isServer){
-			if(ai != null){
+
+		if (world.isServer) {
+			if (ai != null) {
 				ai.tickUpdate();
 			}
 		}
-		
+
 		movementAndCollision();
 	}
 
@@ -840,12 +868,12 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 					0, true);
 		}
 	}
-	
-	public boolean isMarkedForRemoval(){
+
+	public boolean isMarkedForRemoval() {
 		return isMarkedForRemoval;
 	}
-	
-	public void markForRemoval(){
+
+	public void markForRemoval() {
 		isMarkedForRemoval = true;
 	}
 
@@ -868,8 +896,8 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	public float getHeight() {
 		return sizey;
 	}
-	
-	public static float calculateJumpVelocity(double defaultGravity, double jumpHeight){
+
+	public static float calculateJumpVelocity(double defaultGravity, double jumpHeight) {
 		return MathHelper.getJumpVelo(defaultGravity, jumpHeight);
 	}
 
