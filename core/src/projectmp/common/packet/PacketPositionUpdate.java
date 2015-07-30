@@ -14,6 +14,7 @@ public class PacketPositionUpdate implements Packet {
 	public float[] y = new float[1];
 	public float[] velox = new float[1];
 	public float[] veloy = new float[1];
+	public int size = 1;
 
 	public void resetTables(int newlength) {
 		entityid = new long[newlength];
@@ -21,6 +22,7 @@ public class PacketPositionUpdate implements Packet {
 		y = new float[newlength];
 		velox = new float[newlength];
 		veloy = new float[newlength];
+		size = newlength;
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class PacketPositionUpdate implements Packet {
 	public void actionClient(Connection connection, ClientLogic logic) {
 		if (logic.world == null) return;
 		
-		for (int key = 0; key < entityid.length; key++) {
+		for (int key = 0; key < size; key++) {
 			Entity e = logic.world.getEntityByUUID(entityid[key]);
 			
 			if(e == null) continue;

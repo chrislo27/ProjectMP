@@ -95,7 +95,6 @@ public class ServerLogic {
 				positionUpdate.resetTables(world.getNumberOfEntities());
 			}
 
-			boolean shouldSend = false;
 			int iter = 0;
 			boolean force = ((int) (main.totalSeconds * Main.TICKS)) % ((int) (TIME_BETWEEN_FORCE_SEND * Main.TICKS)) == 0;
 			
@@ -108,15 +107,18 @@ public class ServerLogic {
 				positionUpdate.y[iter] = e.y;
 				positionUpdate.velox[iter] = e.velox;
 				positionUpdate.veloy[iter] = e.veloy;
-				shouldSend = true;
 
 				iter++;
 			}
+			
+			positionUpdate.size = iter;
 
-			if (shouldSend && !force){
-				server.sendToAllUDP(positionUpdate);
-			}else if(force){
-				server.sendToAllTCP(positionUpdate);
+			if (iter > 0 && !force){
+				if(force){
+					server.sendToAllTCP(positionUpdate);
+				}else{
+					server.sendToAllUDP(positionUpdate);
+				}
 			}
 		}
 	}
