@@ -46,7 +46,7 @@ public class AIBird extends BaseAI {
 	
 	private void repickTarget(){
 		targetX = entity.x + MathUtils.random(10, 15) * MathUtils.randomSign();
-		targetY = entity.y - MathUtils.random(5, 10);
+		targetY = entity.y - MathUtils.random(5);
 		
 		if(!flying){
 			for(int y = (int) targetY; y < entity.world.sizey; y++){
