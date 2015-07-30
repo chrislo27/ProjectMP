@@ -216,7 +216,7 @@ public class Block extends TexturedObject implements Describable {
 		return unlocalizedName;
 	}
 
-	public String getLocalizedName(ItemStack stack) {
+	public String getLocalizedName() {
 		return Translator.instance().getMsg("block." + getUnlocalizedName() + ".name");
 	}
 
