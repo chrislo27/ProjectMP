@@ -283,13 +283,7 @@ public class WorldRenderer implements Disposable {
 		batch.draw(AssetRegistry.getTexture("vignette"), 0, 0, Settings.DEFAULT_WIDTH,
 				Settings.DEFAULT_HEIGHT);
 		batch.setColor(1, 1, 1, 1);
-
-		if (logic.getCurrentGui() != null) {
-			logic.getCurrentGui().render(this, logic);
-		} else {
-			// TODO render hotbar
-		}
-
+		
 		batch.end();
 
 		// health liquid
@@ -315,7 +309,16 @@ public class WorldRenderer implements Disposable {
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
 
 		batch.setShader(null);
+		batch.flush();
+
+		if (logic.getCurrentGui() != null) {
+			logic.getCurrentGui().render(this, logic);
+		} else {
+			// TODO render hotbar
+		}
+
 		batch.end();
+
 	}
 
 	public void renderPlayerNames() {
