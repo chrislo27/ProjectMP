@@ -70,10 +70,8 @@ public class EntityItem extends Entity {
 					float distance = MathHelper.distanceSquared(x, y, player.x, player.y);
 					float maxspeed = 16f;
 					
-					if (Math.abs(velox) < maxspeed) velox += (player.x - x) * (blockRange / distance)
-							* Main.TICKS;
-					if (Math.abs(veloy) < maxspeed) veloy += (player.y - y) * (blockRange / distance)
-							* Main.TICKS;
+					if (Math.abs(velox) < maxspeed) velox += (((player.x - x) / 2) * distance);
+					if (Math.abs(veloy) < maxspeed) veloy += (((player.y - y) / 2) * distance);
 				}
 
 				if (!this.intersectingOther(player)) continue;
