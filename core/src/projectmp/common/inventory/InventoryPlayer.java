@@ -19,6 +19,7 @@ public class InventoryPlayer extends Inventory{
 		super(MAX_INV_CAPACITY, "playerInv", Utils.unpackLongUpper(uuid), Utils.unpackLongLower(uuid));
 		
 		setSlot(0, new ItemStack("plasmaCutter", 1));
+		setSlot(1, new ItemStack("scrapMetal", 1));
 	}
 	
 	@Override
