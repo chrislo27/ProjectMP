@@ -42,8 +42,6 @@ public final class HandshakeAcceptor {
 		
 		// send create packet
 		logic.world.createNewEntity(newPlayer);
-		
-		logic.world.createNewEntity(new EntityBird(logic.world, newPlayer.x, newPlayer.y + 64));
 
 		// update the time (for everyone)
 		logic.world.sendTimeUpdate();
