@@ -4,6 +4,9 @@ import java.util.Map.Entry;
 
 import projectmp.common.Main;
 import projectmp.common.Settings;
+import projectmp.common.Translator;
+import projectmp.common.block.Block;
+import projectmp.common.block.Blocks;
 import projectmp.common.entity.Entity;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.inventory.itemstack.ItemStack;
@@ -16,7 +19,6 @@ import projectmp.common.util.render.LiquidContainer;
 import projectmp.common.world.World;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -47,6 +49,8 @@ public class WorldRenderer implements Disposable {
 	private LiquidContainer healthLiquid;
 	private float vignetteBloodAlpha = 0;
 
+	private Waila waila = new Waila();
+
 	public WorldRenderer(Main m, World w, ClientLogic l) {
 		main = m;
 		batch = main.batch;
@@ -70,7 +74,7 @@ public class WorldRenderer implements Disposable {
 	public void renderWorld() {
 		seconds += Gdx.graphics.getDeltaTime()
 				* (0.75f + ((MathHelper.clampNumberFromTime(2f) * 2) * 0.25f));
-		
+
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -105,6 +109,13 @@ public class WorldRenderer implements Disposable {
 		// draw bypass buffer
 		batch.draw(bypassBuffer.getColorBufferTexture(), 0, Settings.DEFAULT_HEIGHT,
 				Settings.DEFAULT_WIDTH, -Settings.DEFAULT_HEIGHT);
+
+		// draw current block
+		batch.setColor(1, 1, 1, 0.05f);
+		Main.fillRect(batch, convertWorldX(logic.getCursorBlockX()),
+				convertWorldY(logic.getCursorBlockY(), World.tilesizex), World.tilesizex,
+				World.tilesizey);
+		batch.setColor(1, 1, 1, 1);
 
 		batch.end();
 	}
@@ -296,8 +307,8 @@ public class WorldRenderer implements Disposable {
 
 		batch.begin();
 
-		// heart bg
 		batch.setColor(0, 0, 0, 0.5f);
+		// heart bg
 		Main.fillRect(batch, 0, 0, 86, 86);
 		batch.setColor(1, 1, 1, 1);
 
@@ -316,7 +327,7 @@ public class WorldRenderer implements Disposable {
 			batch.setColor(1, 1, 1, 0.5f);
 			batch.draw(AssetRegistry.getTexture("invslot"), posx, posy, width, height);
 			batch.setColor(1, 1, 1, 1);
-			
+
 			main.font.setColor(1, 1, 1, 0.75f);
 			main.font.draw(batch, "" + (slot + 1), posx + 2, posy + height - 2);
 
@@ -338,11 +349,11 @@ public class WorldRenderer implements Disposable {
 				main.maskNoiseShader.setUniformf("intensity", 0.6f);
 				main.maskNoiseShader.setUniformf("zoom", 50f);
 				main.maskNoiseShader.setUniformf("time", seconds);
-				
+
 				batch.setColor(0, 0.3f, 0.5f, 0.5f);
 				Main.fillRect(batch, posx, posy, width, height);
 				batch.setColor(1, 1, 1, 1);
-				
+
 				batch.setShader(null);
 			}
 		}
@@ -371,12 +382,19 @@ public class WorldRenderer implements Disposable {
 
 		main.font.setScale(0.5f);
 		main.font.setColor(0, 0, 0, 1);
-		main.drawCentered(main.font, logic.getPlayer().health + " / " + logic.getPlayer().maxhealth, 42 + 1, 56 - 1);
+		main.drawCentered(main.font,
+				logic.getPlayer().health + " / " + logic.getPlayer().maxhealth, 42 + 1, 56 - 1);
 		main.font.setColor(1, 1, 1, 1);
-		main.drawCentered(main.font, logic.getPlayer().health + " / " + logic.getPlayer().maxhealth, 42, 56);
+		main.drawCentered(main.font,
+				logic.getPlayer().health + " / " + logic.getPlayer().maxhealth, 42, 56);
 		main.font.setScale(1);
-		
+
 		// END HEALTH
+		batch.flush();
+
+		// START WHAT AM I LOOKING AT
+		waila.render(this);
+
 		batch.flush();
 
 		if (logic.getCurrentGui() != null) {
@@ -519,6 +537,59 @@ public class WorldRenderer implements Disposable {
 		lightingBuffer.dispose();
 		bypassBuffer.dispose();
 		healthBuffer.dispose();
+	}
+
+	/**
+	 * What Am I Looking At
+	 * 
+	 *
+	 */
+	private static class Waila {
+
+		private float extensionPercent = 0f;
+
+		public void render(WorldRenderer renderer) {
+			SpriteBatch batch = renderer.batch;
+			Block current = renderer.world.getBlock(renderer.logic.getCursorBlockX(),
+					renderer.logic.getCursorBlockY());
+
+			renderUpdate(renderer, current);
+
+			batch.setColor(0, 0, 0, 0.5f);
+			Main.fillRect(batch, 86, 0, 192 * extensionPercent, 86);
+			batch.setColor(1, 1, 1, 1);
+
+			if (extensionPercent < 1) return;
+
+			current.renderInWorld(renderer, 92, 8, 48, 48, renderer.logic.getCursorBlockX(),
+					renderer.logic.getCursorBlockY());
+
+			renderer.main.font.setColor(1, 1, 1, 1);
+
+			renderer.main.font.draw(batch, current.getLocalizedName(), 92, 76);
+
+			renderer.main.font.setScale(0.5f);
+			renderer.main.font.draw(batch,
+					Translator.getMsg("waila.hardness", current.getHardness()), 145, 56);
+			renderer.main.font.setScale(1);
+		}
+
+		private void renderUpdate(WorldRenderer renderer, Block current) {
+			if (current == null || current == Blocks.getAir()) {
+				extensionPercent -= Math.max(extensionPercent * Gdx.graphics.getDeltaTime() * 8f,
+						0.001f);
+				if (extensionPercent < 0 || extensionPercent <= 0.01f) {
+					extensionPercent = 0;
+				}
+			} else {
+				extensionPercent += Math.max((1f - extensionPercent) * Gdx.graphics.getDeltaTime()
+						* 16f, 0.001f);
+				if (extensionPercent > 1 || extensionPercent >= 0.99f) {
+					extensionPercent = 1f;
+				}
+			}
+		}
+
 	}
 
 }
