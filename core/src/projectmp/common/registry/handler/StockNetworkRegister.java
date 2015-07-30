@@ -2,6 +2,7 @@ package projectmp.common.registry.handler;
 
 import projectmp.common.energy.EnergyStorage;
 import projectmp.common.entity.Entity;
+import projectmp.common.entity.EntityBird;
 import projectmp.common.entity.EntityItem;
 import projectmp.common.entity.EntityLiving;
 import projectmp.common.entity.EntityPlayer;
@@ -88,6 +89,7 @@ public class StockNetworkRegister implements INetworkRegister{
 		kryo.register(EntityLiving.class);
 		kryo.register(EntityPlayer.class);
 		kryo.register(EntityItem.class);
+		kryo.register(EntityBird.class);
 	}
 
 	private void registerTileEntities(Kryo kryo) {

@@ -102,7 +102,7 @@ public class ServerLogic {
 			for (int i = 0; i < world.getNumberOfEntities(); i++) {
 				Entity e = world.getEntityByIndex(i);
 
-				if (!e.hasMovedLastTick() || force) continue;
+				if (!e.hasMovedLastTick() && !force) continue;
 				positionUpdate.entityid[iter] = e.uuid;
 				positionUpdate.x[iter] = e.x;
 				positionUpdate.y[iter] = e.y;

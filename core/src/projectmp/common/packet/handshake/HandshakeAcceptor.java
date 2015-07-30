@@ -2,9 +2,9 @@ package projectmp.common.packet.handshake;
 
 import java.io.IOException;
 
+import projectmp.common.entity.EntityBird;
 import projectmp.common.entity.EntityPlayer;
 import projectmp.common.util.FileNameUtils;
-import projectmp.common.util.Utils;
 import projectmp.server.ServerLogic;
 import projectmp.server.player.ServerPlayer;
 
@@ -42,6 +42,8 @@ public final class HandshakeAcceptor {
 		
 		// send create packet
 		logic.world.createNewEntity(newPlayer);
+		
+		logic.world.createNewEntity(new EntityBird(logic.world, newPlayer.x, newPlayer.y + 64));
 
 		// update the time (for everyone)
 		logic.world.sendTimeUpdate();

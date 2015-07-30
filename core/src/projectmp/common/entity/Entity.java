@@ -299,6 +299,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * called every tick, before rendering
 	 */
 	public void tickUpdate() {
+		lastTickX = x;
+		lastTickY = y;
+		
 		age++;
 
 		if (world.isServer) {
@@ -311,9 +314,6 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	}
 
 	public void movementAndCollision() {
-		lastTickX = x;
-		lastTickY = y;
-
 		float drag = world.drag * getLowestDrag() * dragCoefficient;
 		if (velox > 0) {
 			velox -= drag / Main.TICKS;
