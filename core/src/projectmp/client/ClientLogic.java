@@ -284,6 +284,13 @@ public class ClientLogic implements Disposable {
 		if (Gdx.input.isKeyPressed(Keys.S)) {
 
 		}
+		
+		for(int i = 0; i < 9; i++){
+			if(Gdx.input.isKeyJustPressed(Keys.NUM_1 + i)){
+				selectedItem = i;
+				break;
+			}
+		}
 
 		if (getCurrentGui() == null) {
 			int x = getCursorBlockX();
