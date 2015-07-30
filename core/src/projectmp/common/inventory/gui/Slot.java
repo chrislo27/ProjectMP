@@ -61,6 +61,24 @@ public class Slot {
 
 		// draw icon
 		ItemStack stack = inventory.getSlot(slotNum);
+		renderItemStack(renderer, stack, posx, posy, width, height);
+
+		// lighten if mouse button is down
+		if ((slotState & SlotState.MOUSE_BUTTON_CLICKED) == SlotState.MOUSE_BUTTON_CLICKED) {
+			batch.setColor(1, 1, 1, 0.25f);
+			Main.fillRect(batch, posx, posy, width, height);
+			batch.setColor(1, 1, 1, 1);
+		}
+
+		// lighten if mouse is over, this should be LAST
+		if ((slotState & SlotState.MOUSE_OVER) == SlotState.MOUSE_OVER) {
+			batch.setColor(1, 1, 1, 0.25f);
+			Main.fillRect(batch, posx, posy, width, height);
+			batch.setColor(1, 1, 1, 1);
+		}
+	}
+	
+	public void renderItemStack(WorldRenderer renderer, ItemStack stack, float posx, float posy, float width, float height){
 		if (stack.getItem() != null) {
 			float spacing = 0f;
 			
@@ -77,20 +95,6 @@ public class Slot {
 				renderer.main.drawInverse(renderer.main.font, "" + stack.getAmount(), posx + width,
 						posy + textHeight);
 			}
-		}
-
-		// lighten if mouse button is down
-		if ((slotState & SlotState.MOUSE_BUTTON_CLICKED) == SlotState.MOUSE_BUTTON_CLICKED) {
-			batch.setColor(1, 1, 1, 0.25f);
-			Main.fillRect(batch, posx, posy, width, height);
-			batch.setColor(1, 1, 1, 1);
-		}
-
-		// lighten if mouse is over, this should be LAST
-		if ((slotState & SlotState.MOUSE_OVER) == SlotState.MOUSE_OVER) {
-			batch.setColor(1, 1, 1, 0.25f);
-			Main.fillRect(batch, posx, posy, width, height);
-			batch.setColor(1, 1, 1, 1);
 		}
 	}
 
