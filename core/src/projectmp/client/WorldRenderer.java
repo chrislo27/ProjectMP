@@ -68,7 +68,9 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void renderWorld() {
-
+		seconds += Gdx.graphics.getDeltaTime()
+				* (0.75f + ((MathHelper.clampNumberFromTime(2f) * 2) * 0.25f));
+		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -161,9 +163,6 @@ public class WorldRenderer implements Disposable {
 								isSetForBreaking = true;
 								batch.setShader(main.maskNoiseShader);
 							}
-
-							seconds += Gdx.graphics.getDeltaTime()
-									* (0.75f + ((MathHelper.clampNumberFromTime(2f) * 2) * 0.25f));
 
 							main.maskNoiseShader.setUniformf("time", seconds);
 							main.maskNoiseShader.setUniformf("speed", 1f);
@@ -334,9 +333,17 @@ public class WorldRenderer implements Disposable {
 			}
 
 			if (slot == logic.selectedItem) {
-				batch.setColor(1, 1, 1, 0.2f);
+				batch.setShader(main.maskNoiseShader);
+				main.maskNoiseShader.setUniformf("speed", 5f);
+				main.maskNoiseShader.setUniformf("intensity", 0.6f);
+				main.maskNoiseShader.setUniformf("zoom", 50f);
+				main.maskNoiseShader.setUniformf("time", seconds);
+				
+				batch.setColor(0, 0.3f, 0.5f, 0.5f);
 				Main.fillRect(batch, posx, posy, width, height);
 				batch.setColor(1, 1, 1, 1);
+				
+				batch.setShader(null);
 			}
 		}
 		batch.setColor(1, 1, 1, 1);
@@ -362,6 +369,13 @@ public class WorldRenderer implements Disposable {
 
 		// health text
 
+		main.font.setScale(0.5f);
+		main.font.setColor(0, 0, 0, 1);
+		main.drawCentered(main.font, logic.getPlayer().health + " / " + logic.getPlayer().maxhealth, 42 + 1, 56 - 1);
+		main.font.setColor(1, 1, 1, 1);
+		main.drawCentered(main.font, logic.getPlayer().health + " / " + logic.getPlayer().maxhealth, 42, 56);
+		main.font.setScale(1);
+		
 		// END HEALTH
 		batch.flush();
 
