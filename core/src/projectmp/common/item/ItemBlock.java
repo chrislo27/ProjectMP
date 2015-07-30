@@ -24,7 +24,7 @@ public class ItemBlock extends Item {
 	
 	@Override
 	public String getLocalizedName(ItemStack stack) {
-		return Blocks.instance().getBlock(block).getLocalizedName(stack);
+		return Blocks.instance().getBlock(block).getLocalizedName();
 	}
 
 	@Override
