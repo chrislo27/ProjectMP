@@ -34,6 +34,9 @@ public class AIBird extends BaseAI {
 			entity.moveDown(true);
 		}
 		
+//		targetX = entity.world.main.clientLogic.getCursorBlockX();
+//		targetY = entity.world.main.clientLogic.getCursorBlockY();
+		
 		if(MathUtils.randomBoolean(0.01f)){
 			flying = !flying;
 			
@@ -48,7 +51,7 @@ public class AIBird extends BaseAI {
 		if(!flying){
 			for(int y = (int) targetY; y < entity.world.sizey; y++){
 				if((entity.world.getBlock((int) targetX, y).isSolid(entity.world, (int) targetX, y) & BlockFaces.UP) == BlockFaces.UP){
-					targetY = y - 1 + entity.sizey;
+					targetY = y + entity.sizey;
 				}
 			}
 		}
