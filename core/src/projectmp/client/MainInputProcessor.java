@@ -64,8 +64,7 @@ public class MainInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
-
-		return false;
+		return ((Updateable) main.getScreen()).onScrolled(amount);
 	}
 
 }

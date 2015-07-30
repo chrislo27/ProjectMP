@@ -82,5 +82,13 @@ public abstract class Updateable implements Screen {
 	public void warn(String message, Throwable exception) {
 		Main.logger.warn(message, exception);
 	}
+	
+	/**
+	 * Called when scrolled. Negative amount means scrolled up.
+	 * @param amount
+	 */
+	public boolean onScrolled(int amount){
+		return false;
+	}
 
 }
