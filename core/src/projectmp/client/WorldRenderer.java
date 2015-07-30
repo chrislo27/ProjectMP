@@ -352,15 +352,11 @@ public class WorldRenderer implements Disposable {
 	}
 
 	public void tickUpdate() {
-		if (Gdx.input.isKeyJustPressed(Keys.R)) {
-			logic.getPlayer().damage(5);
-		}
-
 		// took dmg
 		if (lastPlayerHealth > (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth)) {
 			// vignette and liquid
 			healthLiquid.height = 64 * (logic.getPlayer().health * 1f / logic.getPlayer().maxhealth);
-			healthLiquid.perturbAll(5f);
+			healthLiquid.perturbAll(7.5f);
 
 			vignetteBloodAlpha = Math.abs(((lastPlayerHealth - logic.getPlayer().health * 1f
 					/ logic.getPlayer().maxhealth)) * 2.5f);
