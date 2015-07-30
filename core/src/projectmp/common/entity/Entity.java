@@ -201,6 +201,9 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 	 * called every render update BEFORE rendering on client only, used for interpolation
 	 */
 	public void clientRenderUpdate() {
+		float lastVisualX = visualX;
+		float lastVisualY = visualY;
+		
 		// how lerp works
 		// estimates a velocity based on how many frames are between ticks
 		// if the estimate is right, by the time the next tick comes it should be close enough to make it smooth to the new velocity
@@ -247,6 +250,13 @@ public abstract class Entity implements Sizeable, CanBeSavedToNBT {
 			visualX += (velox * Gdx.graphics.getDeltaTime() / Main.TICKS);
 			visualY += (veloy * Gdx.graphics.getDeltaTime() / Main.TICKS);
 		}
+		
+		if(visualX < lastVisualX){
+			facingLeft = true;
+		}else if(visualX > lastVisualX){
+			facingLeft = false;
+		}
+		
 	}
 
 	public void positionUpdate(float newx, float newy) {
