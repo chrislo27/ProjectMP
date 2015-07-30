@@ -324,6 +324,16 @@ public class ClientLogic implements Disposable {
 			}
 		}
 	}
+	
+	public boolean onScrolled(int amount){
+		if(getCurrentGui() == null){
+			selectedItem += (int) (Math.signum(amount));
+			if(selectedItem < 0) selectedItem = 8;
+			if(selectedItem > 8) selectedItem = 0;
+		}
+		
+		return getCurrentGui() == null;
+	}
 
 	public int getCursorBlockX() {
 		return ((int) ((Main.getInputX() + renderer.camera.camerax) / World.tilesizex));

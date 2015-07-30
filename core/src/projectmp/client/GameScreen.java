@@ -64,5 +64,10 @@ public class GameScreen extends Updateable {
 	@Override
 	public void dispose() {
 	}
+	
+	@Override
+	public boolean onScrolled(int amount){
+		return main.clientLogic.onScrolled(amount);
+	}
 
 }
