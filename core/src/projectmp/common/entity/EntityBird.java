@@ -25,7 +25,7 @@ public class EntityBird extends EntityLiving{
 		this.sizex = 0.5f;
 		this.sizey = 0.5f;
 		
-		this.gravityCoefficient = 0.1f;
+		this.gravityCoefficient = 0.25f;
 		
 		this.maxspeed = 7.5f;
 		this.accspeed = maxspeed * 4;
