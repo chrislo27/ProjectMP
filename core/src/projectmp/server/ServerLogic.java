@@ -40,7 +40,7 @@ public class ServerLogic {
 
 	public ServerWorld world = null;
 
-	public int maxplayers = 2;
+	public int maxplayers = Short.MAX_VALUE;
 
 	private Array<ServerPlayer> players = new Array<>();
 
