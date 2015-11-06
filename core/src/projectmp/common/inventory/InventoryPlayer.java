@@ -20,9 +20,9 @@ public class InventoryPlayer extends Inventory{
 		
 		setSlot(0, new ItemStack("plasmaCutter", 1));
 		setSlot(1, new ItemStack("scrapMetal", 1));
-		setSlot(2, new ItemStack("testCable", 999));
-		setSlot(3, new ItemStack("testBattery", 999));
-		setSlot(4, new ItemStack("testGenerator", 999));
+		setSlot(2, new ItemStack("block_testCable", 999));
+		setSlot(3, new ItemStack("block_testBattery", 999));
+		setSlot(4, new ItemStack("block_testGenerator", 999));
 	}
 	
 	@Override
